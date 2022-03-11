@@ -89,7 +89,7 @@ export class AddAclComponent implements OnInit {
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params['id'] !== '0') {
         this.model.id = params['id'];
-        this.getAclUserById(this.model.id);
+        this.getAclUserById(this.model.id, '');
       } else {
         this.model.id = '';
         this.getAclList();
@@ -148,6 +148,7 @@ export class AddAclComponent implements OnInit {
             e.acl_id = element.id; e.acl = acl; e.show = false;
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_purge = 1; e.can_crud = 1;
             this.model.admin_acl.push(e);
+            console.log(this.model.admin_acl, "checkkkkkk");
           });
         }, error => {
           this.spinner.hide();
@@ -281,6 +282,8 @@ export class AddAclComponent implements OnInit {
         .subscribe(
           success => {
             this.spinner.hide();
+            this.getAclUserById(this.model.id, 'update');
+
             console.log(success['data'].permissions, "success['data']");
             const user_list = JSON.parse(localStorage.getItem('all'));
             if (user_list.data) {
@@ -321,12 +324,15 @@ export class AddAclComponent implements OnInit {
     }
   }
 
-  getAclUserById(id: string) {
+  getAclUserById(id: string, data) {
     this.spinner.show();
     this.model.img_loader = false;
     this.admin.postDataApi('getNewUserById', { id: id }).subscribe(r => {
       this.spinner.hide();
       const userdata = r['data'];
+      if (data == 'update') {
+        this.admin.setUser(userdata.admin_acls);
+      }
       for (let index = 0; index < userdata.admin_acls.length; index++) {
         const element = userdata.admin_acls[index];
         element['acl'] = { name: element.name, id: element.acl_id };

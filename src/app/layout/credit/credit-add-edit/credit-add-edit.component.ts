@@ -1508,7 +1508,8 @@ export class CreditAddEditComponent implements OnInit {
       address_two: this.address_two,
       neighbourhood: this.creditModel.user.neighborhood,
       municipality: this.creditModel.user.municipality,
-      state: this.creditModel.user.state_code_id ,
+      //state: this.creditModel.user.state_code_id ,
+      state: this.creditModel.user.statess.code,
       //state: 'DF',
       zip_code: this.creditModel.user.zipcode,
       //zip_code: '05120',
@@ -1524,7 +1525,7 @@ export class CreditAddEditComponent implements OnInit {
           swal(this.translate.instant('swal.error'), 'XML response not get...', 'error');
           return;
         }
-      },error=>{
+      }, error => {
         this.spinnerService.hide();
       });
   }
@@ -1543,7 +1544,7 @@ export class CreditAddEditComponent implements OnInit {
           swal(this.translate.instant('swal.error'), 'Went something wrong', 'error');
           return;
         }
-      },error=>{
+      }, error => {
         this.spinnerService.hide();
       });
   }
@@ -1554,702 +1555,702 @@ export class CreditAddEditComponent implements OnInit {
     this.adminService.postDataApi('getXmlFinalData', { user_id: this.creditModel.user.id }).subscribe(
       success => {
         self.user_data = success['data'];
-        if(self.user_data){
+        if (self.user_data) {
           self.user_data.xml_name.name = self.user_data.xml_name.PrimerNombre + ' ' + self.user_data.xml_name.SegundoNombre + ' ' + self.user_data.xml_name.ApellidoPaterno + ' ' + self.user_data.xml_name.ApellidoMaterno;
           self.user_data.xml_accounts.forEach(item => {
-          item.HistoricoPagosArray = [];
-          let month_no1 = item.FechaMasRecienteHistoricoPagos.substring(2, 4);
-          item.LimiteCredito = (self.price.transform(Number(item.LimiteCredito)).replace('$', '') || 'N/A');
-          item.CreditoMaximo = (self.price.transform(Number(item.CreditoMaximo)).replace('$', '') || 'N/A');
-          item.SaldoActual = (self.price.transform(Number(item.SaldoActual.replace('+', ''))).replace('$', '') || 'N/A')
-          let value = self.frequencyPayments.find(data => data.code == item.FrecuenciaPagos);
-          let value1 = self.contractType.find(data => data.code == item.TipoContrato);
-          let value2 = self.accountTypeCredit.find(data => data.code == item.TipoCuenta);
-          item.FrecuenciaPagosDes = value ? value.description : 'N/A';
-          item.TipoContratoDes = value1 ? value1.description : 'N/A';
-          item.TipoCuentaDes = value2 ? value2.description : 'N/A';
-          item.FechaAperturaCuentaDate = (item.FechaAperturaCuenta ? ((item.FechaAperturaCuenta.substring(0, 2) + '/' +
-            item.FechaAperturaCuenta.substring(2, item.FechaAperturaCuenta.length)).substring(0, 5) + '/' +
-            item.FechaAperturaCuenta.substring(4, item.FechaAperturaCuenta.length)) : 'N/A');
-          item.FechaUltimoPagoDate = (item.FechaUltimoPago ? ((item.FechaUltimoPago.substring(0, 2) + '/' +
-            item.FechaUltimoPago.substring(2, item.FechaUltimoPago.length)).substring(0, 5) + '/' +
-            item.FechaUltimoPago.substring(4, item.FechaUltimoPago.length)) : 'N/A');
-          item.FechaUltimaCompraDate = (item.FechaUltimaCompra ? ((item.FechaUltimaCompra.substring(0, 2) + '/' +
-            item.FechaUltimaCompra.substring(2, item.FechaUltimaCompra.length)).substring(0, 5) + '/' +
-            item.FechaUltimaCompra.substring(4, item.FechaUltimaCompra.length)) : 'N/A');
-          item.FechaActualizacionDate = (item.FechaActualizacion ? ((item.FechaActualizacion.substring(0, 2) + '/' +
-            item.FechaActualizacion.substring(2, item.FechaActualizacion.length)).substring(0, 5) + '/' +
-            item.FechaActualizacion.substring(4, item.FechaActualizacion.length)) : 'N/A');
-          if (item.HistoricoPagos.length > 0) {
-            if (month_no1 == '01') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  F: '', M: '', A: '', Ma: '', J: '', Ju: '', Au: '', S: '', O: '', N: '', D: '',
-                });
+            item.HistoricoPagosArray = [];
+            let month_no1 = item.FechaMasRecienteHistoricoPagos.substring(2, 4);
+            item.LimiteCredito = (self.price.transform(Number(item.LimiteCredito)).replace('$', '') || 'N/A');
+            item.CreditoMaximo = (self.price.transform(Number(item.CreditoMaximo)).replace('$', '') || 'N/A');
+            item.SaldoActual = (self.price.transform(Number(item.SaldoActual.replace('+', ''))).replace('$', '') || 'N/A')
+            let value = self.frequencyPayments.find(data => data.code == item.FrecuenciaPagos);
+            let value1 = self.contractType.find(data => data.code == item.TipoContrato);
+            let value2 = self.accountTypeCredit.find(data => data.code == item.TipoCuenta);
+            item.FrecuenciaPagosDes = value ? value.description : 'N/A';
+            item.TipoContratoDes = value1 ? value1.description : 'N/A';
+            item.TipoCuentaDes = value2 ? value2.description : 'N/A';
+            item.FechaAperturaCuentaDate = (item.FechaAperturaCuenta ? ((item.FechaAperturaCuenta.substring(0, 2) + '/' +
+              item.FechaAperturaCuenta.substring(2, item.FechaAperturaCuenta.length)).substring(0, 5) + '/' +
+              item.FechaAperturaCuenta.substring(4, item.FechaAperturaCuenta.length)) : 'N/A');
+            item.FechaUltimoPagoDate = (item.FechaUltimoPago ? ((item.FechaUltimoPago.substring(0, 2) + '/' +
+              item.FechaUltimoPago.substring(2, item.FechaUltimoPago.length)).substring(0, 5) + '/' +
+              item.FechaUltimoPago.substring(4, item.FechaUltimoPago.length)) : 'N/A');
+            item.FechaUltimaCompraDate = (item.FechaUltimaCompra ? ((item.FechaUltimaCompra.substring(0, 2) + '/' +
+              item.FechaUltimaCompra.substring(2, item.FechaUltimaCompra.length)).substring(0, 5) + '/' +
+              item.FechaUltimaCompra.substring(4, item.FechaUltimaCompra.length)) : 'N/A');
+            item.FechaActualizacionDate = (item.FechaActualizacion ? ((item.FechaActualizacion.substring(0, 2) + '/' +
+              item.FechaActualizacion.substring(2, item.FechaActualizacion.length)).substring(0, 5) + '/' +
+              item.FechaActualizacion.substring(4, item.FechaActualizacion.length)) : 'N/A');
+            if (item.HistoricoPagos.length > 0) {
+              if (month_no1 == '01') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    F: '', M: '', A: '', Ma: '', J: '', Ju: '', Au: '', S: '', O: '', N: '', D: '',
+                  });
+              }
+              if (month_no1 == '02') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    F: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    M: '', A: '', Ma: '', J: '', Ju: '', Au: '', S: '', O: '', N: '', D: '',
+                  });
+              }
+              if (month_no1 == '03') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    F: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    M: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    A: '', Ma: '', J: '', Ju: '', Au: '', S: '', O: '', N: '', D: '',
+                  });
+              }
+              if (month_no1 == '04') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    F: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    M: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    A: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    Ma: '', J: '', Ju: '', Au: '', S: '', O: '', N: '', D: '',
+                  });
+              }
+              if (month_no1 == '05') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    F: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    M: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    A: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    Ma: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    J: '', Ju: '', Au: '', S: '', O: '', N: '', D: '',
+                  });
+              }
+              if (month_no1 == '06') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    F: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    M: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    A: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    Ma: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    J: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    Ju: '', Au: '', S: '', O: '', N: '', D: '',
+                  });
+              }
+              if (month_no1 == '07') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    F: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    M: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    A: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    Ma: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    J: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    Ju: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    Au: '', S: '', O: '', N: '', D: '',
+                  });
+              }
+              if (month_no1 == '08') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    F: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    M: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    A: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    Ma: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    J: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    Ju: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    Au: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    S: '', O: '', N: '', D: '',
+                  });
+              }
+              if (month_no1 == '09') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    F: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    M: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    A: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    Ma: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    J: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    Ju: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    Au: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    S: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    O: '', N: '', D: '',
+                  });
+              }
+              if (month_no1 == '10') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    F: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    M: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    A: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    Ma: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    J: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    Ju: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    Au: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    S: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    O: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    N: '', D: '',
+                  });
+              }
+              if (month_no1 == '11') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    F: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    M: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    A: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    Ma: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    J: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    Ju: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    Au: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    S: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    O: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    N: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                    D: '',
+                  });
+              }
+              if (month_no1 == '12') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
+                    E: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    F: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    M: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    A: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    Ma: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    J: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    Ju: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    Au: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    S: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    O: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    N: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
+                    D: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
+                  });
+              }
             }
-            if (month_no1 == '02') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  F: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  M: '', A: '', Ma: '', J: '', Ju: '', Au: '', S: '', O: '', N: '', D: '',
-                });
+            if (item.HistoricoPagos.length > 0) {
+              if (month_no1 == '01') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    F: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    M: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    A: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    Ma: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    J: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    Ju: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    Au: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    S: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    O: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    N: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
+                    D: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : ''
+                  });
+              }
+              if (month_no1 == '02') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    F: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    M: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    A: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    Ma: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    J: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    Ju: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    Au: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    S: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    O: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    N: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
+                    D: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : ''
+                  });
+              }
+              if (month_no1 == '03') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    F: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    M: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    A: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    Ma: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    J: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    Ju: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    Au: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    S: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    O: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    N: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
+                    D: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : ''
+                  });
+              }
+              if (month_no1 == '04') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    F: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    M: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    A: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    Ma: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    J: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    Ju: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    Au: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    S: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    O: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    N: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
+                    D: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : ''
+                  });
+              }
+              if (month_no1 == '05') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    F: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    M: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    A: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    Ma: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    J: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    Ju: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    Au: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    S: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    O: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    N: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
+                    D: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : ''
+                  });
+              }
+              if (month_no1 == '06') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    F: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    M: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    A: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    Ma: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    J: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    Ju: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    Au: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    S: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    O: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    N: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
+                    D: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : ''
+                  });
+              }
+              if (month_no1 == '07') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    F: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    M: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    A: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    Ma: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    J: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    Ju: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    Au: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    S: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    O: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    N: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
+                    D: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : ''
+                  });
+              }
+              if (month_no1 == '08') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    F: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    M: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    A: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    Ma: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    J: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    Ju: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    Au: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    S: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    O: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    N: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
+                    D: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : ''
+                  });
+              }
+              if (month_no1 == '09') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    F: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    M: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    A: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    Ma: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    J: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    Ju: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    Au: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    S: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    O: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    N: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
+                    D: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : ''
+                  });
+              }
+              if (month_no1 == '10') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    F: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    M: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    A: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    Ma: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    J: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    Ju: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    Au: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    S: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    O: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    N: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
+                    D: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : ''
+                  });
+              }
+              if (month_no1 == '11') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    F: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    M: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    A: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    Ma: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    J: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    Ju: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    Au: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    S: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    O: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    N: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
+                    D: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : ''
+                  });
+              }
+              if (month_no1 == '12') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
+                    E: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    F: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    M: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    A: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    Ma: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    J: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    Ju: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    Au: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    S: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    O: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    N: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
+                    D: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : ''
+                  });
+              }
             }
-            if (month_no1 == '03') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  F: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  M: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  A: '', Ma: '', J: '', Ju: '', Au: '', S: '', O: '', N: '', D: '',
-                });
-            }
-            if (month_no1 == '04') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  F: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  M: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  A: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  Ma: '', J: '', Ju: '', Au: '', S: '', O: '', N: '', D: '',
-                });
-            }
-            if (month_no1 == '05') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  F: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  M: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  A: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  Ma: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  J: '', Ju: '', Au: '', S: '', O: '', N: '', D: '',
-                });
-            }
-            if (month_no1 == '06') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  F: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  M: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  A: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  Ma: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  J: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  Ju: '', Au: '', S: '', O: '', N: '', D: '',
-                });
-            }
-            if (month_no1 == '07') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  F: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  M: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  A: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  Ma: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  J: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  Ju: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  Au: '', S: '', O: '', N: '', D: '',
-                });
-            }
-            if (month_no1 == '08') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  F: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  M: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  A: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  Ma: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  J: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  Ju: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  Au: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  S: '', O: '', N: '', D: '',
-                });
-            }
-            if (month_no1 == '09') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  F: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  M: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  A: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  Ma: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  J: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  Ju: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  Au: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  S: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  O: '', N: '', D: '',
-                });
-            }
-            if (month_no1 == '10') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  F: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  M: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  A: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  Ma: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  J: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  Ju: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  Au: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  S: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  O: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  N: '', D: '',
-                });
-            }
-            if (month_no1 == '11') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  F: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  M: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  A: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  Ma: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  J: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  Ju: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  Au: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  S: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  O: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  N: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                  D: '',
-                });
-            }
-            if (month_no1 == '12') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length),
-                  E: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  F: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  M: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  A: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  Ma: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  J: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  Ju: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  Au: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  S: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  O: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  N: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : '',
-                  D: (item.HistoricoPagos.length - 1) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 1] : '',
-                });
-            }
-          }
-          if (item.HistoricoPagos.length > 0) {
-            if (month_no1 == '01') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  F: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  M: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  A: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  Ma: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  J: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  Ju: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  Au: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  S: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  O: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  N: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : '',
-                  D: (item.HistoricoPagos.length - 2) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 2] : ''
-                });
-            }
-            if (month_no1 == '02') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  F: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  M: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  A: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  Ma: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  J: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  Ju: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  Au: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  S: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  O: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  N: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : '',
-                  D: (item.HistoricoPagos.length - 3) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 3] : ''
-                });
-            }
-            if (month_no1 == '03') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  F: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  M: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  A: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  Ma: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  J: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  Ju: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  Au: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  S: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  O: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  N: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : '',
-                  D: (item.HistoricoPagos.length - 4) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 4] : ''
-                });
-            }
-            if (month_no1 == '04') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  F: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  M: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  A: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  Ma: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  J: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  Ju: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  Au: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  S: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  O: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  N: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : '',
-                  D: (item.HistoricoPagos.length - 5) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 5] : ''
-                });
-            }
-            if (month_no1 == '05') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  F: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  M: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  A: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  Ma: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  J: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  Ju: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  Au: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  S: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  O: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  N: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : '',
-                  D: (item.HistoricoPagos.length - 6) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 6] : ''
-                });
-            }
-            if (month_no1 == '06') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  F: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  M: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  A: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  Ma: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  J: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  Ju: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  Au: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  S: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  O: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  N: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : '',
-                  D: (item.HistoricoPagos.length - 7) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 7] : ''
-                });
-            }
-            if (month_no1 == '07') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  F: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  M: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  A: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  Ma: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  J: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  Ju: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  Au: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  S: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  O: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  N: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : '',
-                  D: (item.HistoricoPagos.length - 8) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 8] : ''
-                });
-            }
-            if (month_no1 == '08') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  F: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  M: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  A: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  Ma: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  J: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  Ju: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  Au: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  S: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  O: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  N: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : '',
-                  D: (item.HistoricoPagos.length - 9) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 9] : ''
-                });
-            }
-            if (month_no1 == '09') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  F: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  M: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  A: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  Ma: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  J: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  Ju: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  Au: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  S: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  O: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  N: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : '',
-                  D: (item.HistoricoPagos.length - 10) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 10] : ''
-                });
-            }
-            if (month_no1 == '10') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  F: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  M: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  A: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  Ma: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  J: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  Ju: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  Au: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  S: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  O: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  N: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : '',
-                  D: (item.HistoricoPagos.length - 11) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 11] : ''
-                });
-            }
-            if (month_no1 == '11') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  F: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  M: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  A: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  Ma: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  J: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  Ju: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  Au: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  S: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  O: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  N: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : '',
-                  D: (item.HistoricoPagos.length - 12) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 12] : ''
-                });
-            }
-            if (month_no1 == '12') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 1,
-                  E: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  F: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  M: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  A: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  Ma: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  J: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  Ju: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  Au: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  S: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  O: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  N: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : '',
-                  D: (item.HistoricoPagos.length - 13) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 13] : ''
-                });
-            }
-          }
-          if (item.HistoricoPagos.length > 0) {
-            if (month_no1 == '01') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  F: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  M: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  A: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  Ma: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  J: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  Ju: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  Au: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  S: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  O: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  N: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
-                  D: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : ''
-                });
-            }
-            if (month_no1 == '02') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  F: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  M: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  A: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  Ma: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  J: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  Ju: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  Au: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  S: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  O: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  N: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
-                  D: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : ''
-                });
-            }
-            if (month_no1 == '03') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
-                  F: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  M: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  A: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  Ma: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  J: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  Ju: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  Au: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  S: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  O: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  N: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
-                  D: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : ''
-                });
-            }
-            if (month_no1 == '04') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
-                  F: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
-                  M: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  A: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  Ma: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  J: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  Ju: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  Au: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  S: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  O: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  N: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
-                  D: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : ''
-                });
-            }
-            if (month_no1 == '05') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
-                  F: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
-                  M: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
-                  A: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  Ma: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  J: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  Ju: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  Au: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  S: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  O: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  N: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
-                  D: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : ''
-                });
-            }
-            if (month_no1 == '06') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
-                  F: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
-                  M: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
-                  A: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
-                  Ma: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  J: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  Ju: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  Au: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  S: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  O: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  N: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
-                  D: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : ''
-                });
-            }
-            if (month_no1 == '07') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
-                  F: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
-                  M: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
-                  A: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
-                  Ma: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
-                  J: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  Ju: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  Au: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  S: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  O: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  N: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
-                  D: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : ''
-                });
-            }
-            if (month_no1 == '08') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 32) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 32] : '',
-                  F: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
-                  M: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
-                  A: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
-                  Ma: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
-                  J: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
-                  Ju: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  Au: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  S: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  O: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  N: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
-                  D: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : ''
-                });
-            }
-            if (month_no1 == '09') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 33) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 33] : '',
-                  F: (item.HistoricoPagos.length - 32) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 32] : '',
-                  M: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
-                  A: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
-                  Ma: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
-                  J: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
-                  Ju: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
-                  Au: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  S: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  O: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  N: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
-                  D: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : ''
-                });
-            }
-            if (month_no1 == '10') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 34) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 34] : '',
-                  F: (item.HistoricoPagos.length - 33) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 33] : '',
-                  M: (item.HistoricoPagos.length - 32) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 32] : '',
-                  A: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
-                  Ma: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
-                  J: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
-                  Ju: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
-                  Au: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
-                  S: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  O: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  N: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
-                  D: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : ''
-                });
-            }
-            if (month_no1 == '11') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 35) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 35] : '',
-                  F: (item.HistoricoPagos.length - 34) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 34] : '',
-                  M: (item.HistoricoPagos.length - 33) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 33] : '',
-                  A: (item.HistoricoPagos.length - 32) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 32] : '',
-                  Ma: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
-                  J: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
-                  Ju: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
-                  Au: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
-                  S: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
-                  O: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  N: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
-                  D: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : ''
-                });
-            }
-            if (month_no1 == '12') {
-              item.HistoricoPagosArray.push(
-                {
-                  year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
-                  E: (item.HistoricoPagos.length - 36) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 36] : '',
-                  F: (item.HistoricoPagos.length - 35) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 35] : '',
-                  M: (item.HistoricoPagos.length - 34) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 34] : '',
-                  A: (item.HistoricoPagos.length - 33) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 33] : '',
-                  Ma: (item.HistoricoPagos.length - 32) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 32] : '',
-                  J: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
-                  Ju: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
-                  Au: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
-                  S: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
-                  O: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
-                  N: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
-                  D: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : ''
-                });
-            }
-          }
-        });
-
-        self.user_data.xml_report.forEach(item => {
-          let value3Array = item.MensajesAlerta.split("");
-          let value3 = '';
-          value3Array.forEach((item, index) => {
-            if (index == 0) {
-              value3 = value3 + (item == 'Y' ? 'Aparece Fecha de defunción en la base de datos. ' : item == 'N' ? '' : '');
-            }
-            if (index == 1) {
-              value3 = value3 + (item == 'Y' ? 'RFC del cliente no corresponde al RFC de la base de datos. ' : item == 'N' ? '' : '');
-            }
-            if (index == 2) {
-              value3 = value3 + (item == 'Y' ? 'Dirección no corresponde a la de la base de datos. ' : item == 'N' ? '' : '');
-            }
-            if (index == 3) {
-              value3 = value3 + (item == 'Y' ? 'Existe información adicional en el Buró de Crédito Comercial. ' : item == 'N' ? '' : '');
-            }
-            if (index == 4) {
-              value3 = value3 + (item == 'Y' ? 'Dirección inválida en la consulta. ' : item == 'N' ? '' : '');
-            }
-            if (index == 5) {
-              value3 = value3 + (item == 'Y' ? 'Usuario con menos de 5 mil registros en el expediente. ' : item == 'N' ? '' : '');
+            if (item.HistoricoPagos.length > 0) {
+              if (month_no1 == '01') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    F: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    M: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    A: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    Ma: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    J: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    Ju: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    Au: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    S: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    O: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    N: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : '',
+                    D: (item.HistoricoPagos.length - 14) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 14] : ''
+                  });
+              }
+              if (month_no1 == '02') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    F: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    M: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    A: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    Ma: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    J: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    Ju: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    Au: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    S: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    O: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    N: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : '',
+                    D: (item.HistoricoPagos.length - 15) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 15] : ''
+                  });
+              }
+              if (month_no1 == '03') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
+                    F: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    M: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    A: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    Ma: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    J: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    Ju: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    Au: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    S: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    O: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    N: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : '',
+                    D: (item.HistoricoPagos.length - 16) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 16] : ''
+                  });
+              }
+              if (month_no1 == '04') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
+                    F: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
+                    M: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    A: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    Ma: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    J: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    Ju: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    Au: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    S: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    O: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    N: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : '',
+                    D: (item.HistoricoPagos.length - 17) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 17] : ''
+                  });
+              }
+              if (month_no1 == '05') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
+                    F: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
+                    M: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
+                    A: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    Ma: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    J: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    Ju: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    Au: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    S: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    O: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    N: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : '',
+                    D: (item.HistoricoPagos.length - 18) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 18] : ''
+                  });
+              }
+              if (month_no1 == '06') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
+                    F: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
+                    M: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
+                    A: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
+                    Ma: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    J: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    Ju: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    Au: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    S: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    O: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    N: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : '',
+                    D: (item.HistoricoPagos.length - 19) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 19] : ''
+                  });
+              }
+              if (month_no1 == '07') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
+                    F: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
+                    M: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
+                    A: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
+                    Ma: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
+                    J: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    Ju: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    Au: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    S: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    O: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    N: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : '',
+                    D: (item.HistoricoPagos.length - 20) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 20] : ''
+                  });
+              }
+              if (month_no1 == '08') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 32) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 32] : '',
+                    F: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
+                    M: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
+                    A: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
+                    Ma: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
+                    J: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
+                    Ju: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    Au: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    S: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    O: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    N: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : '',
+                    D: (item.HistoricoPagos.length - 21) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 21] : ''
+                  });
+              }
+              if (month_no1 == '09') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 33) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 33] : '',
+                    F: (item.HistoricoPagos.length - 32) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 32] : '',
+                    M: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
+                    A: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
+                    Ma: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
+                    J: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
+                    Ju: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
+                    Au: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    S: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    O: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    N: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : '',
+                    D: (item.HistoricoPagos.length - 22) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 22] : ''
+                  });
+              }
+              if (month_no1 == '10') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 34) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 34] : '',
+                    F: (item.HistoricoPagos.length - 33) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 33] : '',
+                    M: (item.HistoricoPagos.length - 32) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 32] : '',
+                    A: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
+                    Ma: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
+                    J: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
+                    Ju: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
+                    Au: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
+                    S: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    O: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    N: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : '',
+                    D: (item.HistoricoPagos.length - 23) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 23] : ''
+                  });
+              }
+              if (month_no1 == '11') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 35) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 35] : '',
+                    F: (item.HistoricoPagos.length - 34) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 34] : '',
+                    M: (item.HistoricoPagos.length - 33) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 33] : '',
+                    A: (item.HistoricoPagos.length - 32) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 32] : '',
+                    Ma: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
+                    J: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
+                    Ju: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
+                    Au: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
+                    S: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
+                    O: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    N: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : '',
+                    D: (item.HistoricoPagos.length - 24) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 24] : ''
+                  });
+              }
+              if (month_no1 == '12') {
+                item.HistoricoPagosArray.push(
+                  {
+                    year: (Number(item.FechaMasRecienteHistoricoPagos.substring(4, item.FechaMasRecienteHistoricoPagos.length))) - 2,
+                    E: (item.HistoricoPagos.length - 36) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 36] : '',
+                    F: (item.HistoricoPagos.length - 35) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 35] : '',
+                    M: (item.HistoricoPagos.length - 34) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 34] : '',
+                    A: (item.HistoricoPagos.length - 33) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 33] : '',
+                    Ma: (item.HistoricoPagos.length - 32) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 32] : '',
+                    J: (item.HistoricoPagos.length - 31) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 31] : '',
+                    Ju: (item.HistoricoPagos.length - 30) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 30] : '',
+                    Au: (item.HistoricoPagos.length - 29) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 29] : '',
+                    S: (item.HistoricoPagos.length - 28) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 28] : '',
+                    O: (item.HistoricoPagos.length - 27) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 27] : '',
+                    N: (item.HistoricoPagos.length - 26) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 26] : '',
+                    D: (item.HistoricoPagos.length - 25) >= 0 ? item.HistoricoPagos[item.HistoricoPagos.length - 25] : ''
+                  });
+              }
             }
           });
-          item.MensajesAlertaDes = value3;
-          item.FechaAperturaCuentaMasAntiguaDate = (item.FechaAperturaCuentaMasAntigua ? ((item.FechaAperturaCuentaMasAntigua.substring(0, 2) + '/' +
-            item.FechaAperturaCuentaMasAntigua.substring(2, item.FechaAperturaCuentaMasAntigua.length)).substring(0, 5) + '/' +
-            item.FechaAperturaCuentaMasAntigua.substring(4, item.FechaAperturaCuentaMasAntigua.length)) : 'N/A');
-          item.FechaAperturaCuentaMasRecienteDate = (item.FechaAperturaCuentaMasReciente ? ((item.FechaAperturaCuentaMasReciente.substring(0, 2) + '/' +
-            item.FechaAperturaCuentaMasReciente.substring(2, item.FechaAperturaCuentaMasReciente.length)).substring(0, 5) + '/' +
-            item.FechaAperturaCuentaMasReciente.substring(4, item.FechaAperturaCuentaMasReciente.length)) : 'N/A');
-          item.FechaSolicitudReporteMasRecienteDate = (item.FechaSolicitudReporteMasReciente ? ((item.FechaSolicitudReporteMasReciente.substring(0, 2) + '/' +
-            item.FechaSolicitudReporteMasReciente.substring(2, item.FechaSolicitudReporteMasReciente.length)).substring(0, 5) + '/' +
-            item.FechaSolicitudReporteMasReciente.substring(4, item.FechaSolicitudReporteMasReciente.length)) : 'N/A');
-          item.TotalCreditosMaximosRevolventesChange = item.TotalCreditosMaximosRevolventes ? (this.price.transform(Number(item.TotalCreditosMaximosRevolventes))).replace('$', '') : 'N/A';
-          item.TotalLimitesCreditoRevolventesChange = item.TotalLimitesCreditoRevolventes ? (this.price.transform(Number(item.TotalLimitesCreditoRevolventes))).replace('$', '') : 'N/A';
-          item.TotalSaldosActualesRevolventesChange = item.TotalSaldosActualesRevolventes ? (this.price.transform(Number(item.TotalSaldosActualesRevolventes.replace('+', '')))).replace('$', '') : 'N/A';
-          item.TotalSaldosVencidosRevolventesChange = item.TotalSaldosVencidosRevolventes ? (this.price.transform(Number(item.TotalSaldosVencidosRevolventes))).replace('$', '') : 'N/A';
-          item.PctLimiteCreditoUtilizadoRevolventesChange = item.PctLimiteCreditoUtilizadoRevolventes ? ((Number(item.PctLimiteCreditoUtilizadoRevolventes)) + '%') : 'N/A';
-          item.TotalPagosRevolventesChange = item.TotalPagosRevolventes ? (this.price.transform(Number(item.TotalPagosRevolventes))).replace('$', '') : 'N/A';
-          item.TotalCreditosMaximosPagosFijosChange = item.TotalCreditosMaximosPagosFijos ? (this.price.transform(Number(item.TotalCreditosMaximosPagosFijos))).replace('$', '') : 'N/A';
-          item.TotalSaldosActualesPagosFijosChange = item.TotalSaldosActualesPagosFijos ? (this.price.transform(Number(item.TotalSaldosActualesPagosFijos))).replace('$', '') : 'N/A';
-          item.TotalSaldosVencidosPagosFijosChange = item.TotalSaldosVencidosPagosFijos ? (this.price.transform(Number(item.TotalSaldosVencidosPagosFijos))).replace('$', '') : 'N/A';
-          item.TotalPagosPagosFijosChange = item.TotalPagosPagosFijos ? (this.price.transform(Number(item.TotalPagosPagosFijos))).replace('$', '') : 'N/A';
-        });
 
-        self.user_data.xml_value_score.forEach(item => {
-          if (item.CodigoScore == '007') {
-            let value = self.valueScore007.find(data => data.code == item.ValorScore);
-            self.ValorScoreDes007 = value ? value.description : '';
-          }
-          if (item.CodigoScore == '004') {
-            let value = self.valueScore004.find(data => data.code == item.ValorScore);
-            self.ValorScoreDes004 = value ? value.description : '';
-          }
-        });
+          self.user_data.xml_report.forEach(item => {
+            let value3Array = item.MensajesAlerta.split("");
+            let value3 = '';
+            value3Array.forEach((item, index) => {
+              if (index == 0) {
+                value3 = value3 + (item == 'Y' ? 'Aparece Fecha de defunción en la base de datos. ' : item == 'N' ? '' : '');
+              }
+              if (index == 1) {
+                value3 = value3 + (item == 'Y' ? 'RFC del cliente no corresponde al RFC de la base de datos. ' : item == 'N' ? '' : '');
+              }
+              if (index == 2) {
+                value3 = value3 + (item == 'Y' ? 'Dirección no corresponde a la de la base de datos. ' : item == 'N' ? '' : '');
+              }
+              if (index == 3) {
+                value3 = value3 + (item == 'Y' ? 'Existe información adicional en el Buró de Crédito Comercial. ' : item == 'N' ? '' : '');
+              }
+              if (index == 4) {
+                value3 = value3 + (item == 'Y' ? 'Dirección inválida en la consulta. ' : item == 'N' ? '' : '');
+              }
+              if (index == 5) {
+                value3 = value3 + (item == 'Y' ? 'Usuario con menos de 5 mil registros en el expediente. ' : item == 'N' ? '' : '');
+              }
+            });
+            item.MensajesAlertaDes = value3;
+            item.FechaAperturaCuentaMasAntiguaDate = (item.FechaAperturaCuentaMasAntigua ? ((item.FechaAperturaCuentaMasAntigua.substring(0, 2) + '/' +
+              item.FechaAperturaCuentaMasAntigua.substring(2, item.FechaAperturaCuentaMasAntigua.length)).substring(0, 5) + '/' +
+              item.FechaAperturaCuentaMasAntigua.substring(4, item.FechaAperturaCuentaMasAntigua.length)) : 'N/A');
+            item.FechaAperturaCuentaMasRecienteDate = (item.FechaAperturaCuentaMasReciente ? ((item.FechaAperturaCuentaMasReciente.substring(0, 2) + '/' +
+              item.FechaAperturaCuentaMasReciente.substring(2, item.FechaAperturaCuentaMasReciente.length)).substring(0, 5) + '/' +
+              item.FechaAperturaCuentaMasReciente.substring(4, item.FechaAperturaCuentaMasReciente.length)) : 'N/A');
+            item.FechaSolicitudReporteMasRecienteDate = (item.FechaSolicitudReporteMasReciente ? ((item.FechaSolicitudReporteMasReciente.substring(0, 2) + '/' +
+              item.FechaSolicitudReporteMasReciente.substring(2, item.FechaSolicitudReporteMasReciente.length)).substring(0, 5) + '/' +
+              item.FechaSolicitudReporteMasReciente.substring(4, item.FechaSolicitudReporteMasReciente.length)) : 'N/A');
+            item.TotalCreditosMaximosRevolventesChange = item.TotalCreditosMaximosRevolventes ? (this.price.transform(Number(item.TotalCreditosMaximosRevolventes))).replace('$', '') : 'N/A';
+            item.TotalLimitesCreditoRevolventesChange = item.TotalLimitesCreditoRevolventes ? (this.price.transform(Number(item.TotalLimitesCreditoRevolventes))).replace('$', '') : 'N/A';
+            item.TotalSaldosActualesRevolventesChange = item.TotalSaldosActualesRevolventes ? (this.price.transform(Number(item.TotalSaldosActualesRevolventes.replace('+', '')))).replace('$', '') : 'N/A';
+            item.TotalSaldosVencidosRevolventesChange = item.TotalSaldosVencidosRevolventes ? (this.price.transform(Number(item.TotalSaldosVencidosRevolventes))).replace('$', '') : 'N/A';
+            item.PctLimiteCreditoUtilizadoRevolventesChange = item.PctLimiteCreditoUtilizadoRevolventes ? ((Number(item.PctLimiteCreditoUtilizadoRevolventes)) + '%') : 'N/A';
+            item.TotalPagosRevolventesChange = item.TotalPagosRevolventes ? (this.price.transform(Number(item.TotalPagosRevolventes))).replace('$', '') : 'N/A';
+            item.TotalCreditosMaximosPagosFijosChange = item.TotalCreditosMaximosPagosFijos ? (this.price.transform(Number(item.TotalCreditosMaximosPagosFijos))).replace('$', '') : 'N/A';
+            item.TotalSaldosActualesPagosFijosChange = item.TotalSaldosActualesPagosFijos ? (this.price.transform(Number(item.TotalSaldosActualesPagosFijos))).replace('$', '') : 'N/A';
+            item.TotalSaldosVencidosPagosFijosChange = item.TotalSaldosVencidosPagosFijos ? (this.price.transform(Number(item.TotalSaldosVencidosPagosFijos))).replace('$', '') : 'N/A';
+            item.TotalPagosPagosFijosChange = item.TotalPagosPagosFijos ? (this.price.transform(Number(item.TotalPagosPagosFijos))).replace('$', '') : 'N/A';
+          });
 
-        self.user_data.xml_alert_query.forEach(item => {
-          item.FechaReporteDate = (item.FechaReporte ? ((item.FechaReporte.substring(0, 2) + '/' + item.FechaReporte.substring(2, item.FechaReporte.length)).substring(0, 5) +
-          '/' + item.FechaReporte.substring(4, item.FechaReporte.length)) : 'N/A');
-        })
-      }
-      self.spinnerService.hide();
-      },error=>{
+          self.user_data.xml_value_score.forEach(item => {
+            if (item.CodigoScore == '007') {
+              let value = self.valueScore007.find(data => data.code == item.ValorScore);
+              self.ValorScoreDes007 = value ? value.description : '';
+            }
+            if (item.CodigoScore == '004') {
+              let value = self.valueScore004.find(data => data.code == item.ValorScore);
+              self.ValorScoreDes004 = value ? value.description : '';
+            }
+          });
+
+          self.user_data.xml_alert_query.forEach(item => {
+            item.FechaReporteDate = (item.FechaReporte ? ((item.FechaReporte.substring(0, 2) + '/' + item.FechaReporte.substring(2, item.FechaReporte.length)).substring(0, 5) +
+              '/' + item.FechaReporte.substring(4, item.FechaReporte.length)) : 'N/A');
+          })
+        }
+        self.spinnerService.hide();
+      }, error => {
         self.spinnerService.hide();
       });
   }
 
   downloadPdf() {
-    this.credito.getValues(this.user_data, this.valueScore004, this.valueScore007, this.frequencyPayments,  this.contractType , this.accountTypeCredit)
+    this.credito.getValues(this.user_data, this.valueScore004, this.valueScore007, this.frequencyPayments, this.contractType, this.accountTypeCredit)
   }
 
 }

@@ -102,11 +102,16 @@ export class Users {
     nationality_name?: string;
     nationality_id?: number = 1;
     id_type?: any;
+    statess?: statess;
     id_number?: any;
     birth_state?: any;
     birth_city?: any;
     state_code_id?: any;
     state_tax_code_id?: any;
+}
+export class statess {
+    id?: number;
+    code?: any;
 }
 export class Beneficiaries {
     id?: number;

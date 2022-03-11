@@ -39,6 +39,9 @@ export class AdminService {
   private backSource$ = new BehaviorSubject<string>('');
   userback = this.backSource$.asObservable();
 
+  private navSource$ = new BehaviorSubject<string>('');
+  navback = this.navSource$.asObservable();
+
   constructor(public http: HttpInterceptor,
     public msg: MessagingService,
     public loginModel: Login,
@@ -54,6 +57,10 @@ export class AdminService {
   setUser(userback): void {
     this.backSource$.next(userback);
   }
+  setNav(navback): void {
+    this.navSource$.next(navback);
+  }
+
   getHeaders() {
     const token = localStorage.getItem('token');
     const headers = new Headers();

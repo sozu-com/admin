@@ -862,7 +862,7 @@ export class AppHeaderComponent implements OnInit {
   msg_count = 0;
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
   notificationCount: any;
-  public language_code: string;
+  public language_code: string; $user: string;
   constructor(public admin: AdminService,
     private route: ActivatedRoute, private router: Router,
     public constant: Constant,
@@ -908,12 +908,18 @@ export class AppHeaderComponent implements OnInit {
         this.notificationCount = r;
       }
     })
-
+    this.route.params.subscribe(params => {
+      this.admin.userback.subscribe(user => {
+        this.$user = user;
+        console.log(this.$user, "setset");
+      });
+    });
   }
   setStateAsActive(item) {
     this.activeState = this.language_code == 'en' ? item.title : item.title_es;
     this.activeIcon = item.icon;
-    console.log(this.activeIcon, "item");
+    console.log(this.activeIcon, "activeIcon");
+    console.log(this.activeState, "activeState");
   }
   updateDeviceToken() {
     this.admin.postDataApi('updateDeviceToken', { device_id: this.admin.deviceId, device_token: this.messagingService.fcmTokens })
