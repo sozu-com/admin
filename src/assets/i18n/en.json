@@ -4157,7 +4157,8 @@
     "fechaReporte": "Report date",
     "alertasHAWK": "HAWK Alerts",
     "grantor": "Grantor / Account type / Contract type / Monetary code",
-    "downloadPdf": "Download PDF"
+    "downloadPdf": "Download PDF",
+    "thereNoinformationCreditBureau": "There are not information from Credit Bureau"
   },
   
   "deshboard":{

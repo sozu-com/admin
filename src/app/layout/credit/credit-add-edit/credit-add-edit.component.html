@@ -3068,7 +3068,7 @@
           </div>
           <!-- Reporte de crédito -->
           <div *ngIf="tab==6">
-            <div class="white-bg padding20">
+            <div class="white-bg padding20" *ngIf="user_data">
               <nav>
                 <div class="add-property">
                   <div class="steps">
@@ -3652,7 +3652,7 @@
                               <tr>
                                 <td colspan="13" class="sub-table-color" style="text-align: center;">
                                   <span style="color: black;"><b>{{'creditForm.mOPHistóricoMásAlto' | translate}}
-                                      {{item.MopHistoricoMorosidadMasGrave || 'N/A'}}</b></span>
+                                      {{item.MopHistoricoMorosidadMasGrave || ''}}</b></span>
                                 </td>
                               </tr>
                             </table>
@@ -4105,6 +4105,13 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="white-bg padding20" *ngIf="!user_data">
+            <div class="row">
+            <div class="col-12" style="text-align: center;min-height: 700px;padding-top: 20%;">
+              <h5>{{'creditForm.thereNoinformationCreditBureau' | translate}}</h5>
+            </div>
+            </div>
             </div>
           </div>
           <!-- Coaccredited -->

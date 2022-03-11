@@ -1014,7 +1014,7 @@ export class CreditFormPdfService {
                       { text: 'D', fontSize: 7, border: [true, true, true, true] },
                     ],
                     [
-                      { text: 'MOP histórico más alto: ' + (item.MopHistoricoMorosidadMasGrave || 'N/A'), colSpan: 13, fontSize: 7, fillColor: '#cccccc', border: [true, true, true, true] },
+                      { text: 'MOP histórico más alto: ' + (item.MopHistoricoMorosidadMasGrave || ''), colSpan: 13, fontSize: 7, fillColor: '#cccccc', border: [true, true, true, true] },
                       { text: '', fontSize: 7, fillColor: '#cccccc', border: [true, true, true, true] },
                       { text: '', fontSize: 7, fillColor: '#cccccc', border: [true, true, true, true] },
                       { text: '', fontSize: 7, fillColor: '#cccccc', border: [true, true, true, true] },

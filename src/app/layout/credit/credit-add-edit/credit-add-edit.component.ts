@@ -285,6 +285,7 @@ export class CreditAddEditComponent implements OnInit {
         }
         else if (this.tab == 6) {
           this.creditoTab = 1;
+          this.sendUserForXML();
         }
       }
     });
@@ -650,7 +651,6 @@ export class CreditAddEditComponent implements OnInit {
       .postDataApi('getcredits', { id: this.parameter.property_id }).subscribe((success) => {
         this.spinnerService.hide();
         this.loadCredits(success.data);
-        this.sendUserForXML();
       }, (error) => {
         this.spinnerService.hide();
       });
@@ -1482,11 +1482,11 @@ export class CreditAddEditComponent implements OnInit {
         this.frequencyPayments = success[2]['data'];
         this.contractType = success[3]['data'];
         this.accountTypeCredit = success[4]['data'];
-        this.getUserById(13)
       });
   }
 
   sendUserForXML() {
+    this.spinnerService.show();
     let adderss = this.creditModel.user.street_address + ' ' + this.creditModel.user.external_number;
     var len = adderss.length;
     if (len <= 40) {
@@ -1524,6 +1524,8 @@ export class CreditAddEditComponent implements OnInit {
           swal(this.translate.instant('swal.error'), 'XML response not get...', 'error');
           return;
         }
+      },error=>{
+        this.spinnerService.hide();
       });
   }
 
@@ -1536,18 +1538,22 @@ export class CreditAddEditComponent implements OnInit {
       r => {
         if (r['success'] == 1) {
           console.log(r, "before xml");
+          this.getUserById()
         } else {
           swal(this.translate.instant('swal.error'), 'Went something wrong', 'error');
           return;
         }
+      },error=>{
+        this.spinnerService.hide();
       });
   }
 
 
-  getUserById(data) {
-    this.adminService.postDataApi('getXmlFinalData', { user_id: 13 }).subscribe(
+  getUserById() {
+    this.adminService.postDataApi('getXmlFinalData', { user_id: this.creditModel.user.id }).subscribe(
       success => {
         this.user_data = success['data'];
+        if(this.user_data){
         this.user_data.xml_name.name = this.user_data.xml_name.PrimerNombre + ' ' + this.user_data.xml_name.SegundoNombre + ' ' + this.user_data.xml_name.ApellidoPaterno + ' ' + this.user_data.xml_name.ApellidoMaterno;
         this.user_data.xml_accounts.forEach(item => {
           item.HistoricoPagosArray = [];
@@ -2234,6 +2240,9 @@ export class CreditAddEditComponent implements OnInit {
           item.FechaReporteDate = (item.FechaReporte ? ((item.FechaReporte.substring(0, 2) + '/' + item.FechaReporte.substring(2, item.FechaReporte.length)).substring(0, 5) +
           '/' + item.FechaReporte.substring(4, item.FechaReporte.length)) : 'N/A');
         })
+      }
+        this.spinnerService.hide();
+      },error=>{
         this.spinnerService.hide();
       });
   }
