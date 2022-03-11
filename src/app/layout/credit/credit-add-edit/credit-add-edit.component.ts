@@ -144,7 +144,6 @@ export class CreditAddEditComponent implements OnInit {
       }
       if (params['id'] !== '0') {
         this.parameter.property_id = params['id'];
-        this.getValueScore(params['id']);
         this.getcredits();
         // this.getCreditsDocument();
       } else {
@@ -646,7 +645,8 @@ export class CreditAddEditComponent implements OnInit {
   }
 
   getcredits = (): void => {
-    this.spinnerService.show()
+    this.spinnerService.show();
+    this.getValueScore();
     this.adminService
       .postDataApi('getcredits', { id: this.parameter.property_id }).subscribe((success) => {
         this.spinnerService.hide();
@@ -1467,7 +1467,7 @@ export class CreditAddEditComponent implements OnInit {
     this.creditoTab = tab;
   }
 
-  getValueScore(data) {
+  getValueScore() {
     this.spinnerService.show();
     forkJoin([
       this.adminService.postDataApi('valueScore', { user_id: 13 }),
@@ -1508,7 +1508,7 @@ export class CreditAddEditComponent implements OnInit {
       address_two: this.address_two,
       neighbourhood: this.creditModel.user.neighborhood,
       municipality: this.creditModel.user.municipality,
-      state: this.creditModel.user.state,
+      state: this.creditModel.user.state_code_id ,
       //state: 'DF',
       zip_code: this.creditModel.user.zipcode,
       //zip_code: '05120',
@@ -1550,23 +1550,24 @@ export class CreditAddEditComponent implements OnInit {
 
 
   getUserById() {
+    let self = this;
     this.adminService.postDataApi('getXmlFinalData', { user_id: this.creditModel.user.id }).subscribe(
       success => {
-        this.user_data = success['data'];
-        if(this.user_data){
-        this.user_data.xml_name.name = this.user_data.xml_name.PrimerNombre + ' ' + this.user_data.xml_name.SegundoNombre + ' ' + this.user_data.xml_name.ApellidoPaterno + ' ' + this.user_data.xml_name.ApellidoMaterno;
-        this.user_data.xml_accounts.forEach(item => {
+        self.user_data = success['data'];
+        if(self.user_data){
+          self.user_data.xml_name.name = self.user_data.xml_name.PrimerNombre + ' ' + self.user_data.xml_name.SegundoNombre + ' ' + self.user_data.xml_name.ApellidoPaterno + ' ' + self.user_data.xml_name.ApellidoMaterno;
+          self.user_data.xml_accounts.forEach(item => {
           item.HistoricoPagosArray = [];
           let month_no1 = item.FechaMasRecienteHistoricoPagos.substring(2, 4);
-          item.LimiteCredito = (this.price.transform(Number(item.LimiteCredito)).replace('$', '') || 'N/A');
-          item.CreditoMaximo = (this.price.transform(Number(item.CreditoMaximo)).replace('$', '') || 'N/A');
-          item.SaldoActual = (this.price.transform(Number(item.SaldoActual.replace('+', ''))).replace('$', '') || 'N/A')
-          let value = this.frequencyPayments.find(data => data.code == item.FrecuenciaPagos);
-          let value1 = this.contractType.find(data => data.code == item.TipoContrato);
-          let value2 = this.accountTypeCredit.find(data => data.code == item.TipoCuenta);
-          item.FrecuenciaPagosDes = value.description;
-          item.TipoContratoDes = value1.description;
-          item.TipoCuentaDes = value2.description;
+          item.LimiteCredito = (self.price.transform(Number(item.LimiteCredito)).replace('$', '') || 'N/A');
+          item.CreditoMaximo = (self.price.transform(Number(item.CreditoMaximo)).replace('$', '') || 'N/A');
+          item.SaldoActual = (self.price.transform(Number(item.SaldoActual.replace('+', ''))).replace('$', '') || 'N/A')
+          let value = self.frequencyPayments.find(data => data.code == item.FrecuenciaPagos);
+          let value1 = self.contractType.find(data => data.code == item.TipoContrato);
+          let value2 = self.accountTypeCredit.find(data => data.code == item.TipoCuenta);
+          item.FrecuenciaPagosDes = value ? value.description : 'N/A';
+          item.TipoContratoDes = value1 ? value1.description : 'N/A';
+          item.TipoCuentaDes = value2 ? value2.description : 'N/A';
           item.FechaAperturaCuentaDate = (item.FechaAperturaCuenta ? ((item.FechaAperturaCuenta.substring(0, 2) + '/' +
             item.FechaAperturaCuenta.substring(2, item.FechaAperturaCuenta.length)).substring(0, 5) + '/' +
             item.FechaAperturaCuenta.substring(4, item.FechaAperturaCuenta.length)) : 'N/A');
@@ -2180,7 +2181,7 @@ export class CreditAddEditComponent implements OnInit {
           }
         });
 
-        this.user_data.xml_report.forEach(item => {
+        self.user_data.xml_report.forEach(item => {
           let value3Array = item.MensajesAlerta.split("");
           let value3 = '';
           value3Array.forEach((item, index) => {
@@ -2225,30 +2226,30 @@ export class CreditAddEditComponent implements OnInit {
           item.TotalPagosPagosFijosChange = item.TotalPagosPagosFijos ? (this.price.transform(Number(item.TotalPagosPagosFijos))).replace('$', '') : 'N/A';
         });
 
-        this.user_data.xml_value_score.forEach(item => {
+        self.user_data.xml_value_score.forEach(item => {
           if (item.CodigoScore == '007') {
-            let value = this.valueScore007.find(data => data.code == item.ValorScore);
-            this.ValorScoreDes007 = value.description;
+            let value = self.valueScore007.find(data => data.code == item.ValorScore);
+            self.ValorScoreDes007 = value ? value.description : '';
           }
           if (item.CodigoScore == '004') {
-            let value = this.valueScore004.find(data => data.code == item.ValorScore);
-            this.ValorScoreDes004 = value.description;
+            let value = self.valueScore004.find(data => data.code == item.ValorScore);
+            self.ValorScoreDes004 = value ? value.description : '';
           }
         });
 
-        this.user_data.xml_alert_query.forEach(item => {
+        self.user_data.xml_alert_query.forEach(item => {
           item.FechaReporteDate = (item.FechaReporte ? ((item.FechaReporte.substring(0, 2) + '/' + item.FechaReporte.substring(2, item.FechaReporte.length)).substring(0, 5) +
           '/' + item.FechaReporte.substring(4, item.FechaReporte.length)) : 'N/A');
         })
       }
-        this.spinnerService.hide();
+      self.spinnerService.hide();
       },error=>{
-        this.spinnerService.hide();
+        self.spinnerService.hide();
       });
   }
 
-  downloadPdf(data) {
-    this.credito.getValueScore(data);
+  downloadPdf() {
+    this.credito.getValues(this.user_data, this.valueScore004, this.valueScore007, this.frequencyPayments,  this.contractType , this.accountTypeCredit)
   }
 
 }

@@ -42,35 +42,26 @@ export class CreditFormPdfService {
       });
   }
 
-  getValueScore(data) {
-    this.spinner.show();
-    forkJoin([
-      this.admin.postDataApi('valueScore', { user_id: 13 }),
-      this.admin.postDataApi('valueScore007', { user_id: 13 }),
-      this.admin.postDataApi('frequencyPayments', { user_id: 13 }),
-      this.admin.postDataApi('contractType', { user_id: 13 }),
-      this.admin.postDataApi('accountType', { user_id: 13 })
-    ]).subscribe(
-      success => {
-        this.valueScore004 = success[0]['data'];
-        this.valueScore007 = success[1]['data'];
-        this.frequencyPayments = success[2]['data'];
-        this.contractType = success[3]['data'];
-        this.accountType = success[4]['data'];
-        this.getUserById(13)
-      });
+  getValues(user_data, valueScore004, valueScore007, frequencyPayments, contractType , accountType) {
+        this.valueScore004 = valueScore004;
+        this.valueScore007 = valueScore007;
+        this.frequencyPayments = frequencyPayments;
+        this.contractType = contractType;
+        this.accountType = accountType;
+        this.user_data = user_data;
+        this.generatePaymentReceiptPDF();
   }
 
-  getUserById(data) {
-    this.spinner.show();
-    //this.getValueScore1();
-    this.admin.postDataApi('getXmlFinalData', { user_id: 13 }).subscribe(
-      success => {
-        this.user_data = success['data'];
-        this.generatePaymentReceiptPDF();
-        this.spinner.hide();
-      });
-  }
+  // getUserById(id) {
+  //   this.spinner.show();
+  //   //this.getValueScore1();
+  //   this.admin.postDataApi('getXmlFinalData', { user_id: id }).subscribe(
+  //     success => {
+  //       this.user_data = success['data'];
+  //       this.generatePaymentReceiptPDF();
+  //       this.spinner.hide();
+  //     });
+  // }
   // getValueScore1() {
   //   this.admin.postDataApi('valueScore007', { user_id: 13 }).subscribe(
   //     success => {
@@ -950,14 +941,14 @@ export class CreditFormPdfService {
               table: {
                 style: 'table5',
                 headerRows: 1,
-                widths: [10, 92],
+                widths: [12, 90],
                 body: [
                   [
                     { text: (index + 1) + '.', fontSize: 8, width: 10, fillColor: '#000000', color: 'white', border: [false, false, false, false] },
                     {
                       text: [
                         { text: (item.NombreOtorgante || 'N/A') + '\n', bold: true, fontSize: 8 },
-                        { text: (value2.description || 'N/A') + '\n' + (value1.description || 'N/A') + '\n' + (item.ClaveUnidadMonetaria || 'N/A'), fontSize: 8 }
+                        { text: (value2 ? value2.description : 'N/A') + '\n' + (value1 ? value1.description : 'N/A') + '\n' + (item.ClaveUnidadMonetaria || 'N/A'), fontSize: 8 }
                       ], fillColor: '#cccccc', border: [false, false, false, false]
                     }
                   ]
@@ -973,7 +964,7 @@ export class CreditFormPdfService {
             { text: (this.price.transform(Number(item.CreditoMaximo)).replace('$', '') || 'N/A'), border: [true, true, true, true], fontSize: 8 },
             { text: (this.price.transform(Number(item.SaldoActual.replace('+', ''))).replace('$', '') || 'N/A'), border: [true, true, true, true], fontSize: 8 },
             { text: (item.MontoPagar || 'N/A'), border: [true, true, true, true], fontSize: 8 },
-            { text: (value.description || 'N/A'), border: [true, true, true, true], fontSize: 8 },
+            { text: ( value ? value.description : 'N/A'), border: [true, true, true, true], fontSize: 8 },
             {
               text: (item.FechaUltimoPago ? ((item.FechaUltimoPago.substring(0, 2) + '/' +
                 item.FechaUltimoPago.substring(2, item.FechaUltimoPago.length)).substring(0, 5) + '/' +
@@ -1163,7 +1154,7 @@ export class CreditFormPdfService {
           docDefinition.content[15].columns[0].table.body.push(
             [
               { text: 'BC SCORE', border: [true, true, true, true], fontSize: 8 },
-              { text: value.description, border: [true, true, true, true], fontSize: 6 }
+              { text: value ?  value.description : '', border: [true, true, true, true], fontSize: 6 }
             ]
           )
         }
@@ -1176,7 +1167,7 @@ export class CreditFormPdfService {
           docDefinition.content[15].columns[0].table.body.push(
             [
               { text: 'SCORE CON INDICE CAPACIDAD CREDITICIA', border: [true, true, true, true], fontSize: 8 },
-              { text: value.description, border: [true, true, true, true], fontSize: 6 }
+              { text: value ? value.description : '', border: [true, true, true, true], fontSize: 6 }
             ]
           )
         }
