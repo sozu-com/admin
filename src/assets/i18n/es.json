@@ -695,6 +695,8 @@
     "monthlyInstallment": "Mensualidades",
     "numberMonthlyInstallments": "Número de mensualidades",
     "paymentUponDelivery": "Pago a contraentrega",
+    "new": "Nuevo ",
+    "removePaymentWay": "Eliminar forma de pago",
     "manualLead":{
       "buyer": "Buyer",
       "seller": "Seller",

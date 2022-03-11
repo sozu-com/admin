@@ -2405,8 +2405,10 @@
                         <label>{{'generatePDF.downPaymentPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="downPayment" appOnlyDecimal [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
-                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
+                           formControlName="downPayment" appOnlyDecimal [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
+                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
+                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
+                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2420,8 +2422,10 @@
                      <div class="form-group-3">
                         <label>{{'generatePDF.discountPercentage' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="discount" appOnlyDecimal [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
-                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
+                           formControlName="discount" appOnlyDecimal [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
+                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
+                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
+                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2439,8 +2443,10 @@
                         <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="monthlyInstallment" appOnlyDecimal [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
-                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
+                           formControlName="monthlyInstallment" appOnlyDecimal [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
+                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
+                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
+                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2454,8 +2460,10 @@
                      <div class="form-group-3">
                         <label>{{'generatePDF.interest' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="interest" appOnlyDecimal [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
-                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
+                           formControlName="interest" appOnlyDecimal [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
+                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
+                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
+                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2473,8 +2481,10 @@
                         <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" maxlength="6" appOnlyNumber
-                           placeholder="#" formControlName="numberOfMI" [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
-                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
+                           placeholder="#" formControlName="numberOfMI" [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
+                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
+                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
+                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
                      </div>
                   </div>
                   <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2492,8 +2502,10 @@
                         <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" formControlName="paymentupondelivery"
-                           placeholder="%" appOnlyDecimal [readonly]="this.property_array &&  (this.property_array.building.discount || this.property_array.building.downpayment || 
-                           this.property_array.building.number_monthly_payments || this.property_array.building.monthly_installment || this.property_array.building.payment_upon_delivery)"/>
+                           placeholder="%" appOnlyDecimal [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
+                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
+                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
+                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
                      </div>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
