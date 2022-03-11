@@ -4148,7 +4148,8 @@
     "fechaReporte": "Fecha de reporte",
     "alertasHAWK": "Alertas HAWK",
     "grantor": "Otorgante / Tipo cuenta / Tipo contrato / Clave monetaria",
-    "downloadPdf": "Descargar PDF"
+    "downloadPdf": "Descargar PDF",
+    "thereNoinformationCreditBureau": "No existe información en Buró de crédito"
   },
   "deshboard":{
     "Projects":"Proyectos",
