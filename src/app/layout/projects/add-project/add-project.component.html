@@ -1538,19 +1538,22 @@
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.discount' | translate}}</label>
-                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="discount{{t+1}}" [(ngModel)]="item.discount" appOnlyDecimal>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="discount{{t+1}}" [(ngModel)]="item.discount" appOnlyDecimal style="display: inline; width: 93%;">
+                    <label style="margin-left: 10px;">%</label>
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.downpayment' | translate}}</label>
-                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="downpayment{{t+1}}" [(ngModel)]="item.downpayment" appOnlyDecimal>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="downpayment{{t+1}}" [(ngModel)]="item.downpayment" appOnlyDecimal style="display: inline; width: 93%;">
+                    <label style="margin-left: 10px;">%</label>
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.monthlyInstallment' | translate}}</label>
-                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="monthly_installment{{t+1}}" [(ngModel)]="item.monthly_installment" appOnlyDecimal>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="monthly_installment{{t+1}}" [(ngModel)]="item.monthly_installment" appOnlyDecimal style="display: inline; width: 93%;">
+                    <label style="margin-left: 10px;">%</label>
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
@@ -1562,7 +1565,8 @@
                 <div class="col-md-6 col-sm-6 col-12  ">
                   <div class="form-group-3">
                     <label>{{'addForm.paymentUponDelivery' | translate}}</label>
-                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="payment_upon_delivery{{t+1}}" [(ngModel)]="item.payment_upon_delivery" appOnlyDecimal>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="payment_upon_delivery{{t+1}}" [(ngModel)]="item.payment_upon_delivery" appOnlyDecimal style="display: inline; width: 93%;">
+                    <label style="margin-left: 10px;">%</label>
                   </div>
                 </div>
               </div>
