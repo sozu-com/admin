@@ -736,7 +736,7 @@ export class AddAclComponent implements OnInit {
         {
           title: this.translate.instant('addForm.outSideAgent'),
           key: 'is_external_agent',
-          value: this.model.is_external_agent
+          value: this.model.is_external_agent == true
         }, {
           title: this.translate.instant('addForm.CSRSeller'),
           key: 'is_broker_seller_dev',
