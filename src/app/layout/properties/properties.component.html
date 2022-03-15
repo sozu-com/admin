@@ -2628,8 +2628,8 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                      <label style="width: 232px;">{{'generatePDF.email' | translate}} <span
                            class="color-red">*</span></label>
-                     <input autocomplete="off" type="text" class="form-control" placeholder=""
-                        formControlName="email" />
+                     <input autocomplete="off" class="form-control" placeholder=""
+                     [pattern]="constant.emailPattern" type="email"  formControlName="email" />
                   </div>
                </div>
                <div class="spacer15"></div>
@@ -2637,7 +2637,7 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                      <label style="width: 232px;">{{'addForm.phone' | translate}} <span
                            class="color-red">*</span></label>
-                           <input autocomplete="off" [disabled]="!canEditdeveloperInfo" minlength="6" maxlength="16"
+                           <input autocomplete="off" minlength="6" maxlength="10"
                            autocomplete="off" type="text" class="form-control" id="phone" placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
                            minlength="1" formControlName="phone"  name="phone" ng2TelInput
                            [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
@@ -2769,13 +2769,16 @@
             </div>
             <div class="spacer40"></div>
             <div class="row" style="margin: 2px;">
-               <div class="col-md-3">
+               <div class="col-md-2">
                   <h6>{{'table.th.offerID' | translate}}</h6>
                </div>
                <div class="col-md-3">
                   <h6>{{'table.th.agent' | translate}}</h6>
                </div>
-               <div class="col-md-6">
+               <div class="col-md-3">
+                  <h6>{{'generatePDF.leadName' | translate}}</h6>
+               </div>
+               <div class="col-md-4">
                   <h6>{{'table.th.date' | translate}}</h6>
                </div>
             </div>
@@ -2792,14 +2795,15 @@
                   </thead> -->
                   <tbody class="content">
                      <tr *ngFor="let offer of property_offers">
-                        <td>
+                        <td style="width: 15%;">
                            <a class="add1" href="javascript://" (click)="offerID(offer)" style="color: #00B96F;">
                               {{offer.random_id}}
                            </a>
                         </td>
+                        <td style="width: 30%;">{{offer.admins.name ? offer.admins.name : ('viewProperty.NA' | translate)}}</td>
                         <td>{{offer.name ? offer.name : ('viewProperty.NA' | translate)}}</td>
-                        <td>{{offer.date | date }}</td>
-                        <td> <button (click)="deletePopup(p, i);" class="action-icon"
+                        <td>{{offer.created_at | date }}</td>
+                        <td> <button class="action-icon"
                               title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"
                                  (click)="deleteOffer(offer)"></button></td>
                      </tr>
