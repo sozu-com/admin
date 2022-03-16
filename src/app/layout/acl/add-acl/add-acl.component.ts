@@ -428,15 +428,14 @@ export class AddAclComponent implements OnInit {
           if (userdata.is_external_agent = true) {
             if (element.acl.name == 'Properties For Sale Management') {
               this.permission_show = true;
-              let object = []
-              object.push(element);
-              console.log(object, "objjj");
-              if (object.length > 1) {
-                this.model.admin_estend = object[0];
+              let newArray = [];
+              newArray.push(element);
+              if (newArray.length > 1) {
+                this.model.admin_estend = newArray[0];
               } else {
-                this.model.admin_estend = object[0];
+                this.model.admin_estend = newArray;
               }
-              // this.model.admin_estend.push(element);
+              //this.model.admin_estend.push(element);
               element.can_create = 0,
                 element.can_delete = 0,
                 element.can_update = 0,
@@ -856,13 +855,12 @@ export class AddAclComponent implements OnInit {
         const element = this.model.adminAcls[index];
         if (element.acl.name == 'Properties For Sale Management') {
           this.permission_show = true;
-          let object = []
-          object.push(element);
-          console.log(object, "objjj");
-          if (object.length > 1) {
-            this.model.admin_estend = object[0];
+          let newArray = [];
+          newArray.push(element);
+          if (newArray.length > 1) {
+            this.model.admin_estend = newArray[0];
           } else {
-            this.model.admin_estend = object[0];
+            this.model.admin_estend = newArray;
           }
           element.can_create = 0,
             element.can_delete = 0,

@@ -60,12 +60,13 @@
 
 
     <!--slide menu start-->
-   
+
     <div class=" ">
-      
-      <div  id="sidebar-container" class="sidebar-expanded d-none d-md-block collapse in show" id="sidebar"  data-toggle="collapse" aria-expanded="false">
-        <div class="list-group panel  menu-collapsed main-sidebar" id="side-menu-bar" >
-    
+
+      <div id="sidebar-container" class="sidebar-expanded d-none d-md-block collapse in show" id="sidebar"
+        data-toggle="collapse" aria-expanded="false">
+        <div class="list-group panel  menu-collapsed main-sidebar" id="side-menu-bar">
+
 
           <!---menu 1-->
           <a href="#menu1" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
@@ -73,14 +74,14 @@
                 class="fa fa-angle-right" aria-hidden="true"></i>
             </span></a>
           <div class="collapse" id="menu1">
-            <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item   nav-link-collapse" data-parent="#menu1"
-              routerLink="/dashboard/income/sozu-income">
-              {{'sidebar.Income' | translate}}
-            </a></li>
+            <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item   nav-link-collapse"
+                data-parent="#menu1" routerLink="/dashboard/income/sozu-income">
+                {{'sidebar.Income' | translate}}
+              </a></li>
           </div>
           <!---menu 2-->
-          <a href="#menu2" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse" data-parent="#sidebar"
-            aria-expanded="false">
+          <a href="#menu2" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse"
+            data-parent="#sidebar" aria-expanded="false">
             <img src="assets/images/icons/chart.png">
             <span> {{'sidebar.Dashboards' | translate}}
               <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -89,13 +90,15 @@
           <div class="collapse" id="menu2">
             <li *ngIf="admin?.admin_acl['Dashboard']?.can_read==1" class="nav-item" [routerLinkActive]="'active'"
               [routerLinkActiveOptions]="{exact:true}">
-              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu2" routerLink="/dashboard">
+              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu2"
+                routerLink="/dashboard">
                 {{'sidebar.Dashboard' | translate}}
               </a>
             </li>
             <li *ngIf="admin?.admin_acl['Metatags']?.can_read==1" class="nav-item dropdown"
               [routerLinkActive]="'active'">
-              <a href="#menu2sub2" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse" aria-expanded="false">
+              <a href="#menu2sub2" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse"
+                aria-expanded="false">
                 {{'sidebar.Metatags' | translate}}
                 <i class="fa fa-angle-right" aria-hidden="true"></i>
               </a>
@@ -137,7 +140,8 @@
                 {{'sidebar.Developers' | translate}}
               </a>
             </div>
-            <a href="#menu2sub21" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse" aria-expanded="false">
+            <a href="#menu2sub21" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse"
+              aria-expanded="false">
               {{'sidebar.Market_Analysis' | translate}}
               <i class="fa fa-angle-right" aria-hidden="true"></i>
             </a>
@@ -154,40 +158,45 @@
               </a>
             </div>
             <li *ngIf="admin?.admin_acl['Reports']?.can_read==1" class="nav-item dropdown"
-            [routerLinkActive]="'active'">
-            <a href="#menu2sub22" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse" aria-expanded="false">
-              {{'sidebar.Reports' | translate}}
-              <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
+              [routerLinkActive]="'active'">
+              <a href="#menu2sub22" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse"
+                aria-expanded="false">
+                {{'sidebar.Reports' | translate}}
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
             </li>
             <div class="collapse" id="menu2sub22">
-              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu2sub22"
-                routerLink="/dashboard/reports/seller">
-                <img src="assets/images/icons/Rectangle.png">
-                {{'sidebar.Seller' | translate}}
-              </a></li>
-              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu2sub22"
-                routerLink="/dashboard/reports/buyer">
-                <img src="assets/images/icons/Rectangle.png">
-                {{'sidebar.Buyer' | translate}}
-              </a></li>
-              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu2sub22"
-                routerLink="/dashboard/reports/notary">
-                <img src="assets/images/icons/Rectangle.png">
-                {{'sidebar.Notary' | translate}}
-              </a></li>
-              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu2sub22"
-                routerLink="/dashboard/reports/bank">
-                <img src="assets/images/icons/Rectangle.png">
-                {{'sidebar.Bank' | translate}}
-              </a></li>
+              <li [routerLinkActive]="'active'"><a href="javascript://"
+                  class="list-group-item   collapsed nav-link-collapse" data-parent="#menu2sub22"
+                  routerLink="/dashboard/reports/seller">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.Seller' | translate}}
+                </a></li>
+              <li [routerLinkActive]="'active'"><a href="javascript://"
+                  class="list-group-item   collapsed nav-link-collapse" data-parent="#menu2sub22"
+                  routerLink="/dashboard/reports/buyer">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.Buyer' | translate}}
+                </a></li>
+              <li [routerLinkActive]="'active'"><a href="javascript://"
+                  class="list-group-item   collapsed nav-link-collapse" data-parent="#menu2sub22"
+                  routerLink="/dashboard/reports/notary">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.Notary' | translate}}
+                </a></li>
+              <li [routerLinkActive]="'active'"><a href="javascript://"
+                  class="list-group-item   collapsed nav-link-collapse" data-parent="#menu2sub22"
+                  routerLink="/dashboard/reports/bank">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.Bank' | translate}}
+                </a></li>
             </div>
           </div>
 
 
           <!---menu 3-->
-          <a href="#menu3" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse" data-parent="#sidebar"
-            aria-expanded="false">
+          <a href="#menu3" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse"
+            data-parent="#sidebar" aria-expanded="false">
             <img src="assets/images/icons/entry.png">
             <span> {{'sidebar.Entities' | translate}}
               <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -195,111 +204,112 @@
           </a>
           <div class="collapse" id="menu3">
             <li *ngIf="admin?.admin_acl['Agencies Management']?.can_read==1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3"
-              routerLink="/dashboard/agencies/view-all">
-              {{'sidebar.Manage_Agencies' | translate}}
-            </a>
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3"
+                routerLink="/dashboard/agencies/view-all">
+                {{'sidebar.Manage_Agencies' | translate}}
+              </a>
             </li>
             <li *ngIf="admin?.admin_acl['Developers Management']?.can_read==1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item   collapsed nav-link-collapse"  data-parent="#menu3"
-            routerLink="developers/view-all">
-              {{'sidebar.Developers' | translate}}
-            </a>
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3"
+                routerLink="developers/view-all">
+                {{'sidebar.Developers' | translate}}
+              </a>
             </li>
             <li *ngIf="admin?.admin_acl['Companies Management']?.can_read==1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3"
-            routerLink="companies/view-all">
-              {{'sidebar.Manage_Companies' | translate}}
-            </a></li>
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3"
+                routerLink="companies/view-all">
+                {{'sidebar.Manage_Companies' | translate}}
+              </a></li>
             <li *ngIf="admin?.admin_acl['Managers Management']?.can_read==1" class="nav-item"
-            [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3"
-            routerLink="managers/view-all">
-              {{'sidebar.Manage_Managers' | translate}}
-            </a>
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3"
+                routerLink="managers/view-all">
+                {{'sidebar.Manage_Managers' | translate}}
+              </a>
             </li>
             <li *ngIf="admin?.admin_acl['Manage Legal Entity']?.can_read==1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3"
-              routerLink="/dashboard/legal-entities/view-all">
-              {{'sidebar.Manage_Legal_Entity' | translate}}
-            </a>
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3"
+                routerLink="/dashboard/legal-entities/view-all">
+                {{'sidebar.Manage_Legal_Entity' | translate}}
+              </a>
             </li>
             <li *ngIf="admin?.admin_acl['Notaries Management']?.can_read==1 ||
             admin?.admin_acl['Notary Lead Management']?.can_read==1 ||
-            admin?.permissions?.can_noatary==1" class="nav-item dropdown"
-[routerLinkActive]="'active'">
-            <a href="#menu3sub2" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse" aria-expanded="false">
-              {{'sidebar.Manage_Notaries' | translate}}
-              <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
+            admin?.permissions?.can_noatary==1" class="nav-item dropdown" [routerLinkActive]="'active'">
+              <a href="#menu3sub2" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse"
+                aria-expanded="false">
+                {{'sidebar.Manage_Notaries' | translate}}
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
             </li>
             <div class="collapse" id="menu3sub2">
               <li *ngIf="admin?.admin_acl['Notaries Management']?.can_read==1" [routerLinkActive]="'active'">
-              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3sub2"
-                routerLink="/dashboard/notary/view-notary">
-                <img src="assets/images/icons/Rectangle.png">
-                {{'sidebar.Notary' | translate}}
-              </a>
-            </li>
-            <li
-                      *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 || admin?.permissions?.can_noatary==1"
-                      [routerLinkActive]="'active'">
-              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3sub2"
-                routerLink="/dashboard/notary/notary-leads">
-                <img src="assets/images/icons/Rectangle.png">
-                {{'sidebar.Leads' | translate}}
-              </a>
+                <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3sub2"
+                  routerLink="/dashboard/notary/view-notary">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.Notary' | translate}}
+                </a>
+              </li>
+              <li *ngIf="admin?.admin_acl['Notary Lead Management']?.can_read==1 || admin?.permissions?.can_noatary==1"
+                [routerLinkActive]="'active'">
+                <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3sub2"
+                  routerLink="/dashboard/notary/notary-leads">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.Leads' | translate}}
+                </a>
               </li>
             </div>
             <li *ngIf="admin?.admin_acl['Bank Management']?.can_read==1 || 
             admin?.admin_acl['Bank Lead Management']?.can_read==1 || 
             admin?.permissions?.can_bank==1" class="nav-item dropdown" [routerLinkActive]="'active'">
-            <a href="#menu3sub23" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse" aria-expanded="false">
-              {{'sidebar.Manage_Banks' | translate}}
-              <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
+              <a href="#menu3sub23" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse"
+                aria-expanded="false">
+                {{'sidebar.Manage_Banks' | translate}}
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
             </li>
             <div class="collapse" id="menu3sub23">
               <li *ngIf="admin?.admin_acl['Bank Management']?.can_read==1" [routerLinkActive]="'active'">
-              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3sub23"
-                routerLink="/dashboard/banks/view-banks">
-                <img src="assets/images/icons/Rectangle.png">
-                {{'sidebar.Banks' | translate}}
-              </a>
+                <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3sub23"
+                  routerLink="/dashboard/banks/view-banks">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.Banks' | translate}}
+                </a>
               </li>
               <li *ngIf="admin?.admin_acl['Bank Lead Management']?.can_read==1 || admin?.permissions?.can_bank==1"
-              [routerLinkActive]="'active'">
-              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3sub23"
-                routerLink="/dashboard/banks/bank-leads">
-                <img src="assets/images/icons/Rectangle.png">
-                {{'sidebar.Leads' | translate}}
-              </a></li>
+                [routerLinkActive]="'active'">
+                <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3sub23"
+                  routerLink="/dashboard/banks/bank-leads">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.Leads' | translate}}
+                </a></li>
             </div>
             <li
-            *ngIf="admin?.admin_acl['Inhouse Agent Management']?.can_read==1 && admin?.admin_acl['Outside Agent Management']?.can_read==1"
-            class="nav-item dropdown" [routerLinkActive]="'active'">
-            <a href="#menu3sub24" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse" aria-expanded="false">
-              {{'sidebar.Manage_Agents' | translate}}
-              <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
+              *ngIf="admin?.admin_acl['Inhouse Agent Management']?.can_read==1 && admin?.admin_acl['Outside Agent Management']?.can_read==1"
+              class="nav-item dropdown" [routerLinkActive]="'active'">
+              <a href="#menu3sub24" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse"
+                aria-expanded="false">
+                {{'sidebar.Manage_Agents' | translate}}
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
             </li>
             <div class="collapse" id="menu3sub24">
               <li *ngIf="admin?.admin_acl['Inhouse Agent Management']?.can_read==1" [routerLinkActive]="'active'">
-              <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3sub24"
-                routerLink="/dashboard/view-inhouse-users/inhouse-broker">
-                <img src="assets/images/icons/Rectangle.png">
-                {{'sidebar.Inhouse_Agent' | translate}}
-              </a></li>
+                <a href="javascript://" class="list-group-item   collapsed nav-link-collapse" data-parent="#menu3sub24"
+                  routerLink="/dashboard/view-inhouse-users/inhouse-broker">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.Inhouse_Agent' | translate}}
+                </a></li>
               <li *ngIf="admin?.admin_acl['Outside Agent Management']?.can_read==1" [routerLinkActive]="'active'">
-              <a href="javascript://" class="list-group-item  " data-parent="#menu3sub24"
-                routerLink="/dashboard/view-inhouse-users/outside-broker">
-                <img src="assets/images/icons/Rectangle.png">
-                {{'sidebar.Outside_Agent' | translate}}
-              </a></li>
+                <a href="javascript://" class="list-group-item  " data-parent="#menu3sub24"
+                  routerLink="/dashboard/view-inhouse-users/outside-broker">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.Outside_Agent' | translate}}
+                </a></li>
             </div>
           </div>
           <!---menu 4-->
@@ -313,30 +323,99 @@
             </span>
           </a>
           <div class="collapse" id="menu4">
-            <li *ngIf="admin?.admin_acl['User Management']?.can_read==1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a  href="javascript://" class="list-group-item  "
-              data-parent="#menu4" routerLink="/dashboard/users/view-users">
-              {{'sidebar.Manage_Users' | translate}}
-            </a></li>
-            <li *ngIf="admin?.admin_acl['Access Controls']?.can_read==1" class="nav-item"
-            [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item  "
-              data-parent="#menu4" routerLink="/dashboard/access-control-mgt">
-              {{'sidebar.ACL' | translate}}
-            </a>
+            <li *ngIf="admin?.admin_acl['User Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item  " data-parent="#menu4"
+                routerLink="/dashboard/users/view-users">
+                {{'sidebar.Manage_Users' | translate}}
+              </a></li>
+            <li *ngIf="admin?.admin_acl['Access Controls']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item  " data-parent="#menu4"
+                routerLink="/dashboard/access-control-mgt">
+                {{'sidebar.ACL' | translate}}
+              </a>
             </li>
-            <a href="javascript://" class="list-group-item  " data-parent="#menu4"> Administrar usuarios internos </a>
+            <li
+              *ngIf="admin?.admin_acl['Data Collector Management']?.can_read==1 || admin?.admin_acl['Seller Management']?.can_read==1 ||
+admin?.admin_acl['Buyer Management']?.can_read==1 || admin?.admin_acl['Inhouse Agent Management']?.can_read==1 ||
+admin?.admin_acl['Closer Management']?.can_read==1 ||
+admin?.admin_acl['Credit Agent Management']?.can_read==1 ||
+admin?.admin_acl['Renter Management']?.can_read==1 ||
+admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl['Alliance Agent Management']?.can_read == 1"
+              class="nav-item dropdown" [routerLinkActive]="'active'">
+              <a href="#menu4sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">
+                {{'sidebar.manageInhouseUsers' | translate}}
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            </li>
+            <div class="collapse" id="menu4sub2">
+              <li *ngIf="admin?.admin_acl['Data Collector Management']?.can_read==1" [routerLinkActive]="'active'"><a
+                  href="javascript://" class="list-group-item" data-parent="#menu4sub2"
+                  routerLink="view-inhouse-users/data-collectors">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.dataCollector' | translate}}
+                </a>
+              </li>
+              <li *ngIf="admin?.admin_acl['Seller Management']?.can_read==1" [routerLinkActive]="'active'">
+                <a href="javascript://" class="list-group-item" data-parent="#menu4sub2"
+                  routerLink="view-inhouse-users/csr-sellers">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.CSRSeller' | translate}}
+                </a>
+              </li>
+              <li *ngIf="admin?.admin_acl['Buyer Management']?.can_read==1" [routerLinkActive]="'active'">
+                <a href="javascript://" class="list-group-item" data-parent="#menu4sub2"
+                  routerLink="view-inhouse-users/csr-buyers">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.CSRBuyer' | translate}}
+                </a>
+              </li>
+              <li *ngIf="admin?.admin_acl['Closer Management']?.can_read==1" [routerLinkActive]="'active'"><a
+                  href="javascript://" class="list-group-item" data-parent="#menu4sub2"
+                  routerLink="view-inhouse-users/csr-closers">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.CSRClosure' | translate}}
+                </a></li>
+              <li *ngIf="admin?.admin_acl['Credit Agent Management']?.can_read==1" [routerLinkActive]="'active'">
+                <a href="javascript://" class="list-group-item" data-parent="#menu4sub2"
+                  routerLink="view-inhouse-users/credit-agents">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.creditAgent' | translate}}</a>
+              </li>
+              <li *ngIf="admin?.admin_acl['Renter Management']?.can_read==1" [routerLinkActive]="'active'">
+                <a href="javascript://" class="list-group-item" data-parent="#menu4sub2"
+                  routerLink="view-inhouse-users/csr-renters">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.CSRRenter' | translate}}</a>
+              </li>
+              <li *ngIf="admin?.admin_acl['Collection Agent Management']?.can_read==1" [routerLinkActive]="'active'"><a
+                  href="javascript://" class="list-group-item" data-parent="#menu4sub2"
+                  routerLink="view-inhouse-users/collection-agents">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.collectionAgent' | translate}}</a>
+              </li>
+              <li *ngIf="admin?.admin_acl['Alliance Agent Management']?.can_read == 1" [routerLinkActive]="'active'"><a
+                  href="javascript://" class="list-group-item" data-parent="#menu4sub2"
+                  routerLink="view-inhouse-users/alliance-agents">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.allianceAgent' | translate}}</a>
+              </li>
+              <li *ngIf="admin?.admin_acl['Alliance Agent Management']?.can_read == 1" [routerLinkActive]="'active'"><a
+                  href="javascript://" class="list-group-item" data-parent="#menu4sub2"
+                  routerLink="view-inhouse-users/cordinator-agents">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.cordinatorAgent' | translate}}
+                </a>
+              </li>
+            </div>
           </div>
           <!---menu 5-->
-          <li *ngIf="admin?.admin_acl['Manage Credits']?.can_read == 1" class="nav-item"
-                [routerLinkActive]="'active'">
-          <a href="#menu5" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
-            aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_card.png">
-            <span> {{'sidebar.Manage_Credits' | translate}}
-              <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </span>
-          </a>
+          <li *ngIf="admin?.admin_acl['Manage Credits']?.can_read == 1" class="nav-item" [routerLinkActive]="'active'">
+            <a href="#menu5" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
+              aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_card.png">
+              <span> {{'sidebar.Manage_Credits' | translate}}
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </span>
+            </a>
           </li>
           <div class="collapse" id="menu5">
             <a href="javascript://" class="list-group-item  " data-parent="#menu5"
@@ -353,27 +432,27 @@
           </a>
           <div class="collapse" id="menu6">
             <li *ngIf="admin?.admin_acl['Property Management']?.can_read==1" class="nav-item"
-            [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item  " data-parent="#menu6"
-            routerLink="properties/view-properties">
-              {{'sidebar.Manage_Properties' | translate}}
-            </a>
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item  " data-parent="#menu6"
+                routerLink="properties/view-properties">
+                {{'sidebar.Manage_Properties' | translate}}
+              </a>
             </li>
             <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
                                 admin?.admin_acl['Project Management']?.can_read==1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item  " data-parent="#menu6"
-            routerLink="projects/view-projects">
-              {{'sidebar.Manage_Projects' | translate}}
-            </a>
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item  " data-parent="#menu6"
+                routerLink="projects/view-projects">
+                {{'sidebar.Manage_Projects' | translate}}
+              </a>
             </li>
             <li *ngIf="admin?.admin_acl['Properties For Sale Management']?.can_read == 1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item  " data-parent="#menu6"
-            routerLink="properties-for-sale/view-properties-for-sale">
-              {{'sidebar.managePropertiesForSale' |
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item  " data-parent="#menu6"
+                routerLink="properties-for-sale/view-properties-for-sale">
+                {{'sidebar.managePropertiesForSale' |
                     translate}}
-            </a>
+              </a>
             </li>
           </div>
           <!---menu 7-->
@@ -404,7 +483,7 @@
               <li
                 *ngIf="admin?.admin_acl['Seller Lead Management']?.can_read==1 || admin?.permissions?.can_csr_seller==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"
+                <a href="javascript://" class="list-group-item" data-parent="#menu2sub24"
                   routerLink="leads/csr-sellers">
                   <img src="assets/images/icons/Rectangle.png">
                   {{'sidebar.CSRSeller' | translate}}
@@ -412,7 +491,8 @@
               </li>
               <li *ngIf="admin?.admin_acl['Buyer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_buyer==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24" routerLink="leads/csr-buyers">
+                <a href="javascript://" class="list-group-item " data-parent="#menu2sub24"
+                  routerLink="leads/csr-buyers">
                   <img src="assets/images/icons/Rectangle.png">
                   {{'sidebar.CSRBuyer' | translate}}
                 </a>
@@ -420,7 +500,7 @@
               <li
                 *ngIf="admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 || admin?.permissions?.can_in_house_broker==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"
+                <a href="javascript://" class="list-group-item" data-parent="#menu2sub24"
                   routerLink="leads/inhouse-broker/buyer">
                   <img src="assets/images/icons/Rectangle.png">
                   {{'sidebar.inhouseAgentBuyer' | translate}}
@@ -429,48 +509,52 @@
               <li
                 *ngIf="admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 || admin?.permissions?.can_in_house_broker==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"> <img
-                    src="assets/images/icons/Rectangle.png"
-                    routerLink="leads/inhouse-broker/seller">{{'sidebar.inhouseAgentSeller' | translate}}</a>
+                <a href="javascript://" class="list-group-item" data-parent="#menu2sub24" routerLink="leads/inhouse-broker/seller"> <img
+                    src="assets/images/icons/Rectangle.png">{{'sidebar.inhouseAgentSeller' | translate}}</a>
               </li>
               <li
                 *ngIf="admin?.admin_acl['Outside Agent Lead Management']?.can_read==1 || admin?.permissions?.can_outside_broker==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"> <img
+                <a href="javascript://" class="list-group-item" data-parent="#menu2sub24" 
+                routerLink="leads/outside-broker"> <img
                     src="assets/images/icons/Rectangle.png"
-                    routerLink="leads/outside-broker">{{'sidebar.outsideAgent' | translate}}
+                    >{{'sidebar.outsideAgent' | translate}}
                 </a>
               </li>
               <li
                 *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_closer==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"> <img
+                <a href="javascript://" class="list-group-item" data-parent="#menu2sub24"
+                routerLink="leads/csr-closers"> <img
                     src="assets/images/icons/Rectangle.png"
-                    routerLink="leads/csr-closers">{{'sidebar.CSRClosure' | translate}}
+                    >{{'sidebar.CSRClosure' | translate}}
                 </a>
               </li>
               <li
                 *ngIf="admin?.admin_acl['Renter Lead Management']?.can_read==1 || admin?.permissions?.can_csr_renter==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"> <img
+                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"
+                routerLink="leads/csr-renters"> <img
                     src="assets/images/icons/Rectangle.png"
-                    routerLink="leads/csr-renters">{{'sidebar.CSRRenter' | translate}}
+                    >{{'sidebar.CSRRenter' | translate}}
                 </a>
               </li>
               <li
                 *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 || admin?.permissions?.can_credit_agent==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"> <img
-                    src="assets/images/icons/Rectangle.png" routerLink="leads/credit-agents">
+                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"
+                routerLink="leads/credit-agents"> <img
+                    src="assets/images/icons/Rectangle.png">
                   {{'sidebar.creditAgent' | translate}}
                 </a>
               </li>
               <li
                 *ngIf="admin?.admin_acl['Collection Agent Lead Management']?.can_read==1 || admin?.permissions?.can_collection_agent==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"> <img
+                <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"
+                routerLink="leads/collection-agents"> <img
                     src="assets/images/icons/Rectangle.png"
-                    routerLink="leads/collection-agents">{{'sidebar.collectionAgent' | translate}}
+                    >{{'sidebar.collectionAgent' | translate}}
                 </a>
               </li>
             </div>
@@ -502,56 +586,54 @@
           <div class="collapse" id="menu9">
             <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
                        admin?.admin_acl['Manage Offices']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item  " data-parent="#menu9"
-            routerLink="office/view-office">
-               {{'sidebar.manageOffice' | translate}} 
+              <a href="javascript://" class="list-group-item  " data-parent="#menu9" routerLink="office/view-office">
+                {{'sidebar.manageOffice' | translate}}
               </a></li>
-              <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
+            <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
                        admin?.admin_acl['Hotel Management']?.can_read==1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item  " data-parent="#menu9"
-            routerLink="hotels/view-hotels"> {{'sidebar.manageHotels' | translate}} </a></li>
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item  " data-parent="#menu9" routerLink="hotels/view-hotels">
+                {{'sidebar.manageHotels' | translate}} </a></li>
             <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
                        admin?.admin_acl['Hotel Companies Management']?.can_read==1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item  " data-parent="#menu9"
-            routerLink="hotel-companies/view-all"> {{'sidebar.hotelCompany' | translate}} </a></li>
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item  " data-parent="#menu9"
+                routerLink="hotel-companies/view-all"> {{'sidebar.hotelCompany' | translate}} </a></li>
           </div>
           <!---menu 10-->
           <a href="#menu10" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
-            aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_document-text.png"><span> 
+            aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_document-text.png"><span>
               {{'sidebar.manageContacts' |
-              translate}} <i
-                class="fa fa-angle-right" aria-hidden="true"></i>
+              translate}} <i class="fa fa-angle-right" aria-hidden="true"></i>
             </span></a>
           <div class="collapse" id="menu10">
             <li *ngIf="admin?.admin_acl['Manage Contracts']?.can_read==1" class="nav-item"
-            [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item  " data-parent="#menu10"
-            routerLink="manage-contracts/view-all"> {{'sidebar.manageContacts' |
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item  " data-parent="#menu10"
+                routerLink="manage-contracts/view-all"> {{'sidebar.manageContacts' |
             translate}} </a>
             </li>
           </div>
           <!---menu 11-->
           <a href="#menu11" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
-            aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_money-recive.png"><span> {{'sidebar.collections' |translate}} <i
-                class="fa fa-angle-right" aria-hidden="true"></i>
+            aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_money-recive.png"><span>
+              {{'sidebar.collections' |translate}} <i class="fa fa-angle-right" aria-hidden="true"></i>
             </span></a>
           <div class="collapse" id="menu11">
             <li *ngIf="admin?.admin_acl['Manage Collections']?.can_read==1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item  " data-parent="#menu11"
-            routerLink="collections/view-collections">
-               {{'sidebar.manageCollections' |
-              translate}} 
-            </a>
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item  " data-parent="#menu11"
+                routerLink="collections/view-collections">
+                {{'sidebar.manageCollections' |
+              translate}}
+              </a>
             </li>
             <li *ngIf="admin?.admin_acl['Manage Commission']?.can_read==1" class="nav-item"
-                [routerLinkActive]="'active'">
-            <a href="javascript://" class="list-group-item  " data-parent="#menu11"
-            routerLink="commissions/view-commissions"> {{'sidebar.manageCommissions' |
+              [routerLinkActive]="'active'">
+              <a href="javascript://" class="list-group-item  " data-parent="#menu11"
+                routerLink="commissions/view-commissions"> {{'sidebar.manageCommissions' |
               translate}} </a>
-              </li>
+            </li>
             <a href="javascript://" class="list-group-item  " data-parent="#menu11"> Informes de colección </a>
 
 
@@ -644,18 +726,20 @@
                 </span>
               </a>
             </li>
-            
+
           </div>
-          <button href="javascript:void(0)" id="add-class" data-toggle="sidebar-colapse" class="btn-dark bg-dark list-group-item   list-group-item  -action d-flex align-items-center">
+          <button href="javascript:void(0)" id="add-class" data-toggle="sidebar-colapse"
+            class="btn-dark bg-dark list-group-item   list-group-item  -action d-flex align-items-center">
             <div class="w-100">
-                <!-- <span id="collapse-icon" class="fa fa-2x mr-3"></span> -->
-                <span id="collapse-text" class=" "><img class="abc mCS_img_loaded" src="assets/img/vuesax_twotone_arrow-2.png"></span>
+              <!-- <span id="collapse-icon" class="fa fa-2x mr-3"></span> -->
+              <span id="collapse-text" class=" "><img class="abc mCS_img_loaded"
+                  src="assets/img/vuesax_twotone_arrow-2.png"></span>
             </div>
-        </button>
+          </button>
         </div>
       </div>
     </div>
-     <!-- <button _ngcontent-c3="" class="btn btn-dark" style="height: 57px;
+    <!-- <button _ngcontent-c3="" class="btn btn-dark" style="height: 57px;
         width: 69px;border-radius: 0px;
         background-color: #000;border-color: black; cursor: pointer;" type="button"><img _ngcontent-c3="" class="abc mCS_img_loaded" src="assets/img/vuesax_twotone_arrow-2.png"></button> -->
 
