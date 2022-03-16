@@ -162,6 +162,44 @@ $('#accordion').click(function() {
   }
   $(this).next().collapse('accordion');
 });
+
+$(document).ready(function(){
+// Hide submenus
+$('#body-row .collapse').collapse('hide'); 
+
+// Collapse/Expand icon
+$('#collapse-icon').addClass('fa-angle-double-left'); 
+
+// Collapse click
+$('[data-toggle=sidebar-colapse]').click(function() {
+    SidebarCollapse();
+});
+
+function SidebarCollapse () {
+    $('.menu-collapsed').toggleClass('d-none');
+    $('.sidebar-submenu').toggleClass('d-none');
+    $('.submenu-icon').toggleClass('d-none');
+    $('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
+    
+    // Collapse/Expand icon
+    $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
+}
+});
+
+
+$(document).ready(function(){
+  $(".btn-dark").click(function(){
+    $(".content-area").toggleClass("intro");
+
+  });
+});
+
+$(document).ready(function(){
+  $(".list-group-item ").click(function(){
+    $(".collapse").toggleClass("hide-show");
+
+  });
+});
 </script>
 <link rel="stylesheet" href="styles.88bcd1b24d50ce1eccff.css"></head>
 <body>
@@ -174,5 +212,5 @@ $('#accordion').click(function() {
       <div class="loading-bar"></div>
     </div> -->
   </app-root>
-<script type="text/javascript" src="runtime.dc00dfad43df8e1604e5.js"></script><script type="text/javascript" src="polyfills.32122eecfbd30e0bd79d.js"></script><script type="text/javascript" src="scripts.981900ffad781562e39b.js"></script><script type="text/javascript" src="main.539fb003918344437b01.js"></script></body>
+<script type="text/javascript" src="runtime.45ebd26ab318e6b99db0.js"></script><script type="text/javascript" src="polyfills.32122eecfbd30e0bd79d.js"></script><script type="text/javascript" src="scripts.981900ffad781562e39b.js"></script><script type="text/javascript" src="main.888322643bd25278f578.js"></script></body>
 </html>

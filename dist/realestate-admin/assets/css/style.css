@@ -251,18 +251,33 @@ padding-bottom: 60px;
 #side-menu-bar .navbar {
 padding: 0;
 }
-#side-menu-bar {
+.list-group.panel.menu-collapsed.main-sidebar{
 width:270px;
 background-color: #fbfbfb;
 position: fixed;
 height: 100%;
-top:45px;
+top:46px;
 left:0; 
 padding-bottom:50px;
+display: block !important;
+
 }
-#content {
-padding: 4.8rem 1rem 2rem;
-margin-left: 270px;
+button#add-class {
+    cursor: pointer;
+}
+.list-group.panel.menu-collapsed.main-sidebar.d-none a i {
+    opacity: 0;
+}
+.list-group.panel.menu-collapsed.main-sidebar.d-none {
+    width: 68px;
+    display: block !important;
+}
+.content-area {
+    padding: 4.8rem 1rem 2rem;
+    margin-left: 266px;
+}
+.content-area.intro {
+    margin-left: 65px;
 }
 #side-menu-bar .navbar-expand-md .navbar-nav .dropdown-menu {
 position: relative;
@@ -280,6 +295,12 @@ color: #575E64;
 font-size: 14px;
 line-height: 24px;
 padding: .5rem .2rem .5rem 7rem;
+}
+button#add-class {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 #side-menu-bar .navbar-nav .nav-item .dropdown-item:hover,
 #side-menu-bar .navbar-nav .nav-item .dropdown-item:hover, 
@@ -3347,16 +3368,20 @@ p-calendar.sz-calendar input {
     padding-left: 34px;
 }
 a.list-group-item.collapsed i {
-    transform: rotate(0deg);
+    transform: rotate(0deg) !important;
     position: absolute;
     top: 14px;
     right:15px;
 }
 a.list-group-item i {
-    transform: rotate(92deg);
+    transform: rotate(90deg) !important;
     position: absolute;
     top: 0;
-    right: 0;
+    right:0;
+}
+.content_icon{
+    padding: 5.8rem 3rem 2rem !important;
+    margin-left: 233px !important;
 }
 
 #side-menu-bar::-webkit-scrollbar {
@@ -3448,4 +3473,10 @@ div#menu2sub25 li a:before {
 }
 div#menu2sub26 li a:before {
     display: none;
+}
+ a.list-group-item span i {
+    transform: rotate(90deg);
+    position: absolute;
+    top: -4px;
+    right: 0;
 }
