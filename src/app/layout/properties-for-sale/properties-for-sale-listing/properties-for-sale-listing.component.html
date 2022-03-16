@@ -363,24 +363,24 @@
                     <div class="table-actions">
 
                       <button (click)="this.openModalInstallment(p);" class="action-icon"
-                        *ngIf="parameter?.flag == 3 && p?.for_hold != 1 " [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_update==0"
+                        *ngIf="parameter?.flag == 3 && p?.for_hold != 1 " [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
                         title="{{'table.title.generatePDF' | translate}}"><img src="assets/img/commercial_pdf.png"
                           alt="img"></button>
 
-                      <button (click)="changePop(p);" class="action-icon" [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_update==0"
+                      <button (click)="changePop(p);" class="action-icon" [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
                         *ngIf="parameter?.flag == 3 && !p?.collection && p?.for_hold == 1"
                         title="{{'table.title.generatePDF' | translate}}"><img src="assets/img/commercial_pdf.png"
                           alt="img"></button>
 
 
                       <button (click)="this.updateCommercialized(p,1);" class="action-icon"
-                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_update==0"
+                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
                         *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
                         title="{{'table.title.commercializedProperty' | translate}}">
                         <img src="assets/img/tick.png" alt="img"></button>
 
                       <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_update==0"
+                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
                         *ngIf="p.is_commercialized == true && parameter?.flag == 3"
                         title="{{'table.title.markCommercialized' | translate}}">
                         <img src="assets/img/tick-selected.png" alt="img"></button>
@@ -478,7 +478,7 @@
                     <div class="table-actions">
 
                       <button (click)="this.openModalInstallment(p);" class="action-icon" 
-                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_update==0"
+                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
                         *ngIf="parameter?.flag == 3  && p?.for_hold != 1 "
                         title="{{'table.title.generatePDF' | translate}}">
                         <img src="assets/img/commercial_pdf.png" alt="img">
@@ -486,20 +486,20 @@
 
                       <button (click)="changePop(p);" class="action-icon"
                         *ngIf="parameter?.flag == 3 && !p?.collection && p?.for_hold == 1"
-                        [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_update==0"
+                        [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
                         title="{{'table.title.generatePDF' | translate}}">
                         <img src="assets/img/commercial_pdf.png" alt="img">
                       </button>
 
                       <button (click)="this.updateCommercialized(p,1);" class="action-icon"
-                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_update==0"
+                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
                         *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
                         title="{{'table.title.commercializedProperty' | translate}}">
                         <img src="assets/img/tick.png" alt="img">
                       </button>
 
                       <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_update==0"
+                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
                         *ngIf="p.is_commercialized == true && parameter?.flag == 3"
                         title="{{'table.title.markCommercialized' | translate}}">
                         <img src="assets/img/tick-selected.png" alt="img">
