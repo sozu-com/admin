@@ -10,6 +10,7 @@ export class Users {
     user_spouse_id: any;
     user_first_surname: any;
     user_second_surname: any;
+    second_name: any;
     user_gender: any;
     user_email: any;
     user_country_code: any;
