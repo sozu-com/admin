@@ -262,6 +262,9 @@ padding-bottom:50px;
 display: block !important;
 
 }
+button#add-class {
+    cursor: pointer;
+}
 .list-group.panel.menu-collapsed.main-sidebar.d-none a i {
     opacity: 0;
 }
