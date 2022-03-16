@@ -509,42 +509,39 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
               <li
                 *ngIf="admin?.admin_acl['Inhouse Agent Lead Management']?.can_read==1 || admin?.permissions?.can_in_house_broker==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item" data-parent="#menu2sub24" routerLink="leads/inhouse-broker/seller"> <img
+                <a href="javascript://" class="list-group-item" data-parent="#menu2sub24"
+                  routerLink="leads/inhouse-broker/seller"> <img
                     src="assets/images/icons/Rectangle.png">{{'sidebar.inhouseAgentSeller' | translate}}</a>
               </li>
               <li
                 *ngIf="admin?.admin_acl['Outside Agent Lead Management']?.can_read==1 || admin?.permissions?.can_outside_broker==1"
                 [routerLinkActive]="'active'">
-                <a href="javascript://" class="list-group-item" data-parent="#menu2sub24" 
-                routerLink="leads/outside-broker"> <img
-                    src="assets/images/icons/Rectangle.png"
-                    >{{'sidebar.outsideAgent' | translate}}
+                <a href="javascript://" class="list-group-item" data-parent="#menu2sub24"
+                  routerLink="leads/outside-broker"> <img
+                    src="assets/images/icons/Rectangle.png">{{'sidebar.outsideAgent' | translate}}
                 </a>
               </li>
               <li
                 *ngIf="admin?.admin_acl['Closer Lead Management']?.can_read==1 || admin?.permissions?.can_csr_closer==1"
                 [routerLinkActive]="'active'">
                 <a href="javascript://" class="list-group-item" data-parent="#menu2sub24"
-                routerLink="leads/csr-closers"> <img
-                    src="assets/images/icons/Rectangle.png"
-                    >{{'sidebar.CSRClosure' | translate}}
+                  routerLink="leads/csr-closers"> <img
+                    src="assets/images/icons/Rectangle.png">{{'sidebar.CSRClosure' | translate}}
                 </a>
               </li>
               <li
                 *ngIf="admin?.admin_acl['Renter Lead Management']?.can_read==1 || admin?.permissions?.can_csr_renter==1"
                 [routerLinkActive]="'active'">
                 <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"
-                routerLink="leads/csr-renters"> <img
-                    src="assets/images/icons/Rectangle.png"
-                    >{{'sidebar.CSRRenter' | translate}}
+                  routerLink="leads/csr-renters"> <img
+                    src="assets/images/icons/Rectangle.png">{{'sidebar.CSRRenter' | translate}}
                 </a>
               </li>
               <li
                 *ngIf="admin?.admin_acl['Credit Agent Lead Management']?.can_read==1 || admin?.permissions?.can_credit_agent==1"
                 [routerLinkActive]="'active'">
                 <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"
-                routerLink="leads/credit-agents"> <img
-                    src="assets/images/icons/Rectangle.png">
+                  routerLink="leads/credit-agents"> <img src="assets/images/icons/Rectangle.png">
                   {{'sidebar.creditAgent' | translate}}
                 </a>
               </li>
@@ -552,9 +549,8 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
                 *ngIf="admin?.admin_acl['Collection Agent Lead Management']?.can_read==1 || admin?.permissions?.can_collection_agent==1"
                 [routerLinkActive]="'active'">
                 <a href="javascript://" class="list-group-item  " data-parent="#menu2sub24"
-                routerLink="leads/collection-agents"> <img
-                    src="assets/images/icons/Rectangle.png"
-                    >{{'sidebar.collectionAgent' | translate}}
+                  routerLink="leads/collection-agents"> <img
+                    src="assets/images/icons/Rectangle.png">{{'sidebar.collectionAgent' | translate}}
                 </a>
               </li>
             </div>
@@ -634,8 +630,95 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
                 routerLink="commissions/view-commissions"> {{'sidebar.manageCommissions' |
               translate}} </a>
             </li>
-            <a href="javascript://" class="list-group-item  " data-parent="#menu11"> Informes de colección </a>
+            <!-- <a href="javascript://" class="list-group-item " data-parent="#menu11"> Informes de colección </a> -->
+            <li *ngIf="admin?.admin_acl['Collection Reports']?.can_read==1" class="nav-item dropdown"
+              [routerLinkActive]="'active'">
+              <a href="#menu11sub7" class="list-group-item" data-toggle="collapse" aria-expanded="false">
+                {{'sidebar.collectionReports' | translate}}
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            </li>
+            <div class="collapse" id="menu11sub7">
+              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item"
+                  data-parent="#menu11sub7" routerLink="collection-report/general-report">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.generalReport' | translate}}
+                </a>
+              </li>
+              <li [routerLinkActive]="'active'">
+                <a href="javascript://" class="list-group-item" data-parent="#menu11sub7"
+                  routerLink="collection-report/monthly-report">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.monthlyReport' | translate}}
+                </a>
+              </li>
+              <li [routerLinkActive]="'active'">
+                <a href="javascript://" class="list-group-item" data-parent="#menu11sub7"
+                  routerLink="collection-report/model-report">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.modelReport' | translate}}
+                </a>
+              </li>
+              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item"
+                  data-parent="#menu11sub7" routerLink="collection-report/concept-report">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.conceptReport' | translate}}
+                </a></li>
+              <li [routerLinkActive]="'active'">
+                <a href="javascript://" class="list-group-item" data-parent="#menu11sub7"
+                  routerLink="collection-report/arrear-report">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.arrearReport' | translate}}</a>
+              </li>
+              <li [routerLinkActive]="'active'">
+                <a href="javascript://" class="list-group-item" data-parent="#menu11sub7"
+                  routerLink="collection-report/sales-report">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.salesReport' | translate}}</a>
+              </li>
+              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item"
+                  data-parent="#menu11sub7" rrouterLink="/dashboard/collection-report/sales-booking">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.salesTrend' | translate}}</a>
+              </li>
+              <!-- <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item"
+                  data-parent="#menu11sub7" routerLink="collection-report/sales-booking">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.salesBooking' | translate}}</a>
+              </li> -->
+              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item"
+                  data-parent="#menu11sub7" routerLink="collection-report/commission-income">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.commissionIncome' | translate}}
+                </a>
+              </li>
+              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item"
+                  data-parent="#menu11sub7" routerLink="collection-report/cash-flow-report">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.cashFlowReport' | translate}}
+                </a>
+              </li>
+              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item"
+                  data-parent="#menu11sub7" routerLink="collection-report/project-report">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.projectReport' | translate}}
+                </a>
+              </li>
+              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item"
+                  data-parent="#menu11sub7" routerLink="collection-report/buyer-report">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.buyerReport' | translate}}
+                </a>
+              </li>
+              <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item"
+                  data-parent="#menu11sub7" routerLink="collection-report/delivery-report">
+                  <img src="assets/images/icons/Rectangle.png">
+                  {{'sidebar.deliveryReport' | translate}}
+                </a>
+              </li>
 
+
+            </div>
 
             <a href="#menu2sub25" class="list-group-item  " data-toggle="collapse" aria-expanded="false">
               {{'sidebar.manageFlow' | translate}}
