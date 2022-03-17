@@ -1584,6 +1584,7 @@
       "pleaseChooseAllianceAgent": "Seleccione un agente de la alianza.",
       "pleaseChoosePayments": "Por favor seleccione Opciones de pago",
       "cashLimitReached": "El pago debe ser menor o igual al límite de efectivo",
+      "cashLimitReached_1": "No existe información de buró de crédito",
       "pleaseFillAllDetailsFor": "Por favor complete todos los detalles para -",
       "pleaseFillAllDetails": "Por favor complete todos los detalles",
       "pleaseEnterDocuName": "Por favor, introduzca el nombre del documento.",
