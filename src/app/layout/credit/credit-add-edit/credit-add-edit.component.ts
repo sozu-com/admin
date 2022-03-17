@@ -284,7 +284,8 @@ export class CreditAddEditComponent implements OnInit {
         }
         else if (this.tab == 6) {
           this.creditoTab = 1;
-          this.sendUserForXML();
+          //this.sendUserForXML();
+          this.getUserById()
         }
       }
     });
@@ -2242,6 +2243,9 @@ export class CreditAddEditComponent implements OnInit {
             item.FechaReporteDate = (item.FechaReporte ? ((item.FechaReporte.substring(0, 2) + '/' + item.FechaReporte.substring(2, item.FechaReporte.length)).substring(0, 5) +
               '/' + item.FechaReporte.substring(4, item.FechaReporte.length)) : 'N/A');
           })
+        } else {
+          swal(this.translate.instant('swal.error'), 'Went something wrong', 'error');
+          return;
         }
         self.spinnerService.hide();
       }, error => {
