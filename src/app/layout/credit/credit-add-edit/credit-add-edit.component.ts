@@ -2244,7 +2244,15 @@ export class CreditAddEditComponent implements OnInit {
               '/' + item.FechaReporte.substring(4, item.FechaReporte.length)) : 'N/A');
           })
         } else {
-          swal(this.translate.instant('swal.error'), 'Went something wrong', 'error');
+          swal({
+            html: this.translate.instant('message.error.cashLimitReached_1'),
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: this.constant.confirmButtonColor,
+            cancelButtonColor: this.constant.cancelButtonColor,
+            confirmButtonText: 'Ok'
+          })
+          //swal(this.translate.instant('swal.error'), 'Went something wrong', 'error');
           return;
         }
         self.spinnerService.hide();
