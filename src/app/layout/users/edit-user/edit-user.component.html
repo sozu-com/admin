@@ -258,9 +258,9 @@
                           <label class="p16-two">{{'addForm.idType' | translate}}</label>
                           <select class="form-control" (change)="selectIdType($event.target.value)"
                             [(ngModel)]="model.id_type">
-                            <option [selected]="model.id_type == 1" value="1">{{'contract.other' | translate}}</option>
+                            <option [selected]="model.id_type == 1" value="1">{{'contract.ine' | translate}}</option>
                             <option [selected]="model.id_type == 2" value="2">{{'contract.passport' | translate}}</option>
-                            <option [selected]="model.id_type == 3" value="3">{{'contract.ine' | translate}}</option>
+                            <option [selected]="model.id_type == 3" value="3">{{'contract.other' | translate}}</option>
                           </select>
                         </div>
                       </div>
@@ -507,9 +507,10 @@
           <label class="p16-two">{{'addForm.idType' | translate}}</label> 
            <select class="form-control" (change)="selectIdTypes($event.target.value)"
            [(ngModel)]="model.user_id_type">
-           <option [selected]="model.user_id_type == 1" value="1">{{'contract.other' | translate}}</option>
-           <option [selected]="model.user_id_type == 2" value="2">{{'contract.passport' | translate}}</option>
-           <option [selected]="model.user_id_type == 3" value="3">{{'contract.ine' | translate}}</option>
+           <option [selected]="model.user_id_type == 1" value="1">{{'contract.ine' | translate}}</option>
+           <option [selected]="model.user_id_type == 2" value="2">
+             {{'contract.passport' | translate}}</option>
+           <option [selected]="model.user_id_type == 3" value="3">{{'contract.other' | translate}}</option>
          </select>
         </div>
       </div>
