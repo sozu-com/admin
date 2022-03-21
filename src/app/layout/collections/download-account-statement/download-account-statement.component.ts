@@ -567,36 +567,36 @@ export class DownloadAccountStatementComponent implements OnInit {
                   headerRows: 1,
                   widths: ['auto', 'auto'],
                   body: [
-                    [
-                      { text: this.translate.instant('generatePDF.bankDetails'), border: [false, false, false, false], bold: true, fontSize: 16 },
-                      { text: '', border: [false, false, false, false] }
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].bank_name ? this.paymentBankDetailsArray[0].bank_name : 'N/A', border: [false, false, false, false], bold: true }
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.accountInNameOf'), border: [false, false, false, false], color: '#858291' },
-                      {
-                        text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].legal_name ? this.paymentBankDetailsArray[0].legal_name : 'N/A', border: [false, false, false, false], bold: true
-                      },
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].bank_name && this.fedTaxPayer ? this.fedTaxPayer : 'N/A', border: [false, false, false, false], bold: true },
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].account_number ? this.paymentBankDetailsArray[0].account_number : 'N/A', border: [false, false, false, false], bold: true }
-                    ],
+                     [
+                       { text: this.translate.instant('generatePDF.bankDetails'), border: [false, false, false, false], bold: true, fontSize: 16 },
+                       { text: '', border: [false, false, false, false] }
+                     ],
+                    // [
+                    //   { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
+                    //   { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].bank_name ? this.paymentBankDetailsArray[0].bank_name : 'N/A', border: [false, false, false, false], bold: true }
+                    // ],
+                    // [
+                    //   { text: this.translate.instant('generatePDF.accountInNameOf'), border: [false, false, false, false], color: '#858291' },
+                    //   {
+                    //     text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].legal_name ? this.paymentBankDetailsArray[0].legal_name : 'N/A', border: [false, false, false, false], bold: true
+                    //   },
+                    // ],
+                    // [
+                    //   { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
+                    //   { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].bank_name && this.fedTaxPayer ? this.fedTaxPayer : 'N/A', border: [false, false, false, false], bold: true },
+                    // ],
+                    // [
+                    //   { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
+                    //   { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].account_number ? this.paymentBankDetailsArray[0].account_number : 'N/A', border: [false, false, false, false], bold: true }
+                    // ],
                     [
                       { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
                       { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[0].swift ? this.paymentBankDetailsArray[0].swift : 'N/A', border: [false, false, false, false], bold: true }
                     ],
-                    // [
-                    //   { text: this.translate.instant('generatePDF.bankReference'), border: [false, false, false, false], color: '#858291' },
-                    //   { text: this.collection_data.bank_reference_id ? this.collection_data.bank_reference_id : 'N/A', border: [false, false, false, false], bold: true }
-                    // ],
+                    [
+                      { text: this.translate.instant('generatePDF.bankReference'), border: [false, false, false, false], color: '#858291' },
+                      { text: this.collection_data.bank_reference_id ? this.collection_data.bank_reference_id : 'N/A', border: [false, false, false, false], bold: true }
+                    ],
                   ],
                 }
               }
