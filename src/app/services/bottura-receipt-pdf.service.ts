@@ -158,7 +158,7 @@ export class BotturaReceiptPdfService {
           ],
           margin: [0, 20, 0, 0]
         },
-        this.payment.category_name == 'Layaway Payment' ? 
+        this.payment_concept.category_name == 'Layaway Payment' ? 
         {
           columns: [
             { text: 'La cantidad recibida en concepto de apartado será devuelta íntegramente en el evento de que la propuesta presentada, no sea aceptada por parte del desarrollador inmobiliario y/o el cliente no pueda cumplir con la obligación del primer deposito en garantía de cumplimiento.', fontSize: 11 }
@@ -171,7 +171,7 @@ export class BotturaReceiptPdfService {
           ],
           margin: [0, 25, 0, 0]
         },
-        this.payment.category_name == 'Layaway Payment' ? 
+        this.payment_concept.category_name == 'Layaway Payment' ? 
         {
           columns: [
             { text: 'En el evento de que la propuesta señalada sea aceptada por el desarrollador inmobiliario, la cantidad aquí entregada y recibida será aplicada al primer depósito en garantía, al momento de la celebración del contrato de promesa de compraventa.', fontSize: 11 }
@@ -184,7 +184,7 @@ export class BotturaReceiptPdfService {
           ],
           margin: [0, 20, 0, 0]
         },
-        this.payment.category_name == 'Layaway Payment' ? 
+        this.payment_concept.category_name == 'Layaway Payment' ? 
         {
           columns: [
             { text: 'Será obligación de la empresa mantener debidamente informado al aportante de la forma y términos en los que se lleve a cabo la gestión la adquisición de una unidad condominal del desarrollo inmobiliario BOTTURA. ', fontSize: 11 }
