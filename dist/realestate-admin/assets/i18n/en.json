@@ -1582,6 +1582,7 @@
       "pleaseChooseAllianceAgent": "Please select alliance agent.",
       "pleaseChoosePayments": "Please select Payment Choices",
       "cashLimitReached": "The payment must be less than or equal to Cash Limit",
+      "cashLimitReached_1": "There is not information from buró de crédito",
       "pleaseFillAllDetailsFor": "Please fill all details for - ",
       "pleaseFillAllDetails": "Please fill all details",
       "pleaseEnterDocuName": "Please enter document name.",
