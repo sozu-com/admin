@@ -20,7 +20,7 @@ export class ACL {
     is_acl?: boolean;
     is_developer?: boolean;
     // keys added for external broker
-    is_external_agent?: any;
+    is_external_agent?: boolean;
     agency?: Agency;
     is_inhouse_agent?: boolean; // for frontend use only
     // company_name?: string;

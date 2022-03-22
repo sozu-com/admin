@@ -437,7 +437,7 @@ export class AddAclComponent implements OnInit {
       }
 
 
-      if (this.model.is_external_agent == '1') {
+      if (this.model.is_external_agent === true) {
         this.permission_show = true;
         this.permission_all = false;
       } else {
