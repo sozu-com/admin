@@ -15,6 +15,7 @@ import { Collection } from 'src/app/models/collection.model';
 import { ToastrService } from 'ngx-toastr';
 import { ThousandPipe } from 'src/app/pipes/thousand.pipe';
 import { BotturaContractPdfService } from 'src/app/services/bottura-contract-pdf.service';
+import { e } from '@angular/core/src/render3';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -32,6 +33,8 @@ export class ManageContractsComponent implements OnInit {
   @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
   @ViewChild('openLinkContractModal') openLinkContractModal: ElementRef;
   @ViewChild('closeLinkContractModal') closeLinkContractModal: ElementRef;
+  @ViewChild('viewStatuHistoryModelOpen') viewStatuHistoryModelOpen: ElementRef;
+  @ViewChild('viewStatuHistoryModelClose') viewStatuHistoryModelClose: ElementRef;
 
   public parameter: IProperty = {};
   public select_columns_list: any[] = [];
@@ -69,6 +72,7 @@ export class ManageContractsComponent implements OnInit {
     { id: 2, name_en: 'Married - Community property', name_es: 'Casado - Bienes mancomunados' },
     { id: 3, name_en: 'Married - Separate goods', name_es: 'Casado - Bienes separados' }
   ];
+  history: any;
 
   constructor(
     public constant: Constant,
@@ -358,11 +362,16 @@ export class ManageContractsComponent implements OnInit {
   }
 
   searchCollectionById() {
+    let language_code = localStorage.getItem('language_code');
     this.spinner.show();
-    this.admin.postDataApi('getCollectionById', { id: this.collectionId })
+    this.searched_collection = undefined;
+    this.admin.postDataApi('getAlertMsg ', { id: this.collectionId })
       .subscribe(
         success => {
           this.spinner.hide();
+          if(success.message == 'Collection already created'){
+            swal(this.translate.instant('swal.error'), language_code == 'en' ? 'Contract already exists' : 'El contrato ya existe' , 'error');
+        }else{
           if (success['data'].buyer_id) {
             this.getUserById(success['data'].buyer_id);
           }
@@ -377,6 +386,7 @@ export class ManageContractsComponent implements OnInit {
           this.concept_monthly = this.concept_monthly ? this.concept_monthly : {};
           let concept_monthly_ins = this.searched_collection.payment_choices.filter(item => item.payment_choice.name == 'Monthly Installment');
           this.concept_monthly_no = concept_monthly_ins.length;
+        }
         });
   }
 
@@ -386,8 +396,8 @@ export class ManageContractsComponent implements OnInit {
       .subscribe(
         success => {
           this.beneficiary_list = success['data'].beneficiary ? success['data'].beneficiary : [];
-          let ids = this.beneficiary_id;
           this.beneficiary_id = [];
+          let ids = this.beneficiary_id;
           this.beneficiary_list.forEach(item => {
             ids.forEach(data => {
               if (item.id == data) {
@@ -421,13 +431,15 @@ export class ManageContractsComponent implements OnInit {
   }
 
   signatureDateDailog(step) {
+    let userId = localStorage.getItem('user-id');
     this.spinner.show();
     let input = {
       property_collection_id: this.collectionId,
       type_of_contract: this.contract,
       beneficiary_id: this.beneficiary_ids,
       percentage: this.percent,
-      status: this.status
+      status: this.status,
+      admin_id: userId
     }
     let input1 = {
       contract_id: this.contract_id,
@@ -435,7 +447,8 @@ export class ManageContractsComponent implements OnInit {
       type_of_contract: this.contract,
       beneficiary_id: this.beneficiary_ids,
       percentage: this.percent,
-      status: 2
+      status: 1,
+      admin_id: userId
     }
     this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract', this.is_edit ? input1 : input)
       .subscribe(
@@ -462,8 +475,8 @@ export class ManageContractsComponent implements OnInit {
       .subscribe(
         success => {
           this.beneficiary_list = success['data'].beneficiary;
-          let ids = this.beneficiary_id;
           this.beneficiary_id = [];
+          let ids = this.beneficiary_id;
           this.beneficiary_list.forEach(item => {
             ids.forEach(data => {
               if (item.id == data) {
@@ -475,13 +488,15 @@ export class ManageContractsComponent implements OnInit {
   }
 
   createContract() {
+    let userId = localStorage.getItem('user-id');
     this.spinner.show();
     let input = {
       property_collection_id: this.collectionId,
       type_of_contract: this.contract,
       beneficiary_id: this.beneficiary_ids,
       percentage: this.percent,
-      status: this.status
+      status: this.status,
+      admin_id: userId
     }
     let input1 = {
       contract_id: this.contract_id,
@@ -489,7 +504,8 @@ export class ManageContractsComponent implements OnInit {
       type_of_contract: this.contract,
       beneficiary_id: this.beneficiary_ids,
       percentage: this.percent,
-      status: 2
+      status: 1,
+      admin_id: userId
     }
     this.admin.postDataApi(this.is_edit ? 'updateContract' : 'addContract', this.is_edit ? input1 : input)
       .subscribe(
@@ -580,9 +596,11 @@ export class ManageContractsComponent implements OnInit {
   }
 
   selectStatus(data, status) {
+    let userId = localStorage.getItem('user-id');
     let input = {
       contract_id: data.id,
-      status: status
+      status: status,
+      admin_id: userId
     }
     this.spinner.show();
     this.admin.postDataApi('updateContractStatus', input)
@@ -594,10 +612,12 @@ export class ManageContractsComponent implements OnInit {
   }
 
   addSignatureDate() {
+    let userId = localStorage.getItem('user-id');
     let input = {
       contract_id: this.contract_id,
-      status: 3,
-      signature_date: this.signatureDate
+      status: 2,
+      signature_date: this.signatureDate,
+      admin_id: userId
     }
     this.spinner.show();
     this.admin.postDataApi('updateContractSignature', input)
@@ -613,5 +633,20 @@ export class ManageContractsComponent implements OnInit {
     this.admin.postDataApi('country/getStates', { country_id: 9 }).subscribe(success => {
       this.parameter.states = success['data'];
     });
+  }
+
+  openStatusHistoryModel(item){
+    let input = {
+      contract_id: item.id
+    }
+    this.spinner.show();
+    this.admin.postDataApi('getContractHistory', input).subscribe(
+      success => {
+        this.history = success.data;
+        this.viewStatuHistoryModelOpen.nativeElement.click();
+        this.spinner.hide();
+      },error=>{
+        this.spinner.hide();
+      });
   }
 }
