@@ -478,7 +478,6 @@
                     <div class="table-actions">
 
                       <button (click)="this.openModalInstallment(p);" class="action-icon" 
-                      [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
                         *ngIf="parameter?.flag == 3  && p?.for_hold != 1 "
                         title="{{'table.title.generatePDF' | translate}}">
                         <img src="assets/img/commercial_pdf.png" alt="img">
@@ -486,7 +485,6 @@
 
                       <button (click)="changePop(p);" class="action-icon"
                         *ngIf="parameter?.flag == 3 && !p?.collection && p?.for_hold == 1"
-                        [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
                         title="{{'table.title.generatePDF' | translate}}">
                         <img src="assets/img/commercial_pdf.png" alt="img">
                       </button>
