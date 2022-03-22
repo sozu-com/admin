@@ -17,6 +17,7 @@ import { ApiConstants } from 'src/app/common/api-constants';
 import { Constant } from 'src/app/common/constants';
 import { forkJoin } from 'rxjs';
 import { PaymentReceiptService } from 'src/app/services/payment-receipt.service';
+import { BotturaReceiptPdfService } from 'src/app/services/bottura-receipt-pdf.service';
 declare let swal: any;
 
 @Component({
@@ -112,7 +113,8 @@ export class QuickVisualizationComponent implements OnInit {
     private translate: TranslateService,
     private toastr: ToastrService,
     private cs: CommonService,
-    private paymentReceipt: PaymentReceiptService
+    private paymentReceipt: PaymentReceiptService,
+    private botturaReceiptPdfService: BotturaReceiptPdfService
   ) { }
 
   ngOnInit(): void {
@@ -1056,7 +1058,12 @@ export class QuickVisualizationComponent implements OnInit {
       this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
         this.isApplyBtnClicked = false;
         let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
-          this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+        if(this.model.property.building_id == '1209'){
+          this.botturaReceiptPdfService.getCollectionById(undefined,this.property_collection_id, find_index, this.payment_choice_id, false);
+          }
+          else{
+            this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+          }
         if (this.surplus_payment_type) {
           input['amount'] = this.paymentAmount - this.calculatedPayAmount;
           input['type'] = this.surplus_payment_type;
@@ -1091,7 +1098,12 @@ export class QuickVisualizationComponent implements OnInit {
   callToPaymentApi(input) {
     this.isApplyBtnClicked = true;
     let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
-    this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+    if(this.model.property.building_id == '1209'){
+      this.botturaReceiptPdfService.getCollectionById(this.item,this.property_collection_id, find_index, this.paymentSelect, false);
+      }
+      else{
+        this.paymentReceipt.getCollectionById(this.item,this.property_collection_id, find_index, this.paymentSelect, false);
+      }
     this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
       this.isApplyBtnClicked = false;
       if (this.surplus_payment_type) {
@@ -1363,6 +1375,11 @@ export class QuickVisualizationComponent implements OnInit {
 
   downloadReceipt() {
     let find_index = this.paymentConcepts.findIndex(item => item.id == this.paymentSelect.id);
-    this.paymentReceipt.getCollectionById(this.item,this.property_collection_id, find_index, this.paymentSelect, true);
+    if(this.model.property.building_id == '1209'){
+    this.botturaReceiptPdfService.getCollectionById(this.item,this.property_collection_id, find_index, this.paymentSelect, true);
+    }
+    else{
+      this.paymentReceipt.getCollectionById(this.item,this.property_collection_id, find_index, this.paymentSelect, true);
+    }
   }
 }

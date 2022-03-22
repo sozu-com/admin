@@ -28,6 +28,7 @@ import { OnDestroy } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 import { PaymentReceiptService } from 'src/app/services/payment-receipt.service';
+import { BotturaReceiptPdfService } from 'src/app/services/bottura-receipt-pdf.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 declare let swal: any;
 declare var $: any;
@@ -253,6 +254,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   finish: boolean = false;
   totalPenalty = 0;
   fill: number = 0;
+  selected_collection: any;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -271,7 +273,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private price: PricePipe,
     private offerPdf: GenerateOfferPdfService,
-    private paymentReceipt: PaymentReceiptService
+    private paymentReceipt: PaymentReceiptService,
+    private botturaReceiptPdfService: BotturaReceiptPdfService
   ) {
     // this.userForm = this.fb.group({
     //   email: this.fb.array([this.fb.control(null)])
@@ -1279,6 +1282,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   showApplyPaymentPopup(item: any, i: number, type: string) {
     this.language_code = localStorage.getItem('language_code');
+    this.selected_collection = item;
     this.paymentConcepts = [];
     this.surplus_payment_type = null;
     this.payment_type = null;
@@ -1866,7 +1870,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
             }
             let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
-            this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+            if(this.selected_collection.property.building_id == '1209'){
+              this.botturaReceiptPdfService.getCollectionById(undefined,this.property_collection_id, find_index, this.payment_choice_id, false);
+              }
+              else{
+                this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+              }
             if (this.remaining_amount_collection) {
               this.collectionDetailShow = true;
               this.openCancelDetailModal.nativeElement.click();
@@ -1878,7 +1887,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             });
           }
           let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
-          this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+          if(this.selected_collection.property.building_id == '1209'){
+            this.botturaReceiptPdfService.getCollectionById(this.item,this.property_collection_id, find_index, this.payment_choice_id, false);
+            }
+            else{
+              this.paymentReceipt.getCollectionById(this.item,this.property_collection_id, find_index, this.payment_choice_id, false);
+            }
           if (!this.remaining_amount_collection) {
             this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
           }
@@ -2116,7 +2130,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
           }
           let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
-          this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+          if(this.selected_collection.property.building_id == '1209'){
+            this.botturaReceiptPdfService.getCollectionById(undefined,this.property_collection_id, find_index, this.payment_choice_id, false);
+            }
+            else{
+              this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+            }
           this.admin.postDataApi(url, input).subscribe(r => {
             // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
             //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
@@ -2124,7 +2143,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           });
         }
         let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
-        this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+        if(this.selected_collection.property.building_id == '1209'){
+          this.botturaReceiptPdfService.getCollectionById(undefined,this.property_collection_id, find_index, this.payment_choice_id, false);
+          }
+          else{
+            this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+          }
         this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
         this.paymentModalClose.nativeElement.click();
         this.closeCollReceiptModal();
@@ -2164,7 +2188,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
         }
         let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
-        this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+        if(this.selected_collection.property.building_id == '1209'){
+          this.botturaReceiptPdfService.getCollectionById(this.item,this.property_collection_id, find_index, this.payment_choice_id, false);
+          }
+          else{
+            this.paymentReceipt.getCollectionById(this.item,this.property_collection_id, find_index, this.payment_choice_id, false);
+          }
         this.admin.postDataApi(url, input).subscribe(r => {
           // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
           //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
@@ -2172,7 +2201,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         });
       }
       let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
-      this.paymentReceipt.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
+      if(this.selected_collection.property.building_id == '1209'){
+        this.botturaReceiptPdfService.getCollectionById(this.item,this.property_collection_id, find_index, this.payment_choice_id, false);
+        }
+        else{
+          this.paymentReceipt.getCollectionById(this.item,this.property_collection_id, find_index, this.payment_choice_id, false);
+        }
       this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
       this.paymentModalClose.nativeElement.click();
       this.closeCollReceiptModal();
@@ -3745,32 +3779,36 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                   headerRows: 1,
                   widths: ['auto', 'auto'],
                   body: [
-                    [
-                      { text: this.translate.instant('generatePDF.bankDetails'), border: [false, false, false, false], bold: true, fontSize: 16 },
-                      { text: '', border: [false, false, false, false] }
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].bank_name ? this.paymentBankDetailsArray[bank_index].bank_name : 'N/A', border: [false, false, false, false], bold: true }
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.accountInNameOf'), border: [false, false, false, false], color: '#858291' },
-                      {
-                        text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].legal_name ? this.paymentBankDetailsArray[bank_index].legal_name : 'N/A', border: [false, false, false, false], bold: true
-                      },
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].bank_name && this.fedTaxPayer ? this.fedTaxPayer : 'N/A', border: [false, false, false, false], bold: true },
-                    ],
-                    [
-                      { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].account_number ? this.paymentBankDetailsArray[bank_index].account_number : 'N/A', border: [false, false, false, false], bold: true }
-                    ],
+                     [
+                       { text: this.translate.instant('generatePDF.bankDetails'), border: [false, false, false, false], bold: true, fontSize: 16 },
+                       { text: '', border: [false, false, false, false] }
+                     ],
+                    // [
+                    //   { text: this.translate.instant('generatePDF.bank'), border: [false, false, false, false], color: '#858291' },
+                    //   { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].bank_name ? this.paymentBankDetailsArray[bank_index].bank_name : 'N/A', border: [false, false, false, false], bold: true }
+                    // ],
+                    // [
+                    //   { text: this.translate.instant('generatePDF.accountInNameOf'), border: [false, false, false, false], color: '#858291' },
+                    //   {
+                    //     text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].legal_name ? this.paymentBankDetailsArray[bank_index].legal_name : 'N/A', border: [false, false, false, false], bold: true
+                    //   },
+                    // ],
+                    // [
+                    //   { text: this.translate.instant('generatePDF.federalTaxPayer'), border: [false, false, false, false], color: '#858291' },
+                    //   { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].bank_name && this.fedTaxPayer ? this.fedTaxPayer : 'N/A', border: [false, false, false, false], bold: true },
+                    // ],
+                    // [
+                    //   { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
+                    //   { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].account_number ? this.paymentBankDetailsArray[bank_index].account_number : 'N/A', border: [false, false, false, false], bold: true }
+                    // ],
                     [
                       { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
                       { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].swift ? this.paymentBankDetailsArray[bank_index].swift : 'N/A', border: [false, false, false, false], bold: true }
                     ],
+                    [
+                      { text: this.translate.instant('generatePDF.bankReference'), border: [false, false, false, false], color: '#858291' },
+                      { text: this.collection_data.bank_reference_id ? this.collection_data.bank_reference_id : 'N/A', border: [false, false, false, false], bold: true }
+                    ]
                   ],
                 }
               }
@@ -3859,7 +3897,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                 { text: ' ' + this.translate.instant('generatePDF.contactUS3'), bold: true },
                 { text: '\n' + this.translate.instant('generatePDF.contactUS4'), color: '#858291' },
               ],
-              margin: [20, 20, 0, 0]
+              margin: [20, 20, 40, 0]
             }
           ]
         ]
@@ -3971,18 +4009,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         }
       });
     }
-    // this.collection_payments.forEach(element => {
-    //   docDefinition.content[1].columns[0][4].table.body.push([
-    //     { text: element.name_en + ':', border: [false, false, false, false], color: '#858291' },
-    //     { text: element.total_amount? this.price.transform(Number(element.total_amount).toFixed(2)) : 'N/A', border: [false, false, false, false], bold: true }
-    //   ])
-    // });
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.accountStatments') + ' ' + current_date.toISOString() + '.pdf');
-    // }else if(action === 'print'){
-    //   pdfMake.createPdf(docDefinition).print();
-    // }else{
-    //   pdfMake.createPdf(docDefinition).open();
-    // }
   }
 
   get buyerDocumentationFoldersDetailsLength(): number {
@@ -4020,7 +4047,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   getOfferPdf() {
-    this.offerPdf.offerID(this.property_offer_id);
+    this.offerPdf.offerID(this.property_offer_id, 7);
   }
 
   ngOnDestroy(): void {
