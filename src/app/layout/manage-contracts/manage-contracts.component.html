@@ -133,6 +133,11 @@
                     <label>{{'table.th.status' | translate}}</label>
                   </div>
                 </th>
+                <th style="width:15%" *ngIf="selectedColumnsToShow?.status">
+                  <div class="table-search">
+                    <label>{{'table.th.statusHistory' | translate}}</label>
+                  </div>
+                </th>
                 <th style="vertical-align:top;width:100px;width:20%" *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
@@ -168,24 +173,28 @@
                 </td>
                 <td *ngIf="selectedColumnsToShow?.status">
                   <select class="cursor-pointer" (change)="selectStatus(p, $event.target.value)">
-                  <option [selected]="p.status==1" value="1">{{'contract.draft' | translate}}</option>
-                  <option [selected]="p.status==2" value="2">{{'contract.inComplete' | translate}}</option>
-                  <option [selected]="p.status==3" value="3">{{'contract.forReview' | translate}}</option>
-                  <option [selected]="p.status==4" value="4">{{'contract.readyToBeValidated' | translate}}</option>
-                  <option [selected]="p.status==5" value="5">{{'contract.validatedByLegal' | translate}}</option>
-                  <option [selected]="p.status==6" value="6">{{'contract.signed' | translate}}</option>
+                  <option [selected]="p.status==1" value="1" disabled>{{'contract.draft' | translate}}</option>
+                  <option [selected]="p.status==2" value="2" disabled>{{'contract.inRevision' | translate}}</option>
+                  <option [selected]="p.status==3" value="3" [disabled]="p.status!=2">{{'contract.validatedByCommercial' | translate}}</option>
+                  <option [selected]="p.status==4" value="4" [disabled]="p.status!=3">{{'contract.validatedByLegal' | translate}}</option>
+                  <option [selected]="p.status==5" value="5" [disabled]="p.status!=4">{{'contract.readyForSignature' | translate}}</option>
+                  <option [selected]="p.status==6" value="6" [disabled]="p.status!=5">{{'contract.signed' | translate}}</option>
+                  <option [selected]="p.status==9" value="9" [disabled]="p.status!=6">{{'contract.canceled' | translate}}</option>
                 </select>
                 </td>
+                <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(p)">
+                  <span>{{'table.tr.td.view' | translate}}</span>
+              </td>
                 <td *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-actions">
                     <!-- <div class="message"> -->
                     <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_update==0"
                     (click)="editContract(p)"
-                      title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                      title="{{'table.title.editDetails' | translate}}" class="action-icon" *ngIf="p.status!=9"><img
                         src="assets/img/edit.png" alt="img"></button>
                     <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_read==0"
                     (click)="downloadContract(p)"
-                      title="{{'table.title.download' | translate}}" class="action-icon">
+                      title="{{'table.title.download' | translate}}" class="action-icon"  *ngIf="p.status!=9">
                       <i class="fa fa-download" aria-hidden="true"></i>
                     </button>
                     <!-- delete project -->
@@ -770,7 +779,7 @@
             </div>
             <div class="col-12">
               <input class="form-control" class="is_commission_sale_enabled" type="text" name="final_price"
-                [(ngModel)]="searched_collection.property.final_price" style="width:78%;height:70%;" readonly>
+                value="{{searched_collection.property.final_price | price}}" style="width:78%;height:70%;" readonly price>
             </div>
           </div>
           <div class="row" style="margin-top: 25px;">
@@ -795,7 +804,7 @@
             </div>
             <div class="col-12">
               <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_layaway_amount"
-                [(ngModel)]="concept_layaway.amount" style="width:78%;height:70%;" readonly>
+              value="{{concept_layaway.amount | price}}" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -806,7 +815,7 @@
             </div>
             <div class="col-12">
               <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_downpayment_amount"
-                [(ngModel)]="concept_downpayment.amount" style="width:78%;height:70%;" readonly>
+              value="{{concept_downpayment.amount | price}}" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -828,7 +837,7 @@
             </div>
             <div class="col-12">
               <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_monthly_amount"
-                [(ngModel)]="concept_monthly.amount" style="width:78%;height:70%;" readonly>
+              value="{{concept_monthly.amount | price}}" style="width:78%;height:70%;" readonly>
             </div>
             <div class="col-12">
               <label class="p16-two">
@@ -861,7 +870,7 @@
             </div>
             <div class="col-12">
               <input class="form-control" class="is_commission_sale_enabled" type="text" name="concept_payment_amount"
-                [(ngModel)]="concept_payment.amount" style="width:78%;height:70%;" readonly>
+              value="{{concept_payment.amount | price}}" style="width:78%;height:70%;" readonly>
             </div>
           </div>
           <div class="row" style="margin-top: 25px;">
@@ -954,4 +963,47 @@
       </div>
     </div>
   </div>
+</div>
+
+<a #viewStatuHistoryModelOpen class="btn-third btn btn-block" data-target="#view-status-history" data-toggle="modal"
+    style="display: none;"></a>
+<div class="modal" id="view-status-history">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #viewStatuHistoryModelClose>&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>{{'contract.contractStatusHistory' | translate}}</h3>
+                <hr>
+                <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 wn-block"
+                            *ngFor="let item of history; let in=index">
+                            <div class="circle">
+                                <span></span>
+                            </div>
+                            <p class="time">{{item.admin_info.name}} {{item.admin_info.first_surname || ''}}
+                                {{item.admin_info.second_surname || ''}}</p>
+                            <pre class="p13"
+                                style="margin-bottom: 0px;color: rgba(0,0,0,0.5);font-size: 12px;">{{item.created_at | chatTime: 'YYYY-MM-DD H:m:s': 2}}</pre>
+                            <pre
+                                class="p13">{{item.type == 1 ? (('contract.contractIn' | translate) + ' ' + ('contract.draft' | translate)) : item.type == 2 ? 
+                                (('contract.contractIn' | translate) + ' ' + ('contract.inRevision' | translate)) : item.type == 3 ? 
+                                (('contract.contractIn' | translate) + ' ' + ('contract.validatedByCommercial' | translate)) : item.type == 4 ? 
+                                (('contract.contractIn' | translate) + ' ' + ('contract.validatedByLegal' | translate)) : item.type == 5 ? 
+                                (('contract.contractIn' | translate) + ' ' + ('contract.readyForSignature' | translate)) : item.type == 6 ? 
+                                (('contract.contractIn' | translate) + ' ' + ('contract.signed' | translate)) : item.type == 8 ? 
+                                (('contract.createContract' | translate)) : item.type == 9 ? 
+                                (('contract.contractIn' | translate) + ' ' + ('contract.canceled' | translate)) : ''}}</pre>
+                        </div>
+                        <div class="col-12" style="font-size: 18px;text-align: center;margin-top: 33%;"
+                            *ngIf="!history || history.length == 0">
+                            <pre>{{'contract.noContractStatusHistoryAavailable' | translate}}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
