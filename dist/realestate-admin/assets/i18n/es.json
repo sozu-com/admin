@@ -4278,7 +4278,7 @@
     "beneficiary":"Beneficiario",
     "percent":"Percent% (Por Beneficiario)",
     "selectDate":"Seleccionar fecha",
-    "draft": "borrador",
+    "draft": "Borrador",
     "inComplete": "En completo",
     "forReview": "Para la revisión",
     "readyToBeValidated": "Listo para ser validado",
@@ -4286,6 +4286,14 @@
     "signed": "Firmado",
     "other": "INE",
     "passport": "Pasaporte",
-    "ine": "INE"
+    "ine": "INE",
+    "inRevision": "En revision",
+    "validatedByCommercial": "Validado por comercial",
+    "readyForSignature": "Listo para firma",
+    "canceled": "Canceled",
+    "contractStatusHistory": "Historial de estado del contrato",
+    "noContractStatusHistoryAavailable" : "No hay historial de estado de contrato disponible",
+    "contractIn": "Poner contrato en",
+    "createContract": "Crear contrato"
   }
 }

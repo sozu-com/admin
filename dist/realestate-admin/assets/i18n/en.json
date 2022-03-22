@@ -4296,6 +4296,14 @@
     "signed": "Signed",
     "other": "Other",
     "passport": "Passport",
-    "ine": "INE"
+    "ine": "INE",
+    "inRevision": "In revision",
+    "validatedByCommercial": "Validated by commercial",
+    "readyForSignature": "Ready for signature",
+    "canceled": "Canceled",
+    "contractStatusHistory": "Contract Status History",
+    "noContractStatusHistoryAavailable" : "No contract status history available",
+    "contractIn": "Put contract in",
+    "createContract": "create Contract"
   }
 }
