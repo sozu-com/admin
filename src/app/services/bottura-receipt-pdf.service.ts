@@ -110,7 +110,7 @@ export class BotturaReceiptPdfService {
               margin: [0, 10, 0, 0]
             }
           ],
-          margin: [0, 20, 0, 0] 
+          margin: [0, 15, 0, 0] 
         },
         {
           columns: [
@@ -120,7 +120,7 @@ export class BotturaReceiptPdfService {
             { text: (this.payment.amount ? (' (' + conver.NumerosALetras(this.payment.amount) + ')') : "N/A"), bold: true, fontSize: 11 },
             ]}
           ],
-          margin: [0, 20, 0, 0]
+          margin: [0, 15, 0, 0]
         },
         {
           columns: [
@@ -139,57 +139,86 @@ export class BotturaReceiptPdfService {
             { text: ' por concepto de depósito en garantía de cumplimiento de conformidad que tiene como objetivo la gestión para la adquisición de una unidad condominal del desarrollo inmobiliario BOTTURA, al efecto de adquirir siguiente la unidad condominal, cuyas características serán: ', fontSize: 11 },
             ]}
           ],
-          margin: [0, 20, 0, 0]
+          margin: [0, 15, 0, 15]
         }, 
         {
           columns: [
             { text: [
-            { text: '    1. Unidad condominal: ', fontSize: 11, margin: [20, 0, 0, 0] },
-            { text: this.collection_data.property.name + '\n', bold: true, fontSize: 11 },
-            { text: '    2. Metros estimados: ', fontSize: 11, margin: [20, 0, 0, 0] },
+              { text: '1.', fontSize: 11, alignment: 'center' },
+            ],
+            width: 30,
+            margin: [10, 0, 0, 0]
+          },
+          { text:[
+            { text: 'Unidad condominal: ', fontSize: 11 },
+            { text: this.collection_data.property.name, bold: true, fontSize: 11 },
+          ]}
+          ]
+        },
+        {
+          columns: [
+            { text: [
+              { text: '2.', fontSize: 11, alignment: 'center' },
+            ],
+            width: 30,
+            margin: [10, 0, 0, 0]
+          },
+            { text:[
+            { text: 'Metros estimados: ', fontSize: 11 },
             { text: this.collection_data.property.max_area, bold: true, fontSize: 11 },
             { text: ' m2 ', fontSize: 11 },
             { text: (this.collection_data.property.max_area ? (' (' + conver.NumerosALetras( this.collection_data.property.max_area) + ' metros cuadrados ) ').replace('Pesos','') : " (N/A)"), bold: true, fontSize: 11 },
-            { text: '\n' + '    3. Monto total de depósito en garantía de cumplimiento al que se compromete el/la Señor/a ', fontSize: 11, margin: [20, 0, 0, 0] },
+            ]}
+          ]
+      },
+      {
+        columns: [
+          { text: [
+            { text: '3.', fontSize: 11, alignment: 'center' },
+          ],
+          width: 30,
+          margin: [10, 0, 0, 0]
+        },
+        { text:[
+            { text: 'Monto total de depósito en garantía de cumplimiento al que se compromete el/la Señor/a ', fontSize: 11 },
             { text: buyer_name + ': ', bold: true, fontSize: 11 },
             { text: this.collection_data.final_price ? this.price.transform(this.collection_data.final_price) : 0, bold: true, fontSize: 11 },
             { text: (this.collection_data.final_price ? (' (' + conver.NumerosALetras(this.collection_data.final_price) + ')') : "N/A"), bold: true, fontSize: 11 },
-            ]}
+          ]}
           ],
-          margin: [0, 20, 0, 0]
         },
         this.payment_concept.category_name == 'Layaway Payment' ? 
         {
           columns: [
             { text: 'La cantidad recibida en concepto de apartado será devuelta íntegramente en el evento de que la propuesta presentada, no sea aceptada por parte del desarrollador inmobiliario y/o el cliente no pueda cumplir con la obligación del primer deposito en garantía de cumplimiento.', fontSize: 11 }
           ],
-          margin: [0, 25, 0, 0]
+          margin: [0, 15, 0, 0]
         } : 
         {
           columns: [
             { text: 'La cantidad aquí entregada y recibida será aplicada al depósito en garantía de cumplimiento, al momento de la celebración del contrato de promesa de compraventa.', fontSize: 11 }
           ],
-          margin: [0, 25, 0, 0]
+          margin: [0, 15, 0, 0]
         },
         this.payment_concept.category_name == 'Layaway Payment' ? 
         {
           columns: [
             { text: 'En el evento de que la propuesta señalada sea aceptada por el desarrollador inmobiliario, la cantidad aquí entregada y recibida será aplicada al primer depósito en garantía, al momento de la celebración del contrato de promesa de compraventa.', fontSize: 11 }
           ],
-          margin: [0, 20, 0, 0]
+          margin: [0, 15, 0, 0]
         } :
         {
           columns: [
             { text: 'Será obligación de la empresa mantener debidamente informado al aportante de la forma y términos en los que se lleve a cabo la gestión la adquisición de una unidad condominal del desarrollo inmobiliario BOTTURA.', fontSize: 11 }
           ],
-          margin: [0, 20, 0, 0]
+          margin: [0, 15, 0, 0]
         },
         this.payment_concept.category_name == 'Layaway Payment' ? 
         {
           columns: [
             { text: 'Será obligación de la empresa mantener debidamente informado al aportante de la forma y términos en los que se lleve a cabo la gestión la adquisición de una unidad condominal del desarrollo inmobiliario BOTTURA. ', fontSize: 11 }
           ],
-          margin: [0, 20, 0, 0]
+          margin: [0, 15, 0, 0]
         } : 
         {
           columns: [
