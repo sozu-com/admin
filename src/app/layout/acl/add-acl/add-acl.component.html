@@ -94,8 +94,7 @@
                   <div>
                   <label class="cust-radio" *ngFor="let user of predefinedUsers; let ii=index">
                     <input type="checkbox" (change)="setPredefinedUsers(user, !user.value, ii)"
-                      [value]="user.value" [checked]="user.value ? 'checked' : ''"
-                      name="user_id">
+                      [value]="user.value" [checked]="user.value ? 'checked' : ''" name="user_id">
                     <span class="checkmark">{{user.title}}</span>
                   </label>       
                 </div>
@@ -250,14 +249,14 @@
               </div>
                 
                 <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_acl; let i=index">
-                  <label *ngIf="!permission_show" class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1}">{{permission?.acl?.name}}
+                  <label *ngIf="permission_all" class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1}">{{permission?.acl?.name}}
                     <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1 ? 'checked': ''">
                     <span class="checkmark"></span>
                     </label>
                
 
                 <div class="clearfix"></div>
-                <div *ngIf="permission.show && !permission_show" id="broker-seller-dev" class="inner-select">
+                <div *ngIf="permission.show && permission_all" id="broker-seller-dev" class="inner-select">
                   <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">{{'addForm.canCreate' | translate}}
                       <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''"  (click)="setPermission('can_create', i)">
                       <span class="checkmark"></span>
