@@ -36,6 +36,7 @@ export class AddAclComponent implements OnInit {
   disabledBuildings = [];
   seenDuplicate = false;
   permission_show = false;
+  permission_all = false;
   testObject = [];
   agencies: Array<Agency>;
   predefinedUsers: Array<any>;
@@ -152,7 +153,7 @@ export class AddAclComponent implements OnInit {
             e.acl_id = element.id; e.acl = acl; e.show = false;
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_purge = 1; e.can_crud = 1;
             this.model.admin_acl.push(e);
-            console.log(this.model.admin_acl, "checkkkkkkaccccc");
+            this.model.admin_estend.push(e);
           });
         }, error => {
           this.spinner.hide();
@@ -162,6 +163,7 @@ export class AddAclComponent implements OnInit {
   expandBox(index: any) {
     console.log(index, "select_index");
     this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
+    this.model.admin_estend[index].show = this.model.admin_estend[index].show === true ? false : true;
   }
 
   setPermission(param: any, index: any) {
@@ -172,12 +174,26 @@ export class AddAclComponent implements OnInit {
       this.model.admin_acl[index]['can_delete'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_purge'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
+      //another
+      this.model.admin_estend[index]['can_create'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      this.model.admin_estend[index]['can_read'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      this.model.admin_estend[index]['can_update'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      this.model.admin_estend[index]['can_delete'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      this.model.admin_estend[index]['can_purge'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      this.model.admin_estend[index]['can_crud'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
     } else {
       this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
         this.model.admin_acl[index][param] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_create'] === 1 &&
         this.model.admin_acl[index]['can_read'] === 1 && this.model.admin_acl[index]['can_update'] === 1 &&
         this.model.admin_acl[index]['can_delete'] === 1 && this.model.admin_acl[index]['can_purge'] === 1 ? 1 : 0;
+
+      //another
+      this.model.admin_estend[index][param] = this.model.admin_estend[index][param] &&
+        this.model.admin_estend[index][param] === 1 ? 0 : 1;
+      this.model.admin_estend[index]['can_crud'] = this.model.admin_estend[index]['can_create'] === 1 &&
+        this.model.admin_estend[index]['can_read'] === 1 && this.model.admin_estend[index]['can_update'] === 1 &&
+        this.model.admin_estend[index]['can_delete'] === 1 && this.model.admin_estend[index]['can_purge'] === 1 ? 1 : 0;
     }
   }
 
@@ -251,8 +267,11 @@ export class AddAclComponent implements OnInit {
       input.append('branches', JSON.stringify([]));
     }
     if (this.model.image) { input.append('image', this.model.image); }
-
+    // console.log(this.model.admin_acl, "this.model.admin_acl");
+    // console.log(this.model.admin_estend, "this.model.admin_estend");
     input.append('admin_acl', JSON.stringify(this.model.admin_acl));
+
+    //input.append('admin_acl', JSON.stringify(this.model.admin_estend));
     // checking if locality is same or not
     this.model.address.map((item) => {
       let value = item['buildings'];
@@ -336,6 +355,7 @@ export class AddAclComponent implements OnInit {
       this.spinner.hide();
       const userdata = r['data'];
       this.model.adminAcls = userdata.admin_acls;
+      console.log(this.model.adminAcls, "this.model.adminAcls");
       if (data == 'update') {
         this.admin.setUser(userdata.admin_acls);
       }
@@ -419,8 +439,10 @@ export class AddAclComponent implements OnInit {
 
       if (this.model.is_external_agent == '1') {
         this.permission_show = true;
+        this.permission_all = false;
       } else {
         this.permission_show = false;
+        this.permission_all = true;
       }
       if (this.permission_show) {
         for (let index = 0; index < userdata.admin_acls.length; index++) {
@@ -435,13 +457,19 @@ export class AddAclComponent implements OnInit {
               } else {
                 this.model.admin_estend = newArray;
               }
+              element.can_create = element.can_create || 0,
+                element.can_delete = element.can_delete || 0,
+                element.can_update = element.can_update || 0,
+                element.can_read = element.can_read || 0,
+                element.can_crud = element.can_crud || 0,
+                element.can_purge = element.can_purge || 0;
               //this.model.admin_estend.push(element);
-              element.can_create = 0,
-                element.can_delete = 0,
-                element.can_update = 0,
-                element.can_read = 1,
-                element.can_crud = 0,
-                element.can_purge = 0;
+              // element.can_create = 0,
+              //   element.can_delete = 0,
+              //   element.can_update = 0,
+              //   element.can_read = 1,
+              //   element.can_crud = 0,
+              //   element.can_purge = 0;
             }
           } else {
             this.permission_show = false;
@@ -453,8 +481,9 @@ export class AddAclComponent implements OnInit {
               element.can_purge = element.can_purge || 0;
           }
         }
-      } else {
+      } else if (this.permission_all) {
         this.model.admin_acl = userdata.admin_acls;
+        this.model.admin_estend = userdata.admin_acls;
       }
 
       this.setUserType(userdata.user_type);
@@ -774,7 +803,7 @@ export class AddAclComponent implements OnInit {
         {
           title: this.translate.instant('addForm.outSideAgent'),
           key: 'is_external_agent',
-          value: this.model.is_external_agent == true
+          value: this.model.is_external_agent === true
         }, {
           title: this.translate.instant('addForm.CSRSeller'),
           key: 'is_broker_seller_dev',
@@ -849,30 +878,47 @@ export class AddAclComponent implements OnInit {
   }
 
   setPredefinedUsers(item, value, i: number) {
-    console.log(item, value, "abcabc");
-    if (item.key == "is_external_agent" && value == true) {
-      for (let index = 0; index < this.model.adminAcls.length; index++) {
-        const element = this.model.adminAcls[index];
-        if (element.acl.name == 'Properties For Sale Management') {
-          this.permission_show = true;
-          let newArray = [];
-          newArray.push(element);
-          if (newArray.length > 1) {
-            this.model.admin_estend = newArray[0];
-          } else {
-            this.model.admin_estend = newArray;
+    console.log(value, "abcabc");
+    console.log(this.predefinedUsers[i].value, "this.predefinedUsers[i].value");
+    if (item.title === "Outside Agent" && item.key === "is_external_agent" && value === true) {
+
+      if (item.title == 'CSR Buyer' || item.title == 'CSR Renter' || item.title == 'Inhouse Agent' || item.title == 'Data Collector' || item.title == 'CSR Seller' || item.title == 'CSR Closure' || item.title == 'Collection Agent' || item.title == 'Credit Agent' || item.title == 'Alliance Agent' || item.title == 'Cordinator Agent' || item.title == 'Manage Commissions' || item.title == 'CSR Coordinator' || item.title == 'Credit Coordinator' || item.title == 'Content Creator' || item.title == 'Contract Validator' || item.title == 'Contract Agent') {
+        this.permission_show = false;
+        this.permission_all = true;
+        this.model.admin_acl = this.model.adminAcls;
+
+      } else {
+
+        for (let index = 0; index < this.model.adminAcls.length; index++) {
+          const element = this.model.adminAcls[index];
+          if (element.acl.name == 'Properties For Sale Management') {
+            this.permission_all = false;
+            this.permission_show = true;
+            let newArray = [];
+            newArray.push(element);
+            if (newArray.length > 1) {
+              this.model.admin_estend = newArray[0];
+              console.log(this.model.admin_estend, "true");
+            } else {
+              this.model.admin_estend = newArray;
+              console.log(this.model.admin_estend, "ture");
+            }
+            element.can_create = 0,
+              element.can_delete = 0,
+              element.can_update = 0,
+              element.can_read = 1,
+              element.can_crud = 0,
+              element.can_purge = 0;
           }
-          element.can_create = 0,
-            element.can_delete = 0,
-            element.can_update = 0,
-            element.can_read = 1,
-            element.can_crud = 0,
-            element.can_purge = 0;
         }
+
       }
     } else {
+      this.permission_show = false;
+      this.permission_all = true;
       this.model.admin_acl = this.model.adminAcls;
     }
+
     if (this.model.id && !value && (item.title == 'CSR Buyer' || item.title == 'CSR Seller' || item.title == 'Inhouse Agent')) {
       let input = {
         all: 0,
