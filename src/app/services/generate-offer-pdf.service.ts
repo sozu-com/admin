@@ -28,6 +28,8 @@ export class GenerateOfferPdfService {
   is_for_Offer: boolean;
   fullName: string;3
   public parkingSpaceLotsArray: any[] = [];
+  property_count: any;
+  offer: any;
   
   constructor(
     private translate: TranslateService,
@@ -120,34 +122,38 @@ export class GenerateOfferPdfService {
     });
   }
 
-  offerID(item){
-    this.offer_id = item.random_id;
+  offerID(item, propertyDetails){
+    this.offer = item;
+    this.property_array = propertyDetails;
     this.spinner.show();
-    this.admin.postDataApi('getOfferById', { id: (item || {}).id }).subscribe((success) => {
+    this.admin.postDataApi('getBuildingOfferInfo', { property_id: propertyDetails.id}).subscribe((success) => {
       this.spinner.hide();
       this.offer_array = (success || {}).data;
-      if(this.offer_array.id){
-         this.openModaloffer(this.offer_array);
-      }
+      this.property_count = (success || {}).property_count
+      // if(this.offer_array.id){
+         //this.openModaloffer(property_id);
+         this.generatePDF1();
+      // }
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
   }
 
-  openModaloffer = (propertyDetails: any): void => {
+  openModaloffer = (property_id): void => {
     // (propertyDetails.property_offer_payment || []).forEach(e => {
     //   this.property_offer_payment = e;
     //  });
-    this.property_array = propertyDetails;
+    this.property_array = property_id;
     this.spinner.show();
-    this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
+    this.admin.postDataApi('getPropertyDetails', { id: property_id }).subscribe((success) => {
       this.bankDetails = (success || {}).data;
-     let index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
-      this.makePaymentBankDetailsArray(this.property_array.property_offer_payment[index].account_type == 1 ? false : true);
+     //let index = this.property_array.property_offer_payment.findIndex(x=> x.random_id == this.offer_id);
+     // this.makePaymentBankDetailsArray(this.property_array.property_offer_payment[index].account_type == 1 ? false : true);
     this.getParkingSpaceLots(((success || {}).data || {}).building_id);
-      this.is_for_Offer = true;
-      this.getBase64ImageFromUrl(this.property_array.id);
+     // this.is_for_Offer = true;
+      //this.getBase64ImageFromUrl(this.property_array.id);
+      //this.generatePDF1()
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -496,5 +502,572 @@ export class GenerateOfferPdfService {
     // }else{
     //   pdfMake.createPdf(docDefinition).open();
     // }
+  }
+
+  generatePDF1() {
+    let current_date = new Date();
+    let buyer_name =  this.property_array.selected_buyer && this.property_array.selected_buyer.user.legal_entity ?  this.property_array.selected_buyer.user.legal_entity.comm_name : this.property_array.selected_buyer && !this.property_array.selected_buyer.legal_entity ? 
+    this.property_array.selected_buyer.user.name + ' ' + this.property_array.selected_buyer.user.first_surname + ' ' +  this.property_array.selected_buyer.user.second_surname : 'N/A';
+    let seller_name =  this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity ?  this.property_array.selected_seller.user.legal_entity.comm_name : this.property_array.selected_seller && !this.property_array.selected_seller.legal_entity ? 
+    this.property_array.selected_seller.user.name + ' ' + this.property_array.selected_seller.user.first_surname + ' ' +  this.property_array.selected_seller.user.second_surname : 'N/A';
+    let date = this.datePipe.transform(current_date, 'd/M/y');
+    let docDefinition = {
+      pageSize: {
+        width: 690,
+        height: 980
+      },
+      content: [
+        {
+          columns: [
+            {
+              image: this.logoImageBase64,
+              width: 100
+            },
+            {
+              text:'',
+              margin: [80, 0, 0, 0],
+            },
+            {
+              table: {
+                headerRows: 1,
+                widths: [120, 80],
+                body: [
+                  [
+                    { text: 'Guadalajara, Jalisco, México', colSpan: 2, border: [false, false, false, false], fontSize: 10, alignment: 'center' },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Fecha de expedición:', border: [false, false, false, false], fontSize: 10 },
+                    { text: date, border: [false, false, false, false], fontSize: 11 }
+                  ],
+                  [
+                    { text: 'ID de oferta comercial:', border: [false, false, false, false], fontSize: 10 },
+                    { text: this.offer.random_id, border: [false, false, false, false], fontSize: 10 }
+                  ],
+                ],
+              }               
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              style: 'table1',
+              table: {
+                headerRows: 1,
+                widths: [120, 80, 70, 80, 208],
+                body: [
+                  [
+                    { text: 'Datos de la propiedad', bold: true, colSpan: 4, border: [false, false, false, false], fontSize: 11 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Torre:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: this.property_array.building_towers ? this.property_array.building_towers.tower_name : 'N/A', border: [false, false, false, false], fontSize: 10 },
+                    { text: 'Precio de lista:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Piso:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: this.property_array.floor_num == 0 ? 'Gound Floor' : this.property_array.floor_num > 0 ? this.property_array.floor_num + ' Floor' : 'N?A', 
+                     border: [false, false, false, false], fontSize: 10 },
+                    { text: 'Precio m2:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: this.price.transform(Number(this.property_array.avgg_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Modelo:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: this.property_array.building_configuration ? this.property_array.building_configuration.name : 'N/A', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'N° de propiedad:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: this.property_count, border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Lugares estacionamiento:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: this.property_array.parking_count || this.property_array.parking_for_sale ? this.property_array.parking_count + this.property_array.parking_for_sale : '0', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Área:', bold: true, border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: this.property_array.max_area || 'N/A', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 }
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        },
+        {
+          columns: [
+            { text: 'Formas de pago', bold: true, fontSize: 11, margin: [5, 5, 0, 10] },
+          ]
+        },
+        {
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [90, 160, 30 ,90, 160, 20],
+                body: [
+                  [
+                    { text: 'Datos del vendedor', bold: true, colSpan: 2, border: [false, true, false, false], fontSize: 11, margin: [0, 10, 0, 10] },
+                    { text: '', border: [false, true, false, false], fontSize: 10 },
+                    { text: '', border: [false, true, false, false], fontSize: 10 },
+                    { text: 'Datos del cliente',bold: true , colSpan: 2, border: [false, true, false, false], fontSize: 11, margin: [0, 10, 0, 10] },
+                    { text: '', border: [false, true, false, false], fontSize: 10 },
+                    { text: '', border: [false, true, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Nombre completo:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: seller_name, border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: 'Nombre completo:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: buyer_name, border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Teléfono:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: this.property_array.selected_seller && this.property_array.selected_seller.user.phone ? this.property_array.selected_seller.user.dial_code + ' ' + this.property_array.selected_seller.user.phone : 'N/A', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: 'Teléfono:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text:  this.property_array.selected_buyer && this.property_array.selected_buyer.user.phone ? this.property_array.selected_buyer.user.dial_code + ' ' + this.property_array.selected_buyer.user.phone : 'N/A', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Correo electrónico:', bold: true, border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: this.property_array.selected_seller && this.property_array.selected_seller.user.email ? this.property_array.selected_seller.user.email : 'N/A', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: 'Correo electrónico:', bold: true , border: [false, false, false, true], fontSize: 10 },
+                    { text:  this.property_array.selected_buyer && this.property_array.selected_buyer.user.email ? this.property_array.selected_buyer.user.email : 'N/A', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] }
+                  ],
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [80, 120, 80 ,140, 137],
+                body: [
+                  [
+                    { text: 'Datos bancarios', bold: true, colSpan: 2  , border: [false, false, false, false], fontSize: 11, margin: [0, 10, 0, 10] },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', colSpan: 2  , border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: 'XXXXXXXXXXXX', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: 'XXXXXXXXXXXXXX', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: 'XXXXXXXXXXX', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: 'XXXXXXXXXXXXXXXXXX', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 }
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [400],
+                body: [
+                  [
+                    { text: 'Comentarios', bold: true, border: [false, false, false, false], fontSize: 11, margin: [0, 10, 0, 10] }
+                  ],
+                  [
+                    { text: this.offer.note ? this.offer.note : '', border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 20] }
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        }
+      ],
+      styles: {
+        table1: {
+          margin: [0, 25, 0, 0]
+        }
+      }
+    }
+
+    for(let i = 1; i <= Math.round(this.offer_array.length / 2); i++ ){
+      if(this.offer_array.length == 1){
+        let price = this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - i].discount) * this.property_array.min_price) / 100;
+      docDefinition.content.splice(3, 0,
+        {
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [100, 100],
+                body: [
+                  [
+                    { text: this.offer_array[this.offer_array.length - i].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Precio con descuento:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - i].discount ? this.price.transform(Number(this.property_array.min_price - ((Number(this.offer_array[this.offer_array.length - i].discount) * this.property_array.min_price) / 100)).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Ahorro:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - i].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - i].discount) * this.property_array.min_price) / 100).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Enganche:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - i].downpayment ? this.offer_array[this.offer_array.length - i].downpayment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - i].discount) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Durante la obra:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - i].monthly_installment ? this.offer_array[this.offer_array.length - i].monthly_installment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - i].monthly_installment) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: this.offer_array[this.offer_array.length - i].number_monthly_payments ? this.offer_array[this.offer_array.length - i].number_monthly_payments + ' mensualidades:' : 'mensualidades:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - i].number_monthly_payments ?  this.price.transform(price / (Number(this.offer_array[this.offer_array.length - i].number_monthly_payments))): 'N/A', border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: this.offer_array[this.offer_array.length - i].payment_upon_delivery ? this.offer_array[this.offer_array.length - i].payment_upon_delivery + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - i].payment_upon_delivery) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        });
+      }
+      else{
+        let price = this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - i].discount) * this.property_array.min_price) / 100;
+        let price1 = this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100;
+      docDefinition.content.splice(3, 0,
+        {
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [100, 100],
+                body: [
+                  [
+                    { text: this.offer_array[this.offer_array.length - i].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Precio con descuento:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - i].discount ? this.price.transform(Number(this.property_array.min_price - ((Number(this.offer_array[this.offer_array.length - i].discount) * this.property_array.min_price) / 100)).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Ahorro:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - i].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - i].discount) * this.property_array.min_price) / 100).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Enganche:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - i].downpayment ? this.offer_array[this.offer_array.length - i].downpayment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - i].discount) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Durante la obra:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - i].monthly_installment ? this.offer_array[this.offer_array.length - i].monthly_installment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - i].monthly_installment) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: this.offer_array[this.offer_array.length - i].number_monthly_payments ? this.offer_array[this.offer_array.length - i].number_monthly_payments + ' mensualidades:' : 'mensualidades:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - i].number_monthly_payments ?  this.price.transform(price / (Number(this.offer_array[this.offer_array.length - i].number_monthly_payments))): 'N/A', border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: this.offer_array[this.offer_array.length - i].payment_upon_delivery ? this.offer_array[this.offer_array.length - i].payment_upon_delivery + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - i].payment_upon_delivery) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            },
+            {
+              table: {
+                headerRows: 1,
+                widths: [100, 100],
+                body: [
+                  [
+                    { text: this.offer_array[this.offer_array.length - (i + 1)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Precio con descuento:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? this.price.transform(Number(this.property_array.min_price - ((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100)).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Ahorro:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Enganche:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - (i + 1)].downpayment ? this.offer_array[this.offer_array.length - (i + 1)].downpayment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * price1) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'Durante la obra:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - (i + 1)].monthly_installment ? this.offer_array[this.offer_array.length - (i + 1)].monthly_installment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price1) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ? this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments + ' mensualidades:' : 'mensualidades:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ?  this.price.transform(price / (Number(this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments))): 'N/A', border: [false, false, false, false], fontSize: 10 },
+                  ],
+                  [
+                    { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery ? this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery) * price1) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        });
+      }
+      // else{
+      //   if(this.offer_array[this.offer_array.length - (i + 1)] && this.offer_array[this.offer_array.length - (i + 2)]){
+      //     let price = this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100;
+      //   let price1 = this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - (i + 2)].discount) * this.property_array.min_price) / 100;
+      //   docDefinition.content.splice(2, 0,
+      //     {
+      //       columns: [
+      //         {
+      //           table: {
+      //             headerRows: 1,
+      //             widths: [100, 100],
+      //             body: [
+      //               [
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: '', border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: 'Precio con descuento:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? this.price.transform(Number(this.property_array.min_price - ((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100)).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: 'Ahorro:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: 'Enganche:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].downpayment ? this.offer_array[i].downpayment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: 'Durante la obra:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].monthly_installment ? this.offer_array[this.offer_array.length - (i + 1)].monthly_installment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ? this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments + ' mensualidades:' : 'mensualidades:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ?  this.price.transform(price / (Number(this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments))): 'N/A', border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery ? this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+      //               ]
+      //             ],
+      //           },
+      //           layout: {
+      //             hLineColor: function (i, node) {
+      //               return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+      //             },
+      //             vLineColor: function (i, node) {
+      //               return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+      //             }
+      //           }
+      //         },
+      //         {
+      //           table: {
+      //             headerRows: 1,
+      //             widths: [100, 100],
+      //             body: [
+      //               [
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: '', border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: 'Precio con descuento:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? this.price.transform(Number(this.property_array.min_price - ((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100)).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: 'Ahorro:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: 'Enganche:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].downpayment ? this.offer_array[i].downpayment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: 'Durante la obra:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].monthly_installment ? this.offer_array[this.offer_array.length - (i + 1)].monthly_installment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ? this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments + ' mensualidades:' : 'mensualidades:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ?  this.price.transform(price / (Number(this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments))): 'N/A', border: [false, false, false, false], fontSize: 10 },
+      //               ],
+      //               [
+      //                 { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                 { text: this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery ? this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+      //               ]
+      //             ],
+      //           },
+      //           layout: {
+      //             hLineColor: function (i, node) {
+      //               return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+      //             },
+      //             vLineColor: function (i, node) {
+      //               return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+      //             }
+      //           }
+      //         }
+      //       ]
+      //     });
+      //   }
+      //     else{
+      //       let price = this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100;
+      //       docDefinition.content.splice(2, 0,
+      //         {
+      //           columns: [
+      //             {
+      //               table: {
+      //                 headerRows: 1,
+      //                 widths: [100, 100],
+      //                 body: [
+      //                   [
+      //                     { text: this.offer_array[this.offer_array.length - (i + 1)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                     { text: '', border: [false, false, false, false], fontSize: 10 },
+      //                   ],
+      //                   [
+      //                     { text: 'Precio con descuento:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                     { text: this.offer_array[i + 1].discount ? this.price.transform(Number(this.property_array.min_price - ((Number(this.offer_array[i + 1].discount) * this.property_array.min_price) / 100)).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+      //                   ],
+      //                   [
+      //                     { text: 'Ahorro:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                     { text: this.offer_array[i + 1].discount ? this.price.transform(((Number(this.offer_array[i + 1].discount) * this.property_array.min_price) / 100).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+      //                   ],
+      //                   [
+      //                     { text: 'Enganche:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                     { text: this.offer_array[i + 1].downpayment ? this.offer_array[i].downpayment + '%' + '  ' + this.price.transform(((Number(this.offer_array[i + 1].discount) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+      //                   ],
+      //                   [
+      //                     { text: 'Durante la obra:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                     { text: this.offer_array[i + 1].monthly_installment ? this.offer_array[i + 1].monthly_installment + '%' + '  ' + this.price.transform(((Number(this.offer_array[i + 1].monthly_installment) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+      //                   ],
+      //                   [
+      //                     { text: this.offer_array[i + 1].number_monthly_payments ? this.offer_array[i + 1].number_monthly_payments + ' mensualidades:' : 'mensualidades:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 20] },
+      //                     { text: this.offer_array[i + 1].number_monthly_payments ?  this.price.transform(price / (Number(this.offer_array[i + 1].number_monthly_payments))): 'N/A', border: [false, false, false, false], fontSize: 10 },
+      //                   ],
+      //                   [
+      //                     { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+      //                     { text: this.offer_array[i + 1].payment_upon_delivery ? this.offer_array[i + 1].payment_upon_delivery + '%' + '  ' + this.price.transform(((Number(this.offer_array[i + 1].payment_upon_delivery) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
+      //                   ]
+      //                 ],
+      //               },
+      //               layout: {
+      //                 hLineColor: function (i, node) {
+      //                   return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+      //                 },
+      //                 vLineColor: function (i, node) {
+      //                   return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+      //                 }
+      //               }
+      //             },
+      //           ]
+      //         });
+      //     }
+      // }
+    };
+    pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
   }
 }

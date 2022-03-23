@@ -3710,7 +3710,7 @@ export class AddEditCollectionComponent implements OnInit {
   getOfferPdf() {
     this.property_offer_id = this.tempmodel.offer_id;
     let offer = this.tempmodel.property.property_offer_payment.find(x => x.random_id == this.property_offer_id)
-    this.offerPdf.offerID(offer);
+    this.offerPdf.offerID(offer, this.tempmodel.property);
   }
 
   editPrice(isEdit) {

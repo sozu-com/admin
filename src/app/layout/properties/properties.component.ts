@@ -213,6 +213,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   progress_bar_per: number;
   text_1: any;
   initialCountry = { initialCountry: 'mx' };
+  propertyDetail: any;
 
   constructor(
     public constant: Constant, public cs: CommonService,
@@ -252,11 +253,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       // monthlyInstallmentFinalPrice: [{ value: '', disabled: true }],
       // interestFinalPrice: [{ value: '', disabled: true }],
       // paymentupondeliveryFinalPrice: [{ value: '', disabled: true }],
-      leadName: [''],
-      email: [''],
-      phone: [''],
-      dial_code: ['+52'],
-      country_code: ['mx']
+      leadName: '',
+      email: '',
+      phone: '',
+      dial_code: '+52',
+      country_code: 'mx'
     });
   }
 
@@ -374,7 +375,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.getPossessionStatuses();
     this.getPropertyAmenities();
     this.getProjectAmenities();
-    this.subscribeInstallmentFormGroup();
+    //this.subscribeInstallmentFormGroup();
     this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
       .subscribe(res => {
         const reader = new FileReader();
@@ -923,12 +924,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   openModalInstallment = (propertyDetails: any): void => {
     this.property_array = propertyDetails;
+    this.openInstallmentModal.nativeElement.click();
     this.getBase64ImageFromUrl(this.property_array.id);
-    this.spinner.show();
-    this.admin.postDataApi('getBuildingOfferInfo', { property_id: (propertyDetails || {}).id }).subscribe((success) => {
-      this.spinner.hide();
-      this.bankDetails = (success || {}).data;
-      this.openInstallmentModal.nativeElement.click();
+    // this.spinner.show();
+    // this.admin.postDataApi('getBuildingOfferInfo', { property_id: (propertyDetails || {}).id }).subscribe((success) => {
+    //   this.spinner.hide();
+    //   this.bankDetails = (success || {}).data;
       // this.getParkingSpaceLots(((success || {}).data || {}).building_id);
       // this.installmentFormGroup.get('paymentBankDetails').setValue(false);
       // this.installmentFormGroup.patchValue({
@@ -940,11 +941,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       //   paymentupondelivery: this.property_array.building.building_payment_way.length > 0 && this.property_array.building.building_payment_way[0].payment_upon_delivery ? (this.getTransformedAmount(this.property_array.building.building_payment_way[0].payment_upon_delivery)) : 0.00
       // });
       // this.makePaymentBankDetailsArray(true);
-    }, (error) => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
-  }
+  //   }, (error) => {
+  //     this.spinner.hide();
+  //     swal(this.translate.instant('swal.error'), error.error.message, 'error');
+  //   });
+   }
 
   closeModalInstallment = (): void => {
     this.closeInstallmentModal.nativeElement.click();
@@ -2116,6 +2117,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       // (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value || []).forEach(element => {
       //   park.push({ parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice.substring(1) });
       // });
+      let user_id = localStorage.getItem('user-id');
       let param = {
         property_id: this.property_array.id,
         name: this.installmentFormGroup.get('leadName').value,
@@ -2123,12 +2125,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         country_code: this.installmentFormGroup.get('country_code').value,
         dial_code: this.installmentFormGroup.get('dial_code').value,
         phone: this.installmentFormGroup.get('phone').value,
-        note: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null
+        note: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,
+        user_id: user_id
       }
       this.admin.postDataApi('propertyModifyOffer', param).subscribe(result => {
         this.is_for_Offer = false;
         this.offer_id = result.data;
         //this.generatePDF();
+        this.offerPdf.offerID(this.offer_id, this.property_array);
         this.closeModalInstallment();
         this.getListing(null, null);
         this.spinner.hide();
@@ -2163,11 +2167,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       // monthlyInstallmentFinalPrice: '',
       // interestFinalPrice: '',
       // paymentupondeliveryFinalPrice: ''
-      leadName: [''],
-      email: [''],
-      phone: [''],
-      dial_code: ['+52'],
-      country_code: ['mx']
+      leadName: '',
+      email: '',
+      phone: '',
+      dial_code: '+52',
+      country_code: 'mx'
     });
     this.getAddNoteFormArray.controls = [];
     //this.getAddVariablesFormArray.controls = [];
@@ -2440,6 +2444,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   openOfferModel(item: any, i) {
     this.property_index = i;
+    this.propertyDetail = item;
     this.spinner.show();
     this.admin.postDataApi('getPropertyOfferById', { id: item.id }).subscribe(result => {
       this.property_offers = result.data;
@@ -2497,7 +2502,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     //   this.spinner.hide();
     //   swal(this.translate.instant('swal.error'), error.error.message, 'error');
     // });
-    this.offerPdf.offerID(item);
+    this.offerPdf.offerID(item, this.propertyDetail);
   }
 
   openModaloffer = (propertyDetails: any): void => {
@@ -2514,7 +2519,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.makePaymentBankDetailsArray(false);
       this.getParkingSpaceLots(((success || {}).data || {}).building_id);
       this.is_for_Offer = true;
-      this.generatePDF();
+      //this.generatePDF();
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
