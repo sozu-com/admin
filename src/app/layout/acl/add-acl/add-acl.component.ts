@@ -163,9 +163,8 @@ export class AddAclComponent implements OnInit {
   }
 
   expandBox(index: any) {
-    console.log(index, "select_index");
     this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
-    this.model.admin_estend[index].show = this.model.admin_estend[index].show === true ? false : true;
+    // this.model.admin_estend[index].show = this.model.admin_estend[index].show === true ? false : true;
   }
 
   setPermission(param: any, index: any) {
@@ -177,12 +176,12 @@ export class AddAclComponent implements OnInit {
       this.model.admin_acl[index]['can_purge'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       //another
-      this.model.admin_estend[index]['can_create'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      this.model.admin_estend[index]['can_read'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      this.model.admin_estend[index]['can_update'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      this.model.admin_estend[index]['can_delete'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      this.model.admin_estend[index]['can_purge'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      this.model.admin_estend[index]['can_crud'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      // this.model.admin_estend[index]['can_create'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      // this.model.admin_estend[index]['can_read'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      // this.model.admin_estend[index]['can_update'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      // this.model.admin_estend[index]['can_delete'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      // this.model.admin_estend[index]['can_purge'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+      // this.model.admin_estend[index]['can_crud'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
     } else {
       this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
         this.model.admin_acl[index][param] === 1 ? 0 : 1;
@@ -191,11 +190,11 @@ export class AddAclComponent implements OnInit {
         this.model.admin_acl[index]['can_delete'] === 1 && this.model.admin_acl[index]['can_purge'] === 1 ? 1 : 0;
 
       //another
-      this.model.admin_estend[index][param] = this.model.admin_estend[index][param] &&
-        this.model.admin_estend[index][param] === 1 ? 0 : 1;
-      this.model.admin_estend[index]['can_crud'] = this.model.admin_estend[index]['can_create'] === 1 &&
-        this.model.admin_estend[index]['can_read'] === 1 && this.model.admin_estend[index]['can_update'] === 1 &&
-        this.model.admin_estend[index]['can_delete'] === 1 && this.model.admin_estend[index]['can_purge'] === 1 ? 1 : 0;
+      // this.model.admin_estend[index][param] = this.model.admin_estend[index][param] &&
+      //   this.model.admin_estend[index][param] === 1 ? 0 : 1;
+      // this.model.admin_estend[index]['can_crud'] = this.model.admin_estend[index]['can_create'] === 1 &&
+      //   this.model.admin_estend[index]['can_read'] === 1 && this.model.admin_estend[index]['can_update'] === 1 &&
+      //   this.model.admin_estend[index]['can_delete'] === 1 && this.model.admin_estend[index]['can_purge'] === 1 ? 1 : 0;
     }
   }
 
@@ -448,7 +447,7 @@ export class AddAclComponent implements OnInit {
 
       if (theRemovedElement.length > 1) {
         this.model.admin_acl = userdata.admin_acls;
-        this.model.admin_estend = userdata.admin_acls;
+        // this.model.admin_estend = userdata.admin_acls;
         this.permission_show = false;
         this.permission_all = true;
       } else if (theRemovedElement.length == 1) {
@@ -467,20 +466,25 @@ export class AddAclComponent implements OnInit {
               } else {
                 this.model.admin_estend = newArray;
               }
-              element.can_create = element.can_create || 0,
-                element.can_delete = element.can_delete || 0,
-                element.can_update = element.can_update || 0,
-                element.can_read = element.can_read || 0,
-                element.can_crud = element.can_crud || 0,
-                element.can_purge = element.can_purge || 0;
+              element.can_create = 0,
+                element.can_delete = 0,
+                element.can_update = 0,
+                element.can_read = 1,
+                element.can_crud = 0,
+                element.can_purge = 0;
             }
           }
+        } else {
+          this.permission_show = false;
+          this.permission_all = true;
+          this.model.admin_acl = userdata.admin_acls;
+          //this.model.admin_estend = userdata.admin_acls;
         }
       } else {
         this.permission_show = false;
         this.permission_all = true;
         this.model.admin_acl = userdata.admin_acls;
-        this.model.admin_estend = userdata.admin_acls;
+        // this.model.admin_estend = userdata.admin_acls;
       }
 
       this.setUserType(userdata.user_type);
@@ -555,7 +559,7 @@ export class AddAclComponent implements OnInit {
       return false;
     }
     const selectedCountry = this.parameter.countries.filter(x => x.id.toString() === country_id);
-    this.parameter.states = selectedCountry ? selectedCountry[0].states : '';
+    this.parameter.states = selectedCountry[0].states;
 
   }
 
@@ -643,7 +647,7 @@ export class AddAclComponent implements OnInit {
 
     this.parameter.country_id = id;
     const selectedCountry = this.parameter.countries.filter(x => x.id === id);
-    this.parameter.states = selectedCountry ? selectedCountry[0].states : '';
+    this.parameter.states = selectedCountry[0].states;
   }
 
   onStateChange(id) {
@@ -894,11 +898,11 @@ export class AddAclComponent implements OnInit {
         this.model.admin_acl = this.model.adminAcls;
       } else {
         this.model.admin_acl;
+        console.log(this.model.admin_acl, "this.selected_valo");
       }
     } else if (this.selected_valo.length == 1) {
       for (let i = 0; i < this.selected_valo.length; i++) {
         const ele = this.selected_valo[i];
-        console.log(ele, "this.selected_valo");
         if (ele.title == "Outside Agent") {
           if (this.model.id) {
             for (let index = 0; index < this.model.adminAcls.length; index++) {
@@ -913,12 +917,12 @@ export class AddAclComponent implements OnInit {
                 } else {
                   this.model.admin_estend = newArray;
                 }
-                element.can_create = element.can_create || 0,
-                  element.can_delete = element.can_delete || 0,
-                  element.can_update = element.can_update || 0,
-                  element.can_read = element.can_read || 0,
-                  element.can_crud = element.can_crud || 0,
-                  element.can_purge = element.can_purge || 0;
+                element.can_create = 0,
+                  element.can_delete = 0,
+                  element.can_update = 0,
+                  element.can_read = 1,
+                  element.can_crud = 0,
+                  element.can_purge = 0;
               }
             }
           } else {
@@ -934,12 +938,12 @@ export class AddAclComponent implements OnInit {
                 } else {
                   this.model.admin_estend = newArray;
                 }
-                element.can_create = element.can_create || 0,
-                  element.can_delete = element.can_delete || 0,
-                  element.can_update = element.can_update || 0,
-                  element.can_read = element.can_read || 0,
-                  element.can_crud = element.can_crud || 0,
-                  element.can_purge = element.can_purge || 0;
+                element.can_create = 0,
+                  element.can_delete = 0,
+                  element.can_update = 0,
+                  element.can_read = 1,
+                  element.can_crud = 0,
+                  element.can_purge = 0;
               }
             }
           }
