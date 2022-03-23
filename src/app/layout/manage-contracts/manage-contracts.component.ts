@@ -365,7 +365,7 @@ export class ManageContractsComponent implements OnInit {
     let language_code = localStorage.getItem('language_code');
     this.spinner.show();
     this.searched_collection = undefined;
-    this.admin.postDataApi('getAlertMsg ', { id: this.collectionId })
+    this.admin.postDataApi(this.is_edit ? 'getCollectionById' : 'getAlertMsg', { id: this.collectionId })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -414,9 +414,10 @@ export class ManageContractsComponent implements OnInit {
     this.collectionId = undefined;
     this.contract = undefined;
     this.signatureDate = undefined,
-      this.beneficiary_id = undefined,
-      this.status = undefined;
+    this.beneficiary_id = undefined,
+    this.status = undefined;
     this.percent = undefined;
+    this.is_edit = false;
     this.step = 1;
     this.openLinkContractModal.nativeElement.click();
 
@@ -596,6 +597,30 @@ export class ManageContractsComponent implements OnInit {
   }
 
   selectStatus(data, status) {
+    if(status == '9'){
+      swal({
+        html: this.translate.instant('message.error.areYouSure') + '<br>' +
+          this.translate.instant('message.error.wantToCancelContract'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.constant.confirmButtonColor,
+        cancelButtonColor: this.constant.cancelButtonColor,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.changeStatus(data, status);
+        }
+        else{
+          this.getContract();
+        }
+      });
+    }
+    else{
+      this.changeStatus(data, status);
+    }
+  }
+
+  changeStatus(data, status){
     let userId = localStorage.getItem('user-id');
     let input = {
       contract_id: data.id,
