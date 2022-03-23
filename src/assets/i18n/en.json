@@ -1751,6 +1751,7 @@
       "wantToUnblockCollection": "You want to unblock this Collection?",
       "wantToDeleteCollection": "You want to delete this Collection?",
       "wantToDeleteContract": "You want to delete this Contract?",
+      "wantToCancelContract": "You want to cancel this Contract?",
       "wantToDeletePossessionStatus": "You want to delete this Project Possession Status?",
       "wantToCancelCollection": "You want to cancel this Collection?",
       "wantToActiveCollection": "You want to active this Collection?",

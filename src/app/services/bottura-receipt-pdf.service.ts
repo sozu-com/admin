@@ -72,9 +72,9 @@ export class BotturaReceiptPdfService {
     let current_date = new Date();
     let concept = this.collection_data.payment_choices.find(item => item.id == this.payment_concept.id);
     this.payment = this.payment ? this.payment : concept.collection_paymentss[concept.collection_paymentss.length - 1];
-    let month = moment(this.payment.date).month();
-    let payment_concept_month = month == 1 ? ' Enero ' : month == 2 ? ' Febrero ' : month == 3 ? ' Marzo ' : month == 4 ? ' Abril ' : month == 5 ? ' Mayo ' : month == 6 ? 
-    ' Junio ' : month == 7 ?' Julio ' : month == 8 ? ' Agosto ' : month == 9 ? ' Septiembre ' : month == 10 ? ' Octubre ' : month == 11 ? ' Noviembre ' : month == 12 ? ' Diciembre ' : ' N/A ';
+    let month = this.payment.payment_date.substring(5, 7);
+    let payment_concept_month = month == '01' ? ' Enero ' : month == '02' ? ' Febrero ' : month == '03' ? ' Marzo ' : month == '04' ? ' Abril ' : month == '05' ? ' Mayo ' : month == '06' ? 
+    ' Junio ' : month == '07' ?' Julio ' : month == '08' ? ' Agosto ' : month == '09' ? ' Septiembre ' : month == '10' ? ' Octubre ' : month == '11' ? ' Noviembre ' : month == '12' ? ' Diciembre ' : ' N/A ';
     let buyer_name = this.collection_data.buyer && this.collection_data.buyer.name ? this.collection_data.buyer.name + ' ' + this.collection_data.buyer.first_surname + ' ' + this.collection_data.buyer.second_surname : this.collection_data.buyer_legal_entity ? this.collection_data.buyer_legal_entity.comm_name : 'N/A';
     let docDefinition = {
       pageSize: 'LEGAL',
@@ -131,11 +131,11 @@ export class BotturaReceiptPdfService {
             { text: this.payment.amount ? this.price.transform(this.payment.amount) : 0, bold: true, fontSize: 11 },
             { text: (this.payment.amount ? (' (' + conver.NumerosALetras(this.payment.amount) + ')') : "N/A"), bold: true, fontSize: 11 },
             { text: ', el día ', fontSize: 11 },
-            { text: this.payment.date ? moment(this.payment.date).day() : 'N/A.', bold: true, fontSize: 11 },
+            { text: this.payment.payment_date ? this.payment.payment_date.substring(8, this.payment.payment_date.length) : 'N/A.', bold: true, fontSize: 11 },
             { text: ' de ', fontSize: 11 },
-            { text: this.payment.date ? payment_concept_month : 'N/A.', bold: true, fontSize: 11 },
+            { text: this.payment.payment_date ? payment_concept_month : 'N/A.', bold: true, fontSize: 11 },
             { text: ' de ', fontSize: 11 },
-            { text: this.payment.date ? moment(this.payment.date).format('YYYY') : 'N/A.', bold: true, fontSize: 11 },
+            { text: this.payment.payment_date ? this.payment.payment_date.substring(0, 4) : 'N/A.', bold: true, fontSize: 11 },
             { text: ' por concepto de depósito en garantía de cumplimiento de conformidad que tiene como objetivo la gestión para la adquisición de una unidad condominal del desarrollo inmobiliario BOTTURA, al efecto de adquirir siguiente la unidad condominal, cuyas características serán: ', fontSize: 11 },
             ]}
           ],

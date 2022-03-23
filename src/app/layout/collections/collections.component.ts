@@ -255,6 +255,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   totalPenalty = 0;
   fill: number = 0;
   selected_collection: any;
+  collection_property: any;
   constructor(
     public constant: Constant,
     public apiConstants: ApiConstants,
@@ -2667,6 +2668,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
 
   openFoldersModal = (details: any): void => {
     let self = this;
+    this.collection_property = details.property;
     this.spinner.show();
     this.collectionFolders = [];
     this.collectionFolders = details.collection_folders || [];
@@ -3801,10 +3803,10 @@ export class CollectionsComponent implements OnInit, OnDestroy {
                     //   { text: this.translate.instant('generatePDF.accountNumber'), border: [false, false, false, false], color: '#858291' },
                     //   { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].account_number ? this.paymentBankDetailsArray[bank_index].account_number : 'N/A', border: [false, false, false, false], bold: true }
                     // ],
-                    [
-                      { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
-                      { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].swift ? this.paymentBankDetailsArray[bank_index].swift : 'N/A', border: [false, false, false, false], bold: true }
-                    ],
+                    // [
+                    //   { text: this.translate.instant('generatePDF.cLABE'), border: [false, false, false, false], color: '#858291' },
+                    //   { text: this.paymentBankDetailsArray.length > 0 && this.paymentBankDetailsArray[bank_index].swift ? this.paymentBankDetailsArray[bank_index].swift : 'N/A', border: [false, false, false, false], bold: true }
+                    // ],
                     [
                       { text: this.translate.instant('generatePDF.bankReference'), border: [false, false, false, false], color: '#858291' },
                       { text: this.collection_data.bank_reference_id ? this.collection_data.bank_reference_id : 'N/A', border: [false, false, false, false], bold: true }
@@ -4047,7 +4049,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   getOfferPdf() {
-    this.offerPdf.offerID(this.property_offer_id);
+    this.offerPdf.offerID(this.property_offer_id, this.collection_property);
   }
 
   ngOnDestroy(): void {
