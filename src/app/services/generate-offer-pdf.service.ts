@@ -539,7 +539,7 @@ export class GenerateOfferPdfService {
                   ],
                   [
                     { text: 'Fecha de expedición:', border: [true, true, true, true], fontSize: 10, fillOpacity: 0.05, fillColor:'#575757' },
-                    { text: date, border: [true, true, true, true], fontSize: 11, fillOpacity: 0.05, fillColor:'#575757' }
+                    { text: date, border: [true, true, true, true], fontSize: 10, fillOpacity: 0.05, fillColor:'#575757' }
                   ],
                   [
                     { text: 'ID de oferta comercial:', border: [true, true, true, true], fontSize: 10, fillOpacity: 0.05, fillColor:'#575757' },
@@ -571,7 +571,7 @@ export class GenerateOfferPdfService {
                 widths: [120, 80, 70, 80, 208],
                 body: [
                   [
-                    { text: 'Datos de la propiedad', bold: true, colSpan: 4, border: [false, false, false, false], fontSize: 11 },
+                    { text: 'Datos de la propiedad', bold: true, colSpan: 4, border: [false, false, false, false], fontSize: 12 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
@@ -635,7 +635,7 @@ export class GenerateOfferPdfService {
         },
         {
           columns: [
-            { text: 'Formas de pago', bold: true, fontSize: 11, margin: [5, 5, 0, 0] },
+            { text: 'Formas de pago', bold: true, fontSize: 12, margin: [5, 5, 0, 0] },
           ]
         },
         {
@@ -647,10 +647,10 @@ export class GenerateOfferPdfService {
                 widths: [90, 160, 30 ,90, 160, 20],
                 body: [
                   [
-                    { text: 'Datos del vendedor', bold: true, colSpan: 2, border: [false, true, false, false], fontSize: 11, margin: [0, 10, 0, 10] },
+                    { text: 'Datos del vendedor', bold: true, colSpan: 2, border: [false, true, false, false], fontSize: 12, margin: [0, 10, 0, 10] },
                     { text: '', border: [false, true, false, false], fontSize: 10 },
                     { text: '', border: [false, true, false, false], fontSize: 10 },
-                    { text: 'Datos del cliente',bold: true , colSpan: 2, border: [false, true, false, false], fontSize: 11, margin: [0, 10, 0, 10] },
+                    { text: 'Datos del cliente',bold: true , colSpan: 2, border: [false, true, false, false], fontSize: 12, margin: [0, 10, 0, 10] },
                     { text: '', border: [false, true, false, false], fontSize: 10 },
                     { text: '', border: [false, true, false, false], fontSize: 10 }
                   ],
@@ -705,7 +705,7 @@ export class GenerateOfferPdfService {
                 widths: [90, 120, 70, 140, 137],
                 body: [
                   [
-                    { text: 'Datos bancarios', bold: true, colSpan: 2  , border: [false, false, false, false], fontSize: 11, margin: [0, 10, 0, 10] },
+                    { text: 'Datos bancarios', bold: true, colSpan: 2  , border: [false, false, false, false], fontSize: 12, margin: [0, 10, 0, 10] },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', colSpan: 2  , border: [false, false, false, false], fontSize: 10 },
@@ -760,10 +760,10 @@ export class GenerateOfferPdfService {
                 widths: [592],
                 body: [
                   [
-                    { text: 'Comentarios', bold: true, border: [false, false, false, false], fontSize: 11, margin: [0, 10, 0, 10] }
+                    { text: 'Comentarios', bold: true, border: [false, false, false, false], fontSize: 12, margin: [0, 10, 0, 10] }
                   ],
                   [
-                    { text: this.offer.note ? this.offer.note : '', border: [false, false, false, true], fontSize: 11, margin: [5, 0, 5, 20] }
+                    { text: this.offer.note ? this.offer.note : '', border: [false, false, false, true], fontSize: 10, margin: [5, 0, 5, 20] }
                   ]
                 ],
               },
@@ -817,7 +817,7 @@ export class GenerateOfferPdfService {
                 widths: [100, 100],
                 body: [
                   [
-                    { text: this.offer_array[0].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[0].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                   ],
                   [
@@ -878,7 +878,7 @@ export class GenerateOfferPdfService {
                 widths: [100, 100],
                 body: [
                   [
-                    { text: this.offer_array[this.offer_array.length - (i + 1)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - (i + 1)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                   ],
                   [
@@ -929,7 +929,7 @@ export class GenerateOfferPdfService {
                 widths: [100, 100],
                 body: [
                   [
-                    { text: this.offer_array[this.offer_array.length - (i + 2)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                    { text: this.offer_array[this.offer_array.length - (i + 2)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                   ],
                   [
@@ -988,7 +988,7 @@ export class GenerateOfferPdfService {
                   widths: [100, 100],
                   body: [
                     [
-                      { text: this.offer_array[0].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                      { text: this.offer_array[0].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
                       { text: '', border: [false, false, false, false], fontSize: 10 },
                     ],
                     [
