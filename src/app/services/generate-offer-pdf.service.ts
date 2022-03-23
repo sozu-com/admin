@@ -682,7 +682,7 @@ export class GenerateOfferPdfService {
             {
               table: {
                 headerRows: 1,
-                widths: [80, 120, 80 ,140, 137],
+                widths: [90, 120, 70, 140, 137],
                 body: [
                   [
                     { text: 'Datos bancarios', bold: true, colSpan: 2  , border: [false, false, false, false], fontSize: 11, margin: [0, 10, 0, 10] },
@@ -737,23 +737,38 @@ export class GenerateOfferPdfService {
             {
               table: {
                 headerRows: 1,
-                widths: [400],
+                widths: [592],
                 body: [
                   [
                     { text: 'Comentarios', bold: true, border: [false, false, false, false], fontSize: 11, margin: [0, 10, 0, 10] }
                   ],
                   [
-                    { text: this.offer.note ? this.offer.note : '', border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 20] }
+                    { text: this.offer.note ? this.offer.note : '', border: [false, false, false, true], fontSize: 11, margin: [5, 0, 5, 20] }
                   ]
                 ],
               },
               layout: {
                 hLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                  return (i === 0 || i === node.table.body.length) ? '#a9a9a9' : '#a9a9a9';
                 },
                 vLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                  return (i === 0 || i === node.table.widths.length) ? '#a9a9a9' : '#a9a9a9';
                 }
+              }
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [500],
+                body: [
+                  [
+                    { text: 'Los precios en este documentos están sujetos a disponibilidad. Aplican cambios sin previo aviso.', border: [false, false, false, false], fontSize: 8, margin: [0, 10, 0, 10] }
+                  ],
+                ],
               }
             }
           ]
