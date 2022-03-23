@@ -2277,7 +2277,7 @@
           <form autocomplete="off" class="form-horizontal form-model0P form-model-newP"
             [formGroup]="this.installmentFormGroup">
             <div class="modal-body modal-body-new">
-               <label>{{'generatePDF.offerDetails' | translate}}</label>
+               <label *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">{{'addForm.payment_way' | translate}}</label>
                <!-- <div class="spacer15"></div> -->
                <!-- List and final price fields -->
                <!-- <div class="row">
@@ -2397,118 +2397,114 @@
                   </ng-container>
                </div>
                <hr> -->
+               <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
+               <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'addForm.namePaymentWay' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.namePaymentWay' | translate}}"
+                           formControlName="payment_name" />
+                     </div>
+                  </div>
+               </div>
                <!-- down or discount -->
-               <!-- <div class="spacer15"></div>
-               <div class="row">
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
+               <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'generatePDF.discountPercentage' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                           formControlName="discount" style="display: inline; width: 80%;" appOnlyDecimal />
+                           <label style="margin-left: 10px;">%</label>
+                     </div>
+                  </div>
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label>{{'generatePDF.downPaymentPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="downPayment" appOnlyDecimal [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
-                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
-                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
-                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
+                           formControlName="downPayment" style="display: inline; width: 80%;" appOnlyDecimal/>
+                           <label style="margin-left: 10px;">%</label>
                      </div>
                   </div>
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label style="color: white;">{{'addForm.Type' | translate}}</label>
                         <p style="color: red;font-size: 15px;" *ngIf="isPreview">
                            ${{installmentFormGroup.get("downPaymentFinalPrice").value}}</p>
                      </div>
-                  </div>
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-                     <div class="form-group-3">
-                        <label>{{'generatePDF.discountPercentage' | translate}}</label>
-                        <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="discount" appOnlyDecimal [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
-                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
-                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
-                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                  </div> -->
+                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <label style="color: white;">{{'addForm.Type' | translate}}</label>
                      <p style="color: red;font-size: 15px;"
                         *ngIf="isPreview && !installmentFormGroup.get('interestFinalPrice').value">
                         ${{installmentFormGroup.get("discountFinalPrice").value}}</p>
-                  </div>
-               </div> -->
+                  </div> -->
+               </div>
                <!-- month or interest -->
-               <!-- <div class="spacer15"></div>
-               <div class="row">
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
+               <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="monthlyInstallment" appOnlyDecimal [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
-                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
-                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
-                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
+                           formControlName="monthlyInstallment" style="display: inline; width: 80%;" appOnlyDecimal/>
+                           <label style="margin-left: 10px;">%</label>
                      </div>
                   </div>
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span
+                              class="color-red">*</span></label>
+                        <input autocomplete="off" type="text" class="form-control" maxlength="6" appOnlyNumber
+                           placeholder="#" formControlName="numberOfMI"/>
+                     </div>
+                  </div>
+                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label style="color: white;">{{'addForm.Type' | translate}}</label>
                         <p style="color: red;font-size: 15px;" *ngIf="isPreview">
                            ${{installmentFormGroup.get("monthlyInstallmentFinalPrice").value}}</p>
                      </div>
-                  </div>
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                  </div> -->
+                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label>{{'generatePDF.interest' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="interest" appOnlyDecimal [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
-                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
-                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
-                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
+                           formControlName="interest" appOnlyDecimal/>
                      </div>
-                  </div>
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                  </div> -->
+                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <label style="color: white;">{{'addForm.Type' | translate}}</label>
                      <p style="color: red;font-size: 15px;"
                         *ngIf="isPreview && installmentFormGroup.get('interestFinalPrice').value">
                         ${{installmentFormGroup.get("interestFinalPrice").value}} </p>
-                  </div>
-               </div> -->
+                  </div> -->
+               </div>
                <!-- numberOfMI -->
-               <!-- <div class="spacer15"></div>
-               <div class="row">
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-                     <div class="form-group-3">
-                        <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span
-                              class="color-red">*</span></label>
-                        <input autocomplete="off" type="text" class="form-control" maxlength="6" appOnlyNumber
-                           placeholder="#" formControlName="numberOfMI" [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
-                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
-                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
-                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
-                     </div>
-                  </div>
-                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <!-- <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
+               <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"> -->
+                   <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                   <label style="color: white;">{{'addForm.Type' | translate}}</label>
                  <p style="color: red;font-size: 15px;">$2,102,178.00</p>
                </div>
-            </div>
-               </div> -->
+            </div> -->
+               <!-- </div> -->
                <!-- paymentupondeliveryPercentage -->
-               <!-- <div class="spacer15"></div>
-               <div class="row">
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
+               <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" formControlName="paymentupondelivery"
-                           placeholder="%" appOnlyDecimal [readonly]="this.property_array && this.property_array.building.building_payment_way.length > 0 && 
-                           (this.property_array.building.building_payment_way[0].discount || this.property_array.building.building_payment_way[0].downpayment || 
-                           this.property_array.building.building_payment_way[0].number_monthly_payments || this.property_array.building.building_payment_way[0].monthly_installment
-                           || this.property_array.building.building_payment_way[0].payment_upon_delivery)"/>
+                           placeholder="%" style="display: inline; width: 80%;" appOnlyDecimal/>
+                           <label style="margin-left: 10px;">%</label>
                      </div>
                   </div>
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label style="color: white;">{{'addForm.Type' | translate}}</label>
                         <p style="color: red;font-size: 15px;" *ngIf="isPreview">
@@ -2522,8 +2518,8 @@
                            (click)="this.onClickPreview(true)">
                            {{'generatePDF.preview' | translate}}</button>
                      </div>
-                  </div>
-               </div> -->
+                  </div> -->
+               </div>
                <!-- add variable button-->
                <!-- <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddVariables').value"></div>
                <div class="row" *ngIf="!this.installmentFormGroup.get('isAddVariables').value">
@@ -2614,6 +2610,8 @@
                   </ng-container>
                </div>
                <!-- leadName -->
+               <div class="spacer15"></div>
+               <label>{{'generatePDF.offerDetails' | translate}}</label>
                <div class="spacer15"></div>
                <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">

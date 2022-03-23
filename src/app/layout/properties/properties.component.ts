@@ -227,11 +227,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     private toastr: ToastrService, private offerPdf: GenerateOfferPdfService
   ) {
     this.installmentFormGroup = this.formBuilder.group({
-      // downPayment: [''],
-      // discount: [''],
-      // monthlyInstallment: [''],
-      // numberOfMI: [''],
-      // paymentupondelivery: [''],
+      payment_name: '',
+      downPayment: '',
+      discount: '',
+      monthlyInstallment: '',
+      numberOfMI: '',
+      paymentupondelivery: '',
       // isAddVariables: [false],
       // isAddParkingLotForSale: [false],
       // parkingLotsNumber: [''],
@@ -2117,6 +2118,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       // (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value || []).forEach(element => {
       //   park.push({ parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice.substring(1) });
       // });
+     if(this.property_array.building.building_payment_way.length == 0){
+      if (this.getTotalPercentage() != 100.00) {
+        swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
+        return;
+      }
+    }
       let user_id = localStorage.getItem('user-id');
       let param = {
         property_id: this.property_array.id,
@@ -2126,7 +2133,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         dial_code: this.installmentFormGroup.get('dial_code').value,
         phone: this.installmentFormGroup.get('phone').value,
         note: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,
-        user_id: user_id
+        user_id: user_id,
+        is_payment_way: this.property_array.building.building_payment_way.length == 0 ? 1 : 0,
+        payment_ways : this.property_array.building.building_payment_way.length == 0 ? [{
+          payment_name: this.installmentFormGroup.get('payment_name').value,
+          downpayment: this.installmentFormGroup.get('downPayment').value,
+          discount: this.installmentFormGroup.get('discount').value,
+          monthly_installment: this.installmentFormGroup.get('monthlyInstallment').value,
+          number_monthly_payments: this.installmentFormGroup.get('numberOfMI').value,
+          payment_upon_delivery: this.installmentFormGroup.get('paymentupondelivery').value,
+        }] : null
       }
       this.admin.postDataApi('propertyModifyOffer', param).subscribe(result => {
         this.is_for_Offer = false;
@@ -2144,11 +2160,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   installmentFormGroupPatchValue = (): void => {
     this.installmentFormGroup.patchValue({
-      // downPayment: '',
-      // discount: '',
-      // monthlyInstallment: '',
-      // numberOfMI: '',
-      // paymentupondelivery: '',
+      payment_name: '',
+      downPayment: '',
+      discount: '',
+      monthlyInstallment: '',
+      numberOfMI: '',
+      paymentupondelivery: '',
       // isAddVariables: false,
       // isAddParkingLotForSale: false,
       // parkingLotsNumber: '',
@@ -2300,9 +2317,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   getTotalPercentage() {
     let totalPercentage = 0.00;
-    this.getAddVariablesFormArray.controls.forEach((formGroup: FormGroup) => {
-      totalPercentage += parseFloat(formGroup.get('addVariablesPercentage').value || 0.00);
-    });
     totalPercentage += parseFloat(this.installmentFormGroup.get('downPayment').value || 0.00);
     totalPercentage += parseFloat(this.installmentFormGroup.get('monthlyInstallment').value || 0.00);
     totalPercentage += parseFloat(this.installmentFormGroup.get('paymentupondelivery').value || 0.00);
