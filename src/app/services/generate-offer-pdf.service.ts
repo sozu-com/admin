@@ -853,7 +853,7 @@ export class GenerateOfferPdfService {
                     { text: this.offer_array[0].number_monthly_payments ?  this.price.transform(price / (Number(this.offer_array[0].number_monthly_payments))): 'N/A', border: [false, false, false, false], fontSize: 10 },
                   ],
                   [
-                    { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                     { text: this.offer_array[0].payment_upon_delivery ? this.offer_array[0].payment_upon_delivery + '%' + '  ' + this.price.transform(((Number(this.offer_array[0].payment_upon_delivery) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
                   ]
                 ],
@@ -914,7 +914,7 @@ export class GenerateOfferPdfService {
                     { text: this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ?  this.price.transform(price / (Number(this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments))): 'N/A', border: [false, false, false, false], fontSize: 10 },
                   ],
                   [
-                    { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                     { text: this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery ? this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
                   ]
                 ],
@@ -1024,7 +1024,7 @@ export class GenerateOfferPdfService {
                       { text: this.offer_array[0].number_monthly_payments ?  this.price.transform(price / (Number(this.offer_array[0].number_monthly_payments))): 'N/A', border: [false, false, false, false], fontSize: 10 },
                     ],
                     [
-                      { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                      { text: 'A la entrega:', border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                       { text: this.offer_array[0].payment_upon_delivery ? this.offer_array[0].payment_upon_delivery + '%' + '  ' + this.price.transform(((Number(this.offer_array[0].payment_upon_delivery) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
                     ]
                   ],
