@@ -518,6 +518,10 @@ export class GenerateOfferPdfService {
       this.property_array.selected_seller.user.name + ' ' + this.property_array.selected_seller.user.first_surname + ' ' + this.property_array.selected_seller.user.second_surname : 'N/A';
     let date = this.datePipe.transform(current_date, 'd/M/y');
     let last_date = this.datePipe.transform(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0), 'd/M/y');
+    let bank;
+    if(this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity){
+    bank = this.property_array.selected_seller.user.legal_entity.legal_entity_banks.find(item => item.status == 1 );
+    }
     let docDefinition = {
       pageSize: {
         width: 690,
@@ -729,28 +733,28 @@ export class GenerateOfferPdfService {
                   ],
                   [
                     { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: 'XXXXXXXXXXXX', border: [false, false, false, false], fontSize: 10 },
+                    { text: bank ? bank.bank_name : '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
                     { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: 'XXXXXXXXXXXXXX', border: [false, false, false, false], fontSize: 10 },
+                    { text: this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity ? this.property_array.selected_seller.user.legal_entity.legal_name : '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
                     { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: 'XXXXXXXXXXX', border: [false, false, false, false], fontSize: 10 },
+                    { text: bank ? bank.account_number : '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
                     { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] },
-                    { text: 'XXXXXXXXXXXXXXXXXX', border: [false, false, false, true], fontSize: 10 },
+                    { text: bank ? bank.swift : '', border: [false, false, false, true], fontSize: 10 },
                     { text: '', border: [false, false, false, true], fontSize: 10 },
                     { text: '', border: [false, false, false, true], fontSize: 10 },
                     { text: '', border: [false, false, false, true], fontSize: 10 }
