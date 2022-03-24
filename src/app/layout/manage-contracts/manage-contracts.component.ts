@@ -365,13 +365,13 @@ export class ManageContractsComponent implements OnInit {
     let language_code = localStorage.getItem('language_code');
     this.spinner.show();
     this.searched_collection = undefined;
-    this.admin.postDataApi(this.is_edit ? 'getCollectionById' : 'getAlertMsg', { id: this.collectionId })
+    this.admin.postDataApi('getCollectionById', { id: this.collectionId })
       .subscribe(
         success => {
           this.spinner.hide();
-          if(success.message == 'Collection already created'){
-            swal(this.translate.instant('swal.error'), language_code == 'en' ? 'Contract already exists' : 'El contrato ya existe' , 'error');
-        }else{
+        //   if(success.message == 'Collection already created'){
+        //     swal(this.translate.instant('swal.error'), language_code == 'en' ? 'Contract already exists' : 'El contrato ya existe' , 'error');
+        // }else{
           if (success['data'].buyer_id) {
             this.getUserById(success['data'].buyer_id);
           }
@@ -386,7 +386,7 @@ export class ManageContractsComponent implements OnInit {
           this.concept_monthly = this.concept_monthly ? this.concept_monthly : {};
           let concept_monthly_ins = this.searched_collection.payment_choices.filter(item => item.payment_choice.name == 'Monthly Installment');
           this.concept_monthly_no = concept_monthly_ins.length;
-        }
+        //}
         });
   }
 
