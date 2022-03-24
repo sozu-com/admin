@@ -41,7 +41,9 @@ export class ACL {
     image?: string;
     img_loader?: boolean;
     email?: string;
+    admin_estend?: Array<Permission> = [];
     admin_acl?: Array<Permission> = [];
+    adminAcls?: Array<Permission> = [];
     address?: Array<NewAddress>;
     user_type?: any;
     is_cordinator?: any;
