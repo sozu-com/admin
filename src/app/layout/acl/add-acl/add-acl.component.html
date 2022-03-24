@@ -194,71 +194,19 @@
                 </div>
               </div>
   
+
               <div class="clearfix"></div>
-              <div class="access-controls" *ngIf="model.id">
-                <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_estend; let i=index">
-                  <label *ngIf="permission_show" class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1}">{{permission?.acl?.name}}
-                    <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1 ? 'checked': ''">
-                    <span class="checkmark"></span>
-                    </label>
-               
-
-                <div class="clearfix"></div>
-                <div *ngIf="permission_show" id="broker-seller-dev" class="inner-select">
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">{{'addForm.canCreate' | translate}}
-                      <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''"  (click)="setPermission('can_create', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">{{'addForm.canRead' | translate}}
-                      <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''"  (click)="setPermission('can_read', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">{{'addForm.canUpdate' | translate}}
-                      <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''"  (click)="setPermission('can_update', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">{{'addForm.canBlockUnblock' | translate}}
-                      <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''"  (click)="setPermission('can_delete', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <label *ngIf="permission?.acl?.name == 'User Management' || permission?.acl?.name == 'Property Management'
-                  || permission?.acl?.name == 'Agencies Management'
-                  || permission?.acl?.name == 'Companies Management'
-                  || permission?.acl?.name == 'Managers Management'
-                  || permission?.acl?.name == 'Developers Management'
-                  || permission?.acl?.name == 'Outside Agent Management'
-                  || permission?.acl?.name == 'Seller Management'
-                  || permission?.acl?.name == 'Buyer Management'
-                  || permission?.acl?.name == 'Inhouse Agent Management'
-                  || permission?.acl?.name == 'Closer Management'
-                  || permission?.acl?.name == 'Data Collector Management'
-                  || permission?.acl?.name == 'Bank Management'
-                  || permission?.acl?.name == 'Templates'
-                  || permission?.acl?.name == 'Project Management' || permission?.acl?.name == 'Hotel Management' || permission?.acl?.name == 'Hotel Companies Management'
-                  || permission?.acl?.name == 'Manage Suppliers'
-                  || permission?.acl?.name == 'Notaries Management' || permission?.acl?.name == 'Settings'|| permission?.acl?.name == 'Metatags' " 
-                    class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_purge==1}">{{'addForm.canDelete' | translate}}
-                      <input type="checkbox" [checked]="permission.can_purge == 1 ? 'checked': ''"  (click)="setPermission('can_purge', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">{{'addForm.canCRUD' | translate}}
-                      <input type="checkbox" [checked]="permission.can_crud == 1 ? 'checked': ''"  (click)="setPermission('can_crud', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <br>
-                </div>
-                <div class="clearfix"></div>
-              </div>
-                
+              <div class="row">   
+              <div class="access-controls">
                 <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_acl; let i=index">
-                  <label *ngIf="permission_all" class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1}">{{permission?.acl?.name}}
+                  <label class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1}">{{permission?.acl?.name}}
                     <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1 ? 'checked': ''">
                     <span class="checkmark"></span>
                     </label>
                
 
                 <div class="clearfix"></div>
-                <div *ngIf="permission.show && permission_all" id="broker-seller-dev" class="inner-select">
+                <div *ngIf="permission.show" id="broker-seller-dev" class="inner-select">
                   <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">{{'addForm.canCreate' | translate}}
                       <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''"  (click)="setPermission('can_create', i)">
                       <span class="checkmark"></span>
@@ -305,117 +253,6 @@
               </div>
                    
               </div>
-
-              <div class="clearfix"></div>
-              <div class="access-controls" *ngIf="!model.id">
-                <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_estend; let i=index">
-                  <label *ngIf="permission_show" class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1}">{{permission?.acl?.name}}
-                    <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1 ? 'checked': ''">
-                    <span class="checkmark"></span>
-                    </label>
-               
-
-                <div class="clearfix"></div>
-                <div *ngIf="permission_show" id="broker-seller-dev" class="inner-select">
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">{{'addForm.canCreate' | translate}}
-                      <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''"  (click)="setPermission('can_create', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">{{'addForm.canRead' | translate}}
-                      <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''"  (click)="setPermission('can_read', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">{{'addForm.canUpdate' | translate}}
-                      <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''"  (click)="setPermission('can_update', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">{{'addForm.canBlockUnblock' | translate}}
-                      <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''"  (click)="setPermission('can_delete', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <label *ngIf="permission?.acl?.name == 'User Management' || permission?.acl?.name == 'Property Management'
-                  || permission?.acl?.name == 'Agencies Management'
-                  || permission?.acl?.name == 'Companies Management'
-                  || permission?.acl?.name == 'Managers Management'
-                  || permission?.acl?.name == 'Developers Management'
-                  || permission?.acl?.name == 'Outside Agent Management'
-                  || permission?.acl?.name == 'Seller Management'
-                  || permission?.acl?.name == 'Buyer Management'
-                  || permission?.acl?.name == 'Inhouse Agent Management'
-                  || permission?.acl?.name == 'Closer Management'
-                  || permission?.acl?.name == 'Data Collector Management'
-                  || permission?.acl?.name == 'Bank Management'
-                  || permission?.acl?.name == 'Templates'
-                  || permission?.acl?.name == 'Project Management' || permission?.acl?.name == 'Hotel Management' || permission?.acl?.name == 'Hotel Companies Management'
-                  || permission?.acl?.name == 'Manage Suppliers'
-                  || permission?.acl?.name == 'Notaries Management' || permission?.acl?.name == 'Settings'|| permission?.acl?.name == 'Metatags' " 
-                    class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_purge==1}">{{'addForm.canDelete' | translate}}
-                      <input type="checkbox" [checked]="permission.can_purge == 1 ? 'checked': ''"  (click)="setPermission('can_purge', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">{{'addForm.canCRUD' | translate}}
-                      <input type="checkbox" [checked]="permission.can_crud == 1 ? 'checked': ''"  (click)="setPermission('can_crud', i)" disabled>
-                      <span class="checkmark"></span>
-                  </label>
-                  <br>
-                </div>
-                <div class="clearfix"></div>
-              </div>
-                
-                <div class="select-controls select-controls-1" *ngFor="let permission of model.admin_acl; let i=index">
-                  <label *ngIf="permission_all" class="cust-check-bx2" [ngClass]="{'access-control11':permission.can_create==1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1}">{{permission?.acl?.name}}
-                    <input (click)="expandBox(i)" type="checkbox" [checked]="permission.can_create == 1 || permission.can_read==1 || permission.can_update==1 || permission.can_delete==1 || permission.can_purge==1 ? 'checked': ''">
-                    <span class="checkmark"></span>
-                    </label>
-               
-
-                <div class="clearfix"></div>
-                <div *ngIf="permission.show && permission_all" id="broker-seller-dev" class="inner-select">
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_create==1}">{{'addForm.canCreate' | translate}}
-                      <input type="checkbox" [checked]="permission.can_create == 1 ? 'checked': ''"  (click)="setPermission('can_create', i)">
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_read==1}">{{'addForm.canRead' | translate}}
-                      <input type="checkbox" [checked]="permission.can_read == 1 ? 'checked': ''"  (click)="setPermission('can_read', i)">
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_update==1}">{{'addForm.canUpdate' | translate}}
-                      <input type="checkbox" [checked]="permission.can_update == 1 ? 'checked': ''"  (click)="setPermission('can_update', i)">
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_delete==1}">{{'addForm.canBlockUnblock' | translate}}
-                      <input type="checkbox" [checked]="permission.can_delete == 1 ? 'checked': ''"  (click)="setPermission('can_delete', i)">
-                      <span class="checkmark"></span>
-                  </label>
-                  <label *ngIf="permission?.acl?.name == 'User Management' || permission?.acl?.name == 'Property Management'
-                  || permission?.acl?.name == 'Agencies Management'
-                  || permission?.acl?.name == 'Companies Management'
-                  || permission?.acl?.name == 'Managers Management'
-                  || permission?.acl?.name == 'Developers Management'
-                  || permission?.acl?.name == 'Outside Agent Management'
-                  || permission?.acl?.name == 'Seller Management'
-                  || permission?.acl?.name == 'Buyer Management'
-                  || permission?.acl?.name == 'Inhouse Agent Management'
-                  || permission?.acl?.name == 'Closer Management'
-                  || permission?.acl?.name == 'Data Collector Management'
-                  || permission?.acl?.name == 'Bank Management'
-                  || permission?.acl?.name == 'Templates'
-                  || permission?.acl?.name == 'Project Management' || permission?.acl?.name == 'Hotel Management' || permission?.acl?.name == 'Hotel Companies Management'
-                  || permission?.acl?.name == 'Manage Suppliers'
-                  || permission?.acl?.name == 'Notaries Management' || permission?.acl?.name == 'Settings'|| permission?.acl?.name == 'Metatags' " 
-                    class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_purge==1}">{{'addForm.canDelete' | translate}}
-                      <input type="checkbox" [checked]="permission.can_purge == 1 ? 'checked': ''"  (click)="setPermission('can_purge', i)">
-                      <span class="checkmark"></span>
-                  </label>
-                  <label class="cust-check-bx" [ngClass]="{'inner-checked':permission.can_crud==1}">{{'addForm.canCRUD' | translate}}
-                      <input type="checkbox" [checked]="permission.can_crud == 1 ? 'checked': ''"  (click)="setPermission('can_crud', i)">
-                      <span class="checkmark"></span>
-                  </label>
-                  <br>
-                </div>
-                <div class="clearfix"></div>
-              </div>
-                   
               </div>
         </div>
         </form>

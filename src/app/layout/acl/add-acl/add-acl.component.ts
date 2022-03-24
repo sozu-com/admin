@@ -35,12 +35,9 @@ export class AddAclComponent implements OnInit {
   tempAdd: Object;
   disabledBuildings = [];
   seenDuplicate = false;
-  permission_show = false;
-  permission_all = false;
   testObject = [];
   agencies: Array<Agency>;
   predefinedUsers: Array<any>;
-  selected_valo: Array<any>;
   user_type: any;
   external_agent: any;
   value: any;
@@ -154,8 +151,6 @@ export class AddAclComponent implements OnInit {
             e.acl_id = element.id; e.acl = acl; e.show = false;
             e.can_create = 1; e.can_update = 1; e.can_read = 1; e.can_delete = 1; e.can_purge = 1; e.can_crud = 1;
             this.model.admin_acl.push(e);
-            this.model.admin_estend.push(e);
-            this.permission_all = true;
           });
         }, error => {
           this.spinner.hide();
@@ -164,7 +159,6 @@ export class AddAclComponent implements OnInit {
 
   expandBox(index: any) {
     this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
-    // this.model.admin_estend[index].show = this.model.admin_estend[index].show === true ? false : true;
   }
 
   setPermission(param: any, index: any) {
@@ -175,26 +169,13 @@ export class AddAclComponent implements OnInit {
       this.model.admin_acl[index]['can_delete'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_purge'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
-      //another
-      // this.model.admin_estend[index]['can_create'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_read'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_update'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_delete'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_purge'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_crud'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
+
     } else {
       this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
         this.model.admin_acl[index][param] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_create'] === 1 &&
         this.model.admin_acl[index]['can_read'] === 1 && this.model.admin_acl[index]['can_update'] === 1 &&
         this.model.admin_acl[index]['can_delete'] === 1 && this.model.admin_acl[index]['can_purge'] === 1 ? 1 : 0;
-
-      //another
-      // this.model.admin_estend[index][param] = this.model.admin_estend[index][param] &&
-      //   this.model.admin_estend[index][param] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_crud'] = this.model.admin_estend[index]['can_create'] === 1 &&
-      //   this.model.admin_estend[index]['can_read'] === 1 && this.model.admin_estend[index]['can_update'] === 1 &&
-      //   this.model.admin_estend[index]['can_delete'] === 1 && this.model.admin_estend[index]['can_purge'] === 1 ? 1 : 0;
     }
   }
 
@@ -268,11 +249,7 @@ export class AddAclComponent implements OnInit {
       input.append('branches', JSON.stringify([]));
     }
     if (this.model.image) { input.append('image', this.model.image); }
-    // console.log(this.model.admin_acl, "this.model.admin_acl");
-    // console.log(this.model.admin_estend, "this.model.admin_estend");
     input.append('admin_acl', JSON.stringify(this.model.admin_acl));
-
-    //input.append('admin_acl', JSON.stringify(this.model.admin_estend));
     // checking if locality is same or not
     this.model.address.map((item) => {
       let value = item['buildings'];
@@ -355,7 +332,6 @@ export class AddAclComponent implements OnInit {
     this.admin.postDataApi('getNewUserById', { id: id }).subscribe(r => {
       this.spinner.hide();
       const userdata = r['data'];
-      this.model.adminAcls = userdata.admin_acls;
       if (data == 'update') {
         this.admin.setUser(userdata.admin_acls);
       }
@@ -435,56 +411,15 @@ export class AddAclComponent implements OnInit {
         };
         this.model.address[0] = obj;
       }
-
-
-
-      var keys = Object.keys(userdata.permissions);
-      var filtered = keys.filter(function (key) {
-        return userdata.permissions[key]
-      });
-      var theRemovedElement = filtered.slice(3);
-      theRemovedElement.splice(-2);
-
-      if (theRemovedElement.length > 1) {
-        this.model.admin_acl = userdata.admin_acls;
-        // this.model.admin_estend = userdata.admin_acls;
-        this.permission_show = false;
-        this.permission_all = true;
-      } else if (theRemovedElement.length == 1) {
-        const found = theRemovedElement.find(element => element == 'can_outside_broker');
-        console.log(found, "found");
-        if (found == 'can_outside_broker') {
-          for (let index = 0; index < userdata.admin_acls.length; index++) {
-            const element = userdata.admin_acls[index];
-            if (element.acl.name == 'Properties For Sale Management') {
-              this.permission_show = true;
-              this.permission_all = false;
-              let newArray = [];
-              newArray.push(element);
-              if (newArray.length > 1) {
-                this.model.admin_estend = newArray[0];
-              } else {
-                this.model.admin_estend = newArray;
-              }
-              element.can_create = 0,
-                element.can_delete = 0,
-                element.can_update = 0,
-                element.can_read = 1,
-                element.can_crud = 0,
-                element.can_purge = 0;
-            }
-          }
-        } else {
-          this.permission_show = false;
-          this.permission_all = true;
-          this.model.admin_acl = userdata.admin_acls;
-          //this.model.admin_estend = userdata.admin_acls;
-        }
-      } else {
-        this.permission_show = false;
-        this.permission_all = true;
-        this.model.admin_acl = userdata.admin_acls;
-        // this.model.admin_estend = userdata.admin_acls;
+      this.model.admin_acl = userdata.admin_acls;
+      for (let index = 0; index < userdata.admin_acls.length; index++) {
+        const element = userdata.admin_acls[index];
+        element.can_create = element.can_create || 0,
+          element.can_delete = element.can_delete || 0,
+          element.can_update = element.can_update || 0,
+          element.can_read = element.can_read || 0,
+          element.can_crud = element.can_crud || 0,
+          element.can_purge = element.can_purge || 0;
       }
 
       this.setUserType(userdata.user_type);
@@ -867,13 +802,6 @@ export class AddAclComponent implements OnInit {
         //   value: this.model.is_developer || false
         // }
       ];
-      this.selected_valo = [
-        {
-          title: this.translate.instant('addForm.outSideAgent'),
-          key: 'is_external_agent',
-          value: this.model.is_external_agent === true
-        },
-      ];
     } else {
       this.predefinedUsers = [
         {
@@ -887,87 +815,6 @@ export class AddAclComponent implements OnInit {
 
   setPredefinedUsers(item, value, i: number) {
     item.value = !item.value
-    var t = this.predefinedUsers
-      .filter(opt => opt.value)
-      .map(opt => opt);
-    this.selected_valo = t;
-    if (this.selected_valo.length > 1) {
-      this.permission_show = false;
-      this.permission_all = true;
-      if (this.model.id) {
-        this.model.admin_acl = this.model.adminAcls;
-      } else {
-        this.model.admin_acl;
-        console.log(this.model.admin_acl, "this.selected_valo");
-      }
-    } else if (this.selected_valo.length == 1) {
-      for (let i = 0; i < this.selected_valo.length; i++) {
-        const ele = this.selected_valo[i];
-        if (ele.title == "Outside Agent") {
-          if (this.model.id) {
-            for (let index = 0; index < this.model.adminAcls.length; index++) {
-              const element = this.model.adminAcls[index];
-              if (element.acl.name == 'Properties For Sale Management') {
-                this.permission_all = false;
-                this.permission_show = true;
-                let newArray = [];
-                newArray.push(element);
-                if (newArray.length > 1) {
-                  this.model.admin_estend = newArray[0];
-                } else {
-                  this.model.admin_estend = newArray;
-                }
-                element.can_create = 0,
-                  element.can_delete = 0,
-                  element.can_update = 0,
-                  element.can_read = 1,
-                  element.can_crud = 0,
-                  element.can_purge = 0;
-              }
-            }
-          } else {
-            for (let index = 0; index < this.model.admin_acl.length; index++) {
-              const element = this.model.admin_acl[index];
-              if (element.acl.name == 'Properties For Sale Management') {
-                this.permission_all = false;
-                this.permission_show = true;
-                let newArray = [];
-                newArray.push(element);
-                if (newArray.length > 1) {
-                  this.model.admin_estend = newArray[0];
-                } else {
-                  this.model.admin_estend = newArray;
-                }
-                element.can_create = 0,
-                  element.can_delete = 0,
-                  element.can_update = 0,
-                  element.can_read = 1,
-                  element.can_crud = 0,
-                  element.can_purge = 0;
-              }
-            }
-          }
-
-        } else {
-          this.permission_show = false;
-          this.permission_all = true;
-          if (this.model.id) {
-            this.model.admin_acl = this.model.adminAcls;
-          } else {
-            this.model.admin_acl;
-          }
-        }
-      }
-    } else {
-      this.permission_show = false;
-      this.permission_all = true;
-      if (this.model.id) {
-        this.model.admin_acl = this.model.adminAcls;
-      } else {
-        this.model.admin_acl;
-      }
-    }
-
     if (this.model.id && !value && (item.title == 'CSR Buyer' || item.title == 'CSR Seller' || item.title == 'Inhouse Agent')) {
       let input = {
         all: 0,
@@ -999,21 +846,6 @@ export class AddAclComponent implements OnInit {
     }
   }
 
-  // add_valo() {
-  //   var t = this.predefinedUsers
-  //     .filter(opt => opt.value)
-  //     .map(opt => opt);
-  //   this.selected_valo = t;
-  // }
-  // getSel() {
-  //   for (let i = 0; i < this.selected_valo.length; i++) {
-  //     for (let j = 0; j < this.predefinedUsers.length; j++) {
-  //       if (this.predefinedUsers[j].title === this.selected_valo[i].title) {
-  //         this.predefinedUsers[j].value = true;
-  //       }
-  //     }
-  //   }
-  // }
 
   setIsCompany(is_company: string) {
     this.model.is_company = is_company;
