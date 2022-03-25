@@ -71,25 +71,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         success => {
           localStorage.setItem('all', JSON.stringify(success));
           this.spinner.hide();
-          var keys = Object.keys(success.data.permissions);
-          var filtered = keys.filter(function (key) {
-            return success.data.permissions[key]
-          });
-          var theRemovedElement = filtered.slice(3);
-          theRemovedElement.splice(-2);
-          if (theRemovedElement.length > 1) {
-            this.router.navigate(['dashboard']);
-          } else if (theRemovedElement.length == 1) {
-            const found = theRemovedElement.find(element => element == 'can_outside_broker');
-            console.log(found, "found_login");
-            if (found == 'can_outside_broker') {
-              this.router.navigate(['dashboard/properties-for-sale/view-properties-for-sale']);
-            } else {
-              this.router.navigate(['dashboard']);
-            }
-          } else {
-            this.router.navigate(['dashboard']);
-          }
+
           // if (success.data.is_external_agent == 1) {
           //   this.router.navigate(['dashboard/properties-for-sale/view-properties-for-sale']);
           // } else {
@@ -99,19 +81,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
             swal(this.translate.instant('swal.error'), this.translate.instant('login.blockedByAdmin'), 'error');
             return false;
           }
-          // if (success.data.admin_acl) {
-          //   let check = true;
-          //   const dd = this.admin.admin_acl_array.map((obj, index) => {
-          //     const key = Object.keys(obj)[0];
-          //     if (check && obj[key]['can_read'] === 1) {
-          //       check = false;
-          //       this.router.navigate([obj[key]['acl'].path]);
-          //     }
-          //   });
-          // }
-          // else {
-          //     this.router.navigate(['dashboard']);
-          // }
+          if (success.data.admin_acl) {
+            let check = true;
+            const dd = this.admin.admin_acl_array.map((obj, index) => {
+              const key = Object.keys(obj)[0];
+              if (check && obj[key]['can_read'] === 1) {
+                check = false;
+                this.router.navigate([obj[key]['acl'].path]);
+              }
+            });
+          }
+          else {
+            this.router.navigate(['dashboard']);
+          }
 
         },
         error => {

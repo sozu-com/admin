@@ -277,11 +277,11 @@
                     <label>{{'table.th.LinkAgency' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:20%;" *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
+                <!-- <th style="width:20%;" *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
                   </div>
-                </th>
+                </th> -->
               </tr>
 
               <tbody *ngIf="is_filter">
@@ -359,7 +359,7 @@
                         {{p?.get_agency?.id ? p?.get_agency?.name : ('table.tr.td.NA' | translate)}}</span>
                     </span>
                   </td>
-                  <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
+                  <!-- <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
                     <div class="table-actions">
 
                       <button (click)="this.openModalInstallment(p);" class="action-icon"
@@ -375,18 +375,18 @@
 
                       <button (click)="this.updateCommercialized(p,1);" class="action-icon"
                       [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized !=1 && parameter?.flag == 3 && all == 1"
+                        *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
                         title="{{'table.title.commercializedProperty' | translate}}">
                         <img src="assets/img/tick.png" alt="img"></button>
 
                       <button (click)="this.updateCommercialized(p,0);" class="action-icon"
                       [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized == true && parameter?.flag == 3 && all == 1"
+                        *ngIf="p.is_commercialized == true && parameter?.flag == 3"
                         title="{{'table.title.markCommercialized' | translate}}">
                         <img src="assets/img/tick-selected.png" alt="img"></button>
                     </div>
 
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
               <!-- chache wla data -->
@@ -474,7 +474,7 @@
                         {{p?.get_agency?.id ? p?.get_agency?.name : ('table.tr.td.NA' | translate)}}</span>
                     </span>
                   </td>
-                  <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
+                  <!-- <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
                     <div class="table-actions">
 
                       <button (click)="this.openModalInstallment(p);" class="action-icon" 
@@ -491,20 +491,20 @@
 
                       <button (click)="this.updateCommercialized(p,1);" class="action-icon"
                       [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized !=1 && parameter?.flag == 3 && all != 1"
+                        *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
                         title="{{'table.title.commercializedProperty' | translate}}">
                         <img src="assets/img/tick.png" alt="img">
                       </button>
 
                       <button (click)="this.updateCommercialized(p,0);" class="action-icon"
                       [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized == true && parameter?.flag == 3 && all != 1"
+                        *ngIf="p.is_commercialized == true && parameter?.flag == 3"
                         title="{{'table.title.markCommercialized' | translate}}">
                         <img src="assets/img/tick-selected.png" alt="img">
                       </button>
                     </div>
 
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
             </table>
