@@ -1,11 +1,16 @@
 <section id="wrapper">
   <app-header></app-header>
-  <section id="main">
+  <section id="main" *ngIf="all != 1">
     <div id="content" class="content-area" *ngIf="!$user">
       <router-outlet></router-outlet>
     </div>
     <div class="content_icon" *ngIf="$user">
       <router-outlet></router-outlet>
     </div>
+  </section>
+
+  <!-- if all == 1 hai ta -->
+  <section id="main" *ngIf="all == 1">
+      <router-outlet></router-outlet>
   </section>
 </section>

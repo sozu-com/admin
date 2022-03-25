@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   @ViewChild('input1') input1: ElementRef;
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngAfterViewInit() {
     // this.input1.nativeElement.focus();
@@ -49,63 +49,70 @@ export class LoginComponent implements OnInit, AfterViewInit {
     const email = formData.value.email;
     const password = formData.value.password;
 
-//     this.admin.adminLogin1(email.toLowerCase(), password)
-//     .subscribe(success => {
-//         this.spinner.hide();
-//         const responseData1 = success[0];
-//         const responseData2 = success[1];
-//         const loginReponse = responseData1.json();
-//         const countryResponse = responseData2.json();
-//         this.admin.login.next(loginReponse.data);
-//         this.admin.country.next(countryResponse.data);
-//         this.admin.setUserLoggedIn();
-//         this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
-//       },
-//       error => {
-//         this.spinner.hide();
-//       }
-//     );
+    //     this.admin.adminLogin1(email.toLowerCase(), password)
+    //     .subscribe(success => {
+    //         this.spinner.hide();
+    //         const responseData1 = success[0];
+    //         const responseData2 = success[1];
+    //         const loginReponse = responseData1.json();
+    //         const countryResponse = responseData2.json();
+    //         this.admin.login.next(loginReponse.data);
+    //         this.admin.country.next(countryResponse.data);
+    //         this.admin.setUserLoggedIn();
+    //         this.router.navigate(['dashboard/view-inhouse-users/data-collectors']);
+    //       },
+    //       error => {
+    //         this.spinner.hide();
+    //       }
+    //     );
 
     this.admin.adminLogin(email.toLowerCase(), password)
       .subscribe(
         success => {
           localStorage.setItem('all', JSON.stringify(success));
           this.spinner.hide();
+          var keys = Object.keys(success.data.permissions);
+          var filtered = keys.filter(function (key) {
+            return success.data.permissions[key]
+          });
+          var theRemovedElement = filtered.slice(3);
+          theRemovedElement.splice(-2);
+          if (theRemovedElement.length > 1) {
+            this.router.navigate(['dashboard']);
+          } else if (theRemovedElement.length == 1) {
+            const found = theRemovedElement.find(element => element == 'can_outside_broker');
+            console.log(found, "found_login");
+            if (found == 'can_outside_broker') {
+              this.router.navigate(['dashboard/properties-for-sale/view-properties-for-sale']);
+            } else {
+              this.router.navigate(['dashboard']);
+            }
+          } else {
+            this.router.navigate(['dashboard']);
+          }
+          // if (success.data.is_external_agent == 1) {
+          //   this.router.navigate(['dashboard/properties-for-sale/view-properties-for-sale']);
+          // } else {
+          //   this.router.navigate(['dashboard']);
+          // }
           if (success.data.is_blocked === 1) {
             swal(this.translate.instant('swal.error'), this.translate.instant('login.blockedByAdmin'), 'error');
             return false;
           }
-          // if (success.data.permissions) {
-          //   if (success.data.permissions.can_csr_buyer === 1) {
-          //     this.router.navigate(['dashboard/leads/csr-buyers']);
-          //   } else if (success.data.permissions.can_data_collector === 1) {
-          //     this.router.navigate(['dashboard/leads/data-collectors']);
-          //   } else if (success.data.permissions.can_in_house_broker === 1) {
-          //     this.router.navigate(['dashboard/leads/inhouse-broker']);
-          //   } else if (success.data.permissions.can_csr_seller === 1) {
-          //     this.router.navigate(['dashboard/leads/csr-sellers']);
-          //   } else if (success.data.permissions.can_csr_closer === 1) {
-          //     this.router.navigate(['dashboard/leads/csr-closers']);
-          //   } else if (success.data.permissions.can_bank === 1) {
-          //     this.router.navigate(['dashboard/banks/bank-leads']);
-          //   } else if (success.data.permissions.can_noatary === 1) {
-          //     this.router.navigate(['dashboard/notary/notary-leads']);
-          //   } else {
-          //     swal(this.translate.instant('swal.error'), this.translate.instant('login.apiMessages.noAccess'), 'error');
-          //   }
-          // } else 
-          if (success.data.admin_acl) {
-            let check = true;
-            const dd = this.admin.admin_acl_array.map((obj, index) => {
-              const key =  Object.keys(obj)[0];
-              if (check && obj[key]['can_read'] === 1) {
-                check = false;
-                this.router.navigate([obj[key]['acl'].path]);
-              }
-            });
-          } else {
-            this.router.navigate(['dashboard']);
-          }
+          // if (success.data.admin_acl) {
+          //   let check = true;
+          //   const dd = this.admin.admin_acl_array.map((obj, index) => {
+          //     const key = Object.keys(obj)[0];
+          //     if (check && obj[key]['can_read'] === 1) {
+          //       check = false;
+          //       this.router.navigate([obj[key]['acl'].path]);
+          //     }
+          //   });
+          // }
+          // else {
+          //     this.router.navigate(['dashboard']);
+          // }
+
         },
         error => {
           this.spinner.hide();

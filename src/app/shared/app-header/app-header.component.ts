@@ -863,6 +863,7 @@ export class AppHeaderComponent implements OnInit {
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
   notificationCount: any;
   public language_code: string; $user: string;
+  all: any;
   constructor(public admin: AdminService,
     private route: ActivatedRoute, private router: Router,
     public constant: Constant,
@@ -872,6 +873,30 @@ export class AppHeaderComponent implements OnInit {
     private commonService: CommonService
   ) {
     this.language_code = localStorage.getItem('language_code');
+    var all_data = JSON.parse(localStorage.getItem('all'));
+    // this.all = all_data.data.is_external_agent;
+    // console.log(this.all, "testcheck");
+    var keys = Object.keys(all_data.data.permissions);
+    var filtered = keys.filter(function (key) {
+      return all_data.data.permissions[key]
+    });
+    var theRemovedElement = filtered.slice(3);
+    theRemovedElement.splice(-2);
+    console.log(theRemovedElement, "theRemovedElement");
+    if (theRemovedElement.length > 1) {
+      this.all = 0;
+    } else if (theRemovedElement.length == 1) {
+      const found = theRemovedElement.find(element => element == 'can_outside_broker');
+      console.log(found, "found");
+      if (found == 'can_outside_broker') {
+        this.all = 1;
+      } else {
+        this.all = 0;
+      }
+    } else {
+      this.all = 0;
+    }
+
     this.treeControl = new NestedTreeControl<MyTreeNode>(this.makeGetChildrenFunction())
     this.treeDataSource = new MatTreeNestedDataSource()
     this.treeDataSource.data = demoNodes,
@@ -971,6 +996,7 @@ export class AppHeaderComponent implements OnInit {
         localStorage.removeItem('isLoggedin');
         localStorage.removeItem('permissions');
         localStorage.removeItem('admin_acl');
+        localStorage.removeItem('all');
         this.admin.admin_acl = {};
         this.admin.admin_acl_array = [];
         this.admin.permissions = {};
