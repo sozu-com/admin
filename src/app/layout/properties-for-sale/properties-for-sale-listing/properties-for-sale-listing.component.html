@@ -765,13 +765,13 @@
 
         <div class="row">
           <div class="col-md-8 col-6">
-            <input style="max-width:200px" (keyup.enter)="getBothBroker('', keyword)" [(ngModel)]="keyword"
+            <input style="max-width:200px" (keyup.enter)="getBothBroker('', keyword,false)" [(ngModel)]="keyword"
               class="form-control" type="text" name="keyword"
               placeholder="{{'addForm.placeholder.search' | translate}}">
           </div>
           <div class="col-md-4 col-5 btn-cont">
             <a class="btn btn-primary pull-right" href="javascript://"
-              (click)="getBothBroker('', keyword)">{{'viewProperty.search' | translate}}</a>
+              (click)="getBothBroker('', keyword,false)">{{'viewProperty.search' | translate}}</a>
           </div>
         </div>
 
