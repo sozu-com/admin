@@ -22,6 +22,7 @@ import { ApiConstants } from 'src/app/common/api-constants';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { forkJoin } from 'rxjs';
+import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 
 declare let swal: any;
 declare var $: any;
@@ -157,7 +158,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     private propertyService: PropertyService, private spinner: NgxSpinnerService,
     private route: ActivatedRoute, private router: Router,
     private translate: TranslateService, public model: AddPropertyModel,
-    private formBuilder: FormBuilder, private datePipe: DatePipe,
+    private formBuilder: FormBuilder, private datePipe: DatePipe, private offerPdf: GenerateOfferPdfService,
     private http: HttpClient, private price: PricePipe, public cs: CommonService
   ) {
     var all_data = JSON.parse(localStorage.getItem('all'));
@@ -280,7 +281,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     //  this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
-    this.subscribeInstallmentFormGroup();
+    //this.subscribeInstallmentFormGroup();
     this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
       .subscribe(res => {
         const reader = new FileReader();
@@ -1609,6 +1610,22 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     // }
   }
 
+  offerID(item) {
+    // this.offer_id = item.random_id;
+    // this.spinner.show();
+    // this.admin.postDataApi('getOfferById', { id: (item || {}).id }).subscribe((success) => {
+    //   this.spinner.hide();
+    //   this.offer_array = (success || {}).data;
+    //   if(this.offer_array.id){
+    //      this.openModaloffer(this.offer_array)
+    //   }
+    // }, (error) => {
+    //   this.spinner.hide();
+    //   swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    // });
+    this.offerPdf.offerID(item, this.propertyDetail);
+  }
+
   installmentFormGroupPatchValue = (): void => {
     this.installmentFormGroup.patchValue({
       payment_name: '',
@@ -1637,6 +1654,9 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         this.installmentFormGroup.get('discount').enable({ onlySelf: true });
         this.installmentFormGroup.get('interest').enable({ onlySelf: true });
       }
+      // if(currentValue){
+      //   this.onClickPreview(false);
+      // }      
     });
   }
 
