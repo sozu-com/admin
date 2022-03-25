@@ -2277,10 +2277,11 @@
           <form autocomplete="off" class="form-horizontal form-model0P form-model-newP"
             [formGroup]="this.installmentFormGroup">
             <div class="modal-body modal-body-new">
-               <label *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">{{'addForm.payment_way' | translate}}</label>
-               <!-- <div class="spacer15"></div> -->
+               <!-- <label *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">{{'addForm.payment_way' | translate}}</label> -->
+               <label>{{'generatePDF.offerDetails' | translate}}</label>
+               <div class="spacer15"></div>
                <!-- List and final price fields -->
-               <!-- <div class="row">
+               <div class="row">
                   <div class="col-lg-4 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label>{{'generatePDF.listprice' | translate}}</label>
@@ -2300,9 +2301,9 @@
                      </div>
                   </div>
                </div>
-               <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddParkingLotForSale').value"></div> -->
+               <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddParkingLotForSale').value"></div>
                <!-- parking lot for sale button-->
-               <!-- <div class="row" *ngIf="!this.installmentFormGroup.get('isAddParkingLotForSale').value">
+               <div class="row" *ngIf="!this.installmentFormGroup.get('isAddParkingLotForSale').value">
                   <div class="col-12">
                      <div class="btn-cont">
                         <span><a class="add" href="javascript://"
@@ -2311,9 +2312,9 @@
                      </div>
                   </div>
                </div>
-               <div class="spacer15"></div> -->
+               <div class="spacer15"></div>
                <!-- parking lot for sale row-->
-               <!-- <div class="row" *ngIf="this.installmentFormGroup.get('isAddParkingLotForSale').value">
+               <div class="row" *ngIf="this.installmentFormGroup.get('isAddParkingLotForSale').value">
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label>{{'addForm.noparking' | translate}} <span class="color-red">*</span></label>
@@ -2353,9 +2354,9 @@
                            (click)="this.markIsParkingLotForSale(false,$event)">{{'addForm.remove' |
                            translate}}</a></span>
                   </div>
-               </div> -->
+               </div>
                <!-- parking list row -->
-               <!-- <div formArrayName="parkingLotForSaleFormArray" *ngIf="this.getParkingLotForSaleFormArrayLength > 0">
+               <div formArrayName="parkingLotForSaleFormArray" *ngIf="this.getParkingLotForSaleFormArrayLength > 0">
                   <ng-container
                      *ngFor="let temp_parking_lot_for_sale of this.getParkingLotForSaleFormArray['controls']; let i=index">
                      <div [formGroupName]="i">
@@ -2396,9 +2397,9 @@
                      </div>
                   </ng-container>
                </div>
-               <hr> -->
-               <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
-               <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
+               <hr>
+               <div class="spacer15"></div>
+               <!-- <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label>{{'addForm.namePaymentWay' | translate}}</label>
@@ -2406,54 +2407,78 @@
                            formControlName="payment_name" />
                      </div>
                   </div>
-               </div>
+               </div> -->
                <!-- down or discount -->
-               <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
-               <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
-                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+               <div class="spacer15"></div>
+               <div class="row">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label>{{'generatePDF.discountPercentage' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="discount" style="display: inline; width: 80%;" appOnlyDecimal />
-                           <label style="margin-left: 10px;">%</label>
+                           formControlName="discount" appOnlyDecimal />
+                           <!-- <label style="margin-left: 10px;">%</label> -->
                      </div>
                   </div>
-                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                     <p style="color: red;font-size: 15px;"
+                        *ngIf="isPreview && !installmentFormGroup.get('interestFinalPrice').value">
+                        ${{installmentFormGroup.get("discountFinalPrice").value}}</p>
+                  </div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label>{{'generatePDF.downPaymentPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="downPayment" style="display: inline; width: 80%;" appOnlyDecimal/>
-                           <label style="margin-left: 10px;">%</label>
+                           formControlName="downPayment" appOnlyDecimal/>
+                           <!-- <label style="margin-left: 10px;">%</label> -->
                      </div>
                   </div>
-                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label style="color: white;">{{'addForm.Type' | translate}}</label>
                         <p style="color: red;font-size: 15px;" *ngIf="isPreview">
                            ${{installmentFormGroup.get("downPaymentFinalPrice").value}}</p>
                      </div>
-                  </div> -->
-                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-                     <label style="color: white;">{{'addForm.Type' | translate}}</label>
-                     <p style="color: red;font-size: 15px;"
-                        *ngIf="isPreview && !installmentFormGroup.get('interestFinalPrice').value">
-                        ${{installmentFormGroup.get("discountFinalPrice").value}}</p>
-                  </div> -->
+                  </div>
                </div>
                <!-- month or interest -->
-               <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
-               <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
-                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+               <div class="spacer15"></div>
+               <div class="row">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="monthlyInstallment" style="display: inline; width: 80%;" appOnlyDecimal/>
-                           <label style="margin-left: 10px;">%</label>
+                           formControlName="monthlyInstallment" appOnlyDecimal/>
+                           <!-- <label style="margin-left: 10px;">%</label> -->
                      </div>
                   </div>
-                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                        <p style="color: red;font-size: 15px;" *ngIf="isPreview">
+                           ${{installmentFormGroup.get("monthlyInstallmentFinalPrice").value}}</p>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label>{{'generatePDF.interest' | translate}}</label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                           formControlName="interest" appOnlyDecimal/>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                     <label style="color: white;">{{'addForm.Type' | translate}}</label>
+                     <p style="color: red;font-size: 15px;"
+                        *ngIf="isPreview && installmentFormGroup.get('interestFinalPrice').value">
+                        ${{installmentFormGroup.get("interestFinalPrice").value}} </p>
+                  </div>
+               </div>
+               <!-- numberOfMI -->
+               <div class="spacer15"></div>
+               <div class="row">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span
                               class="color-red">*</span></label>
@@ -2461,50 +2486,26 @@
                            placeholder="#" formControlName="numberOfMI"/>
                      </div>
                   </div>
-                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-                     <div class="form-group-3">
-                        <label style="color: white;">{{'addForm.Type' | translate}}</label>
-                        <p style="color: red;font-size: 15px;" *ngIf="isPreview">
-                           ${{installmentFormGroup.get("monthlyInstallmentFinalPrice").value}}</p>
-                     </div>
-                  </div> -->
-                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-                     <div class="form-group-3">
-                        <label>{{'generatePDF.interest' | translate}}</label>
-                        <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="interest" appOnlyDecimal/>
-                     </div>
-                  </div> -->
-                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
-                     <label style="color: white;">{{'addForm.Type' | translate}}</label>
-                     <p style="color: red;font-size: 15px;"
-                        *ngIf="isPreview && installmentFormGroup.get('interestFinalPrice').value">
-                        ${{installmentFormGroup.get("interestFinalPrice").value}} </p>
-                  </div> -->
-               </div>
-               <!-- numberOfMI -->
-               <!-- <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
-               <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"> -->
-                   <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+               <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                <div class="form-group-3">
                   <label style="color: white;">{{'addForm.Type' | translate}}</label>
                  <p style="color: red;font-size: 15px;">$2,102,178.00</p>
                </div>
             </div> -->
-               <!-- </div> -->
+               </div> 
                <!-- paymentupondeliveryPercentage -->
-               <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
-               <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
-                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+               <div class="spacer15"></div>
+               <div class="row">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" formControlName="paymentupondelivery"
-                           placeholder="%" style="display: inline; width: 80%;" appOnlyDecimal/>
-                           <label style="margin-left: 10px;">%</label>
+                           placeholder="%" appOnlyDecimal/>
+                           <!-- <label style="margin-left: 10px;">%</label> -->
                      </div>
                   </div>
-                  <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label style="color: white;">{{'addForm.Type' | translate}}</label>
                         <p style="color: red;font-size: 15px;" *ngIf="isPreview">
@@ -2518,10 +2519,10 @@
                            (click)="this.onClickPreview(true)">
                            {{'generatePDF.preview' | translate}}</button>
                      </div>
-                  </div> -->
+                  </div>
                </div>
                <!-- add variable button-->
-               <!-- <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddVariables').value"></div>
+               <div class="spacer15" *ngIf="!this.installmentFormGroup.get('isAddVariables').value"></div>
                <div class="row" *ngIf="!this.installmentFormGroup.get('isAddVariables').value">
                   <div class="col-12">
                      <div class="btn-cont">
@@ -2530,10 +2531,10 @@
                               translate}}</a></span>
                      </div>
                   </div>
-               </div> -->
-               <!-- <div class="spacer15"></div> -->
+               </div>
+               <div class="spacer15"></div>
                <!-- add variable row-->
-               <!-- <div class="row" *ngIf="this.installmentFormGroup.get('isAddVariables').value">
+               <div class="row" *ngIf="this.installmentFormGroup.get('isAddVariables').value">
                   <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label>{{'generatePDF.variableName' | translate}} <span class="color-red">*</span></label>
@@ -2558,8 +2559,8 @@
                      <span><a class="add" style="color: red;" href="javascript://"
                            (click)="this.markIsAddVariables(false,$event)">{{'addForm.remove' | translate}}</a></span>
                   </div>
-               </div> -->
-               <!-- listing of add variable  
+               </div>
+               <!-- listing of add variable -->
                <div formArrayName="addVariablesFormArray" *ngIf="this.getAddVariablesFormArrayLength > 0">
                   <ng-container
                      *ngFor="let temp_add_variables of this.getAddVariablesFormArray['controls']; let i=index">
@@ -2611,17 +2612,17 @@
                </div>
                <!-- leadName -->
                <div class="spacer15"></div>
-               <label>{{'generatePDF.offerDetails' | translate}}</label>
+               <!-- <label>{{'generatePDF.offerDetails' | translate}}</label> -->
                <div class="spacer15"></div>
                <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                      <label style="width: 232px;">{{'generatePDF.leadName' | translate}} <span
                            class="color-red">*</span></label>
                      <input autocomplete="off" type="text" class="form-control" placeholder=""
                         formControlName="leadName" />
                   </div>
                </div>
-               <div class="spacer15"></div>
+               <!-- <div class="spacer15"></div>
                <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                      <label style="width: 232px;">{{'generatePDF.email' | translate}}</label>
@@ -2638,9 +2639,9 @@
                            minlength="1" formControlName="phone"  name="phone" ng2TelInput
                            [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
                   </div>
-               </div>
+               </div> -->
                <!-- bankDetails -->
-               <!-- <div class="spacer20"></div>
+               <div class="spacer20"></div>
                <label>{{'generatePDF.bankDetails' | translate}}</label>
                <div class="row" style="margin: auto;">
                   <div class="col-lg-2 col-md-6 col-sm-6 col-12">
@@ -2676,7 +2677,7 @@
                         </div>
                      </div>
                   </div>
-               </div> -->
+               </div>
                <!-- addNote -->
                <div class="spacer15" *ngIf="this.getAddNoteFormArrayLength == 0"></div>
                <div class="row" *ngIf="this.getAddNoteFormArrayLength == 0">
@@ -2771,9 +2772,9 @@
                <div class="col-md-3">
                   <h6>{{'table.th.agent' | translate}}</h6>
                </div>
-               <div class="col-md-3">
+               <!-- <div class="col-md-3">
                   <h6>{{'generatePDF.leadName' | translate}}</h6>
-               </div>
+               </div> -->
                <div class="col-md-4">
                   <h6>{{'table.th.date' | translate}}</h6>
                </div>
@@ -2791,13 +2792,13 @@
                   </thead> -->
                   <tbody class="content">
                      <tr *ngFor="let offer of property_offers">
-                        <td style="width: 15%;">
+                        <td style="width: 18%;">
                            <a class="add1" href="javascript://" (click)="offerID(offer)" style="color: #00B96F;">
                               {{offer.random_id}}
                            </a>
                         </td>
-                        <td style="width: 30%;">{{offer.admins.name ? offer.admins.name : ('viewProperty.NA' | translate)}}</td>
-                        <td>{{offer.name ? offer.name : ('viewProperty.NA' | translate)}}</td>
+                        <td style="width: 21%;">{{offer.admins.name ? offer.admins.name : ('viewProperty.NA' | translate)}}</td>
+                        <!-- <td>{{offer.name ? offer.name : ('viewProperty.NA' | translate)}}</td> -->
                         <td>{{offer.created_at | date }}</td>
                         <td> <button class="action-icon"
                               title="{{'table.title.delete' | translate}}"><img src="assets/img/ic_delete.png" alt="img"
