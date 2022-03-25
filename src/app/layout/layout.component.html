@@ -1,6 +1,6 @@
 <section id="wrapper">
   <app-header></app-header>
-  <section id="main" *ngIf="all != 1">
+  <section id="main">
     <div id="content" class="content-area" *ngIf="!$user">
       <router-outlet></router-outlet>
     </div>
@@ -8,9 +8,3 @@
       <router-outlet></router-outlet>
     </div>
   </section>
-
-  <!-- if all == 1 hai ta -->
-  <section id="main" *ngIf="all == 1">
-      <router-outlet></router-outlet>
-  </section>
-</section>
