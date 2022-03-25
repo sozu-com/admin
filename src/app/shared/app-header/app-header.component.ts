@@ -884,18 +884,17 @@ export class AppHeaderComponent implements OnInit {
     theRemovedElement.splice(-2);
     console.log(theRemovedElement, "header");
     const found = theRemovedElement.find(element => element == 'can_outside_broker');
-    console.log(found, "found_header");
     if (theRemovedElement.length > 1) {
-      if (found == 'can_outside_broker') {
-        this.all = 0; this.hide_property = 1; //admin credentionals with outside
-      } else {
-        this.all = 0; this.hide_property = 0; //sonu@g.com without outside
-      }
+      // if (found == 'can_outside_broker') {
+      this.all = 0; this.hide_property = 1; //admin credentionals with outside
+      // } else {
+      //   this.all = 0; this.hide_property = 1; //sonu@g.com without outside
+      // }
     } else if (theRemovedElement.length == 1) {
       if (found == 'can_outside_broker') {
         this.all = 1; this.hide_property = 1;//tesz@g.com outside only
       } else {
-        this.all = 0; this.hide_property = 0; //yup@g.com inhouse
+        this.all = 0; this.hide_property = 1; //yup@g.com inhouse
       }
     } else {
       this.all = 0; this.hide_property = 1;
