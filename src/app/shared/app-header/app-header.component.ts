@@ -863,7 +863,7 @@ export class AppHeaderComponent implements OnInit {
   public scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
   notificationCount: any;
   public language_code: string; $user: string;
-  all: any;
+  all: any; hide_property: any;
   constructor(public admin: AdminService,
     private route: ActivatedRoute, private router: Router,
     public constant: Constant,
@@ -882,19 +882,23 @@ export class AppHeaderComponent implements OnInit {
     });
     var theRemovedElement = filtered.slice(3);
     theRemovedElement.splice(-2);
-    console.log(theRemovedElement, "theRemovedElement");
+    console.log(theRemovedElement, "header");
+    const found = theRemovedElement.find(element => element == 'can_outside_broker');
+    console.log(found, "found_header");
     if (theRemovedElement.length > 1) {
-      this.all = 0;
-    } else if (theRemovedElement.length == 1) {
-      const found = theRemovedElement.find(element => element == 'can_outside_broker');
-      console.log(found, "found");
       if (found == 'can_outside_broker') {
-        this.all = 1;
+        this.all = 0; this.hide_property = 1; //admin credentionals with outside
       } else {
-        this.all = 0;
+        this.all = 0; this.hide_property = 0; //sonu@g.com without outside
+      }
+    } else if (theRemovedElement.length == 1) {
+      if (found == 'can_outside_broker') {
+        this.all = 1; this.hide_property = 1;//tesz@g.com outside only
+      } else {
+        this.all = 0; this.hide_property = 0; //yup@g.com inhouse
       }
     } else {
-      this.all = 0;
+      this.all = 0; this.hide_property = 1;
     }
 
     this.treeControl = new NestedTreeControl<MyTreeNode>(this.makeGetChildrenFunction())

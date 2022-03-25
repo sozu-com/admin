@@ -453,7 +453,7 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
                 {{'sidebar.Manage_Projects' | translate}}
               </a>
             </li>
-            <li *ngIf="all == 1 &&  admin?.admin_acl['Properties For Sale Management']?.can_read == 1" class="nav-item"
+            <li *ngIf="all == 1 && hide_property == 1 && admin?.admin_acl['Properties For Sale Management']?.can_read == 1" class="nav-item"
               [routerLinkActive]="'active'">
               <a href="javascript://" class="list-group-item  " data-parent="#menu6"
                 routerLink="properties-for-sale/view-properties-for-sale">
@@ -461,6 +461,14 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
                     translate}}
               </a>
             </li>
+            <li *ngIf="all != 1 && hide_property == 1" class="nav-item"
+            [routerLinkActive]="'active'">
+            <a href="javascript://" class="list-group-item" data-parent="#menu6"
+              routerLink="properties-for-sale/view-properties-for-sale">
+              {{'sidebar.managePropertiesForSale' |
+                  translate}}
+            </a>
+          </li>
           </div>
           <!---menu 7-->
           <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
