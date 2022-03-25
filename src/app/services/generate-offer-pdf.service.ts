@@ -514,10 +514,18 @@ export class GenerateOfferPdfService {
     let current_date = new Date();
     let buyer_name = this.property_array.selected_buyer && this.property_array.selected_buyer.user.legal_entity ? this.property_array.selected_buyer.user.legal_entity.comm_name : this.property_array.selected_buyer && !this.property_array.selected_buyer.legal_entity ?
       this.property_array.selected_buyer.user.name + ' ' + this.property_array.selected_buyer.user.first_surname + ' ' + this.property_array.selected_buyer.user.second_surname : 'N/A';
-    let seller_name = this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity ? this.property_array.selected_seller.user.legal_entity.comm_name : this.property_array.selected_seller && !this.property_array.selected_seller.legal_entity ?
+    let seller_name = this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity ? this.property_array.selected_seller.user.legal_entity.legal_name : this.property_array.selected_seller && !this.property_array.selected_seller.legal_entity ?
       this.property_array.selected_seller.user.name + ' ' + this.property_array.selected_seller.user.first_surname + ' ' + this.property_array.selected_seller.user.second_surname : 'N/A';
-    let date = this.datePipe.transform(current_date, 'd/M/y');
-    let last_date = this.datePipe.transform(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0), 'd/M/y');
+    let date = this.datePipe.transform(current_date, 'd/MM/y');
+    let last_date = this.datePipe.transform(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0), 'd/MM/y');
+    let year = Number(date.substring(6, date.length));
+    let month = Number(date.substring(3, 5)) - 1;
+    let year1 = Number(this.property_array.building.launch_date.substring(0, 4));
+    let month1 = Number(this.property_array.building.launch_date.substring(5, 7)) - 1;
+    let monthCount = moment([year, month, 1]).diff(moment([year1, month, 1]), 'months', true);
+    let monthCount1 = moment([year1, month1, 1]).diff(moment([year, month, 1]), 'months', true);
+    let monthDiffCount = this.property_array.building.launch_date && monthCount > 0 ? monthCount + ' mensualidades:' : this.property_array.building.launch_date &&
+    monthCount1 > 0 ? monthCount1 + ' mensualidades:' : undefined;
     let bank;
     if(this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity){
     bank = this.property_array.selected_seller.user.legal_entity.legal_entity_banks.find(item => item.status == 1 );
@@ -621,7 +629,7 @@ export class GenerateOfferPdfService {
                   ],
                   [
                     { text: 'N° de propiedad:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: this.property_count, border: [false, false, false, false], fontSize: 10 },
+                    { text: this.property_array ? this.property_array.name : '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
@@ -679,7 +687,7 @@ export class GenerateOfferPdfService {
                     { text: seller_name, border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: 'Nombre completo:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: buyer_name, border: [false, false, false, false], fontSize: 10 },
+                    { text: this.offer ? this.offer.name : '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
@@ -687,7 +695,7 @@ export class GenerateOfferPdfService {
                     { text: this.property_array.selected_seller && this.property_array.selected_seller.user.phone ? this.property_array.selected_seller.user.dial_code + ' ' + this.property_array.selected_seller.user.phone : 'N/A', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: 'Teléfono:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: this.property_array.selected_buyer && this.property_array.selected_buyer.user.phone ? this.property_array.selected_buyer.user.dial_code + ' ' + this.property_array.selected_buyer.user.phone : 'N/A', border: [false, false, false, false], fontSize: 10 },
+                    { text: this.offer && this.offer.phone ? this.offer.dial_code + ' ' + this.offer.phone : '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
@@ -695,7 +703,7 @@ export class GenerateOfferPdfService {
                     { text: this.property_array.selected_seller && this.property_array.selected_seller.user.email ? this.property_array.selected_seller.user.email : 'N/A', border: [false, false, false, true], fontSize: 10 },
                     { text: '', border: [false, false, false, true], fontSize: 10 },
                     { text: 'Correo electrónico:', bold: true, border: [false, false, false, true], fontSize: 10 },
-                    { text: this.property_array.selected_buyer && this.property_array.selected_buyer.user.email ? this.property_array.selected_buyer.user.email : 'N/A', border: [false, false, false, true], fontSize: 10 },
+                    { text: this.offer && this.offer.email ? this.offer.email : '', border: [false, false, false, true], fontSize: 10 },
                     { text: '', border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] }
                   ],
                 ],
@@ -831,17 +839,12 @@ export class GenerateOfferPdfService {
     for (let i = 0; i < Math.round(this.offer_array.length / 2); i++) {
       if (this.offer_array.length == 1) {
         let price = this.property_array.min_price - (Number(this.offer_array[0].discount) * this.property_array.min_price) / 100;
-        let monthDiffCount = this.property_array.building.launch_date && moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true) > 0 ?
-          Math.round(moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true)) + ' mensualidades:' : this.property_array.building.launch_date &&
-            moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true) > 0 ?
-            Math.round(moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true)) + ' mensualidades:' :
-            this.offer_array[0].number_monthly_payments ? this.offer_array[0].number_monthly_payments + ' mensualidades:' : 'mensualidades:';
+        let diffCount = monthDiffCount ? monthDiffCount : this.offer_array[0].number_monthly_payments ? this.offer_array[0].number_monthly_payments + ' mensualidades:' : 
+        'mensualidades:';
         let Monthpayment = Number((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100);
-        let installment = this.property_array.building.launch_date && moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true) > 0 ?
-          this.price.transform(Number(Monthpayment / Math.round(moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true))).toFixed(2)) :
-          this.property_array.building.launch_date && moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true) > 0 ?
-            this.price.transform(Number(Monthpayment / Math.round(moment(new Date(this.property_array.building.launch_date)).diff(moment(new Date()), 'months', true))).toFixed(2)) :
-            this.offer_array[0].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[0].number_monthly_payments))) : undefined;
+        let installment = this.property_array.building.launch_date && monthCount > 0 ? this.price.transform(Number(Monthpayment / monthCount).toFixed(2)) :
+        this.property_array.building.launch_date && monthCount1 > 0 ? this.price.transform(Number(Monthpayment / monthCount1).toFixed(2)) :
+        this.offer_array[0].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[0].number_monthly_payments))) : undefined;
 
         docDefinition.content.splice(3, 0,
           {
@@ -873,7 +876,7 @@ export class GenerateOfferPdfService {
                       { text: this.offer_array[0].monthly_installment ? this.offer_array[0].monthly_installment + '%' + '  ' + this.price.transform(((Number(this.offer_array[0].monthly_installment) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
                     ],
                     [
-                      { text: monthDiffCount, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                      { text: diffCount, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                       { text: installment ? installment : 'N/A', border: [false, false, false, false], fontSize: 10 },
                     ],
                     [
@@ -902,34 +905,22 @@ export class GenerateOfferPdfService {
       }
       else {
         let price = this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100;
-
-        let monthDiff = this.property_array.building.launch_date && moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true) > 0 ?
-          Math.round(moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true)) + ' mensualidades:' : this.property_array.building.launch_date &&
-            moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true) > 0 ?
-            Math.round(moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true)) + ' mensualidades:' :
-            this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ? this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments + ' mensualidades:' : 'mensualidades:';
+        let diffCount = monthDiffCount ? monthDiffCount : this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ? 
+        this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments + ' mensualidades:' : 'mensualidades:';
 
         let Monthpayment = Number((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100);
 
-        let installment = this.property_array.building.launch_date && moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true) > 0 ?
-        this.price.transform(Number(Monthpayment / Math.round(moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true))).toFixed(2)) :
-        this.property_array.building.launch_date && moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true) > 0 ?
-          this.price.transform(Number(Monthpayment / Math.round(moment(new Date(this.property_array.building.launch_date)).diff(moment(new Date()), 'months', true))).toFixed(2)) :
-            this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments))) : undefined;
+        let installment = this.property_array.building.launch_date && monthCount > 0 ? this.price.transform(Number(Monthpayment / monthCount).toFixed(2)) :
+        this.property_array.building.launch_date && monthCount1 > 0 ? this.price.transform(Number(Monthpayment / monthCount1).toFixed(2)) :
+        this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments))) : undefined;
 
         if (this.offer_array.length - (i + 2)) {
           let price1 = this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - (i + 2)].discount) * this.property_array.min_price) / 100;
-          let monthDiff1 = this.property_array.building.launch_date && moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true) > 0 ?
-            Math.round(moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true)) + ' mensualidades:' : this.property_array.building.launch_date &&
-              moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true) > 0 ?
-              Math.round(moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true)) + ' mensualidades:' :
-              this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments ? this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments + ' mensualidades:' : 'mensualidades:'
+          let diffCount1 = monthDiffCount ? monthDiffCount  : this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments ? this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments + ' mensualidades:' : 'mensualidades:'
           let Monthpayment1 = Number((Number(this.offer_array[this.offer_array.length - (i + 2)].monthly_installment) * price) / 100);
-          let installment1 = this.property_array.building.launch_date && moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true) > 0 ?
-          this.price.transform(Number(Monthpayment1 / Math.round(moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true))).toFixed(2)) :
-          this.property_array.building.launch_date && moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true) > 0 ?
-            this.price.transform(Number(Monthpayment1 / Math.round(moment(new Date(this.property_array.building.launch_date)).diff(moment(new Date()), 'months', true))).toFixed(2)) :
-              this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments))) : undefined;
+          let installment1 = this.property_array.building.launch_date && monthCount > 0 ? this.price.transform(Number(Monthpayment1 / monthCount).toFixed(2)) : 
+          this.property_array.building.launch_date && monthCount1 > 0 ? this.price.transform(Number(Monthpayment1 / monthCount1).toFixed(2)) : 
+          this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments))) : undefined;
 
           docDefinition.content.splice(3 + i, 0,
             {
@@ -961,7 +952,7 @@ export class GenerateOfferPdfService {
                         { text: this.offer_array[this.offer_array.length - (i + 1)].monthly_installment ? this.offer_array[this.offer_array.length - (i + 1)].monthly_installment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: monthDiff, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: diffCount, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: installment ? installment : 'N/A', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
@@ -1012,7 +1003,7 @@ export class GenerateOfferPdfService {
                         { text: this.offer_array[this.offer_array.length - (i + 2)].monthly_installment ? this.offer_array[this.offer_array.length - (i + 2)].monthly_installment + '%' + '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].monthly_installment) * price1) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: monthDiff1, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: diffCount1, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: installment1 ? installment1 : 'N/A', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
@@ -1041,16 +1032,11 @@ export class GenerateOfferPdfService {
         }
         else {
           let price2 = this.property_array.min_price - (Number(this.offer_array[0].discount) * this.property_array.min_price) / 100;
-          let monthDiff2 = this.property_array.building.launch_date && moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true) > 0 ?
-            Math.round(moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true)) + ' mensualidades:' : this.property_array.building.launch_date &&
-              moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true) > 0 ?
-              Math.round(moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true)) + ' mensualidades:' :
-              this.offer_array[0].number_monthly_payments ? this.offer_array[0].number_monthly_payments + ' mensualidades:' : 'mensualidades:';
+          let diffCount = monthDiffCount ? monthDiffCount : this.offer_array[0].number_monthly_payments ? this.offer_array[0].number_monthly_payments + ' mensualidades:' : 
+          'mensualidades:';
           let Monthpayment = Number((Number(this.offer_array[0].monthly_installment) * price) / 100);
-          let installment2 = this.property_array.building.launch_date && moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true) > 0 ?
-          this.price.transform(Number(Monthpayment / Math.round(moment(new Date()).diff(moment(this.property_array.building.launch_date), 'months', true))).toFixed(2)) :
-          this.property_array.building.launch_date && moment(this.property_array.building.launch_date).diff(moment(new Date()), 'months', true) > 0 ?
-            this.price.transform(Number(Monthpayment / Math.round(moment(new Date(this.property_array.building.launch_date)).diff(moment(new Date()), 'months', true))).toFixed(2)) :
+          let installment2 = this.property_array.building.launch_date && monthCount > 0 ? this.price.transform(Number(Monthpayment / monthCount).toFixed(2)) :
+          this.property_array.building.launch_date && monthCount1 > 0 ? this.price.transform(Number(Monthpayment / monthCount1).toFixed(2)) :
               this.offer_array[0].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[0].number_monthly_payments))) : undefined;
 
           docDefinition.content.splice(3 + 1, 0,
@@ -1083,7 +1069,7 @@ export class GenerateOfferPdfService {
                         { text: this.offer_array[0].monthly_installment ? this.offer_array[0].monthly_installment + '%' + '  ' + this.price.transform(((Number(this.offer_array[0].monthly_installment) * price) / 100).toFixed(2)) : "N/A", border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: monthDiff2, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: diffCount, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: installment2 ? installment2 : 'N/A', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
