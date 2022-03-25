@@ -375,13 +375,13 @@
 
                       <button (click)="this.updateCommercialized(p,1);" class="action-icon"
                       [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
+                        *ngIf="p.is_commercialized !=1 && parameter?.flag == 3 && all == 1"
                         title="{{'table.title.commercializedProperty' | translate}}">
                         <img src="assets/img/tick.png" alt="img"></button>
 
                       <button (click)="this.updateCommercialized(p,0);" class="action-icon"
                       [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized == true && parameter?.flag == 3"
+                        *ngIf="p.is_commercialized == true && parameter?.flag == 3 && all == 1"
                         title="{{'table.title.markCommercialized' | translate}}">
                         <img src="assets/img/tick-selected.png" alt="img"></button>
                     </div>
@@ -491,14 +491,14 @@
 
                       <button (click)="this.updateCommercialized(p,1);" class="action-icon"
                       [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized !=1 && parameter?.flag == 3"
+                        *ngIf="p.is_commercialized !=1 && parameter?.flag == 3 && all != 1"
                         title="{{'table.title.commercializedProperty' | translate}}">
                         <img src="assets/img/tick.png" alt="img">
                       </button>
 
                       <button (click)="this.updateCommercialized(p,0);" class="action-icon"
                       [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized == true && parameter?.flag == 3"
+                        *ngIf="p.is_commercialized == true && parameter?.flag == 3 && all != 1"
                         title="{{'table.title.markCommercialized' | translate}}">
                         <img src="assets/img/tick-selected.png" alt="img">
                       </button>
