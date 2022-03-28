@@ -161,6 +161,26 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder, private datePipe: DatePipe, private offerPdf: GenerateOfferPdfService,
     private http: HttpClient, private price: PricePipe, public cs: CommonService
   ) {
+    var all_data = JSON.parse(localStorage.getItem('all'));
+    var keys = Object.keys(all_data.data.permissions);
+    var filtered = keys.filter(function (key) {
+      return all_data.data.permissions[key]
+    });
+    var theRemovedElement = filtered.slice(3);
+    theRemovedElement.splice(-2);
+    console.log(theRemovedElement, "property_sale");
+    const found = theRemovedElement.find(element => element == 'can_outside_broker');
+    if (theRemovedElement.length > 1) {
+      this.all = 0;
+    } else if (theRemovedElement.length == 1) {
+      if (found == 'can_outside_broker') {
+        this.all = 1;
+      } else {
+        this.all = 0;
+      }
+    } else {
+      this.all = 0;
+    }
     this.installmentFormGroup = this.formBuilder.group({
       payment_name: '',
       downPayment: '',

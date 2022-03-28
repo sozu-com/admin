@@ -1,7 +1,12 @@
 <header>
   <div class="row">
     <!-- header -->
-    <div class="col-lg-6 col-md-6 col-sm-5 col-4">
+    <div class="col-lg-6 col-md-6 col-sm-5 col-4" *ngIf="all == 1">
+        <a class="logo">
+        <img class="app-logo" src="assets/img/web_logo.png" alt="img">
+      </a>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-5 col-4" *ngIf="all != 1">
       <a class="logo" routerLink="/dashboard">
         <img class="app-logo" src="assets/img/web_logo.png" alt="img">
       </a>
@@ -61,17 +66,18 @@
 
     <!--slide menu start-->
 
-    <div class="">
+    <div class=" ">
       <div id="sidebar-container" class="sidebar-expanded d-none d-md-block collapse in show" id="sidebar"
         data-toggle="collapse" aria-expanded="false">
         <div class="list-group panel  menu-collapsed main-sidebar" id="side-menu-bar">
 
 
           <!---menu 1-->
+          <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
           <a href="#menu1" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar"
             aria-expanded="false"><img src="assets/images/icons/ic_commission.png"><span> Sozu <i
                 class="fa fa-angle-right" aria-hidden="true"></i>
-            </span></a>
+            </span></a></li>
           <div class="collapse" id="menu1">
             <li [routerLinkActive]="'active'"><a href="javascript://" class="list-group-item   nav-link-collapse"
                 data-parent="#menu1" routerLink="/dashboard/income/sozu-income">
@@ -79,13 +85,14 @@
               </a></li>
           </div>
           <!---menu 2-->
+          <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
           <a href="#menu2" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse"
             data-parent="#sidebar" aria-expanded="false">
             <img src="assets/images/icons/chart.png">
             <span> {{'sidebar.Dashboards' | translate}}
               <i class="fa fa-angle-right" aria-hidden="true"></i>
             </span>
-          </a>
+          </a></li>
           <div class="collapse" id="menu2">
             <li *ngIf="admin?.admin_acl['Dashboard']?.can_read==1" class="nav-item" [routerLinkActive]="'active'"
               [routerLinkActiveOptions]="{exact:true}">
@@ -194,13 +201,14 @@
 
 
           <!---menu 3-->
+          <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
           <a href="#menu3" class="list-group-item   collapsed nav-link-collapse" data-toggle="collapse"
             data-parent="#sidebar" aria-expanded="false">
             <img src="assets/images/icons/entry.png">
             <span> {{'sidebar.Entities' | translate}}
               <i class="fa fa-angle-right" aria-hidden="true"></i>
             </span>
-          </a>
+          </a></li>
           <div class="collapse" id="menu3">
             <li *ngIf="admin?.admin_acl['Agencies Management']?.can_read==1" class="nav-item"
               [routerLinkActive]="'active'">
@@ -313,6 +321,7 @@
           </div>
           <!---menu 4-->
 
+          <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
           <a href="#menu4" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
             aria-expanded="false">
             <img src="assets/images/icons/user_edit.png">
@@ -320,7 +329,7 @@
               {{'sidebar.users' | translate}}
               <i class="fa fa-angle-right" aria-hidden="true"></i>
             </span>
-          </a>
+          </a></li>
           <div class="collapse" id="menu4">
             <li *ngIf="admin?.admin_acl['User Management']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
               <a href="javascript://" class="list-group-item  " data-parent="#menu4"
@@ -408,7 +417,7 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
             </div>
           </div>
           <!---menu 5-->
-          <li *ngIf="admin?.admin_acl['Manage Credits']?.can_read == 1" class="nav-item" [routerLinkActive]="'active'">
+          <li *ngIf="all != 1 && admin?.admin_acl['Manage Credits']?.can_read == 1" class="nav-item" [routerLinkActive]="'active'">
             <a href="#menu5" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
               aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_card.png">
               <span> {{'sidebar.Manage_Credits' | translate}}
@@ -430,22 +439,21 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
             </span>
           </a>
           <div class="collapse" id="menu6">
-            <li *ngIf="admin?.admin_acl['Property Management']?.can_read==1" class="nav-item"
+            <li *ngIf="all != 1 &&  admin?.admin_acl['Property Management']?.can_read==1" class="nav-item"
               [routerLinkActive]="'active'">
               <a href="javascript://" class="list-group-item  " data-parent="#menu6"
                 routerLink="properties/view-properties">
                 {{'sidebar.Manage_Properties' | translate}}
               </a>
             </li>
-            <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
-                                admin?.admin_acl['Project Management']?.can_read==1" class="nav-item"
+            <li *ngIf="all != 1 && admin?.admin_acl['Project Management']?.can_read==1" class="nav-item"
               [routerLinkActive]="'active'">
               <a href="javascript://" class="list-group-item  " data-parent="#menu6"
                 routerLink="projects/view-projects">
                 {{'sidebar.Manage_Projects' | translate}}
               </a>
             </li>
-            <li *ngIf="admin?.admin_acl['Properties For Sale Management']?.can_read == 1" class="nav-item"
+            <li *ngIf="all == 1 && hide_property == 1 && admin?.admin_acl['Properties For Sale Management']?.can_read == 1" class="nav-item"
               [routerLinkActive]="'active'">
               <a href="javascript://" class="list-group-item  " data-parent="#menu6"
                 routerLink="properties-for-sale/view-properties-for-sale">
@@ -453,13 +461,22 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
                     translate}}
               </a>
             </li>
+            <li *ngIf="all != 1 && hide_property == 1" class="nav-item"
+            [routerLinkActive]="'active'">
+            <a href="javascript://" class="list-group-item" data-parent="#menu6"
+              routerLink="properties-for-sale/view-properties-for-sale">
+              {{'sidebar.managePropertiesForSale' |
+                  translate}}
+            </a>
+          </li>
           </div>
           <!---menu 7-->
+          <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
           <a href="#menu7" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
             aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_people.png"><span>
               {{'sidebar.Leads' | translate}}
               <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </span></a>
+            </span></a></li>
           <div class="collapse" id="menu7">
             <a href="javascript://" class="list-group-item  " data-parent="#menu7"
               routerLink="/dashboard/manual-leads/view-all">
@@ -555,10 +572,11 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
             </div>
           </div>
           <!---menu 8-->
+          <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
           <a href="#menu8" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
             aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_shopping-cart.png"><span> Producto <i
                 class="fa fa-angle-right" aria-hidden="true"></i>
-            </span></a>
+            </span></a></li>
           <div class="collapse" id="menu8">
             <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
                   admin?.admin_acl['Manage Product']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
@@ -573,11 +591,12 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
             </li>
           </div>
           <!---menu 9-->
+          <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
           <a href="#menu9" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
             aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_buildings-2.png"><span> {{'sidebar.offices' |
               translate}}
               <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </span></a>
+            </span></a></li>
           <div class="collapse" id="menu9">
             <li *ngIf="admin?.admin_acl['Data Collector Lead Management']?.can_read==1 || admin?.permissions?.can_data_collector==1 ||
                        admin?.admin_acl['Manage Offices']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
@@ -596,11 +615,12 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
                 routerLink="hotel-companies/view-all"> {{'sidebar.hotelCompany' | translate}} </a></li>
           </div>
           <!---menu 10-->
+          <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
           <a href="#menu10" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
             aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_document-text.png"><span>
               {{'sidebar.manageContacts' |
               translate}} <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </span></a>
+            </span></a></li>
           <div class="collapse" id="menu10">
             <li *ngIf="admin?.admin_acl['Manage Contracts']?.can_read==1" class="nav-item"
               [routerLinkActive]="'active'">
@@ -610,10 +630,11 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
             </li>
           </div>
           <!---menu 11-->
+          <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
           <a href="#menu11" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
             aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_money-recive.png"><span>
               {{'sidebar.collections' |translate}} <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </span></a>
+            </span></a></li>
           <div class="collapse" id="menu11">
             <li *ngIf="admin?.admin_acl['Manage Collections']?.can_read==1" class="nav-item"
               [routerLinkActive]="'active'">
@@ -732,10 +753,11 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
             </div>
           </div>
           <!---menu 12-->
+          <li *ngIf="all != 1" class="nav-item" [routerLinkActive]="'active'">
           <a href="#menu12" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
             aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_setting-2.png"><span>
               {{'sidebar.settings' | translate}} <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </span></a>
+            </span></a></li>
           <div class="collapse" id="menu12">
             <a href="#menu2sub26" class="list-group-item  " data-toggle="collapse" aria-expanded="false">
               {{'sidebar.settings' | translate}}

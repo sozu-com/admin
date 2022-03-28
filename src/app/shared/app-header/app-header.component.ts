@@ -873,6 +873,33 @@ export class AppHeaderComponent implements OnInit {
     private commonService: CommonService
   ) {
     this.language_code = localStorage.getItem('language_code');
+    var all_data = JSON.parse(localStorage.getItem('all'));
+    // this.all = all_data.data.is_external_agent;
+    // console.log(this.all, "testcheck");
+    var keys = Object.keys(all_data.data.permissions);
+    var filtered = keys.filter(function (key) {
+      return all_data.data.permissions[key]
+    });
+    var theRemovedElement = filtered.slice(3);
+    theRemovedElement.splice(-2);
+    console.log(theRemovedElement, "header");
+    const found = theRemovedElement.find(element => element == 'can_outside_broker');
+    if (theRemovedElement.length > 1) {
+      // if (found == 'can_outside_broker') {
+      this.all = 0; this.hide_property = 1; //admin credentionals with outside
+      // } else {
+      //   this.all = 0; this.hide_property = 1; //sonu@g.com without outside
+      // }
+    } else if (theRemovedElement.length == 1) {
+      if (found == 'can_outside_broker') {
+        this.all = 1; this.hide_property = 1;//tesz@g.com outside only
+      } else {
+        this.all = 0; this.hide_property = 1; //yup@g.com inhouse
+      }
+    } else {
+      this.all = 0; this.hide_property = 1;
+    }
+
     this.treeControl = new NestedTreeControl<MyTreeNode>(this.makeGetChildrenFunction())
     this.treeDataSource = new MatTreeNestedDataSource()
     this.treeDataSource.data = demoNodes,
