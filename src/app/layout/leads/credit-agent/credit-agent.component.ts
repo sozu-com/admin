@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Constant } from 'src/app/common/constants';
 import { IProperty } from 'src/app/common/property';
 import { Users } from 'src/app/models/users.model';
 import { AdminService } from 'src/app/services/admin.service';
@@ -11,14 +10,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { Constant } from 'src/app/common/constants';
 declare let swal: any;
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 @Component({
   selector: 'app-credit-agent',
   templateUrl: './credit-agent.component.html',
-  styleUrls: ['./credit-agent.component.css'],
-  providers: [Constant]
+  styleUrls: ['./credit-agent.component.css']
 })
 export class CreditAgentComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
@@ -74,7 +73,7 @@ export class CreditAgentComponent implements OnInit {
   constructor(
     public admin: AdminService,
     public leadsService: LeadsService,
-    private constant: Constant,
+    public constant: Constant,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,

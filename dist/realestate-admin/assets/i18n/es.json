@@ -229,6 +229,7 @@
     "developerName": "Desarrolladora",
     "freelancer": "Independiente",
     "contact_number": "Teléfono celular (10 digitos)",
+    "where_it_quotes": "Donde cotiza",
     "contactNumber": "Número de contacto",
     "emailId": "ID de Correo electrónico",
     "chooseUserType": "Elegir tipo de usuario",
@@ -689,7 +690,7 @@
     "officeType": "Oficina Tipo",
     "chooseOfficeType": "Elija el tipo de oficina",
     "payment_way": "Esquemas de pago",
-    "namePaymentWay": "Nombre de forma de pago",
+    "namePaymentWay": "Nombre de la forma de pago",
     "discount": "Descuento",
     "downpayment": "Enganche",
     "monthlyInstallment": "Mensualidades",
@@ -813,7 +814,9 @@
       "quantity": "Cantidad",
       "inventory": "Inventario",
       "selectSupplier": "Select Supplier",
-      "price": "Precio"
+      "price": "Precio",
+      "full_name": "Ingrese el nombre completo",
+      "email": "Ingrese correo electrónico"
     }
   },
   "charts": {
@@ -1504,6 +1507,7 @@
       "saveEngProjectAmenity": "Agregua amenidad en español o la actualizaremos igual que en inglés.",
       "saveEngDocumentName": "Agrega el nombre del documento en español o lo actualizaremos igual que en inglés",
       "pleaseChooseAddressFromDropdown": "Elige la dirección del menú desplegable",
+      "pleaseChoosequotesFromDropdown": "Elija citas del menú desplegable",
       "pleaseChooseBranchAddressFromDropdown": "Elige la dirección de la sucursal en el menú desplegable.",
       "pleaseChooseAtleastOneLead": "Elige al menos un lead",
       "pleaseChooseAtleastOneDate": "Elige al menos una fecha",
