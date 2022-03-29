@@ -24,6 +24,8 @@ export class CreditAgentComponent implements OnInit {
   public scrollbarOptions = { axis: 'y', theme: 'dark' };
   @ViewChild('openAssignModel') openAssignModel: ElementRef;
   @ViewChild('closeAssignModel') closeAssignModel: ElementRef;
+  @ViewChild('openCreditModel') openCreditModel: ElementRef;
+  @ViewChild('closeCreditModel') closeCreditModel: ElementRef;
   @ViewChild('linkBrokerModal') linkBrokerModal: ElementRef;
   @ViewChild('closeBrokerModal') closeBrokerModal: ElementRef;
   @ViewChild('addChangeStatusModelOpen') addChangeStatusModelOpen: ElementRef;
@@ -35,7 +37,7 @@ export class CreditAgentComponent implements OnInit {
   public location: IProperty = {};
   public assign: IProperty = {};
   assignItem: any;
-
+  initialCountry: any;
   items: Array<Users> = [];
   today = new Date();
   users: any = [];
@@ -58,6 +60,17 @@ export class CreditAgentComponent implements OnInit {
   history: any;
   lang: string;
   deal_finance: any = [];
+  country_code: any;
+  dial_code: string;
+  quotes = [
+    { id: 1, name_en: 'INFONAVIT', name_es: 'INFONAVIT' },
+    { id: 2, name_en: 'FOVISSSTE', name_es: 'FOVISSSTE' },
+    { id: 3, name_en: 'NONE', name_es: 'NINGUNO' }
+  ];
+  quote: any;
+  fullName: any;
+  email: any;
+  phone: any;
   constructor(
     public admin: AdminService,
     public leadsService: LeadsService,
@@ -85,6 +98,9 @@ export class CreditAgentComponent implements OnInit {
       dateFormat: 'mm/dd/yy',
       weekHeader: 'Wk'
     };
+    this.initialCountry = { initialCountry: this.constant.country_code };
+    this.country_code = this.constant.country_code;
+    this.dial_code = this.constant.dial_code;
     this.parameter.is_selected = false;
     this.parameter.keyword = '';
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
@@ -121,7 +137,14 @@ export class CreditAgentComponent implements OnInit {
     this.location.states = selectedCountry[0].states;
 
   }
+  onOptionsSelected(data) {
+    (this.quotes || []).forEach((r) => {
+      if (r.id == data) {
+        this.quote = r.name_en;
+      }
+    });
 
+  }
   onStateChange(id) {
     this.location.cities = []; this.parameter.city_id = '0';
     this.location.localities = []; this.parameter.locality_id = '0';
@@ -197,6 +220,11 @@ export class CreditAgentComponent implements OnInit {
     this.resetDates();
     this.getListing();
     this.getCSRDashBoardData();
+  }
+
+  onCountryChanges(e, index: number) {
+    this.country_code = e.iso2;
+    this.dial_code = '+' + e.dialCode;
   }
 
   resetDates() {
@@ -611,6 +639,34 @@ export class CreditAgentComponent implements OnInit {
     this.spinner.show();
     this.admin.postDataApi('addCreditsUser', input).subscribe(
       success => {
+        this.getListing();
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+  }
+
+  addCredit() {
+    this.openCreditModel.nativeElement.click();
+  }
+  onClickAddCredit() {
+    console.log(this.phone, "this.phone");
+    if (!this.quote) {
+      swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChoosequotesFromDropdown'), 'error');
+      return;
+    }
+    let input = {
+      full_name: this.fullName,
+      email: this.email,
+      phone: this.phone,
+      country_code: this.country_code,
+      dial_code: this.dial_code,
+      quote: this.quote
+    }
+    this.spinner.show();
+    this.admin.postDataApi('leads/addcreditAgent', input).subscribe(
+      success => {
+        this.closeCreditModel.nativeElement.click();
         this.getListing();
         this.spinner.hide();
       }, error => {

@@ -221,6 +221,7 @@
     "neighbourhood": "Neighbourhood",
     "municipality": "Municipality",
     "contact_number": "Contact Number",
+    "where_it_quotes": "where it quotes",
     "city": "City",
     "ZIP": "ZIP code",
     "state": "State",
@@ -814,7 +815,9 @@
       "quantity": "Quantity",
       "inventory": "Inventory",
       "selectSupplier": "Select Supplier",
-      "price": "Price"
+      "price": "Price",
+      "full_name": "Enter Full Name",
+      "email": "Enter Email"
     }
   },
   "charts": {
@@ -1502,6 +1505,7 @@
       "saveEngProjectAmenity": "Please add amenity in Spanish or we will update it same as in English.",
       "saveEngDocumentName": "Please add document name in Spanish or we will update it same as in English.",
       "pleaseChooseAddressFromDropdown": "Please choose address from dropdown",
+      "pleaseChoosequotesFromDropdown": "Please choose quotes from dropdown",
       "pleaseChooseBranchAddressFromDropdown": "Please choose branch address from dropdown.",
       "pleaseChooseAtleastOneLead": "Please choose at least one lead",
       "pleaseChooseAtleastOneDate": "Please choose at least one date",
