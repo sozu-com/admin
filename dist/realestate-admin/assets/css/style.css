@@ -3381,11 +3381,13 @@
         top: 0;
         right:0;
     }
-    .content_icon{
+    .content-icon{
         padding: 5.8rem 3rem 2rem !important;
-        margin-left: 233px !important;
+        margin-left: 65px !important;
     }
-    
+    .content-icon.intro {
+        margin-left: 65px;
+    }
     #side-menu-bar::-webkit-scrollbar {
         width: 5px;
       }
