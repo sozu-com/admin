@@ -644,6 +644,20 @@ export class CreditAgentComponent implements OnInit {
         this.spinner.hide();
       });
   }
+  sendLeadMail(data) {
+    let input = {
+      email: data.email,
+      name: data.name
+    }
+    this.spinner.show();
+    this.admin.postDataApi('leads/creditMailShoot', input).subscribe(
+      success => {
+        this.getListing();
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+  }
 
   addCredit() {
     this.openCreditModel.nativeElement.click();
