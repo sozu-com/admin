@@ -50,6 +50,9 @@ margin-right: 8px;
 }
 
 @media (max-width:767px){
+    div#sidebar {
+        display: block !important;
+    }
     header .col-lg-6.col-md-6.col-sm-5.col-4 {
         width: 20%;
         max-width: 20%;
@@ -69,15 +72,23 @@ margin-right: 8px;
         width: 20%;
         max-width: 38%;
     }
-    header{position: inherit;padding:0;}
+    header {
+        position: inherit;
+        padding: 20px 0 35px;
+    }
 #side-menu-bar .scrollbox{height:auto !important; } 
 #side-menu-bar {
     height: auto;
     right: 0;
-    padding: 0 15px;
+    padding:0 15px 20px;
     text-align: left;
     position: relative;
-    width: 100%;
+    width: 400px;
+    top: 10px;
+    left: 22px;
+}
+button#add-class {
+    text-align: center !important;
 }
 .navbar-brand {
 display: block;
