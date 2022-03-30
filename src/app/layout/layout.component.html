@@ -1,10 +1,15 @@
 <section id="wrapper">
   <app-header></app-header>
   <section id="main">
-    <div id="content" class="content-area" *ngIf="!$user">
+    
+    <div id="content" class="content-area">
       <router-outlet></router-outlet>
     </div>
-    <div class="content_icon" *ngIf="$user">
-      <router-outlet></router-outlet>
-    </div>
+    <!-- [ngClass]="{'content-icon': user === true,'content-area': !user}" -->
+    <!-- <ng-template #elseBlock>
+      <div class="content-icon">
+        <router-outlet></router-outlet>
+      </div>
+  </ng-template> -->
+   
   </section>

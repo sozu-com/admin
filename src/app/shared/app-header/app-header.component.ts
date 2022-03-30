@@ -1030,8 +1030,10 @@ export class AppHeaderComponent implements OnInit {
   showIcon(value) {
     if (value == 'true') {
       this.isShowIcon = true;
+      //this.admin.setUser(this.isShowSidebar = true);
     } else {
       this.isShowIcon = false;
+      //this.admin.setUser(this.isShowSidebar = false);
     }
   }
 

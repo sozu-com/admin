@@ -8,13 +8,11 @@ import { AdminService } from '../services/admin.service';
 })
 
 export class LayoutComponent implements OnInit {
-  $user: string;
-  all: number;
-  constructor(public admin: AdminService) { }
-  ngOnInit() {
+  $user: any;
+  constructor(public admin: AdminService) {
     this.admin.userback.subscribe(user => {
-      this.$user = user;
-      console.log(this.$user, "test");
+      this.$user = user ? user : false;
     });
   }
+  ngOnInit() { }
 }
