@@ -2449,7 +2449,8 @@
     "Manage_Properties":"Manage Properties",
     "Properties_For_Sale":"Properties For Sale",
     "Manual_Leads":"Manual Leads",
-    "Manage_Leads":"Manage Leads"
+    "Manage_Leads":"Manage Leads",
+    "Manage_user_roles":"Manage user roles"
   },
   "commonBlock": {
     "In":"In",
@@ -2538,7 +2539,8 @@
     "back": "Back",
     "finalizeContract": "Finalize Contract",
     "createContract": "Create Contract",
-    "signatureDate":"Signature date"
+    "signatureDate":"Signature date",
+    "ok": "Ok"
   },
   "viewCollections": {
     "choose": "Choose",
@@ -3117,6 +3119,8 @@
     "un_publish": "Unpublish",
     "offerInformaton": "Offer informaton",
     "offerDetails": "Offer details",
+    "manual": "Manual",
+    "preloaded": "Preloaded",
     "discountPercentage": "Discount",
     "priceIncreasePercentage": "Price increase",
     "downPaymentPercentage": "Down payment",
@@ -3539,11 +3543,11 @@
     "botturaContract19": "“PROYECTO DE DESARROLLO INMOBILIARIO “BOTTURA”).",
     "botturaContract20": "Así mismo, ",
     "botturaContract21": "“EL INTERESADO COMPRADOR”",
-    "botturaContract22": " reconoce estar enterado que el inmueble anteriormente mencionado fue afectado a un Fideicomiso de Inversion y Administración Inmobiliaria con Derecho de Reversión, constituido ante ",
+    "botturaContract22": " reconoce estar enterado que el inmueble anteriormente mencionado fue afectado a un Fideicomiso de Inversion y Administración Inmobiliaria con Derecho de Reversión, según consta en la Escritura Pública Número 59,370 , tomo 200, libro III, folio 0504576 de fecha 24 de febrero del 2022, otorgada ante la fe del Lic. Pablo González Vázquez, Notario Público número 35 del Municipio de Zapopan, Jalisco, identificado administrativamente con el número 85101836 constituido ante ",
     "botturaContract23": "BANCO INMOBILIARIO MEXICANO, SOCIEDAD ANÓNIMA, INSTITUCIÓN DE BANCA MÚLTIPLE",
     "botturaContract24": ", (desde ahora ",
     "botturaContract25": "“BANCO INMOBILIARIO MEXICANO”)",
-    "botturaContract26": " como Fiduciario, identificado administrativamente con el número 85101836; con el objetivo de llevar a cabo la ejecución del ",
+    "botturaContract26": " como Fiduciario; con el objetivo de llevar a cabo la ejecución del ",
     "botturaContract27": "PROYECTO DE DESARROLLO INMOBILIARIO “BOTTURA”",
     "botturaContract28": ". El Fideicomiso fue celebrado entre ",
     "botturaContract29": "“Corporativo JMDQ”, S.A. de C.V. ",
@@ -4309,6 +4313,14 @@
     "contractStatusHistory": "Contract Status History",
     "noContractStatusHistoryAavailable" : "No contract status history available",
     "contractIn": "Put contract in",
-    "createContract": "create Contract"
+    "createContract": "create Contract",
+    "sendBackToRevision": "Send back to revision",
+    "typeTheReason": "Type the reason"
+  },
+  "manageRoles":{
+    "label": "Manage user roles",
+    "addRoles": "Add Roles",
+    "editRoles": "Edit Roles",
+    "roleName": "Role Name"
   }
 }
