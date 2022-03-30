@@ -526,16 +526,16 @@
                 <td (click)="$event.stopPropagation()" style="display: inline-flex">
 
 
-
-                  <button *ngIf="item.add_credit == 0" class="action-icon" [disabled]="item.deal_finance == 0"
-                    title="{{'table.title.confirmEmail' | translate}}" (click)="this.credit(item)">
-                    <i class="fa fa-credit-card" aria-hidden="true" style="font-size: 140%;margin-top: 4px;">
+                  <!-- [disabled]="item.deal_finance == 0" *ngIf="item.add_credit == 0"-->
+                  <button  class="action-icon" 
+                  title="{{'table.title.confirmEmail' | translate}}" (click)="sendLeadMail(item)">
+                  <i class="fa fa-credit-card" aria-hidden="true" style="font-size: 140%;margin-top: 4px;">
                     </i>
                   </button>
-                  <button class="action-icon" *ngIf="item.add_credit == 1" [disabled]="item.add_credit == 1"
+                  <!-- <button class="action-icon" *ngIf="item.add_credit == 1" [disabled]="item.add_credit == 1"
                     title="{{'table.title.confirmEmail' | translate}}" (click)="this.credit(item)">
                     <i class="fa fa-credit-card" aria-hidden="true" style="font-size: 140%;margin-top: 4px;"></i>
-                  </button>
+                  </button> -->
 
                   <button class="action-icon" (click)="this.sendMail(item)" [disabled]="item.user_id"
                     title="{{'table.title.confirmEmail' | translate}}">

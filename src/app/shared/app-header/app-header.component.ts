@@ -939,15 +939,12 @@ export class AppHeaderComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.admin.userback.subscribe(user => {
         this.$user = user;
-        console.log(this.$user, "setset");
       });
     });
   }
   setStateAsActive(item) {
     this.activeState = this.language_code == 'en' ? item.title : item.title_es;
     this.activeIcon = item.icon;
-    console.log(this.activeIcon, "activeIcon");
-    console.log(this.activeState, "activeState");
   }
   updateDeviceToken() {
     this.admin.postDataApi('updateDeviceToken', { device_id: this.admin.deviceId, device_token: this.messagingService.fcmTokens })
@@ -1030,16 +1027,12 @@ export class AppHeaderComponent implements OnInit {
       // this.msg_count = r.total_count;
     });
   }
-  showIcon() {
-    this.isShowIcon = !this.isShowIcon;
-    if (this.isShowIcon) {
-      this.admin.setUser(this.isShowSidebar = true);
+  showIcon(value) {
+    if (value == 'true') {
+      this.isShowIcon = true;
     } else {
-      this.admin.setUser(this.isShowSidebar = false);
+      this.isShowIcon = false;
     }
   }
-  show() {
-    this.isShowIcon = false;
-    this.admin.setUser(this.isShowSidebar = false);
-  }
+
 }

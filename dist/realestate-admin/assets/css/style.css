@@ -3488,4 +3488,9 @@
     div#menu11sub7 li a:before {
         display: none;
     }
-    
+    .fa-angle-double-right:before {
+        content: none !important;
+    }
+    .fa-angle-double-left:before {
+        content: none !important;
+    }
