@@ -133,11 +133,11 @@
                     <label>{{'table.th.status' | translate}}</label>
                   </div>
                 </th>
-                <!-- <th style="width:15%" *ngIf="selectedColumnsToShow?.status">
+                <th style="width:15%" *ngIf="selectedColumnsToShow?.status">
                   <div class="table-search">
                     <label>{{'table.th.statusHistory' | translate}}</label>
                   </div>
-                </th> -->
+                </th>
                 <th style="vertical-align:top;width:100px;width:20%" *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
@@ -173,36 +173,33 @@
                 </td>
                 <td *ngIf="selectedColumnsToShow?.status">
                   <select class="cursor-pointer" (change)="selectStatus(p, $event.target.value)">
-                  <!-- <option [selected]="p.status==1" value="1" disabled>{{'contract.draft' | translate}}</option>
-                  <option [selected]="p.status==2" value="2" disabled>{{'contract.inRevision' | translate}}</option>
+                  <option [selected]="p.status==1" value="1" disabled>{{'contract.draft' | translate}}</option>
+                  <option [selected]="p.status==2" value="2" [disabled]="p.status == 1 || p.status == 2 || p.status == 6 || p.status == 9">{{'contract.inRevision' | translate}}</option>
                   <option [selected]="p.status==3" value="3" [disabled]="p.status!=2">{{'contract.validatedByCommercial' | translate}}</option>
                   <option [selected]="p.status==4" value="4" [disabled]="p.status!=3">{{'contract.validatedByLegal' | translate}}</option>
                   <option [selected]="p.status==5" value="5" [disabled]="p.status!=4">{{'contract.readyForSignature' | translate}}</option>
                   <option [selected]="p.status==6" value="6" [disabled]="p.status!=5">{{'contract.signed' | translate}}</option>
-                  <option [selected]="p.status==9" value="9" [disabled]="p.status!=6">{{'contract.canceled' | translate}}</option> -->
-                    <option [selected]="p.status==1" value="1">{{'contract.draft' | translate}}</option>
-                    <option [selected]="p.status==2" value="2">{{'contract.inComplete' | translate}}</option>
-                    <option [selected]="p.status==3" value="3">{{'contract.forReview' | translate}}</option>
-                    <option [selected]="p.status==4" value="4">{{'contract.readyToBeValidated' | translate}}</option>
-                    <option [selected]="p.status==5" value="5">{{'contract.validatedByLegal' | translate}}</option>
-                    <option [selected]="p.status==6" value="6">{{'contract.signed' | translate}}</option>
+                  <option [selected]="p.status==9" value="9" [disabled]="p.status!=6">{{'contract.canceled' | translate}}</option>
                 </select>
                 </td>
-                <!-- <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(p)">
+                <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(p)">
                   <span>{{'table.tr.td.view' | translate}}</span>
-              </td> -->
+              </td>
                 <td *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-actions">
                     <!-- <div class="message"> -->
-                    <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_update==0"
+                     <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_update==0"
                     (click)="editContract(p)"
-                      title="{{'table.title.editDetails' | translate}}" class="action-icon"><img
+                      title="{{'table.title.editDetails' | translate}}" class="action-icon" *ngIf="p.status!=9"><img
                         src="assets/img/edit.png" alt="img"></button>
                     <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_read==0"
                     (click)="downloadContract(p)"
-                      title="{{'table.title.download' | translate}}" class="action-icon">
+                      title="{{'table.title.download' | translate}}" class="action-icon" *ngIf="p.status!=9">
                       <i class="fa fa-download" aria-hidden="true"></i>
                     </button>
+                    <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_read == 0" *ngIf="p.status!=9"
+                    (click)="openFoldersModal(p.property_collection)" title="{{'table.title.viewFolders' | translate}}"
+                    class="action-icon"><img src="assets/img/ic_folder_1.svg" alt="img"></button>
                     <!-- delete project -->
                     <button [disabled]="admin?.admin_acl['Manage Contracts']?.can_purge==0" (click)="deletePopup(p, i);"
                       class="action-icon" title="{{'table.title.delete' | translate}}"><img
@@ -1002,6 +999,7 @@
                                 (('contract.contractIn' | translate) + ' ' + ('contract.signed' | translate)) : item.type == 8 ? 
                                 (('contract.createContract' | translate)) : item.type == 9 ? 
                                 (('contract.contractIn' | translate) + ' ' + ('contract.canceled' | translate)) : ''}}</pre>
+                            <pre class="p13" *ngIf="item.comment">{{item.comment}}</pre>
                         </div>
                         <div class="col-12" style="font-size: 18px;text-align: center;margin-top: 33%;"
                             *ngIf="!history || history.length == 0">
@@ -1012,4 +1010,322 @@
             </div>
         </div>
     </div>
+</div>
+
+<a #sendBackToRevisionModelOpen class="btn-third btn btn-block" data-target="#back-revision" data-toggle="modal"
+    style="display: none;"></a>
+<div class="modal" id="back-revision">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content" style="width: 68% !important;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #sendBackToRevisionModelClose (click)="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>{{'contract.sendBackToRevision' | translate}}</h3>
+                <hr>
+                <div class="scrollbox fav-prop" malihu-scrollbar [scrollbarOptions]="scrollbarOptions" style="height: 371px !important;">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 wn-block">
+                            <div class="form-group-3">
+                               <label>{{'contract.typeTheReason' | translate}}
+                               </label>
+                               <textarea rows="3" type="text" class="form-control note"
+                               [(ngModel)]="note" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 25px;">
+                      <div class="col-5" style="margin-left: 77px;">
+                        <button class="btn" style="background-color:#FF0040;color:white;width:90px;"
+                        (click)="closeModal()">{{'commonBlock.cancel' | translate}}</button>
+                      </div>
+                      <div class="col-5">
+                        <button class="btn" style="background-color:#00B96F;color:white;width:90px;"
+                        (click)="changeStatus(null, null)">{{'commonBlock.ok' | translate}}</button>
+                      </div>                                                                          
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<a href="javascript://" data-toggle="modal" data-target="#collection-folders" #foldersModalOpen></a>
+<div class="modal animated" id="collection-folders">
+  <div class="modal-dialog fadeIndown">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4>{{'table.title.collectionFolders' | translate}}
+          <span class="pull-right">
+            <a href="javascript://" data-toggle="modal" data-target="#add-folder" #folderModalOpen></a>
+
+          </span>
+        </h4>
+        <button style="display: none;" type="button" class="close" data-dismiss="modal"
+          #foldersModalClose>&times;</button>
+        <button type="button" class="close" (click)="closeFoldersModal()">&times;</button>
+      </div>
+
+      <div class="cust-tabs" style="padding: 20px;    height: 500px;
+                  overflow-y: scroll;">
+        <!-- <div id="accordion" class="table-responsive main-table"> -->
+        <table class="table table-bordered table-striped folder-table">
+          <thead>
+            <tr>
+              <th [style.width]="'310px'" [style.z-index]="100">
+                <b>{{'quickVisualization.name' | translate}}</b>
+              </th>
+              <th [style.width]="'130px'">
+                <b>{{'quickVisualization.docsCount' | translate}}</b>
+              </th>
+              <!-- <th [style.width]="'120px'">
+                                  <b>{{'quickVisualization.lastCommit' | translate}}</b>
+                              </th> -->
+            </tr>
+          </thead>
+          <tbody *ngFor="let folder of collectionFolders; let i=index">
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}">
+                  <img src="assets/img/ic_folder_1.svg">{{folder?.name}}
+                </a>
+              </td>
+              <td>{{folder?.folder_docs?.length || 0}}</td>
+            </tr>
+
+            <tr id="collapse{{i}}" class="panel-collapse collapse">
+              <td colspan="3">
+                <!-- list all documents -->
+                <div class="write-note white-bg">
+                  <div class="wn-block" *ngFor="let item of folder?.folder_docs; let s=index">
+                    <div class="circle">
+                      <span></span>
+                    </div>
+                    <p class="time" title="'Click to view'">
+                      <a target="_blank" href="{{item.display_name}}">
+                        {{item?.name}}
+                      </a>
+                    </p>
+                  </div>
+                </div>
+                <div class="padding20 center" *ngIf="folder?.folder_docs?.length == 0">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion"
+                  href="#collapseBuyerDocumentation" aria-expanded="true">
+                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.buyerDocumentation' | translate}}
+                </a>
+              </td>
+              <td>{{this.buyerDocumentationFoldersDetailsLength || 0}}</td>
+              <td></td>
+            </tr>
+            <tr id="collapseBuyerDocumentation" class="panel-collapse collapse"
+              *ngIf="this.buyerDocumentationFoldersDetails.length > 0">
+              <td colspan="3">
+                <div class="write-note white-bg" *ngIf="this.buyerDocumentationFoldersDetailsLength > 0">
+                  <ng-container *ngFor="let tempBuyerDocumentationFoldersDetails of buyerDocumentationFoldersDetails">
+                    <div class="wn-block" *ngIf="tempBuyerDocumentationFoldersDetails?.document_link">
+                      <div class="circle">
+                        <span></span>
+                      </div>
+                      <p class="time" title="'Click to view'">
+                        <a target="_blank" href="{{tempBuyerDocumentationFoldersDetails?.document_link}}">
+                          {{this.language_code == 'en' ? tempBuyerDocumentationFoldersDetails?.user_document?.name_en :
+                          tempBuyerDocumentationFoldersDetails?.user_document?.name_es }}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="padding20 center" *ngIf="this.buyerDocumentationFoldersDetailsLength == 0">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion"
+                  href="#collapseSellerDocumentation" aria-expanded="true">
+                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.sellerDocumentation' | translate}}
+                </a>
+              </td>
+              <td>{{this.sellerDocumentationFoldersDetailsLength || 0}}</td>
+              <td></td>
+            </tr>
+            <tr id="collapseSellerDocumentation" class="panel-collapse collapse"
+              *ngIf="this.sellerDocumentationFoldersDetails.length > 0">
+              <td colspan="3">
+                <div class="write-note white-bg" *ngIf="this.sellerDocumentationFoldersDetailsLength > 0">
+                  <ng-container *ngFor="let tempsellerDocumentationFoldersDetails of sellerDocumentationFoldersDetails">
+                    <div class="wn-block" *ngIf="tempsellerDocumentationFoldersDetails?.document_link">
+                      <div class="circle">
+                        <span></span>
+                      </div>
+                      <p class="time" title="'Click to view'">
+                        <a target="_blank" href="{{tempsellerDocumentationFoldersDetails?.document_link}}">
+                          {{this.language_code == 'en' ? tempsellerDocumentationFoldersDetails?.user_document?.name_en :
+                          tempsellerDocumentationFoldersDetails?.user_document?.name_es }}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="padding20 center" *ngIf="this.sellerDocumentationFoldersDetailsLength == 0">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion"
+                  href="#collapsePropertyDocumentation" aria-expanded="true">
+                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.propertyDocumentation' | translate}}
+                </a>
+              </td>
+              <td>{{(property_offer_id ? this.propertyDocumentationFoldersDetailsLength + 1 :
+                this.propertyDocumentationFoldersDetailsLength) || 0}}</td>
+              <td></td>
+            </tr>
+            <tr id="collapsePropertyDocumentation" class="panel-collapse collapse"
+              *ngIf="this.propertyDocumentationFoldersDetails.length > 0">
+              <td colspan="3">
+                <div class="write-note white-bg" *ngIf="this.propertyDocumentationFoldersDetailsLength > 0">
+                  <ng-container
+                    *ngFor="let tempPropertyDocumentationFoldersDetails of propertyDocumentationFoldersDetails">
+                    <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
+                      <div class="circle">
+                        <span></span>
+                      </div>
+                      <p class="time" title="'Click to view'">
+                        <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
+                          {{this.language_code == 'en' ? tempPropertyDocumentationFoldersDetails?.user_document?.name_en
+                          :
+                          tempPropertyDocumentationFoldersDetails?.user_document?.name_es }}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="write-note white-bg" *ngIf="property_offer_id">
+                  <ng-container>
+                    <div class="wn-block" *ngIf="property_offer_id">
+                      <div class="circle">
+                        <span></span>
+                      </div>
+                      <p class="time" title="'Click to view'">
+                        <a (click)="getOfferPdf()" style="cursor: pointer;">
+                          {{property_offer_id.random_id}}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="padding20 center"
+                  *ngIf="this.propertyDocumentationFoldersDetailsLength == 0 && !property_offer_id">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion"
+                  href="#collapseBeneficiaryDocumentation" aria-expanded="true">
+                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.beneficiaryDocumentation' | translate}}
+                </a>
+              </td>
+              <td>{{this.beneficiaryDocumentationFoldersDetails.length || 0}}</td>
+              <td></td>
+            </tr>
+            <tr id="collapseBeneficiaryDocumentation" class="panel-collapse collapse"
+              *ngIf="this.beneficiaryDocumentationFoldersDetails.length > 0">
+              <td colspan="3">
+                <div class="write-note white-bg" *ngIf="this.beneficiaryDocumentationFoldersDetails.length > 0">
+                  <ng-container
+                    *ngFor="let tempPropertyDocumentationFoldersDetails of beneficiaryDocumentationFoldersDetails; let s=index">
+                    <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
+                      <div class="circle">
+                        <span></span>
+                      </div>
+                      <p class="time" title="'Click to view'">
+                        <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
+                          {{this.language_code == 'en' ?
+                          tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_en :
+                          tempPropertyDocumentationFoldersDetails?.beneficiary_document?.name_es }}
+                          {{tempPropertyDocumentationFoldersDetails?.beneficiary_last?
+                          tempPropertyDocumentationFoldersDetails?.beneficiary_last : ''}}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="padding20 center" *ngIf="this.beneficiaryDocumentationFoldersDetails == 0">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="color-changed" data-toggle="collapse" data-parent="#accordion"
+                  href="#collapseTutorDocumentation" aria-expanded="true">
+                  <img src="assets/img/ic_folder_1.svg">{{'commonBlock.tutorDocumentation' | translate}}
+                </a>
+              </td>
+              <td>{{this.tutorDocumentationFoldersDetails.length || 0}}</td>
+              <td></td>
+            </tr>
+            <tr id="collapseTutorDocumentation" class="panel-collapse collapse"
+              *ngIf="this.tutorDocumentationFoldersDetails.length > 0">
+              <td colspan="3">
+                <div class="write-note white-bg" *ngIf="this.tutorDocumentationFoldersDetails.length > 0">
+                  <ng-container
+                    *ngFor="let tempPropertyDocumentationFoldersDetails of tutorDocumentationFoldersDetails; let s=index">
+                    <div class="wn-block" *ngIf="tempPropertyDocumentationFoldersDetails?.document_link">
+                      <div class="circle">
+                        <span></span>
+                      </div>
+                      <p class="time" title="'Click to view'">
+                        <a target="_blank" href="{{tempPropertyDocumentationFoldersDetails?.document_link}}">
+                          {{this.language_code == 'en' ?
+                          tempPropertyDocumentationFoldersDetails?.tutor_document?.name_en :
+                          tempPropertyDocumentationFoldersDetails?.tutor_document?.name_es }}
+                          {{tempPropertyDocumentationFoldersDetails?.tutor_last?
+                          tempPropertyDocumentationFoldersDetails?.tutor_last : ''}}
+                        </a>
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="padding20 center" *ngIf="this.tutorDocumentationFoldersDetails == 0">
+                  <p class="show-not-found">
+                    {{'message.error.noDocumentUploadedYet' | translate}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <div class="padding20 center" *ngIf="collectionFolders?.length == 0">
+            <p class="show-not-found">
+              {{'message.error.nnFolderCreated' | translate}}
+            </p>
+          </div>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

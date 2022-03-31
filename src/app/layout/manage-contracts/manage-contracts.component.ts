@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ThousandPipe } from 'src/app/pipes/thousand.pipe';
 import { BotturaContractPdfService } from 'src/app/services/bottura-contract-pdf.service';
 import { e } from '@angular/core/src/render3';
+import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -35,6 +36,10 @@ export class ManageContractsComponent implements OnInit {
   @ViewChild('closeLinkContractModal') closeLinkContractModal: ElementRef;
   @ViewChild('viewStatuHistoryModelOpen') viewStatuHistoryModelOpen: ElementRef;
   @ViewChild('viewStatuHistoryModelClose') viewStatuHistoryModelClose: ElementRef;
+  @ViewChild('sendBackToRevisionModelOpen') sendBackToRevisionModelOpen: ElementRef;
+  @ViewChild('sendBackToRevisionModelClose') sendBackToRevisionModelClose: ElementRef;
+  @ViewChild('foldersModalOpen') foldersModalOpen: ElementRef;
+  @ViewChild('foldersModalClose') foldersModalClose: ElementRef;
 
   public parameter: IProperty = {};
   public select_columns_list: any[] = [];
@@ -73,7 +78,18 @@ export class ManageContractsComponent implements OnInit {
     { id: 3, name_en: 'Married - Separate goods', name_es: 'Casado - Bienes separados' }
   ];
   history: any;
-
+  note: any;
+  selectedContract: any;
+  selectedStatus: any;
+  collectionFolders: any[] = [];
+  buyerDocumentationFoldersDetails: any[] = [];
+  propertyDocumentationFoldersDetails: any[] = [];
+  beneficiaryDocumentationFoldersDetails: any[] = [];
+  sellerDocumentationFoldersDetails: any[] = [];
+  tutorDocumentationFoldersDetails: any[] = [];
+  property_offer_id: any;
+  collection_property: any;
+  
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -85,6 +101,7 @@ export class ManageContractsComponent implements OnInit {
     private legal_contract: LegalContractPdfService,
     private botturaContractPdfService: BotturaContractPdfService,
     private toastr: ToastrService,
+    private offerPdf: GenerateOfferPdfService,
   ) { }
 
   ngOnInit() {
@@ -365,7 +382,7 @@ export class ManageContractsComponent implements OnInit {
     let language_code = localStorage.getItem('language_code');
     this.spinner.show();
     this.searched_collection = undefined;
-    this.admin.postDataApi('getCollectionById', { id: this.collectionId })
+    this.admin.postDataApi(this.is_edit ? 'getCollectionById' : 'getAlertMsg', { id: this.collectionId })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -615,6 +632,12 @@ export class ManageContractsComponent implements OnInit {
         }
       });
     }
+    else if(status == 2){
+      this.selectedContract = data;
+      this.selectedStatus = status;
+      this.note = undefined;
+      this.sendBackToRevisionModelOpen.nativeElement.click();
+    }
     else{
       this.changeStatus(data, status);
     }
@@ -623,17 +646,29 @@ export class ManageContractsComponent implements OnInit {
   changeStatus(data, status){
     let userId = localStorage.getItem('user-id');
     let input = {
-      contract_id: data.id,
-      status: status,
+      contract_id: data ? data.id : this.selectedContract.id,
+      status: status ? status : this.selectedStatus,
+      comment: this.note,
       admin_id: userId
     }
     this.spinner.show();
     this.admin.postDataApi('updateContractStatus', input)
       .subscribe(
         success => {
+          if(this.selectedStatus){
+            this.sendBackToRevisionModelClose.nativeElement.click();
+          }
           this.getContract();
           this.spinner.hide();
+          if(this.selectedStatus){
+    this.sendBackToRevisionModelClose.nativeElement.click();
+          }
         });
+  }
+
+  closeModal(){
+    this.getContract();
+    this.sendBackToRevisionModelClose.nativeElement.click();
   }
 
   addSignatureDate() {
@@ -673,5 +708,127 @@ export class ManageContractsComponent implements OnInit {
       },error=>{
         this.spinner.hide();
       });
+  }
+
+  openFoldersModal = (details: any): void => {
+    let self = this;
+    this.spinner.show();
+    this.collection_property = details.property;
+    this.collectionFolders = [];
+    this.collectionFolders = details.collection_folders || [];
+    this.buyerDocumentationFoldersDetails = [];
+    this.buyerDocumentationFoldersDetails = [];
+    this.propertyDocumentationFoldersDetails = [];
+    this.beneficiaryDocumentationFoldersDetails = [];
+    this.buyerDocumentationFoldersDetails = [];
+    this.sellerDocumentationFoldersDetails = [];
+    this.tutorDocumentationFoldersDetails = [];
+    const postData = {
+      property_id: (details.property || {}).id,
+      seller_id: details.seller_type == 2 ? details.seller_legal_entity_id : details.seller_id,
+      seller_type: details.seller_type,
+      buyer_id: details.buyer_type == 2 ? details.buyer_legal_entity_id : details.buyer_id,
+      buyer_type: details.buyer_type
+    };
+    this.admin.postDataApi('getCollectionDocument', postData).subscribe((success) => {
+      this.property_offer_id = success.offer_id;
+      this.buyerDocumentationFoldersDetails = success.buyer || [];
+      this.sellerDocumentationFoldersDetails = success.seller || [];
+      this.propertyDocumentationFoldersDetails = success.property || [];
+      let beneficiaryDocumentation = success.beneficiary || [];
+      let tutorDocumentationFolders = [];
+      beneficiaryDocumentation.forEach(function (element) {
+        element.beneficiary_linked_document.forEach(function (x) {
+          x.beneficiary_name = null;
+          x.beneficiary_firstSurname = null;
+          x.beneficiary_secondSurname = null;
+          if (x.document_link) {
+            x.beneficiary_name = element.beneficiary_name;
+            x.beneficiary_firstSurname = element.beneficiary_firstSurname
+            x.beneficiary_secondSurname = element.beneficiary_secondSurname;
+            self.beneficiaryDocumentationFoldersDetails.push(x);
+          }
+        });
+        if (element.tutor && element.tutor.tutor_name) {
+          tutorDocumentationFolders.push(element.tutor);
+        }
+      });
+      tutorDocumentationFolders.forEach(function (element) {
+        element.tutor_linked_document.forEach(function (x) {
+          x.tutor_name = null;
+          x.tutor_firstSurname = null;
+          x.tutor_secondSurname = null;
+          if (x.document_link) {
+            x.tutor_name = element.tutor_name;
+            x.tutor_firstSurname = element.tutor_firstSurname;
+            x.tutor_secondSurname = element.tutor_secondSurname;
+            x.beneficiary_secondSurname = element.beneficiary_secondSurname;
+            self.tutorDocumentationFoldersDetails.push(x);
+          }
+        });
+      });
+      self.beneficiaryDocumentationFoldersDetails.forEach(element => {
+        let count = 1;
+        self.beneficiaryDocumentationFoldersDetails.forEach(item => {
+          item.last = null;
+          if (element.beneficiary_document.name_en == item.beneficiary_document.name_en) {
+            item.beneficiary_last = '_beneficiary_' + count;
+            count = count + 1;
+          }
+        });
+      });
+      self.tutorDocumentationFoldersDetails.forEach(element => {
+        let count = 1;
+        self.tutorDocumentationFoldersDetails.forEach(item => {
+          item.tutor_last = null;
+          if (element.tutor_document.name_en == item.tutor_document.name_en) {
+            item.tutor_last = '_tutor_' + count;
+            count = count + 1;
+          }
+        });
+      });
+      this.foldersModalOpen.nativeElement.click();
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+    });
+  }
+
+  get buyerDocumentationFoldersDetailsLength(): number {
+    let count = 0;
+    this.buyerDocumentationFoldersDetails.forEach((item) => {
+      if (item.document_link) {
+        count = count + 1;
+      }
+    });
+    return count;
+  }
+
+  get sellerDocumentationFoldersDetailsLength(): number {
+    let count = 0;
+    this.sellerDocumentationFoldersDetails.forEach((item) => {
+      if (item.document_link) {
+        count = count + 1;
+      }
+    });
+    return count;
+  }
+
+  get propertyDocumentationFoldersDetailsLength(): number {
+    let count = 0;
+    this.propertyDocumentationFoldersDetails.forEach((item) => {
+      if (item.document_link) {
+        count = count + 1;
+      }
+    });
+    return count;
+  }
+
+  getOfferPdf() {
+    this.offerPdf.offerID(this.property_offer_id, this.collection_property, false);
+  }
+
+  closeFoldersModal() {
+    this.foldersModalClose.nativeElement.click();
   }
 }

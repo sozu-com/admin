@@ -1,0 +1,7 @@
+.color-changed{
+    color: #222;
+}
+
+.table.table-striped.folder-table tr td a img {
+    padding-right: 10px;
+}
