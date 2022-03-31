@@ -89,7 +89,7 @@ export class ManageContractsComponent implements OnInit {
   tutorDocumentationFoldersDetails: any[] = [];
   property_offer_id: any;
   collection_property: any;
-  
+
   constructor(
     public constant: Constant,
     public apiConstant: ApiConstants,
@@ -386,9 +386,9 @@ export class ManageContractsComponent implements OnInit {
       .subscribe(
         success => {
           this.spinner.hide();
-        //   if(success.message == 'Collection already created'){
-        //     swal(this.translate.instant('swal.error'), language_code == 'en' ? 'Contract already exists' : 'El contrato ya existe' , 'error');
-        // }else{
+          //   if(success.message == 'Collection already created'){
+          //     swal(this.translate.instant('swal.error'), language_code == 'en' ? 'Contract already exists' : 'El contrato ya existe' , 'error');
+          // }else{
           if (success['data'].buyer_id) {
             this.getUserById(success['data'].buyer_id);
           }
@@ -403,7 +403,7 @@ export class ManageContractsComponent implements OnInit {
           this.concept_monthly = this.concept_monthly ? this.concept_monthly : {};
           let concept_monthly_ins = this.searched_collection.payment_choices.filter(item => item.payment_choice.name == 'Monthly Installment');
           this.concept_monthly_no = concept_monthly_ins.length;
-        //}
+          //}
         });
   }
 
@@ -431,8 +431,8 @@ export class ManageContractsComponent implements OnInit {
     this.collectionId = undefined;
     this.contract = undefined;
     this.signatureDate = undefined,
-    this.beneficiary_id = undefined,
-    this.status = undefined;
+      this.beneficiary_id = undefined,
+      this.status = undefined;
     this.percent = undefined;
     this.is_edit = false;
     this.step = 1;
@@ -614,7 +614,7 @@ export class ManageContractsComponent implements OnInit {
   }
 
   selectStatus(data, status) {
-    if(status == '9'){
+    if (status == '9') {
       swal({
         html: this.translate.instant('message.error.areYouSure') + '<br>' +
           this.translate.instant('message.error.wantToCancelContract'),
@@ -627,23 +627,23 @@ export class ManageContractsComponent implements OnInit {
         if (result.value) {
           this.changeStatus(data, status);
         }
-        else{
+        else {
           this.getContract();
         }
       });
     }
-    else if(status == 2){
+    else if (status == 2) {
       this.selectedContract = data;
       this.selectedStatus = status;
       this.note = undefined;
       this.sendBackToRevisionModelOpen.nativeElement.click();
     }
-    else{
+    else {
       this.changeStatus(data, status);
     }
   }
 
-  changeStatus(data, status){
+  changeStatus(data, status) {
     let userId = localStorage.getItem('user-id');
     let input = {
       contract_id: data ? data.id : this.selectedContract.id,
@@ -655,18 +655,18 @@ export class ManageContractsComponent implements OnInit {
     this.admin.postDataApi('updateContractStatus', input)
       .subscribe(
         success => {
-          if(this.selectedStatus){
+          if (this.selectedStatus) {
             this.sendBackToRevisionModelClose.nativeElement.click();
           }
           this.getContract();
           this.spinner.hide();
-          if(this.selectedStatus){
-    this.sendBackToRevisionModelClose.nativeElement.click();
+          if (this.selectedStatus) {
+            this.sendBackToRevisionModelClose.nativeElement.click();
           }
         });
   }
 
-  closeModal(){
+  closeModal() {
     this.getContract();
     this.sendBackToRevisionModelClose.nativeElement.click();
   }
@@ -695,7 +695,7 @@ export class ManageContractsComponent implements OnInit {
     });
   }
 
-  openStatusHistoryModel(item){
+  openStatusHistoryModel(item) {
     let input = {
       contract_id: item.id
     }
@@ -705,7 +705,7 @@ export class ManageContractsComponent implements OnInit {
         this.history = success.data;
         this.viewStatuHistoryModelOpen.nativeElement.click();
         this.spinner.hide();
-      },error=>{
+      }, error => {
         this.spinner.hide();
       });
   }

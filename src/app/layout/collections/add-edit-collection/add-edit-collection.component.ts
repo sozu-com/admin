@@ -973,11 +973,11 @@ export class AddEditCollectionComponent implements OnInit {
         this.addFormStep4.controls.day.patchValue('01');
         this.isShown = true;
       }
-      if(data.collection_viewer){
-      data.collection_viewer.forEach(item=>{
-        this.selectedUser.push(item.viewer);
-      })
-    }
+      if (data.collection_viewer) {
+        data.collection_viewer.forEach(item => {
+          this.selectedUser.push(item.viewer);
+        })
+      }
     }
     // buyer as a legal entity
     if (this.model.buyer_type == '2') {
@@ -1143,13 +1143,13 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.outside_agent_commission_iva_amount.patchValue(data.outside_agent_commission_iva_amount || 0);
     this.ReciverUser = data.payment_received_by == 3 ? data.commission_seller_legal_entity : data.payment_received_by == 4 ? data.person : null;
     this.selectedReciverUser = data.payment_received_by;
-    if(data.seller_type == 2 && !data.bank_reference_id){
+    if (data.seller_type == 2 && !data.bank_reference_id) {
       this.getBankReferenceCount(this.tempmodelForBank.seller_legal_entity.legal_entity_bank_ref, 5);
     }
-    else{
+    else {
       this.addFormStep5.controls.bank_reference_id.patchValue(data.bank_reference_id);
     }
-    if(data.payment_received_by == 3){
+    if (data.payment_received_by == 3) {
       this.paymentBankDetailsArray = [];
       if (data.commission_seller_legal_entity.legal_entity_banks) {
         for (let index = 0; index < data.commission_seller_legal_entity.legal_entity_banks.length; index++) {
@@ -1160,9 +1160,9 @@ export class AddEditCollectionComponent implements OnInit {
           element.legal_rep_bank_id = element.id;
           element.Legal_name = '';
           this.paymentBankDetailsArray.push(element);
-          if(element.status){
+          if (element.status) {
             this.addFormStep5.controls.bank_id.patchValue(element.id);
-          }    
+          }
         }
       }
     }
@@ -1170,8 +1170,8 @@ export class AddEditCollectionComponent implements OnInit {
     if (this.isByOffer) {
       index = data.property.property_offer_payment.findIndex(x => x.random_id == data.offer_id);
     }
-    if(data.payment_received_by != 3){
-    this.addFormStep5.controls.bank_id.patchValue(this.isByOffer ? data.property.property_offer_payment[index].bank_id || 0 : data.bank_id || 0);
+    if (data.payment_received_by != 3) {
+      this.addFormStep5.controls.bank_id.patchValue(this.isByOffer ? data.property.property_offer_payment[index].bank_id || 0 : data.bank_id || 0);
     }
     this.addFormStep5.controls.payment_received_by.patchValue(this.isByOffer ? (data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : data.payment_received_by.toString() || '0');
     // this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
@@ -1219,24 +1219,24 @@ export class AddEditCollectionComponent implements OnInit {
 
   patchFormStep6(data) {
     this.edit_bank = false;
-    if(!data.bank_reference_id){
-    if (data.commission_seller_legal_entity && data.commission_seller_legal_entity.legal_entity_bank_ref) {
-      this.ngOtpInputRef.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(0, 3));
-      this.ngOtpInputRef1.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
-      this.ngOtpInputRef2.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
-      this.ngOtpInputRef3.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(10, 4));
-      this.getBankReferenceCount(data.commission_seller_legal_entity.legal_entity_bank_ref, 6);
+    if (!data.bank_reference_id) {
+      if (data.commission_seller_legal_entity && data.commission_seller_legal_entity.legal_entity_bank_ref) {
+        this.ngOtpInputRef.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(0, 3));
+        this.ngOtpInputRef1.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
+        this.ngOtpInputRef2.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
+        this.ngOtpInputRef3.setValue(data.commission_seller_legal_entity.legal_entity_bank_ref.substr(10, 4));
+        this.getBankReferenceCount(data.commission_seller_legal_entity.legal_entity_bank_ref, 6);
+      }
+      else if (data.seller_legal_entity && data.seller_legal_entity.legal_entity_bank_ref) {
+        this.ngOtpInputRef.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(0, 3));
+        this.ngOtpInputRef1.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
+        this.ngOtpInputRef2.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
+        this.ngOtpInputRef3.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(10, 4));
+        this.getBankReferenceCount(data.seller_legal_entity.legal_entity_bank_ref, 6);
+      }
     }
-    else if (data.seller_legal_entity && data.seller_legal_entity.legal_entity_bank_ref) {
-      this.ngOtpInputRef.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(0, 3));
-      this.ngOtpInputRef1.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(3, 3));
-      this.ngOtpInputRef2.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(6, 4));
-      this.ngOtpInputRef3.setValue(data.seller_legal_entity.legal_entity_bank_ref.substr(10, 4));
-      this.getBankReferenceCount(data.seller_legal_entity.legal_entity_bank_ref, 6);
-    }
-  }
-  else{
-    this.ngOtpInputRef.setValue(data.bank_reference_id.substr(0, 3));
+    else {
+      this.ngOtpInputRef.setValue(data.bank_reference_id.substr(0, 3));
       this.ngOtpInputRef1.setValue(data.bank_reference_id.substr(3, 3));
       this.ngOtpInputRef2.setValue(data.bank_reference_id.substr(6, 4));
       this.ngOtpInputRef3.setValue(data.bank_reference_id.substr(10, 4));
@@ -1256,59 +1256,59 @@ export class AddEditCollectionComponent implements OnInit {
   getBankReferenceCount(bankId, tab) {
     this.spinner.show();
     forkJoin([
-    this.adminService.postDataApi('collectionBankRef', {id : this.tempmodel.id ? this.tempmodel.id : this.tempmodelForBank.id, commission_id: this.ReciverUser ? this.ReciverUser.id : null})
-  ]).subscribe(r => {
+      this.adminService.postDataApi('collectionBankRef', { id: this.tempmodel.id ? this.tempmodel.id : this.tempmodelForBank.id, commission_id: this.ReciverUser ? this.ReciverUser.id : null })
+    ]).subscribe(r => {
       this.spinner.hide();
-      if(tab == 6){
-      this.ngOtpInputRef4.setValue(r[0].data);
+      if (tab == 6) {
+        this.ngOtpInputRef4.setValue(r[0].data);
       }
       this.createChecker(bankId + r[0].data, tab)
     });
   }
-  
-  createChecker(bankId, tab){
-   let bankIdArray = bankId.split('');
-   const multiBankArray = [3,7,1,3,7,1,3,7,1,3,7,1,3,7,1,3,7];
-   let resultMulti = [];
-   let resultModel = [];
-   let sum = 0;
-   let sum1 = 0;
-   let finalResult = 0;
-   for(let i = 0; i <= 16; i++){
-   resultMulti.push(bankIdArray[i] * multiBankArray[i]);
-   resultModel.push(resultMulti[i] % 10); 
-   sum = sum + resultModel[i];
-  };
+
+  createChecker(bankId, tab) {
+    let bankIdArray = bankId.split('');
+    const multiBankArray = [3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7];
+    let resultMulti = [];
+    let resultModel = [];
+    let sum = 0;
+    let sum1 = 0;
+    let finalResult = 0;
+    for (let i = 0; i <= 16; i++) {
+      resultMulti.push(bankIdArray[i] * multiBankArray[i]);
+      resultModel.push(resultMulti[i] % 10);
+      sum = sum + resultModel[i];
+    };
     sum1 = 10 - (sum % 10);
     finalResult = sum1 % 10;
-    if(tab == 6){
-    finalResult ? this.ngOtpInputRef5.setValue(finalResult) : this.ngOtpInputRef5.setValue(finalResult.toString());
-    this.addFormStep6.controls.bank_reference_id.patchValue(bankId + finalResult);
+    if (tab == 6) {
+      finalResult ? this.ngOtpInputRef5.setValue(finalResult) : this.ngOtpInputRef5.setValue(finalResult.toString());
+      this.addFormStep6.controls.bank_reference_id.patchValue(bankId + finalResult);
     }
-    else{
+    else {
       this.addFormStep5.controls.bank_reference_id.patchValue(bankId + finalResult);
     }
   }
-  
 
-  getChecker(bank_reference_id, projectname, fed_tax_pay){
-    let alpha = [{ id : "a", value: 1}, { id : "b", value: 2}, { id : "c", value: 3}, { id : "d", value: 4}, { id : "e", value: 5}, { id : "f", value: 6}, { id : "g", value: 7}, 
-                  { id : "h", value: 8}, { id : "i", value: 9}, { id : "j", value: 1}, { id : "k", value: 2}, { id : "l", value: 3}, { id : "m", value: 4}, { id : "n", value: 5},
-                  { id : "o", value: 6}, { id : "p", value: 7}, { id : "q", value: 8}, { id : "r", value: 9}, { id : "s", value: 1}, { id : "t", value: 2}, { id : "u", value: 3},
-                  { id : "v", value: 4}, { id : "w", value: 5}, { id : "x", value: 6}, { id : "y", value: 7}, { id : "z", value: 8}];
+
+  getChecker(bank_reference_id, projectname, fed_tax_pay) {
+    let alpha = [{ id: "a", value: 1 }, { id: "b", value: 2 }, { id: "c", value: 3 }, { id: "d", value: 4 }, { id: "e", value: 5 }, { id: "f", value: 6 }, { id: "g", value: 7 },
+    { id: "h", value: 8 }, { id: "i", value: 9 }, { id: "j", value: 1 }, { id: "k", value: 2 }, { id: "l", value: 3 }, { id: "m", value: 4 }, { id: "n", value: 5 },
+    { id: "o", value: 6 }, { id: "p", value: 7 }, { id: "q", value: 8 }, { id: "r", value: 9 }, { id: "s", value: 1 }, { id: "t", value: 2 }, { id: "u", value: 3 },
+    { id: "v", value: 4 }, { id: "w", value: 5 }, { id: "x", value: 6 }, { id: "y", value: 7 }, { id: "z", value: 8 }];
     let num = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     let array = projectname.length > 7 ? projectname.substr(0, 4).split("") : projectname.split("");
     let Project_name_num = '';
     array.forEach(element => {
-      let data3 = alpha.find(item=> item.id == element.toLowerCase());
-      if(data3){ 
+      let data3 = alpha.find(item => item.id == element.toLowerCase());
+      if (data3) {
         Project_name_num = Project_name_num + data3.value;
       }
-      else{
-      let data4 = num.find(item=> item == element);
-      if(data4){
-        Project_name_num = Project_name_num + data4;
-      }
+      else {
+        let data4 = num.find(item => item == element);
+        if (data4) {
+          Project_name_num = Project_name_num + data4;
+        }
       }
     });
     let count2 = 7 - Project_name_num.toString().length;
@@ -1321,50 +1321,50 @@ export class AddEditCollectionComponent implements OnInit {
     let value = '';
     let num_id = bank_reference_id.replace(projectname.substr(0, 7), Project_name_num.substr(0, 7));
     let fed_tax = '';
-    if(fed_tax_pay){
-    let array2 = fed_tax_pay.substr(0, 4).split("");
-    array2.forEach(element => {
-      let data5 = alpha.find(item=> item.id == element.toLowerCase());
-      if(data5){ 
-        fed_tax = fed_tax + data5.value;
-      }
-      else{
-      let data6 = num.find(item=> item == element);
-      if(data6){
-        fed_tax = fed_tax + data6;
-      }
-      }
-    });
-  }
-  let num_id1 = num_id.replace(fed_tax_pay.substr(0, 4), fed_tax.substr(0, 4));
-  num_id1 = num_id1.split("");
-    for(let i = 1; i <= num_id1.length; i++){
-      let rem = i%2;
-      if(rem == 1 ){
-      if((num_id1[num_id1.length - i] * 2) > 9){
-        let data = '';
-        data = data + (num_id1[num_id1.length - i] * 2);
-        let array3 = data.split("");
-        value = value + (Number(array3[0]) + Number(array3[1]));
-      }
-      else{
-        value = value + (num_id1[num_id1.length - i] * 2);
-      }
+    if (fed_tax_pay) {
+      let array2 = fed_tax_pay.substr(0, 4).split("");
+      array2.forEach(element => {
+        let data5 = alpha.find(item => item.id == element.toLowerCase());
+        if (data5) {
+          fed_tax = fed_tax + data5.value;
+        }
+        else {
+          let data6 = num.find(item => item == element);
+          if (data6) {
+            fed_tax = fed_tax + data6;
+          }
+        }
+      });
     }
-    else{
-      value = value + (num_id1[num_id1.length - i] * 1);
-    }
+    let num_id1 = num_id.replace(fed_tax_pay.substr(0, 4), fed_tax.substr(0, 4));
+    num_id1 = num_id1.split("");
+    for (let i = 1; i <= num_id1.length; i++) {
+      let rem = i % 2;
+      if (rem == 1) {
+        if ((num_id1[num_id1.length - i] * 2) > 9) {
+          let data = '';
+          data = data + (num_id1[num_id1.length - i] * 2);
+          let array3 = data.split("");
+          value = value + (Number(array3[0]) + Number(array3[1]));
+        }
+        else {
+          value = value + (num_id1[num_id1.length - i] * 2);
+        }
+      }
+      else {
+        value = value + (num_id1[num_id1.length - i] * 1);
+      }
     }
     let array1 = value.split("");
     let final_value = 0;
-    array1.forEach(item=>{
+    array1.forEach(item => {
       final_value = final_value + Number(item);
     });
     let num1 = final_value.toString();
     let num2 = num1[0];
     let num3 = (Number(num2) + 1) + '0';
     let checker_value = Number(num3) - final_value;
-    if(checker_value > 9){
+    if (checker_value > 9) {
       return checker_value.toString().substr(1, 1)
     }
     return checker_value;
@@ -2923,7 +2923,7 @@ export class AddEditCollectionComponent implements OnInit {
         if (this.model.buyer_type != '1') {
           if (!formdata['buyer_leg_rep_name'] || !formdata['buyer_leg_rep_phone'] ||
             !formdata['buyer_leg_rep_email'] || !formdata['buyer_leg_rep_fed_tax']) {
-            this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));                      
+            this.toastr.error(this.translate.instant('message.error.pleaseFillLegalRepInfo'), this.translate.instant('swal.error'));
             return;
           }
         }
@@ -2933,10 +2933,10 @@ export class AddEditCollectionComponent implements OnInit {
       }
       formdata['property_beneficiary'] = this.property_beneficiary;
       let userIds = [];
-      this.selectedUser.forEach(item=>{
+      this.selectedUser.forEach(item => {
         userIds.push(item.id);
       })
-      formdata['collection_viewer'] = userIds; 
+      formdata['collection_viewer'] = userIds;
     }
 
     if (this.model.step == 4) {
@@ -3065,11 +3065,11 @@ export class AddEditCollectionComponent implements OnInit {
         formdata['add_iva_to_ac'] = formdata['add_iva_to_ac'] ? 1 : 0;
         formdata['add_iva_to_oac'] = formdata['add_iva_to_oac'] ? 1 : 0;
         formdata['payment_received_by'] = formdata['payment_received_by'];
-        if(formdata['payment_received_by'] == 3){
-        formdata['commission_seller_legal_entity_id'] = this.ReciverUser.id;
+        if (formdata['payment_received_by'] == 3) {
+          formdata['commission_seller_legal_entity_id'] = this.ReciverUser.id;
         }
-        else if(formdata['payment_received_by'] == 4){
-        formdata['person_id'] = this.ReciverUser.id;
+        else if (formdata['payment_received_by'] == 4) {
+          formdata['person_id'] = this.ReciverUser.id;
         }
       } else {
         this.showError = true;
@@ -3122,11 +3122,11 @@ export class AddEditCollectionComponent implements OnInit {
             if (tab == 5) {
               this.initFormStep5();
               this.patchFormStep5(success['data']);
-              if(success['data'].payment_received_by == 3 || success['data'].seller_type == 2){
+              if (success['data'].payment_received_by == 3 || success['data'].seller_type == 2) {
                 this.initFormStep6();
-              setTimeout(() => {
-                this.patchFormStep6(success['data']);
-              }, 1000);
+                setTimeout(() => {
+                  this.patchFormStep6(success['data']);
+                }, 1000);
               }
             }
             if (tab == 6) {
@@ -3817,26 +3817,26 @@ export class AddEditCollectionComponent implements OnInit {
 
   getUserIndex(i: number) {
     const searchindex = (this.parameter.page - 1) * 4 + i
-    if(this.searchedUser[searchindex].selected){
+    if (this.searchedUser[searchindex].selected) {
       this.searchedUser[searchindex].selected = false;
     }
-    else{
-    this.searchedUser[searchindex].selected = true;
-    this.searchedUser.forEach(item=>{
-      if(item.selected){
-        this.selectedUser.push(item);
-      }
-    });
-  }
+    else {
+      this.searchedUser[searchindex].selected = true;
+      this.searchedUser.forEach(item => {
+        if (item.selected) {
+          this.selectedUser.push(item);
+        }
+      });
+    }
   }
 
-  deleteUser(user, index){
+  deleteUser(user, index) {
     this.selectedUser.splice(index, 1);
   }
 
   setUserId(building: any) {
     //this.creditModel.user = building
-   // this.creditModel.user.id = building.id
+    // this.creditModel.user.id = building.id
     // this.creditModel.user = building;
     //console.log(building, 'building')
   }
@@ -3856,7 +3856,7 @@ export class AddEditCollectionComponent implements OnInit {
     }
   }
 
-open() {
+  open() {
     this.show = true
   }
   hide() {
@@ -3865,9 +3865,9 @@ open() {
   clear() {
     this.addFormStep5.controls.searchValue.patchValue('');
   }
-fetchResults(name, value) {
+  fetchResults(name, value) {
     //if (!name) this.hide();
-    this.adminService.postDataApi(value == 1 ? 'searchLegalEntity' : 'searchuser', {name : this.addFormStep5.value.searchValue }).subscribe(r => {
+    this.adminService.postDataApi(value == 1 ? 'searchLegalEntity' : 'searchuser', { name: this.addFormStep5.value.searchValue }).subscribe(r => {
       this.searchTickers = r['data'];
       if (this.searchTickers.length) {
         this.show = true;
@@ -3877,10 +3877,10 @@ fetchResults(name, value) {
     })
   }
 
-  selectUserReciver(stock){
+  selectUserReciver(stock) {
     this.ReciverUser = stock;
-    if(this.ReciverUser.id != this.tempmodelForBank.commission_seller_legal_entity_id){
-    this.getBankReferenceCount(this.ReciverUser.legal_entity_bank_ref, 5);
+    if (this.ReciverUser.id != this.tempmodelForBank.commission_seller_legal_entity_id) {
+      this.getBankReferenceCount(this.ReciverUser.legal_entity_bank_ref, 5);
     }
     if (this.ReciverUser.legal_entity_banks) {
       this.paymentBankDetailsArray = [];
@@ -3892,9 +3892,9 @@ fetchResults(name, value) {
         element.legal_rep_bank_id = element.id;
         element.Legal_name = '';
         this.paymentBankDetailsArray.push(element);
-        if(element.status){
+        if (element.status) {
           this.addFormStep5.controls.bank_id.patchValue(element.id);
-        }     
+        }
       }
     }
     this.hide();

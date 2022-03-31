@@ -127,7 +127,7 @@ export class GenerateOfferPdfService {
     });
   }
 
-  offerID(item, propertyDetails) {
+  offerID(item, propertyDetails, notSave) {
     this.offer = item;
     this.spinner.show();
     this.admin.postDataApi('getBuildingOfferInfo', { property_id: propertyDetails.id }).subscribe((success) => {

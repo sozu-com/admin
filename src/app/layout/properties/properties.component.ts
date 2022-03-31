@@ -2148,7 +2148,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.is_for_Offer = false;
       this.offer_id = result.data;
       //this.generatePDF();
-      this.offerPdf.offerID(this.offer_id, this.property_array);
+      this.offerPdf.offerID(this.offer_id, this.property_array, false);
       this.closeModalInstallment();
       this.getListing(null, null);
       this.spinner.hide();
@@ -2516,7 +2516,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     //   this.spinner.hide();
     //   swal(this.translate.instant('swal.error'), error.error.message, 'error');
     // });
-    this.offerPdf.offerID(item, this.propertyDetail);
+    this.offerPdf.offerID(item, this.propertyDetail, false);
   }
 
   openModaloffer = (propertyDetails: any): void => {
