@@ -1625,6 +1625,7 @@
       "wantToBlockUser": "You want to block this User?",
       "wantToUnblockUser": "You want to unblock this User?",
       "wantToDeleteUser": "You want to delete this User?",
+      "wantToDeleteUserRole": "You want to delete this User Role?",
       "wantToDeleteFile": "You want to delete this file (s)?",
       "wantToBlockAgency": "You want to block this Agency?",
       "wantToUnblockAgency": "You want to unblock this Agency?",
