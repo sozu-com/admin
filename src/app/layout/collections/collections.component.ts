@@ -4049,7 +4049,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
   }
 
   getOfferPdf() {
-    this.offerPdf.offerID(this.property_offer_id, this.collection_property);
+    this.offerPdf.offerID(this.property_offer_id, this.collection_property, false);
   }
 
   ngOnDestroy(): void {

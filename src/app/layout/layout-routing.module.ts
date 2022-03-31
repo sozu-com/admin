@@ -158,6 +158,10 @@ const routes: Routes = [
       {
         path: 'product',
         loadChildren: './manage-product/manage-product.module#ManageProductModule'
+      },
+      {
+        path: 'roles',
+        loadChildren: './manage-roles/manage-roles.module#ManageRolesModule'
       }
     ]
   }
