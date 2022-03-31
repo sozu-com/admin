@@ -179,6 +179,7 @@ export class AddProjectComponent implements OnInit {
   public amenitiesKeyword: string = ''
   project_amenities: any[] = [];
   newPaymentWay: any[] = [];
+  showInOffer: number = 0;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -1247,6 +1248,7 @@ export class AddProjectComponent implements OnInit {
     modelSave.project_email = this.model.project_email;
     modelSave.project_additional_url = this.model.project_additional_url;
     modelSave.project_tagline = this.model.project_tagline;
+    modelSave.show_in_offer = this.showInOffer;
 
     if (this.model.doc_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingDocument'), 'error');
@@ -2742,5 +2744,9 @@ export class AddProjectComponent implements OnInit {
 
   removePaymentWay(index){
     this.newPaymentWay.splice(index, 1)
+  }
+
+  toggleShowOffer(value) {
+    this.showInOffer = value.target.checked ? 1 : 0;
   }
 }
