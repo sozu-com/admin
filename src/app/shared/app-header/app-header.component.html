@@ -62,11 +62,11 @@
       </div>
     </div>
 
-    <div class=" ">
-      <div id="sidebar-container" class="sidebar-expanded d-none d-md-block collapse in show" id="sidebar"
+    <div id="sidebar">
+      <div id="sidebar-container" class="sidebar-expanded d-none d-md-block collapse in show"
         data-toggle="collapse" aria-expanded="false">
         <!-- *ngIf="!isShowIcon" -->
-        <div class="list-group panel  menu-collapsed main-sidebar" id="side-menu-bar" >
+        <div class="sidebar show list-group panel  menu-collapsed main-sidebar" id="side-menu-bar" >
 
 
           <!---menu 1-->
@@ -435,12 +435,13 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
             </a>
           </div>
           <!---menu 6-->
-          <a href="#menu6" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
+          <li class="nav-item"><a href="#menu6" class="list-group-item   collapsed" data-toggle="collapse" data-parent="#sidebar"
             aria-expanded="false"><img src="assets/images/icons/vuesax_twotone_buliding.png"><span>
               {{'sidebar.Properties' | translate}}
               <i class="fa fa-angle-right" aria-hidden="true"></i>
             </span>
           </a>
+        </li>
           <div class="collapse" id="menu6">
             <li *ngIf="all != 1 &&  admin?.admin_acl['Property Management']?.can_read==1" class="nav-item"
               [routerLinkActive]="'active'">
@@ -837,14 +838,15 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
 
           </div>
           <!-- (click)="showIcon('true')" -->
-          <button href="javascript:void(0)"   style="cursor: pointer;" id="add-class" data-toggle="sidebar-colapse"
-            class="btn-dark bg-dark list-group-item   list-group-item  -action d-flex align-items-center">
-            <div class="w-100">
+          <li class="nav-item">
+            <div class="w-100 toggle-btn">
               <!-- <span id="collapse-icon" class="fa fa-2x mr-3"></span> -->
-              <span id="collapse-icon" class=" "><img class="abc mCS_img_loaded"
-                  src="assets/img/vuesax_twotone_arrow-2.png"></span>
+                  <a class='open-icon' href='#' onclick='showBar(event)'><span id="collapse-icon" class="fa fa-2x mr-3"><img class="abc mCS_img_loaded"
+                    src="assets/img/vuesax_twotone_arrow-2.png"></span></a>
+              <a class='close-icon' href='#' onclick='hideBar(event)'><span id="collapse-icon" class="fa fa-2x mr-3"><img class="abc mCS_img_loaded"
+                src="assets/img/vuesax_twotone_arrow-2.png"></span></a>
             </div>
-          </button>
+          </li>
         </div>
       </div>
     </div>

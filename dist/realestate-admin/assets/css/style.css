@@ -274,7 +274,7 @@
     }
     .content-area {
         padding:4.8rem 2rem 0rem;
-        margin-left: 266px;
+        margin-left: 220px;
     }
     .content-area.intro {
         margin-left: 65px;
@@ -3478,10 +3478,10 @@
     div#menu2sub26 li a:before {
         display: none;
     }
-     a.list-group-item span i {
+    a.list-group-item span i {
         transform: rotate(90deg);
         position: absolute;
-        top: -4px;
+        top: 0;
         right: 0;
     }
     div#menu4sub2 li a:before {
@@ -3495,4 +3495,75 @@
     }
     .fa-angle-double-left:before {
         content: none !important;
+    }
+
+    #sidebar-container .sidebar {
+        position: fixed;
+        top:48px;
+        width: 250px;
+        height: 100%;
+        box-sizing: border-box;
+        background: white;
+    }
+      #sidebar-container .sidebar .menu a{
+        display:block;
+        margin-bottom:10px;
+        font-size:1.2rem;
+        text-decoration:none;
+        color:black;
+      }
+      #sidebar-container .close-icon {
+        position: relative;
+        left: 50px;
+        bottom: 20px;
+    }
+    #sidebar-container .open-icon {
+        position: relative;
+        top: -20px;
+        left: 50px;
+    }
+      #sidebar-container .hide {
+        transition: left 0.3s linear;
+        left: -150px;
+    }
+      #sidebar-container .show{
+        transition:left 0.3s linear;
+        left:0px;
+      }
+      #sidebar-container .hide li.nav-item span {
+        display: none;
+    }
+    #sidebar-container .hide li.nav-item img {
+        left: 160px;
+        position: relative;
+    }
+    .w-100.toggle-btn {
+        background-color: #000;
+        padding: 35px 35px 0;
+        margin: 0px 0 0px;
+    }
+    #sidebar-container .hide .open-icon span img {
+        left:95px !important;
+        position: relative;
+    }
+    #sidebar-container .hide .open-icon span{display:block !important;}
+    #sidebar-container .sidebar li a span {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+        white-space: nowrap;
+        color: #434B52;
+        font-family: 'sf_ui_textmedium';
+        font-size: 16px;
+        font-weight: 500;
+    }
+    #sidebar-container .show .open-icon {
+        display: none;
+    }
+    div#agentContainer {
+        margin: 0 !important;
+    }
+    div#availabilityContainer {
+        margin: 0 !important;
+        width: 100% !important;
     }
