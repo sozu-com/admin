@@ -118,7 +118,7 @@ export class CommonService {
     }
     // this.spinner.show()
     forkJoin([
-      this.admin.postDataApi('propertyForSale', this.parameter),
+      // this.admin.postDataApi('propertyForSale', this.parameter),
       this.admin.postDataApi('projectHome', input),
       this.admin.postDataApi('propertyHome', input),
       this.admin.postDataApi('getAgencies', input),
@@ -126,16 +126,16 @@ export class CommonService {
     ]).subscribe(success => {
       this.parameter.keyword = '';
       this.spinner.hide();
-      this.items = success[0].data || [];
-      this.totalSale = success[0].total_count;
-      localStorage.setItem('property_sale_data', JSON.stringify(this.items));
-      localStorage.setItem('property_sale_total', JSON.stringify(this.totalSale));
-      this.items.forEach(function (element) {
-        element['price_per_square_meter'] =
-          (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
-      });
+      // this.items = success[0].data || [];
+      // this.totalSale = success[0].total_count;
+      // localStorage.setItem('property_sale_data', JSON.stringify(this.items));
+      // localStorage.setItem('property_sale_total', JSON.stringify(this.totalSale));
+      // this.items.forEach(function (element) {
+      //   element['price_per_square_meter'] =
+      //     (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
+      // });
       //project
-      this.homeData = success[1].data || [];
+      this.homeData = success[0].data || [];
       (this.possessionStatuses || []).forEach(r => {
         (this.homeData || []).forEach(ele => {
           if (ele.possession_status_id == r.id) {
@@ -154,11 +154,11 @@ export class CommonService {
         element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
         element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
       });
-      this.total = success[1].total_count;
+      this.total = success[0].total_count;
       localStorage.setItem('project_data', JSON.stringify(this.homeData));
       localStorage.setItem('project_total', JSON.stringify(this.total));
       // //property home
-      this.propertyData = success[2].data || [];
+      this.propertyData = success[1].data || [];
       this.propertyData.forEach(function (element) {
         if (element.id == (element.collection || {}).property_id) {
           element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
@@ -166,15 +166,15 @@ export class CommonService {
           element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         }
       });
-      this.totalProperty = success[2].total_count;
+      this.totalProperty = success[1].total_count;
       localStorage.setItem('property_data', JSON.stringify(this.propertyData));
       localStorage.setItem('property_total', JSON.stringify(this.totalProperty));
       //agencies
-      this.agencies = success[3].data || [];
-      this.totalAgencies = success[3].total_count;
+      this.agencies = success[2].data || [];
+      this.totalAgencies = success[2].total_count;
 
       //incomes
-      this.collections = success[4].data || [];
+      this.collections = success[3].data || [];
       this.collections.forEach(function (element) {
         element['avgg_price_per'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.final_price_per_m2) || 0)));
       });
@@ -251,46 +251,13 @@ export class CommonService {
         element['ac_receipt'] = ac_receipt == ac_active && ac_receipt != 0 ? 1 : 0;
         element['ac_invoice'] = ac_invoice == ac_active && ac_invoice != 0 ? 1 : 0;
       }
-      this.totalCollections = success[4].total_count;
+      this.totalCollections = success[3].total_count;
       localStorage.setItem('collections', JSON.stringify(this.collections));
       localStorage.setItem('collection_total', JSON.stringify(this.totalCollections));
     });
   }
 
-  // getHomes = (): void => {
-  //   this.parameter.itemsPerPage = 10;
-  //   this.parameter.page = 1;
-  //   this.parameter.flag = 3;
-  //   forkJoin([
-  //     this.admin.postDataApi('projectHome', this.parameter),
-  //     this.admin.postDataApi('getAgencies', this.parameter),
-  //   ]).subscribe(success => {
-  //     this.homeData = success[1].data || [];
-  //     (this.possessionStatuses || []).forEach(r => {
-  //       (this.homeData || []).forEach(ele => {
-  //         if (ele.possession_status_id == r.id) {
-  //           ele['status_possion'] = r.name_en;
-  //         }
-  //       })
-  //     });
-  //     (this.all_building_types || []).forEach(r => {
-  //       (this.homeData || []).forEach(ele => {
-  //         if (ele.building_type_id == r.id) {
-  //           ele['status_building'] = r.name_en;
-  //         }
-  //       })
-  //     });
-  //     this.homeData.forEach(function (element) {
-  //       element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
-  //       element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
-  //     });
-  //     this.total = success[1].total_count;
-  //     // //agencies
-  //     this.agencies = success[3].data || [];
-  //     this.totalAgencies = success[3].total_count;
 
-  //   });
-  // }
   numberUptoNDecimal(num: any, n: number) {
     return num ? num.toFixed(n) : 0;
   }

@@ -21,11 +21,18 @@ export class AddressComponent implements OnInit {
   @Output() disabledBuilding = new EventEmitter();
 
   constructor(private admin: AdminService) {
-    this.getCountriesNew(0);
+    // this.getCountriesNew(0);
   }
 
   ngOnInit() {
-    //console.log(this.address, "this.address");
+    this.getCountries();
+    console.log(this.countries, "countriescountries");
+    console.log(this.address, "addressaddress");
+    console.log(this.address.countries, "address countries");
+    console.log(this.address.buildings, "address buildings");
+    console.log(this.address.cities, "address cities");
+    console.log(this.address.localities, "address localities");
+    console.log(this.address.states, "address states");
     //if (this.address && this.address.countries) {
     this.getStatesNew(this.address.countries, 0);
     this.getCitiesNew(this.address.states, 0);
@@ -34,7 +41,11 @@ export class AddressComponent implements OnInit {
     this.setBuilding(this.address.buildings, 0)
     // }
   }
-
+  getCountries() {
+    this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
+      this.parameter.countries = r['data'];
+    });
+  }
   removeRow() {
     this.removeAddress.emit(this.index);
   }
@@ -73,8 +84,8 @@ export class AddressComponent implements OnInit {
   }
 
   getStatesNew(country_id, setZero) {
-    this.address.countries = country_id;
-    console.log(this.address.countries, "countries");
+    this.address.countries = country_id ? country_id : this.address.countries;
+    console.log(this.address.countries, "countries address");
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.country_id = country_id;
     this.address.states = this.address.states && setZero === 1 ? '0' : this.address.states;
@@ -86,14 +97,17 @@ export class AddressComponent implements OnInit {
       return false;
     } else {
       this.parameter.country_id = country_id;
-      if (this.countries) {
+      if (this.countries.length > 1) {
         const selectedCountry = this.countries.filter(x => x.id.toString() === country_id.toString());
         selectedCountry.forEach(element => {
           this.parameter.statesAdd = element.states;
         });
-        console.log(this.countries, "this.countries");
-        console.log(this.parameter.statesAdd, "statesAdd");
         //this.parameter.statesAdd = selectedCountry[0].states;
+      } else {
+        const selectedCountry = this.parameter.countries.filter(x => x.id.toString() === country_id.toString());
+        selectedCountry.forEach(element => {
+          this.parameter.statesAdd = element.states;
+        });
       }
     }
   }
@@ -118,8 +132,8 @@ export class AddressComponent implements OnInit {
   }
 
   getCitiesNew(state_id, setZero) {
-    this.address.states = state_id;
-    console.log(this.address.states, "states");
+    this.address.states = state_id ? state_id : this.address.states;
+    console.log(this.address.states, "states address");
     this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.citiesAdd = [];
     this.address.cities = this.address.cities && setZero === 1 ? '0' : this.address.cities;
@@ -132,7 +146,6 @@ export class AddressComponent implements OnInit {
     if (this.parameter.statesAdd.length !== 0) {
       const selectedState = this.parameter.statesAdd.filter(x => x.id.toString() === state_id.toString());
       this.parameter.citiesAdd = selectedState[0].cities;
-      console.log(this.parameter.citiesAdd, "this.parameter.citiesAdd");
     }
   }
 
@@ -155,8 +168,8 @@ export class AddressComponent implements OnInit {
 
 
   getLocalitiesNew(city_id, setZero) {
-    this.address.cities = city_id;
-    console.log(this.address.cities, "cities");
+    this.address.cities = city_id ? city_id : this.address.cities;
+    console.log(this.address.cities, "cities address");
     this.parameter.city_id = city_id;
     this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = []; this.address.cities = city_id;
     this.address.localities = this.address.localities && setZero === 1 ? '0' : this.address.localities;
@@ -169,7 +182,6 @@ export class AddressComponent implements OnInit {
     if (this.parameter.citiesAdd.length !== 0) {
       const selectedCountry = this.parameter.citiesAdd.filter(x => x.id.toString() === city_id.toString());
       this.parameter.localitiesAdd = selectedCountry[0].localities;
-      console.log(this.parameter.localitiesAdd, "this.parameter.localitiesAdd");
     }
   }
 
@@ -180,8 +192,8 @@ export class AddressComponent implements OnInit {
       .subscribe(
         success => {
           this.parameter.buildingsAdd = success.data;
-          this.address.localities = locality_id;
-          console.log(this.address.localities, "localities");
+          this.address.localities = locality_id ? locality_id : this.address.localities;
+          console.log(this.address.localities, "localities address");
           // this.address.buildings = '0';
 
           this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
@@ -201,8 +213,7 @@ export class AddressComponent implements OnInit {
   }
 
   setBuilding(building_id, index) {
-    this.address.buildings = building_id;
-    console.log(this.address.buildings, "buildings");
+    this.address.buildings = building_id ? building_id : this.address.buildings;
     this.disabledBuilding.emit(this.index);
   }
 }

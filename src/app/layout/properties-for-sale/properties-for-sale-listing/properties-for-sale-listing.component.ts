@@ -288,7 +288,6 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.parameter.building_id = '0';
     this.parameter.broker_id = 1;
     this.getPropertyConfigurations();
-    //  this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
     this.subscribeInstallmentFormGroup();
@@ -425,14 +424,14 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     }
     this.admin.postDataApi('propertyForSale', input).subscribe(
       success => {
-        this.is_filter = true;
+        this.spinner.hide();
+        // this.is_filter = true;
         // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
         this.items = success.data;
         this.items.forEach(function (element) {
           element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         });
         this.total = success.total_count;
-        this.spinner.hide();
       },
       error => {
         this.spinner.hide();
@@ -467,7 +466,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         this.parameter.state_id = '0';
         this.parameter.building_id = '0';
       }
-      //this.getListing();
+      this.getListing();
     });
   }
 
@@ -576,7 +575,12 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.parameter.building_id = '0';
     this.parameter.buildings = [];
     if (this.selectedLocation.selectedLocalities.length > 0) {
-      this.getLocalityBuildings();
+      if (this.found == 'can_outside_broker') {
+        this.getLocalityBuildings_out();
+      } else {
+        this.getLocalityBuildings();
+      }
+
     }
   }
 
@@ -604,7 +608,22 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
           this.spinner.hide();
         });
   }
-
+  getLocalityBuildings_out = (): void => {
+    this.spinner.show();
+    this.makePostRequest();
+    let input = {
+      localities: this.parameter.localities,
+      admin_id: this.login_data_out.id,
+    }
+    this.admin.postDataApi('getadminLocalityBuildings', input)
+      .subscribe(
+        success => {
+          this.spinner.hide();
+          this.parameter.buildings = success.data;
+        }, error => {
+          this.spinner.hide();
+        });
+  }
   getPropertyAmenities() {
     this.admin.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(

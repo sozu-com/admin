@@ -12,6 +12,7 @@ export class LayoutComponent implements OnInit {
   constructor(public admin: AdminService) {
     this.admin.userback.subscribe(user => {
       this.$user = user ? user : false;
+      console.log(this.$user, "abc");
     });
   }
   ngOnInit() { }
