@@ -132,6 +132,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   base64: any;
   fullName: any;
   public multiDropdownSettingsForLocation = {};
+  login_data_out: any = {};
   public language_code: string;
   public selectedLocation: { selectedCountry: string, selectedStates: any[], selectedCities: any[], selectedLocalities: any[] } =
     { selectedCountry: '', selectedStates: [], selectedCities: [], selectedLocalities: [] };
@@ -150,7 +151,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   items: any[] = [];
   total: any = 0;
   is_filter: boolean = false;
-  user_list: any;
+  found: any;
   constructor(
     public constant: Constant, private toastr: ToastrService,
     public apiConstant: ApiConstants, public admin: AdminService,
@@ -161,18 +162,19 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     private http: HttpClient, private price: PricePipe, public cs: CommonService
   ) {
     var all_data = JSON.parse(localStorage.getItem('all'));
+    this.login_data_out = all_data.data;
     var keys = Object.keys(all_data.data.permissions);
     var filtered = keys.filter(function (key) {
       return all_data.data.permissions[key]
     });
     var theRemovedElement = filtered.slice(3);
     theRemovedElement.splice(-2);
-    console.log(theRemovedElement, "property_sale");
-    const found = theRemovedElement.find(element => element == 'can_outside_broker');
+    this.found = theRemovedElement.find(element => element == 'can_outside_broker');
     if (theRemovedElement.length > 1) {
       this.all = 0;
     } else if (theRemovedElement.length == 1) {
-      if (found == 'can_outside_broker') {
+      console.log(this.found, "property_sale");
+      if (this.found == 'can_outside_broker') {
         this.all = 1;
       } else {
         this.all = 0;
@@ -225,11 +227,6 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.user_list = JSON.parse(localStorage.getItem('all'));
-    if (this.user_list.data) {
-      this.can_outside_broker = this.user_list.data.permissions.can_outside_broker;
-      console.log(this.user_list.data.permissions.can_outside_broker, "check");
-    }
     this.cs.items = JSON.parse(localStorage.getItem('property_sale_data'));
     this.cs.totalSale = JSON.parse(localStorage.getItem('property_sale_total'));
     this.language_code = localStorage.getItem('language_code');
@@ -417,7 +414,10 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     input.bedroom = this.parameter.bedroom;
     input.bathroom = this.parameter.bathroom;
     input.half_bathroom = this.parameter.half_bathroom;
-
+    if (this.found == 'can_outside_broker') {
+      input.admin_id = this.parameter.admin_id;
+      console.log(this.parameter.admin_id, "list");
+    }
     if (this.parameter.property_id) {
       input = {};
       input.flag = 3;

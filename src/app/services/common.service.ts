@@ -23,8 +23,8 @@ export class CommonService {
   totalCollections: any = 0;
   total: any = 0; logoImageBase64: any;
   totalProperty: any = 0;
-  totalAgencies: any = 0;
-  totalSale: any = 0;
+  totalAgencies: any = 0; login_data_out: any = {};
+  totalSale: any = 0; found: any; all: any;
   paid_purchase_commision_amount: number;
   paid_agent_commision_amount: number;
   paid_collection_commision_amount: number;
@@ -50,6 +50,27 @@ export class CommonService {
 
   constructor(public admin: AdminService, private router: Router, private spinner: NgxSpinnerService, public constant: Constant, private http: HttpClient,
     private translate: TranslateService) {
+    var all_data = JSON.parse(localStorage.getItem('all'));
+    this.login_data_out = all_data.data;
+    var keys = Object.keys(all_data.data.permissions);
+    var filtered = keys.filter(function (key) {
+      return all_data.data.permissions[key]
+    });
+    var theRemovedElement = filtered.slice(3);
+    theRemovedElement.splice(-2);
+    this.found = theRemovedElement.find(element => element == 'can_outside_broker');
+    if (theRemovedElement.length > 1) {
+      this.all = 0;
+    } else if (theRemovedElement.length == 1) {
+      console.log(this.found, "property_sale");
+      if (this.found == 'can_outside_broker') {
+        this.all = 1;
+      } else {
+        this.all = 0;
+      }
+    } else {
+      this.all = 0;
+    }
     this.http.get('../../../assets/img/sozu_black.png', { responseType: 'blob' })
       .subscribe(res => {
         const reader = new FileReader();
@@ -76,6 +97,11 @@ export class CommonService {
     this.parameter.flag = 3;
     this.parameter.broker_id = 1;
     this.parameter.dash_flag = 4;
+    if (this.found == 'can_outside_broker') {
+      this.parameter.admin_id = this.login_data_out.id;
+    } else {
+      delete this.parameter.admin_id;
+    }
     //property
     const input = {
       itemsPerPage: 10,

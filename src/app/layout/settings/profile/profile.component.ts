@@ -96,7 +96,7 @@ export class ProfileComponent implements OnInit {
               states: success.data.states !== null && success.data.states[ind] ? success.data.states[ind].name_en : 'All',
               cities: success.data.cities !== null && success.data.cities[ind] ? success.data.cities[ind].name_en : 'All',
               localities: success.data.localities !== null && success.data.localities[ind] ? success.data.localities[ind].name_en : 'All',
-              buildings: success.data.buildings !== null && success.data.buildings[ind] ? success.data.buildings[ind].name_en : 'All'
+              buildings: success.data.buildings !== null && success.data.buildings[ind] ? success.data.buildings[ind].name : 'All'
             };
             this.model.address[ind] = tempAdd;
           }

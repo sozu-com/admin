@@ -120,7 +120,6 @@ export interface IProperty {
   bankCount?: string;
   flag?: number;
   page?: number;
-  admin_id?: any;
   id?: any;
   lead?: any;
   interested_properties?: any;
@@ -247,6 +246,7 @@ export interface IProperty {
   parkingLotSpacesTotal?: any;
   parking_sort?: number;
   broker_id?: any;
+  admin_id?: any;
   commission_type?: string;
   project?: string;
   property?: string;

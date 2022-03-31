@@ -25,12 +25,14 @@ export class AddressComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.address && this.address.countries) {
-      this.getStatesNew(this.address.countries, 0);
-      this.getCitiesNew(this.address.states, 0);
-      this.getLocalitiesNew(this.address.cities, 0);
-      this.getLocalityBuildings(this.address.localities, 0);
-    }
+    //console.log(this.address, "this.address");
+    //if (this.address && this.address.countries) {
+    this.getStatesNew(this.address.countries, 0);
+    this.getCitiesNew(this.address.states, 0);
+    this.getLocalitiesNew(this.address.cities, 0);
+    this.getLocalityBuildings(this.address.localities, 0);
+    this.setBuilding(this.address.buildings, 0)
+    // }
   }
 
   removeRow() {
@@ -55,14 +57,14 @@ export class AddressComponent implements OnInit {
     this.parameter.country_id = country_id;
 
     if (country_id !== '' && country_id !== '0') {
-      this.admin.postDataApi('country/getStates', {country_id: country_id})
-      .subscribe(
-        success => {
-          this.parameter.statesAdd = success.data;
-          this.address.countries = country_id;
-          this.address.states = '0'; this.address.cities = '0';
-          this.address.localities = '0'; this.address.buildings = '0';
-        });
+      this.admin.postDataApi('country/getStates', { country_id: country_id })
+        .subscribe(
+          success => {
+            this.parameter.statesAdd = success.data;
+            this.address.countries = country_id;
+            this.address.states = '0'; this.address.cities = '0';
+            this.address.localities = '0'; this.address.buildings = '0';
+          });
     } else {
       this.parameter.statesAdd = [];
       this.address.countries = country_id; this.address.states = '0';
@@ -71,11 +73,10 @@ export class AddressComponent implements OnInit {
   }
 
   getStatesNew(country_id, setZero) {
-    this.parameter.statesAdd = [];
+    this.address.countries = country_id;
+    console.log(this.address.countries, "countries");
     this.parameter.citiesAdd = []; this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.country_id = country_id;
-
-    this.address.countries = country_id;
     this.address.states = this.address.states && setZero === 1 ? '0' : this.address.states;
     this.address.cities = this.address.cities && setZero === 1 ? '0' : this.address.cities;
     this.address.localities = this.address.localities && setZero === 1 ? '0' : this.address.localities;
@@ -87,7 +88,12 @@ export class AddressComponent implements OnInit {
       this.parameter.country_id = country_id;
       if (this.countries) {
         const selectedCountry = this.countries.filter(x => x.id.toString() === country_id.toString());
-        this.parameter.statesAdd = selectedCountry[0].states;
+        selectedCountry.forEach(element => {
+          this.parameter.statesAdd = element.states;
+        });
+        console.log(this.countries, "this.countries");
+        console.log(this.parameter.statesAdd, "statesAdd");
+        //this.parameter.statesAdd = selectedCountry[0].states;
       }
     }
   }
@@ -98,13 +104,13 @@ export class AddressComponent implements OnInit {
     this.parameter.state_id = state_id;
 
     if (state_id !== '' && state_id !== '0') {
-      this.admin.postDataApi('getCities', {state_id: state_id})
-      .subscribe(
-        success => {
-          this.parameter.citiesAdd = success.data;
-          this.address.states = state_id; this.address.cities = '0';
-          this.address.localities = '0'; this.address.buildings = '0';
-        });
+      this.admin.postDataApi('getCities', { state_id: state_id })
+        .subscribe(
+          success => {
+            this.parameter.citiesAdd = success.data;
+            this.address.states = state_id; this.address.cities = '0';
+            this.address.localities = '0'; this.address.buildings = '0';
+          });
     } else {
       this.parameter.citiesAdd = []; this.address.states = state_id;
       this.address.cities = '0'; this.address.localities = '0'; this.address.buildings = '0';
@@ -112,11 +118,10 @@ export class AddressComponent implements OnInit {
   }
 
   getCitiesNew(state_id, setZero) {
+    this.address.states = state_id;
+    console.log(this.address.states, "states");
     this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = [];
     this.parameter.citiesAdd = [];
-    this.address.states = state_id;
-
-
     this.address.cities = this.address.cities && setZero === 1 ? '0' : this.address.cities;
     this.address.localities = this.address.localities && setZero === 1 ? '0' : this.address.localities;
     this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
@@ -127,6 +132,7 @@ export class AddressComponent implements OnInit {
     if (this.parameter.statesAdd.length !== 0) {
       const selectedState = this.parameter.statesAdd.filter(x => x.id.toString() === state_id.toString());
       this.parameter.citiesAdd = selectedState[0].cities;
+      console.log(this.parameter.citiesAdd, "this.parameter.citiesAdd");
     }
   }
 
@@ -135,12 +141,12 @@ export class AddressComponent implements OnInit {
     this.parameter.city_id = city_id;
 
     if (city_id !== '' && city_id !== '0') {
-      this.admin.postDataApi('getLocalities', {city_id: city_id})
-      .subscribe(
-        success => {
-          this.parameter.localitiesAdd = success.data;
-          this.address.cities = city_id; this.address.localities = '0'; this.address.buildings = '0';
-        });
+      this.admin.postDataApi('getLocalities', { city_id: city_id })
+        .subscribe(
+          success => {
+            this.parameter.localitiesAdd = success.data;
+            this.address.cities = city_id; this.address.localities = '0'; this.address.buildings = '0';
+          });
     } else {
       this.parameter.localitiesAdd = []; this.address.cities = city_id;
       this.address.localities = '0'; this.address.buildings = '0';
@@ -149,9 +155,10 @@ export class AddressComponent implements OnInit {
 
 
   getLocalitiesNew(city_id, setZero) {
+    this.address.cities = city_id;
+    console.log(this.address.cities, "cities");
     this.parameter.city_id = city_id;
     this.parameter.localitiesAdd = []; this.parameter.buildingsAdd = []; this.address.cities = city_id;
-
     this.address.localities = this.address.localities && setZero === 1 ? '0' : this.address.localities;
     this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
 
@@ -162,17 +169,19 @@ export class AddressComponent implements OnInit {
     if (this.parameter.citiesAdd.length !== 0) {
       const selectedCountry = this.parameter.citiesAdd.filter(x => x.id.toString() === city_id.toString());
       this.parameter.localitiesAdd = selectedCountry[0].localities;
+      console.log(this.parameter.localitiesAdd, "this.parameter.localitiesAdd");
     }
   }
 
   getLocalityBuildings(locality_id, setZero) {
     this.parameter.locality_id = locality_id;
     this.parameter.buildingsAdd = [];
-    this.admin.postDataApi('getLocalityBuildings', {localities: [locality_id]})
+    this.admin.postDataApi('getLocalityBuildings', { localities: [locality_id] })
       .subscribe(
         success => {
           this.parameter.buildingsAdd = success.data;
           this.address.localities = locality_id;
+          console.log(this.address.localities, "localities");
           // this.address.buildings = '0';
 
           this.address.buildings = this.address.buildings && setZero === 1 ? '0' : this.address.buildings;
@@ -181,11 +190,11 @@ export class AddressComponent implements OnInit {
           for (let c = 0; c < this.parameter.buildingsAdd.length; c++) {
             this.parameter.buildingsAdd[c].disabled = false;
             // if (this.disabledBuildings !== undefined) {
-              for (let d = 0; d < this.disabledBuildings.length; d++) {
-                if (this.disabledBuildings[d] === (this.parameter.buildingsAdd[c].id).toString()) {
-                  this.parameter.buildingsAdd[c].disabled = true;
-                }
+            for (let d = 0; d < this.disabledBuildings.length; d++) {
+              if (this.disabledBuildings[d] === (this.parameter.buildingsAdd[c].id).toString()) {
+                this.parameter.buildingsAdd[c].disabled = true;
               }
+            }
             // }
           }
         });
@@ -193,6 +202,7 @@ export class AddressComponent implements OnInit {
 
   setBuilding(building_id, index) {
     this.address.buildings = building_id;
+    console.log(this.address.buildings, "buildings");
     this.disabledBuilding.emit(this.index);
   }
 }

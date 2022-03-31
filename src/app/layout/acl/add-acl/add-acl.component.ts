@@ -64,6 +64,7 @@ export class AddAclComponent implements OnInit {
 
   ngOnInit() {
     this.model = new ACL();
+    this.getCountries();
     this.model.img_loader = false;
     this.model.country_code = this.constant.country_code;
     this.model.dial_code = this.constant.dial_code;
@@ -75,23 +76,10 @@ export class AddAclComponent implements OnInit {
     this.parameter.routeName = this.router.url;
     this.tempAdd = this.model.address;
     this.setCurrentPosition();
-    this.getCountries();
-
-
     // checking => after that place in add/edit
     this.model.address = [];
     this.model.img_loader = false;
     // this.parameter.countries ? this.parameter.countries[0].id : 0;
-    const obj = {
-      countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
-      states: '0',
-      cities: '0',
-      localities: '0',
-      buildings: '0'
-    };
-    this.model.address[0] = obj;
-
-
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params['id'] !== '0') {
         this.model.id = params['id'];
@@ -413,7 +401,6 @@ export class AddAclComponent implements OnInit {
       this.model.contract_agent = userdata.permissions && userdata.permissions.contract_agent == 1 ? true : false;
       this.model.can_credit_coordinator = userdata.permissions && userdata.permissions.can_credit_coordinator == 1 ? true : false;
       this.model.can_content_creator = userdata.permissions && userdata.permissions.can_content_creator == 1 ? true : false;
-
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         const tempAdd = {
           countries: userdata.countries[ind].id.toString(),
@@ -424,17 +411,16 @@ export class AddAclComponent implements OnInit {
         };
         this.model.address[ind] = tempAdd;
       }
-
-      if (this.model.address.length < 1) {
-        const obj = {
-          countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
-          states: '0',
-          cities: '0',
-          localities: '0',
-          buildings: '0'
-        };
-        this.model.address[0] = obj;
-      }
+      // if (this.model.address.length < 1) {
+      //   const obj = {
+      //     countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
+      //     states: '0',
+      //     cities: '0',
+      //     localities: '0',
+      //     buildings: '0'
+      //   };
+      //   this.model.address[0] = obj;
+      // }
 
 
 
@@ -566,6 +552,7 @@ export class AddAclComponent implements OnInit {
   }
 
   getCountries() {
+    this.spinner.show();
     this.parameter.countries = [];
     this.parameter.country_id = '-1';
     this.parameter.states = []; this.parameter.cities = []; this.parameter.localities = []; this.parameter.buildings = [];
@@ -573,6 +560,15 @@ export class AddAclComponent implements OnInit {
 
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       this.parameter.countries = r['data'];
+      this.spinner.hide();
+      const obj = {
+        countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
+        states: '0',
+        cities: '0',
+        localities: '0',
+        buildings: '0'
+      };
+      this.model.address[0] = obj;
     });
   }
 
