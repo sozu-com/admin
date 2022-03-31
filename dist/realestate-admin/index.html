@@ -122,84 +122,18 @@
   </style> -->
 
   <script>
-    $(document).ready(function () {
-      $(document).click(function (event) {
-        $('.navbar-nav li a').on('click', function(){
-            if(!$( this ).hasClass('dropdown-toggle')){
-                $('.navbar-collapse').collapse('hide');
-            }
-        });
-      });
-    });
-
-
-    // $(document).ready(function() {
-    // $(window).keyup(function(e){
-    //   if(e.keyCode == 44){
-    //     $("body").hide();
-    //   }
-
-    // }); });
-
-
-//     window.onscroll = function() {myFunction()};
-
-// var header = document.getElementById("myHeader");
-// var sticky = header.offsetTop;
-
-// function myFunction() {
-//   if (window.pageYOffset > sticky) {
-//     header.classList.add("sticky");
-//   } else {
-//     header.classList.remove("sticky");
-//   }
-// }
-  </script>
-  <script>
-$('#accordion').click(function() {
-  if ( !$(this).next().hasClass('in') ) {
-    $(this).parent().children('#collapse.in').collapse('hide');
-  }
-  $(this).next().collapse('accordion');
-});
-
-$(document).ready(function(){
-// Hide submenus
-$('#body-row .collapse').collapse('hide'); 
-
-// Collapse/Expand icon
-$('#collapse-icon').addClass('fa-angle-double-left'); 
-
-// Collapse click
-$('[data-toggle=sidebar-colapse]').click(function() {
-    SidebarCollapse();
-});
-
-function SidebarCollapse () {
-    $('.menu-collapsed').toggleClass('d-none');
-    $('.sidebar-submenu').toggleClass('d-none');
-    $('.submenu-icon').toggleClass('d-none');
-    $('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
-    
-    // Collapse/Expand icon
-    $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
-}
-});
-
-
-$(document).ready(function(){
-  $(".btn-dark").click(function(){
-    $(".content-area").toggleClass("intro");
-
-  });
-});
-
-$(document).ready(function(){
-  $(".list-group-item ").click(function(){
-    $(".collapse").toggleClass("hide-show");
-
-  });
-});
+    function hideBar(e){
+        e.preventDefault();
+        var sidebar=document.querySelector(".sidebar");
+        sidebar.classList.remove("show");
+        sidebar.classList.add("hide");
+      }
+      function showBar(e){
+        e.preventDefault();
+        var sidebar=document.querySelector(".sidebar");
+        sidebar.classList.remove("hide");
+        sidebar.classList.add("show");
+      }
 </script>
 <link rel="stylesheet" href="styles.88bcd1b24d50ce1eccff.css"></head>
 <body>
@@ -212,5 +146,5 @@ $(document).ready(function(){
       <div class="loading-bar"></div>
     </div> -->
   </app-root>
-<script type="text/javascript" src="runtime.83bc09648088db264d03.js"></script><script type="text/javascript" src="polyfills.32122eecfbd30e0bd79d.js"></script><script type="text/javascript" src="scripts.981900ffad781562e39b.js"></script><script type="text/javascript" src="main.5133ac9ecfb54c4ddadb.js"></script></body>
+<script type="text/javascript" src="runtime.a42d24b56d24a6eee0a5.js"></script><script type="text/javascript" src="polyfills.32122eecfbd30e0bd79d.js"></script><script type="text/javascript" src="scripts.981900ffad781562e39b.js"></script><script type="text/javascript" src="main.2de48cbca298658e0a16.js"></script></body>
 </html>
