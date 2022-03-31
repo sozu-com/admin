@@ -41,6 +41,7 @@
             ],
             "scripts": [
               "node_modules/sweetalert2/dist/sweetalert2.js",
+              "src/assets/js/script.js",
               "node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js",
               "node_modules/froala-editor/js/froala_editor.pkgd.min.js",
               "node_modules/lightbox2/dist/js/lightbox.min.js"
@@ -105,6 +106,7 @@
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
+              "src/assets/js/script.js",
               "node_modules/sweetalert2/dist/sweetalert2.js",
               "node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js",
               "node_modules/froala-editor/js/froala_editor.pkgd.min.js",

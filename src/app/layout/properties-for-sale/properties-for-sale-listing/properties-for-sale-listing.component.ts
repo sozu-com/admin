@@ -415,8 +415,8 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     input.bathroom = this.parameter.bathroom;
     input.half_bathroom = this.parameter.half_bathroom;
     if (this.found == 'can_outside_broker') {
-      input.admin_id = this.parameter.admin_id;
-      console.log(this.parameter.admin_id, "list");
+      input.admin_id = this.login_data_out.id;
+      console.log(input.admin_id, "list");
     }
     if (this.parameter.property_id) {
       input = {};
@@ -1069,7 +1069,10 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     }
     delete input.seller_id;
     delete input.buyer_id;
-
+    if (this.found == 'can_outside_broker') {
+      input.admin_id = this.login_data_out.id;
+      console.log(this.login_data_out.id, "list");
+    }
     this.admin.postDataApi('propertyForSale', input).subscribe(
       success => {
         this.exportfinalData = success['data'];
