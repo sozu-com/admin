@@ -602,6 +602,7 @@
     "projects": "Proyectos",
     "addProperty": "Agregar nueva propiedad",
     "editProperty": "Editar propiedad",
+    "showInOffer": "Mostrar en oferta",
     "tabs": {
       "tagABuilding": "Etiquetar un edificio",
       "createDraft": "Crear borrador",
