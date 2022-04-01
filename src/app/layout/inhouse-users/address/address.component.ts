@@ -15,8 +15,29 @@ export class AddressComponent implements OnInit {
   @Input('index') index;
   @Input('status') status;
   @Input('disabledBuildings') disabledBuildings;
-
   @Input('countries') countries;
+
+  // address_array: any;
+  // get address(): any {
+  //   return this.address;
+  // }
+  // @Input() set address(value: any) {
+  //   this.address_array = value;
+  //   if (this.address_array.states != 0) {
+  //     this.getStatesNew(this.address.countries, 0);
+  //   }
+  // }
+
+  // countries_array = [];
+  // get countries(): any {
+  //   return this.countries;
+  // }
+  // @Input() set countries(value: any) {
+  //   this.countries_array = value;
+  //   this.getStatesNew(this.address.countries, 0);
+  // }
+
+
   @Output() removeAddress = new EventEmitter();
   @Output() disabledBuilding = new EventEmitter();
 
