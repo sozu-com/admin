@@ -179,7 +179,7 @@ export class AddProjectComponent implements OnInit {
   public amenitiesKeyword: string = ''
   project_amenities: any[] = [];
   newPaymentWay: any[] = [];
-  showInOffer: number = 0;
+  showInOffer = true;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -240,6 +240,7 @@ export class AddProjectComponent implements OnInit {
           this.model.meta_title_es = r.data.meta_title_es;
           this.model.parking_space_lots = r.data.parking_space_lots;
           this.model.possession_status_id = r.data.possession_status_id ? r.data.possession_status_id : '';
+          this.showInOffer = r.data.show_in_offer ? false : true ;
           //sum parking
           let sum: any = 0;
           this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
@@ -1248,7 +1249,7 @@ export class AddProjectComponent implements OnInit {
     modelSave.project_email = this.model.project_email;
     modelSave.project_additional_url = this.model.project_additional_url;
     modelSave.project_tagline = this.model.project_tagline;
-    modelSave.show_in_offer = this.showInOffer;
+    modelSave.show_in_offer = this.showInOffer ? 0 : 1;
 
     if (this.model.doc_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingDocument'), 'error');
@@ -2747,6 +2748,6 @@ export class AddProjectComponent implements OnInit {
   }
 
   toggleShowOffer(value) {
-    this.showInOffer = value.target.checked ? 1 : 0;
+    this.showInOffer = value.target.checked ? true : false;
   }
 }

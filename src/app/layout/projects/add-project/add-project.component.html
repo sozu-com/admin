@@ -247,11 +247,12 @@
 
               <div class="col-sm-6 col-12">
                 <div class="form-group-3">
-                <label class="p16-two">
+                <label class="p16-two" style="display: inline-flex;">
                   <input class="form-control" class="is_commission_sale_enabled" type="checkbox"
-                    name="showInOffer" (click)="toggleShowOffer($event)"  [(ngModel)]="showInOffer" [checked]="showInOffer == 1">
-                  <span style="margin-left: 10px; vertical-align: super;">{{''addForm.showInOffer' |
+                    name="showInOffer" (click)="toggleShowOffer($event)"  [ngModel]="showInOffer" [checked]="!showInOffer" style="margin-top: 6px;">
+                  <span style="margin-left: 10px; vertical-align: super;">{{'addForm.showInOffer' |
                     translate}}</span>
+                    {{showInOffer}}
                 </label>
               </div>
             </div>
