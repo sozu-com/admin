@@ -9,6 +9,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
 import { forkJoin } from 'rxjs';
+import { e } from '@angular/core/src/render3';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 declare let swal: any;
@@ -548,10 +549,10 @@ export class GenerateOfferPdfService {
     // let monthCount1 = moment([year1, month1, 1]).diff(moment([year, month, 1]), 'months', true);
     // let monthDiffCount = this.property_array.building.launch_date && monthCount > 0 ? monthCount + ' mensualidades:' : this.property_array.building.launch_date &&
     // monthCount1 > 0 ? monthCount1 + ' mensualidades:' : undefined;
-    let bank;
-    if (this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity) {
-      bank = this.property_array.selected_seller.user.legal_entity.legal_entity_banks.find(item => item.status == 1);
-    }
+    let seller_name = this.property_array.selected_seller && this.property_array.selected_seller.user.developer_company == '' ? this.property_array.selected_seller.user.name 
+                    + ' ' + this.property_array.selected_seller.user.first_surname + ' ' + this.property_array.selected_seller.user.second_surname : 
+                    this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity ? this.property_array.selected_seller.user.legal_entity.legal_name : 
+                    this.property_array.selected_seller.user.developer_company
     let docDefinition = {
       pageSize: {
         width: 690,
@@ -781,7 +782,7 @@ export class GenerateOfferPdfService {
                 widths: [90, 160, 30, 90, 160, 20],
                 body: [
                   [
-                    { text: 'Datos del vendedor', bold: true, colSpan: 2, border: [false, true, false, false], fontSize: 12, margin: [0, 10, 0, 10] },
+                    { text: 'Datos del vendedor', bold: true, colSpan: 2, border: [false, true, false, false], fontSize: 12, margin: [0, 5, 0, 10] },
                     { text: '', border: [false, true, false, false], fontSize: 10 },
                     { text: '', border: [false, true, false, false], fontSize: 10 },
                     { text: 'Datos del cliente', bold: true, colSpan: 2, border: [false, true, false, false], fontSize: 12, margin: [0, 10, 0, 10] },
@@ -833,13 +834,18 @@ export class GenerateOfferPdfService {
         },
         {
           columns: [
+            { text: 'Datos bancarios', bold: true, fontSize: 12, margin: [5, 5, 0, 8] },
+          ]
+        },
+        {
+          columns: [
             {
               table: {
                 headerRows: 1,
                 widths: [90, 120, 70, 140, 137],
                 body: [
                   [
-                    { text: 'Datos bancarios', bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 12, margin: [0, 10, 0, 10] },
+                    { text: '', bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 12, margin: [0, 0, 0, 10] },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', colSpan: 2, border: [false, false, false, false], fontSize: 10 },
@@ -847,28 +853,55 @@ export class GenerateOfferPdfService {
                   ],
                   [
                     { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: bank ? bank.bank_name : '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
                     { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity ? this.property_array.selected_seller.user.legal_entity.legal_name : '', border: [false, false, false, false], fontSize: 10 },
+                    { text:  '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
                     { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: bank ? bank.account_number : '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
                     { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] },
-                    { text: bank ? bank.swift : '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 }
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [90, 120, 70, 140, 137],
+                body: [
+                  [
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
                     { text: '', border: [false, false, false, true], fontSize: 10 },
                     { text: '', border: [false, false, false, true], fontSize: 10 },
                     { text: '', border: [false, false, false, true], fontSize: 10 }
@@ -940,11 +973,11 @@ export class GenerateOfferPdfService {
           margin: [50, 0, 0, 0]
         },
         table4: {
-          margin: [0, 10, 0, 0]
+          margin: [0, 8, 0, 0]
         }
       }
     }
-
+      
     for (let i = 0; i < Math.round(this.offer_array.length / 2); i++) {
       if (this.offer_array.length == 1) {
         let price = this.property_array.min_price - (Number(this.offer_array[0].discount) * this.property_array.min_price) / 100;
@@ -1488,6 +1521,221 @@ export class GenerateOfferPdfService {
         }
       }
     };
+    
+    if (this.property_array.selected_seller && this.property_array.selected_seller.user.legal_rep_banks && this.property_array.selected_seller.user.legal_rep_banks.length > 0) {  
+      docDefinition.content.splice(6, 1)
+      for (let i = 0; i < Math.round(this.property_array.selected_seller.user.legal_rep_banks.length / 2); i++) {
+      if (this.property_array.selected_seller.user.legal_rep_banks.length == 1) {
+        let item = this.property_array.selected_seller.user.legal_rep_banks[0];
+        docDefinition.content.splice(6, 0,
+        {
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [90, 120],
+                body: [
+                  [
+                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: seller_name, border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        }
+        );
+      }
+      else{
+        let item = this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 1)];
+        if(this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 2)]){
+        let item1 = this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 2)];
+        docDefinition.content.splice(6 + i, 0,
+        {
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [90, 120],
+                body: [
+                  [
+                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: item1.bank_name || '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: seller_name, border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: item1.account_number || '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: item1.swift || '', border: [false, false, false, false], fontSize: 10 }
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            },
+            {
+              table: {
+                headerRows: 1,
+                widths: [90, 120],
+                body: [
+                  [
+                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: seller_name, border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        }
+        );
+      }
+      else{
+        let item = this.property_array.selected_seller.user.legal_rep_banks[0];
+        docDefinition.content.splice(6, 0,
+        {
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [90, 120],
+                body: [
+                  [
+                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: seller_name, border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        }
+        );
+      }
+      }
+    }
+    }
+    else{
+      docDefinition.content.splice(6, 0,{
+          columns: [
+            {
+              table: {
+                headerRows: 1,
+                widths: [90, 120, 70, 140, 137],
+                body: [
+                  [
+                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text:  '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
+                  ],
+                  [
+                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 },
+                    { text: '', border: [false, false, false, true], fontSize: 10 }
+                  ]
+                ],
+              },
+              layout: {
+                hLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+                },
+                vLineColor: function (i, node) {
+                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+                }
+              }
+            }
+          ]
+        },
+      );
+    }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
   }
 }

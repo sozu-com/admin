@@ -107,7 +107,7 @@ export class AddPropertyComponent implements OnInit {
   propertyDetails = false;
   details: any;
   editMode = false;
-  newcarpet_area = { area: '', price: '', rent_price: '' };
+  newcarpet_area = { inside_m2: '', outside_m2: '', area: '', price: '', rent_price: '' };
   newcustom_attribute = { name: '', value: '' };
   buildingLoading = false;
   buildingData: AddProjectModel;
@@ -551,7 +551,7 @@ export class AddPropertyComponent implements OnInit {
     for (let index = 0; index < data.carpet_areas.length; index++) {
       const element = data.carpet_areas[index];
       this.model.carpet_areas[index] = { area: element.area, price: element.price, rent_price: element.rent_price };
-      this.newcarpet_area = { area: element.area, price: element.price, rent_price: element.rent_price };
+      this.newcarpet_area = { inside_m2: element.inside_m2 , outside_m2: element.outside_m2, area: element.area, price: element.price, rent_price: element.rent_price };
     }
 
     for (let index = 0; index < data.custom_values.length; index++) {
@@ -867,11 +867,11 @@ export class AddPropertyComponent implements OnInit {
   }
 
   addCarpetArea() {
-    if (!this.newcarpet_area.area) {
+    if (!this.newcarpet_area.inside_m2 && !this.newcarpet_area.outside_m2) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCarpetAreaFields'), 'error');
     } else {
       this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
-      this.newcarpet_area = { area: '', price: '', rent_price: '' };
+      this.newcarpet_area = { inside_m2: '' , outside_m2: '', area: '', price: '', rent_price: '' };
     }
   }
 
@@ -1120,6 +1120,7 @@ export class AddPropertyComponent implements OnInit {
 
     // setting newcarpert area to carpert_areas bcz ealier it was array => now single carpertarea
     this.model.carpet_areas = [];
+    this.newcarpet_area.area = (parseFloat(this.newcarpet_area.inside_m2) + parseFloat(this.newcarpet_area.outside_m2)).toString();
     this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
     this.model.price = this.newcarpet_area.price;
     this.model.rent_price = this.newcarpet_area.rent_price
@@ -1293,7 +1294,6 @@ export class AddPropertyComponent implements OnInit {
           success => {
             this.spinner.hide();
             this.propertyData = success['data'];
-            this.spinner.hide();
             if (this.model.configuration_toggle && this.model.building_configuration_id) {
               this.model.floor_plan = (this.propertyData.building_configuration || {}).floor_map_image;
               this.model.image = (this.propertyData.building_configuration || {}).cover_profile;

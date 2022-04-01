@@ -2280,7 +2280,7 @@
                <label *ngIf="(this.property_array && this.property_array.building.building_payment_way.length == 0) || isShown"><b>{{'addForm.payment_way' | translate}}</b></label>
                <div style="display: inline-flex; float: right;" *ngIf="this.property_array && this.property_array.building.building_payment_way.length != 0">
                <label style="margin-top: 3px;"><b>{{'generatePDF.preloaded' | translate}}</b></label>
-               <div class="switchToggle" style="margin-left: 10px;" *ngIf="all != 1">
+               <div class="switchToggle" style="margin-left: 10px;">
                   <input type="checkbox" id="switch2" (click)="toggleShow($event)" [checked]="isShown">
                   <label for="switch2">Toggle</label>
                 </div>

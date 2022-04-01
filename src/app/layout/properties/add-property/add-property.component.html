@@ -343,9 +343,16 @@
       <div class="row">
         <div class="col-md-4 col-sm-12 col-12">
           <div class="form-group-3 eca">
-            <label class="p16-two">{{'addForm.enterCarpetArea' | translate}} <span class="color-red">*</span></label>
-            <input required class="form-control" type="number" step="0.01" name="area[{{c}}]" placeholder="{{'addForm.placeholder.areaShouldBeInSqmt' | translate}}"
-              [(ngModel)]="newcarpet_area.area">
+            <label class="p16-two">{{'addForm.insideM2' | translate}} <span class="color-red">*</span></label>
+            <input required class="form-control" type="number" step="0.01" name="inside_m2[{{c}}]" placeholder="{{'addForm.placeholder.areaShouldBeInSqmt' | translate}}"
+              [(ngModel)]="newcarpet_area.inside_m2">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12">
+          <div class="form-group-3 eca">
+            <label class="p16-two">{{'addForm.outsideM2' | translate}} <span class="color-red">*</span></label>
+            <input required class="form-control" type="number" step="0.01" name="outside_m2[{{c}}]" placeholder="{{'addForm.placeholder.areaShouldBeInSqmt' | translate}}"
+              [(ngModel)]="newcarpet_area.outside_m2">
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-12" *ngIf="model.availabilityStatusId != 2">
