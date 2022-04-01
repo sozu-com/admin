@@ -17,6 +17,7 @@
 <div *ngIf="!property" style="margin-top:120px;" class="container">
   <img style="width:100%" src="assets/img/loading_content.gif">
 </div>
+
 <div  id="contentToConvert" style="margin: 20px;" *ngIf="property?.configuration_toggle == 0">
 <div  class="inner-page-wrapper configuration-page gray-bg-1">
   <div class="container">
@@ -272,7 +273,7 @@
           <div class="spacer20"></div>
           <h4>{{'propertyDetail.Gallery' | translate}} </h4>
           <div class=" text-center">
-            <div class="icons-group">
+            <div class="icons-group" style="margin: -17px;">
               <div *ngFor="let am of property?.images| slice:0:6; let i=index" 
               class="col-lg-6 col-md-8 col-sm-12 col-12">
                 <a [href]="am.image" data-lightbox="image">
@@ -280,7 +281,7 @@
                        [defaultImage]="am.image|img:'medium'"
                        onerror='this.src="assets/img/placeholder.png"'
                        style="margin: 5px; width: 240px;
-                       height: 140px;">
+                       height: 140px;object-fit: cover;">
                 </a>
               </div>
             </div>
@@ -521,7 +522,7 @@
             <div class="spacer20"></div>
             <h4>{{'propertyDetail.Gallery' | translate}} </h4>
             <div class=" text-center">
-              <div class="icons-group">
+              <div class="icons-group" style="margin: -17px;">
                 <div *ngFor="let am of property?.building_configuration?.images| slice:0:6; let i=index" 
                 class="col-lg-6 col-md-8 col-sm-12 col-12">
                   <a [href]="am.image" data-lightbox="image">
@@ -529,7 +530,7 @@
                          [defaultImage]="am.image|img:'medium'"
                          onerror='this.src="assets/img/placeholder.png"'
                          style="margin: 5px; width: 240px;
-                         height: 140px;">
+                         height: 140px;object-fit: cover;">
                   </a>
                 </div>
               </div>
