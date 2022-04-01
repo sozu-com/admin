@@ -620,7 +620,7 @@ export class GenerateOfferPdfService {
             }
           ]
         },
-        this.property_array.building.show_in_offer == 1 ?
+        this.property_array.building.show_in_offer == 0 ?
         {
           columns: [
             {

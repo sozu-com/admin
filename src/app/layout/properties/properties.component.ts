@@ -68,6 +68,8 @@ class Invoice {
   providers: [AddPropertyModel, DatePipe, PricePipe, Notes]
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
+  [x: string]: any;
+
   selectedvalue: bank;
   prop_data: any = [];
   pub: any;
@@ -214,7 +216,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   text_1: any;
   initialCountry = { initialCountry: 'mx' };
   propertyDetail: any;
-
+  isShown = false;
   constructor(
     public constant: Constant, public cs: CommonService,
     public apiConstant: ApiConstants,
@@ -392,6 +394,25 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
     this.getParametersForProperty();
     localStorage.removeItem('project_id');
+    let all_data = JSON.parse(localStorage.getItem('all'));
+    let keys = Object.keys(all_data.data.permissions);
+    var filtered = keys.filter(function (key) {
+      return all_data.data.permissions[key]
+    });
+    let theRemovedElement = filtered.slice(3);
+    theRemovedElement.splice(-2);
+    const found = theRemovedElement.find(element => element == 'can_outside_broker');
+    if (theRemovedElement.length > 1) {
+      this.all = 0;
+    } else if (theRemovedElement.length == 1) {
+      if (found == 'can_outside_broker') {
+        this.all = 1;
+      } else {
+        this.all = 0;
+      }
+    } else {
+      this.all = 0;
+    }
   }
 
   getPropertyFilter() {
@@ -925,8 +946,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   openModalInstallment = (propertyDetails: any): void => {
     this.property_array = propertyDetails;
+    this.isShown = false;
+    this.spinner.show();
+    this.admin.postDataApi('getBuildingOfferInfo', { property_id: propertyDetails.id }).subscribe((success) => {
+      this.property_array.building.building_payment_way = (success || {}).data;
     this.openInstallmentModal.nativeElement.click();
+    this.spinner.hide();
     this.getBase64ImageFromUrl(this.property_array.id);
+  });
     // this.spinner.show();
     // this.admin.postDataApi('getBuildingOfferInfo', { property_id: (propertyDetails || {}).id }).subscribe((success) => {
     //   this.spinner.hide();
@@ -2118,7 +2145,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     // (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value || []).forEach(element => {
     //   park.push({ parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice.substring(1) });
     // });
-    if (this.property_array.building.building_payment_way.length == 0) {
+    if (this.isShown) {
       if (this.getTotalPercentage() != 100.00) {
         swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
         return;
@@ -2134,21 +2161,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       phone: this.installmentFormGroup.get('phone').value,
       note: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,
       user_id: user_id,
-      is_payment_way: this.property_array.building.building_payment_way.length == 0 ? 1 : 0,
-      payment_ways: this.property_array.building.building_payment_way.length == 0 ? [{
-        payment_name: this.installmentFormGroup.get('payment_name').value,
-        downpayment: this.installmentFormGroup.get('downPayment').value,
-        discount: this.installmentFormGroup.get('discount').value,
-        monthly_installment: this.installmentFormGroup.get('monthlyInstallment').value,
-        number_monthly_payments: this.installmentFormGroup.get('numberOfMI').value,
-        payment_upon_delivery: this.installmentFormGroup.get('paymentupondelivery').value,
-      }] : null
+      is_manual: this.isShown || this.property_array && this.property_array.building.building_payment_way.length == 0 ? 1 : 0,
+      downpayment: this.installmentFormGroup.get('downPayment').value,
+      discount: this.installmentFormGroup.get('discount').value,
+      monthly_installment: this.installmentFormGroup.get('monthlyInstallment').value,
+      number_monthly_payments: this.installmentFormGroup.get('numberOfMI').value,
+      payment_upon_delivery: this.installmentFormGroup.get('paymentupondelivery').value,
+      
     }
     this.admin.postDataApi('propertyModifyOffer', param).subscribe(result => {
       this.is_for_Offer = false;
       this.offer_id = result.data;
-      //this.generatePDF();
-      this.offerPdf.offerID(this.offer_id, this.property_array, false);
+    //   //this.generatePDF();
+    this.offerPdf.offerID(this.offer_id, this.property_array, true);
       this.closeModalInstallment();
       this.getListing(null, null);
       this.spinner.hide();
@@ -2483,13 +2508,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         let self = this;
         this.spinner.show();
         this.admin.postDataApi('deleteOffers', { id: offer.id }).subscribe(result => {
-          if (result.data) {
             let index = self.property_offers.findIndex(x => x.id == result.data);
             self.property_offers.splice(index, 1);
             self.items.filter(x => {
-
             })
-          }
           this.spinner.hide();
         }, error => {
           this.spinner.hide();
@@ -2878,5 +2900,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.toastr.success(this.translate.instant('message.success.deletedSuccessfully'), this.translate.instant('swal.success'));
       this.closeNotesModal();
     });
+  }
+
+  toggleShow(value) {
+    this.isShown = value.target.checked ? true : false;
   }
 }
