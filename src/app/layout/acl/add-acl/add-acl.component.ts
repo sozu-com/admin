@@ -547,6 +547,7 @@ export class AddAclComponent implements OnInit {
 
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       this.parameter.countries = r['data'];
+      if(this.model.id == ''){
       const obj = {
         countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
         states: '0',
@@ -555,6 +556,7 @@ export class AddAclComponent implements OnInit {
         buildings: '0'
       };
       this.model.address[0] = obj;
+      }
       console.log(this.model.address, "getCountryLocality");
       this.spinner.hide();
     });

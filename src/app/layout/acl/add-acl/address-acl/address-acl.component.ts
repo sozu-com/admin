@@ -53,8 +53,8 @@ export class AddressAclComponent implements OnInit {
 
   ngOnInit() {
     if (this.address.cities != 0 && this.address.localities != 0 && this.address.buildings != 0) {
-      this.getStatesNew(this.address.countries, 0);
-      this.getLocalitiesNew(this.address.cities, 0);
+      this.getStatesNew2(this.address.countries, 0);
+      this.getLocalitiesNew2(this.address.cities, 0);
       this.getLocalityBuildings(this.address.localities, 0);
       this.setBuilding(this.address.buildings, 0)
     }
@@ -230,7 +230,33 @@ export class AddressAclComponent implements OnInit {
     }
   }
 
+  getStatesNew2(country_id, index) {
+    this.parameter.country_id = country_id;
+      this.admin.postDataApi('country/getStates', { country_id: country_id })
+        .subscribe(
+          success => {
+            this.parameter.statesAdd = success.data;
+            this.getStatesNew(this.address.countries, 0);
+          });
+  }
 
+  getCitiesNew2(state_id, index) {
+    this.parameter.state_id = state_id;
+      this.admin.postDataApi('getCities', { state_id: state_id })
+        .subscribe(
+          success => {
+            this.parameter.citiesAdd = success.data;
+            this.getCitiesNew(this.address.countries, 0);
+          });
+  }
 
-
+  getLocalitiesNew2(city_id, index) {
+    this.parameter.city_id = city_id
+      this.admin.postDataApi('getLocalities', { city_id: city_id })
+        .subscribe(
+          success => {
+            this.parameter.localitiesAdd = success.data;
+            this.getLocalitiesNew(this.address.cities, 0);
+          });
+    }
 }
