@@ -339,13 +339,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       } else if (params.type === 'agency') {
         this.parameter.agency_id = params.id;
       }
-      if (params.for) {
+      if (params.for == 'go') {
         this.is_back = true;
         this.getParametersForProperty();
         this.getListingForBack();
-        this.getListing(null, null);
-      }
-      if (params.for == 'go') {
         this.getListing(null, null);
       }
     });
@@ -950,10 +947,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.admin.postDataApi('getBuildingOfferInfo', { property_id: propertyDetails.id }).subscribe((success) => {
       this.property_array.building.building_payment_way = (success || {}).data;
-    this.openInstallmentModal.nativeElement.click();
-    this.spinner.hide();
-    this.getBase64ImageFromUrl(this.property_array.id);
-  });
+      this.openInstallmentModal.nativeElement.click();
+      this.spinner.hide();
+      this.getBase64ImageFromUrl(this.property_array.id);
+    });
     // this.spinner.show();
     // this.admin.postDataApi('getBuildingOfferInfo', { property_id: (propertyDetails || {}).id }).subscribe((success) => {
     //   this.spinner.hide();
@@ -2167,13 +2164,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       monthly_installment: this.installmentFormGroup.get('monthlyInstallment').value,
       number_monthly_payments: this.installmentFormGroup.get('numberOfMI').value,
       payment_upon_delivery: this.installmentFormGroup.get('paymentupondelivery').value,
-      
+
     }
     this.admin.postDataApi('propertyModifyOffer', param).subscribe(result => {
       this.is_for_Offer = false;
       this.offer_id = result.data;
-    //   //this.generatePDF();
-    this.offerPdf.offerID(this.offer_id, this.property_array, true);
+      //   //this.generatePDF();
+      this.offerPdf.offerID(this.offer_id, this.property_array, true);
       this.closeModalInstallment();
       this.getListing(null, null);
       this.spinner.hide();
@@ -2508,10 +2505,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         let self = this;
         this.spinner.show();
         this.admin.postDataApi('deleteOffers', { id: offer.id }).subscribe(result => {
-            let index = self.property_offers.findIndex(x => x.id == result.data);
-            self.property_offers.splice(index, 1);
-            self.items.filter(x => {
-            })
+          let index = self.property_offers.findIndex(x => x.id == result.data);
+          self.property_offers.splice(index, 1);
+          self.items.filter(x => {
+          })
           this.spinner.hide();
         }, error => {
           this.spinner.hide();
