@@ -180,8 +180,19 @@
                     <label>{{'addForm.locationTitle' | translate}}<span class="color-red">*</span></label>
                     <div class="row">
                       <div class="col-10" *ngFor="let add of model.address; let j=index">
-                        <app-address [countries]="parameter.countries" [address]="add" [index]="j" [status]="false" [disabledBuildings]="disabledBuildings" (disabledBuilding)="disabledBuildingId(j)" (removeAddress)="removeAddressObj($event)"></app-address>
+
+                        <app-address-acl 
+                        [countries]="parameter.countries" 
+                        [address]="add" 
+                        [index]="j" 
+                        [status]="false" 
+                        [disabledBuildings]="disabledBuildings" 
+                        (disabledBuilding)="disabledBuildingId(j)" 
+                        (removeAddress)="removeAddressObj($event)">
+                        </app-address-acl>
+
                       </div>
+
                       <div class="col-2" *ngIf="model.address?.length!=0">
                         <div class="btn-cont center">
                           <button type="button" class="btn btn-primary-new margin0" (click)="addEmptyObj()">
@@ -189,6 +200,7 @@
                           </button>
                         </div>
                       </div>
+
                     </div>
                   </div>
                 </div>

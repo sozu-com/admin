@@ -17,6 +17,7 @@ import { ImgPipe } from 'src/app/pipes/img.pipe';
 import { SharedModule } from 'src/app/modules/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { CreateAclComponent } from './create-acl/create-acl.component';
+import { AddressAclComponent } from './add-acl/address-acl/address-acl.component';
 
 
 const routes: Routes = [
@@ -49,7 +50,8 @@ const routes: Routes = [
   declarations: [
     AclComponent,
     AddAclComponent,
-    CreateAclComponent
+    CreateAclComponent,
+    AddressAclComponent
   ]
 })
 export class AclModule { }

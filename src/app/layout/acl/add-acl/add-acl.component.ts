@@ -76,10 +76,8 @@ export class AddAclComponent implements OnInit {
     this.parameter.routeName = this.router.url;
     this.tempAdd = this.model.address;
     this.setCurrentPosition();
-    // checking => after that place in add/edit
     this.model.address = [];
     this.model.img_loader = false;
-    // this.parameter.countries ? this.parameter.countries[0].id : 0;
     this.parameter.sub = this.route.params.subscribe(params => {
       if (params['id'] !== '0') {
         this.model.id = params['id'];
@@ -92,19 +90,7 @@ export class AddAclComponent implements OnInit {
     });
   }
 
-  // getAclUserById(id: string) {
-  //   this.spinner.show();
-  //   this.admin.postDataApi('getAclUserById', {'id': id})
-  //   .subscribe(
-  //     success => {
-  //       this.spinner.hide();
-  //       this.model = success.data;
-  //       this.image = this.model.image;
-  //       this.model.admin_acl = success.data.admin_acl;
-  //     }, error => {
-  //       this.spinner.hide();
-  //     });
-  // }
+
 
   set() {
     this.show = true;
@@ -343,6 +329,18 @@ export class AddAclComponent implements OnInit {
     this.admin.postDataApi('getNewUserById', { id: id }).subscribe(r => {
       this.spinner.hide();
       const userdata = r['data'];
+      for (let ind = 0; ind < userdata.countries.length; ind++) {
+        const tempAdd = {
+          countries: userdata.countries[ind].id.toString(),
+          states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
+          cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
+          localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
+          buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
+        };
+        this.model.address[ind] = tempAdd;
+        console.log(this.model.address[ind], "view info");
+        //this.admin.setUser_acl(this.model.address[ind]);
+      }
       this.model.adminAcls = userdata.admin_acls;
       if (data == 'update') {
         this.admin.setUser(userdata.admin_acls);
@@ -352,7 +350,7 @@ export class AddAclComponent implements OnInit {
         element['acl'] = { name: element.name, id: element.acl_id };
       }
       this.user_type = userdata.user_type;
-      this.model.address = [];
+      // this.model.address = [];
       this.model.id = userdata.id;
       this.model.name = userdata.name;
       this.model.first_surname = userdata.first_surname;
@@ -401,16 +399,7 @@ export class AddAclComponent implements OnInit {
       this.model.contract_agent = userdata.permissions && userdata.permissions.contract_agent == 1 ? true : false;
       this.model.can_credit_coordinator = userdata.permissions && userdata.permissions.can_credit_coordinator == 1 ? true : false;
       this.model.can_content_creator = userdata.permissions && userdata.permissions.can_content_creator == 1 ? true : false;
-      for (let ind = 0; ind < userdata.countries.length; ind++) {
-        const tempAdd = {
-          countries: userdata.countries[ind].id.toString(),
-          states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
-          cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
-          localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
-          buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
-        };
-        this.model.address[ind] = tempAdd;
-      }
+
       // if (this.model.address.length < 1) {
       //   const obj = {
       //     countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
@@ -421,9 +410,7 @@ export class AddAclComponent implements OnInit {
       //   };
       //   this.model.address[0] = obj;
       // }
-
-
-
+      //outside
       var keys = Object.keys(userdata.permissions);
       var filtered = keys.filter(function (key) {
         return userdata.permissions[key]

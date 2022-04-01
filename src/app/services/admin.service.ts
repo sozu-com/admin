@@ -42,6 +42,9 @@ export class AdminService {
   private navSource$ = new BehaviorSubject<string>('');
   navback = this.navSource$.asObservable();
 
+  private aclSource$ = new BehaviorSubject<string>('');
+  user_acl = this.aclSource$.asObservable();
+
   constructor(public http: HttpInterceptor,
     public msg: MessagingService,
     public loginModel: Login,
@@ -56,6 +59,9 @@ export class AdminService {
   }
   setUser(userback): void {
     this.backSource$.next(userback);
+  }
+  setUser_acl(user_acl): void {
+    this.aclSource$.next(user_acl);
   }
   setNav(navback): void {
     this.navSource$.next(navback);
