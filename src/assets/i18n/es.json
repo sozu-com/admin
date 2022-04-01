@@ -602,7 +602,7 @@
     "projects": "Proyectos",
     "addProperty": "Agregar nueva propiedad",
     "editProperty": "Editar propiedad",
-    "showInOffer": "Mostrar en oferta",
+    "showInOffer": "Mostrar en oferta $ por m2",
     "tabs": {
       "tagABuilding": "Etiquetar un edificio",
       "createDraft": "Crear borrador",
