@@ -302,7 +302,7 @@
                 <tr
                   *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
                   <td *ngIf="selectedPropertyColumnsToShow?.id">
-                    <span class="green-color cursor-pointer">
+                    <span>
                       {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
                   </td>
                   <td *ngIf="selectedPropertyColumnsToShow?.building_name">
