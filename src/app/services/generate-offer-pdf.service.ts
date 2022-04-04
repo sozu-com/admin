@@ -34,6 +34,7 @@ export class GenerateOfferPdfService {
   offer: any;
   phone: any;
   email: any;
+  index: number;
 
   constructor(
     private translate: TranslateService,
@@ -976,6 +977,7 @@ export class GenerateOfferPdfService {
     }
       
     for (let i = 0; i < Math.round(this.offer_array.length / 2); i++) {
+      this.index = i;
       if (this.offer_array.length == 1) {
         let price = this.property_array.min_price - (Number(this.offer_array[0].discount) * this.property_array.min_price) / 100;
         let diffCount = this.offer_array[0].number_monthly_payments ? this.offer_array[0].number_monthly_payments + ' mensualidades:' :
@@ -1519,214 +1521,258 @@ export class GenerateOfferPdfService {
       }
     };
     
-    if (this.property_array.selected_seller && this.property_array.selected_seller.user.legal_rep_banks && this.property_array.selected_seller.user.legal_rep_banks.length > 0) {  
-     if(!this.property_array.selected_seller.user.legal_entity){
-      docDefinition.content.splice(6, 1);
-      for (let i = 0; i < Math.round(this.property_array.selected_seller.user.legal_rep_banks.length / 2); i++) {
-      if (this.property_array.selected_seller.user.legal_rep_banks.length == 1) {
-        let item = this.property_array.selected_seller.user.legal_rep_banks[0];
-        docDefinition.content.splice(6, 0,
-        {
-          columns: [
-            {
-              table: {
-                headerRows: 1,
-                widths: [90, 120],
-                body: [
-                  [
-                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: seller_name, border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
-                    { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
-                  ]
-                ],
-              },
-              layout: {
-                hLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
-                },
-                vLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
-                }
-              }
-            }
-          ]
-        }
-        );
-      }
-      else{
-        let item = this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 1)];
-        if(this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 2)]){
-        let item1 = this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 2)];
-        docDefinition.content.splice(6 + i, 0,
-        {
-          columns: [
-            {
-              table: {
-                headerRows: 1,
-                widths: [90, 120],
-                body: [
-                  [
-                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: item1.bank_name || '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: seller_name, border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: item1.account_number || '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
-                    { text: item1.swift || '', border: [false, false, false, false], fontSize: 10 }
-                  ]
-                ],
-              },
-              layout: {
-                hLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
-                },
-                vLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
-                }
-              }
-            },
-            {
-              table: {
-                headerRows: 1,
-                widths: [90, 120],
-                body: [
-                  [
-                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: seller_name, border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
-                    { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
-                  ]
-                ],
-              },
-              layout: {
-                hLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
-                },
-                vLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
-                }
-              }
-            }
-          ]
-        }
-        );
-      }
-      else{
-        let item = this.property_array.selected_seller.user.legal_rep_banks[0];
-        docDefinition.content.splice(6, 0,
-        {
-          columns: [
-            {
-              table: {
-                headerRows: 1,
-                widths: [90, 120],
-                body: [
-                  [
-                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: seller_name, border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
-                    { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
-                  ]
-                ],
-              },
-              layout: {
-                hLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
-                },
-                vLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
-                }
-              }
-            }
-          ]
-        }
-        );
-      }
-      }
-    }
-  }
-    else{
-      if(this.property_array.selected_seller.user.legal_entity.legal_entity_banks && this.property_array.selected_seller.user.legal_entity.legal_entity_banks.length > 0){
-     let item = this.property_array.selected_seller.user.legal_entity.legal_entity_banks.find(item => item.status == 1);
-     docDefinition.content.splice(6, 1);
-     docDefinition.content.splice(6, 0,
-      {
-        columns: [
-          {
-            table: {
-              headerRows: 1,
-              widths: [90, 120],
-              body: [
-                [
-                  { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                  { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
-                ],
-                [
-                  { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                  { text: seller_name, border: [false, false, false, false], fontSize: 10 }
-                ],
-                [
-                  { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                  { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
-                ],
-                [
-                  { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
-                  { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
-                ]
-              ],
-            },
-            layout: {
-              hLineColor: function (i, node) {
-                return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
-              },
-              vLineColor: function (i, node) {
-                return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
-              }
-            }
-          }
-        ]
-      }
-     );
-      }
-    }
+  //   if (this.property_array.selected_seller && this.property_array.selected_seller.user.legal_rep_banks && this.property_array.selected_seller.user.legal_rep_banks.length > 0) {  
+  //    if(!this.property_array.selected_seller.user.legal_entity){
+  //     docDefinition.content.splice(6, 1);
+  //     for (let i = 0; i < Math.round(this.property_array.selected_seller.user.legal_rep_banks.length / 2); i++) {
+  //     if (this.property_array.selected_seller.user.legal_rep_banks.length == 1) {
+  //       let item = this.property_array.selected_seller.user.legal_rep_banks[0];
+  //       docDefinition.content.splice(6, 0,
+  //       {
+  //         columns: [
+  //           {
+  //             table: {
+  //               headerRows: 1,
+  //               widths: [90, 120],
+  //               body: [
+  //                 [
+  //                   { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: seller_name, border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+  //                   { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ]
+  //               ],
+  //             },
+  //             layout: {
+  //               hLineColor: function (i, node) {
+  //                 return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+  //               },
+  //               vLineColor: function (i, node) {
+  //                 return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+  //               }
+  //             }
+  //           }
+  //         ]
+  //       }
+  //       );
+  //     }
+  //     else{
+  //       let item = this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 1)];
+  //       if(this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 2)]){
+  //       let item1 = this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 2)];
+  //       docDefinition.content.splice(6 + i, 0,
+  //       {
+  //         columns: [
+  //           {
+  //             table: {
+  //               headerRows: 1,
+  //               widths: [90, 120],
+  //               body: [
+  //                 [
+  //                   { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: item1.bank_name || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: seller_name, border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: item1.account_number || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+  //                   { text: item1.swift || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ]
+  //               ],
+  //             },
+  //             layout: {
+  //               hLineColor: function (i, node) {
+  //                 return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+  //               },
+  //               vLineColor: function (i, node) {
+  //                 return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+  //               }
+  //             }
+  //           },
+  //           {
+  //             table: {
+  //               headerRows: 1,
+  //               widths: [90, 120],
+  //               body: [
+  //                 [
+  //                   { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: seller_name, border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+  //                   { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ]
+  //               ],
+  //             },
+  //             layout: {
+  //               hLineColor: function (i, node) {
+  //                 return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+  //               },
+  //               vLineColor: function (i, node) {
+  //                 return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+  //               }
+  //             }
+  //           }
+  //         ]
+  //       }
+  //       );
+  //     }
+  //     else{
+  //       let item = this.property_array.selected_seller.user.legal_rep_banks[0];
+  //       docDefinition.content.splice(6, 0,
+  //       {
+  //         columns: [
+  //           {
+  //             table: {
+  //               headerRows: 1,
+  //               widths: [90, 120],
+  //               body: [
+  //                 [
+  //                   { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: seller_name, border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                   { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ],
+  //                 [
+  //                   { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+  //                   { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
+  //                 ]
+  //               ],
+  //             },
+  //             layout: {
+  //               hLineColor: function (i, node) {
+  //                 return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+  //               },
+  //               vLineColor: function (i, node) {
+  //                 return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+  //               }
+  //             }
+  //           }
+  //         ]
+  //       }
+  //       );
+  //     }
+  //     }
+  //   }
+  // }
+  //   else{
+  //     if(this.property_array.selected_seller.user.legal_entity.legal_entity_banks && this.property_array.selected_seller.user.legal_entity.legal_entity_banks.length > 0){
+  //    let item = this.property_array.selected_seller.user.legal_entity.legal_entity_banks.find(item => item.status == 1);
+  //    docDefinition.content.splice(6, 1);
+  //    docDefinition.content.splice(6, 0,
+  //     {
+  //       columns: [
+  //         {
+  //           table: {
+  //             headerRows: 1,
+  //             widths: [90, 120],
+  //             body: [
+  //               [
+  //                 { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                 { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
+  //               ],
+  //               [
+  //                 { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                 { text: seller_name, border: [false, false, false, false], fontSize: 10 }
+  //               ],
+  //               [
+  //                 { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+  //                 { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
+  //               ],
+  //               [
+  //                 { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+  //                 { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
+  //               ]
+  //             ],
+  //           },
+  //           layout: {
+  //             hLineColor: function (i, node) {
+  //               return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+  //             },
+  //             vLineColor: function (i, node) {
+  //               return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+  //             }
+  //           }
+  //         }
+  //       ]
+  //     }
+  //    );
+  //     }
+  //   }
+  //   }
+
+    if(this.property_array.building.legal_entity_info && this.property_array.building.legal_entity_info[0].legal_entity.legal_entity_banks && this.property_array.building.legal_entity_info[0].legal_entity.legal_entity_banks.length > 0){
+      let item = this.property_array.building.legal_entity_info[0].legal_entity.legal_entity_banks.find(item => item.status == 1);
+      //let index =  docDefinition.content.findIndex(item => item.columns[0]. = 'Datos bancarios');
+      docDefinition.content.splice(this.index + 6 , 1);
+      docDefinition.content.splice(this.index + 6, 0,
+       {
+         columns: [
+           {
+             table: {
+               headerRows: 1,
+               widths: [90, 140],
+               body: [
+                 [
+                   { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                   { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
+                 ],
+                 [
+                   { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                   { text: this.property_array.building.legal_entity_info[0].legal_entity.legal_name , border: [false, false, false, false], fontSize: 10 }
+                 ],
+                 [
+                   { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                   { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
+                 ],
+                 [
+                   { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                   { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
+                 ]
+               ],
+             },
+             layout: {
+               hLineColor: function (i, node) {
+                 return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
+               },
+               vLineColor: function (i, node) {
+                 return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
+               }
+             }
+           }
+         ]
+       }
+      );
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
   }
