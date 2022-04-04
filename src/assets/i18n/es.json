@@ -604,6 +604,7 @@
     "addProperty": "Agregar nueva propiedad",
     "editProperty": "Editar propiedad",
     "showInOffer": "Mostrar en oferta $ por m2",
+    "ShowParkingLots": "Mostrar estacionamientos en Oferta",
     "tabs": {
       "tagABuilding": "Etiquetar un edificio",
       "createDraft": "Crear borrador",

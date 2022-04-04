@@ -180,6 +180,7 @@ export class AddProjectComponent implements OnInit {
   project_amenities: any[] = [];
   newPaymentWay: any[] = [];
   showInOffer = true;
+  showParkingAlot = true;
   constructor(
     public model: AddProjectModel,
     private admin: AdminService,
@@ -241,6 +242,7 @@ export class AddProjectComponent implements OnInit {
           this.model.parking_space_lots = r.data.parking_space_lots;
           this.model.possession_status_id = r.data.possession_status_id ? r.data.possession_status_id : '';
           this.showInOffer = r.data.show_in_offer ? false : true ;
+          this.showParkingAlot = r.data.show_parking_alot ? false : true ;
           //sum parking
           let sum: any = 0;
           this.model.parking_space_lots.forEach(a => sum += parseInt(a.no_parking));
@@ -1250,6 +1252,7 @@ export class AddProjectComponent implements OnInit {
     modelSave.project_additional_url = this.model.project_additional_url;
     modelSave.project_tagline = this.model.project_tagline;
     modelSave.show_in_offer = this.showInOffer ? 0 : 1;
+    modelSave.show_parking_alot = this.showParkingAlot ? 0 : 1;
 
     if (this.model.doc_loader) {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.uploadingDocument'), 'error');
@@ -2749,5 +2752,9 @@ export class AddProjectComponent implements OnInit {
 
   toggleShowOffer(value) {
     this.showInOffer = value.target.checked ? true : false;
+  }
+
+  toggleShowPrkingAlot(value) {
+    this.showParkingAlot = value.target.checked ? true : false;
   }
 }
