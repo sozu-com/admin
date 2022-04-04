@@ -22,6 +22,7 @@ import { ApiConstants } from 'src/app/common/api-constants';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { forkJoin } from 'rxjs';
+import { GenerateOfferPdfService } from 'src/app/services/generate-offer-pdf.service';
 
 declare let swal: any;
 declare var $: any;
@@ -159,7 +160,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     public constant: Constant, private toastr: ToastrService,
     public apiConstant: ApiConstants, public admin: AdminService,
     private propertyService: PropertyService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute, private router: Router,
+    private route: ActivatedRoute, private router: Router, private offerPdf: GenerateOfferPdfService,
     private translate: TranslateService, public model: AddPropertyModel,
     private formBuilder: FormBuilder, private datePipe: DatePipe,
     private http: HttpClient, private price: PricePipe, public cs: CommonService

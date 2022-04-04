@@ -219,7 +219,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   isShown = false;
   constructor(
     public constant: Constant, public cs: CommonService,
-    public apiConstant: ApiConstants,
     public admin: AdminService, public noted: Notes,
     private propertyService: PropertyService, private spinner: NgxSpinnerService,
     private route: ActivatedRoute, private router: Router,
