@@ -460,7 +460,7 @@ admin?.admin_acl['Collection Agent Management']?.can_read==1 || admin?.admin_acl
             <li *ngIf="all == 1 && hide_property == 1 && admin?.admin_acl['Properties For Sale Management']?.can_read == 1" class="nav-item"
               [routerLinkActive]="'active'">
               <a href="javascript://" class="list-group-item  " data-parent="#menu6"
-                routerLink="properties-for-sale/view-properties-for-sale">
+                routerLink="outside-property-for-sale/outside">
                 {{'sidebar.managePropertiesForSale' |
                     translate}}
               </a>

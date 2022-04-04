@@ -54,13 +54,14 @@ class Invoice {
 }
 
 @Component({
-  selector: 'app-properties-for-sale-listing',
-  templateUrl: './properties-for-sale-listing.component.html',
-  styleUrls: ['./properties-for-sale-listing.component.css'],
+  selector: 'app-outside-property-for-sale',
+  templateUrl: './outside-property-for-sale.component.html',
+  styleUrls: ['./outside-property-for-sale.component.css'],
   providers: [AddPropertyModel, DatePipe, PricePipe]
 })
 
-export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
+export class OutsidePropertyForSaleComponent implements OnInit {
+
   [x: string]: any;
 
   selectedvalue: bank;
@@ -227,8 +228,8 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.cs.items = JSON.parse(localStorage.getItem('property_sale_data'));
-    this.cs.totalSale = JSON.parse(localStorage.getItem('property_sale_total'));
+    this.cs.outside_items = JSON.parse(localStorage.getItem('property_sale_outside'));
+    this.cs.totalOutside = JSON.parse(localStorage.getItem('property_outsid_total'));
     this.language_code = localStorage.getItem('language_code');
     this.getPropertyHome();
     this.iniDropDownSetting();
@@ -423,7 +424,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       input.flag = 3;
       input.property_id = this.parameter.property_id
     }
-    this.admin.postDataApi('propertyForSale', input).subscribe(
+    this.admin.postDataApi('propertyOutsideForSale', input).subscribe(
       success => {
         this.is_filter = true;
         // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
@@ -1062,95 +1063,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard/properties/details', property_id]);
   }
 
-  getExportlisting() {
-    this.spinner.show();
-    this.makePostRequest();
-    const input: any = JSON.parse(JSON.stringify(this.parameter));
-    input.page = 0;
-    if (this.parameter.min) {
-      input.min = moment(this.parameter.min).format('YYYY-MM-DD');
-    } else {
-      delete input.min;
-    }
-    if (this.parameter.max) {
-      input.max = moment(this.parameter.max).format('YYYY-MM-DD');
-    } else {
-      delete input.max;
-    }
-    if (this.parameter.agent_id) {
-      input.agent_id = this.parameter.agent_id;
-    } else {
-      delete input.agent_id;
-    }
-    if (this.parameter.agency_id) {
-      input.agency_id = this.parameter.agency_id;
-    } else {
-      delete input.agency_id;
-    }
-    delete input.seller_id;
-    delete input.buyer_id;
-    if (this.found == 'can_outside_broker') {
-      input.admin_id = this.login_data_out.id;
-      console.log(this.login_data_out.id, "list");
-    }
-    this.admin.postDataApi('propertyForSale', input).subscribe(
-      success => {
-        this.exportfinalData = success['data'];
-        this.exportData();
-        this.spinner.hide();
-      },
-      error => {
-        this.spinner.hide();
-      });
-  }
 
-  exportData() {
-    if (this.exportfinalData) {
-      const exportfinalData = [];
-      for (let index = 0; index < this.exportfinalData.length; index++) {
-        const p = this.exportfinalData[index];
-        let obj = {
-          'ID': p.id || '',
-          'Name of Building': (p.building || {}).name || '',
-          'Name of Tower': (p.building_towers || {}).tower_name || '',
-          'Floor': p.floor_num > 0 ? 'Floor ' + p.floor_num : 'Ground Floor',
-          'Apartment': p.name || '',
-          'Model': (p.building_configuration || {}).name || '',
-          'Configuration Bed': p.configuration ? p.configuration.bedroom + ' Bed' : "0 Bed",
-          'Configuration Bath': p.configuration ? p.configuration.bathroom + ' Bath' : '0 Bath',
-          'Configuration Half Bath': p.configuration ? p.configuration.half_bathroom + ' Half Bath' : '0 Half Bath',
-          'List Price': parseInt(p.min_price) || 0,
-          'Price per m2': p.avgg_price || 0,
-          'Carpet Area': parseInt(p.max_area) || 0,
-          'Commercialized by SOZU': p.is_commercialized ? 'yes' : 'no',
-          'Possession Status': p.building_towers.possession_status_id == this.apiConstant.possessionStatus.sale ? 'Sale' : 'Presale',
-          'Seller': ((p.selected_seller || {}).user || {}).name || 'N/A',
-          'Outside Agent': p.external_outside_agent ? p.external_outside_agent.name : 'N/A',
-          'Agency': p.get_agency ? p.get_agency.name : 'N/A',
-        }
-
-        this.selectedPropertyColumnsToShow.building_name == 0 ? delete obj['Name of Building'] : undefined;
-        this.selectedPropertyColumnsToShow.tower_name == 0 ? delete obj['Name of Tower'] : undefined;
-        this.selectedPropertyColumnsToShow.floor == 0 ? delete obj['Floor'] : undefined;
-        this.selectedPropertyColumnsToShow.apartment == 0 ? delete obj['Apartment'] : undefined;
-        this.selectedPropertyColumnsToShow.model == 0 ? delete obj['Model'] : undefined;
-        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bed'] : undefined;
-        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bath'] : undefined;
-        this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Half Bath'] : undefined;
-        this.selectedPropertyColumnsToShow.list_price == 0 ? delete obj['List Price'] : undefined;
-        this.selectedPropertyColumnsToShow.carpet_area == 0 ? delete obj['Carpet Area'] : undefined;
-        this.selectedPropertyColumnsToShow.commercialized_sozu == 0 ? delete obj['Commercialized by SOZU'] : undefined;
-        this.selectedPropertyColumnsToShow.possession_status == 0 ? delete obj['Possession Status'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_seller == 0 ? delete obj['Seller'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
-        this.selectedPropertyColumnsToShow.price_per_m2 == 0 ? delete obj['Price per m2'] : undefined;
-        this.selectedPropertyColumnsToShow.property_sale_id == 0 ? delete obj['ID'] : undefined;
-        exportfinalData.push(obj);
-      }
-      new ExcelDownload().exportAsExcelFile(exportfinalData, 'properties_for_sale');
-    }
-  }
 
 
   generatePDF() {

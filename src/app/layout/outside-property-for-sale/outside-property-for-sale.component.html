@@ -48,18 +48,6 @@
       </div>
     </div>
 
-    <div class="col-lg-2 col-md-2" *ngIf="all != 1">
-      <div class="form-group">
-        <label>{{'filters.location.locality' | translate}}</label>
-        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
-          name="selectedLocalities" [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities"
-          [settings]="multiDropdownSettingsForLocation" (onDeSelect)="onLocalityChange()"
-          (onSelect)="onLocalityChange()" (onSelectAll)="onLocalityChangeAll($event)"
-          (onDeSelectAll)="onLocalityChangeAll($event)">
-        </ng-multiselect-dropdown>
-      </div>
-    </div>
-
     <div class="col-lg-2 col-md-2" *ngIf="all == 1">
       <div class="form-group">
         <label>{{'filters.location.locality' | translate}}</label>
@@ -108,12 +96,6 @@
           <a class="btn" #modalOpen data-toggle="modal" data-target="#advancedSearch"
             routerLink="/dashboard/properties/add-bulk-property/0/0">
             {{'advanceSearch.advancedSearch' | translate}}</a>
-        </div>
-      </div>
-      <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="add-new text-left"  *ngIf="all != 1">
-          <a class="btn" (click)="getExportlisting()" href="javascript://">
-            {{'table.exportDataBtn' | translate}}</a>
         </div>
       </div>
 
@@ -387,19 +369,6 @@
                         *ngIf="parameter?.flag == 3 && !p?.collection && p?.for_hold == 1"
                         title="{{'table.title.generatePDF' | translate}}"><img src="assets/img/commercial_pdf.png"
                           alt="img"></button>
-
-
-                      <button (click)="this.updateCommercialized(p,1);" class="action-icon"
-                        [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized !=1 && parameter?.flag == 3 && all != 1"
-                        title="{{'table.title.commercializedProperty' | translate}}">
-                        <img src="assets/img/tick.png" alt="img"></button>
-
-                      <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                        [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized == true && parameter?.flag == 3 && all != 1"
-                        title="{{'table.title.markCommercialized' | translate}}">
-                        <img src="assets/img/tick-selected.png" alt="img"></button>
                     </div>
 
                   </td>
@@ -408,7 +377,7 @@
               <!-- chache wla data -->
               <tbody *ngIf="!is_filter">
                 <tr
-                  *ngFor="let p of cs.items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.totalSale }; let i=index">
+                  *ngFor="let p of cs.outside_items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.totalOutside }; let i=index">
                   <td *ngIf="selectedPropertyColumnsToShow?.id">
                     <span>
                       {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
@@ -506,20 +475,6 @@
                         title="{{'table.title.generatePDF' | translate}}">
                         <img src="assets/img/commercial_pdf.png" alt="img">
                       </button>
-
-                      <button (click)="this.updateCommercialized(p,1);" class="action-icon"
-                        [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized !=1 && parameter?.flag == 3 && all != 1"
-                        title="{{'table.title.commercializedProperty' | translate}}">
-                        <img src="assets/img/tick.png" alt="img">
-                      </button>
-
-                      <button (click)="this.updateCommercialized(p,0);" class="action-icon"
-                        [disabled]="admin?.admin_acl['Properties For Sale Management']?.can_read==1"
-                        *ngIf="p.is_commercialized == true && parameter?.flag == 3 && all != 1"
-                        title="{{'table.title.markCommercialized' | translate}}">
-                        <img src="assets/img/tick-selected.png" alt="img">
-                      </button>
                     </div>
 
                   </td>
@@ -536,12 +491,12 @@
     </div>
   </div>
 
-  <div class="btn-cont marginT15" *ngIf="!is_filter && cs.items?.length > 1">
+  <div class="btn-cont marginT15" *ngIf="!is_filter && cs.outside_items?.length > 1">
     <div class="row">
       <div class="col-6">
         <div class="title-group">
-          <p>{{'table.pagination.showing' | translate}} {{cs.items?.length}} {{'table.pagination.outof' | translate}}
-            {{cs.totalSale}}</p>
+          <p>{{'table.pagination.showing' | translate}} {{cs.outside_items?.length}} {{'table.pagination.outof' | translate}}
+            {{cs.totalOutside}}</p>
         </div>
       </div>
       <div class="col-6 text-right">
@@ -1506,6 +1461,171 @@ margin-left: -63%;">
           </form>
         </div>
       </div>
+
+      <!-- <div class="modal-dialog fadeIndown" style="max-width: 29%;">
+     <div class="modal-content"> -->
+      <!-- <div class="modal-header modal-header-new">
+           <h4 class="modal-title" style="font-weight: bold;">{{'generatePDF.offerInformaton' | translate}}</h4>
+           <br>
+           <button style="display: none;" type="button" class="close" data-dismiss="modal"
+              #closeInstallmentModal>&times;</button>
+           <button type="button" class="close" (click)="this.closeModalInstallment()">&times;</button>
+        </div> -->
+
+      <!-- <form autocomplete="off" class="form-horizontal form-model0P form-model-newP"
+           [formGroup]="this.installmentFormGroup">
+           <div class="modal-body modal-body-new">
+              <label *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">{{'addForm.payment_way' | translate}}</label>
+              <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div> -->
+      <!-- <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
+                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                       <label>{{'addForm.namePaymentWay' | translate}}</label>
+                       <input autocomplete="off" type="text" class="form-control" placeholder="{{'addForm.namePaymentWay' | translate}}"
+                          formControlName="payment_name" />
+                    </div>
+                 </div>
+              </div> -->
+      <!-- down or discount -->
+      <!-- <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
+              <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
+                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                       <label>{{'generatePDF.discountPercentage' | translate}}</label>
+                       <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                          formControlName="discount" style="display: inline; width: 80%;" appOnlyDecimal />
+                          <label style="margin-left: 10px;">%</label>
+                    </div>
+                 </div>
+                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                       <label>{{'generatePDF.downPaymentPercentage' | translate}} <span
+                             class="color-red">*</span></label>
+                       <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                          formControlName="downPayment" style="display: inline; width: 80%;" appOnlyDecimal/>
+                          <label style="margin-left: 10px;">%</label>
+                    </div>
+                 </div>
+              </div> -->
+      <!-- month or interest -->
+      <!-- <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
+              <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
+                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                       <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} <span
+                             class="color-red">*</span></label>
+                       <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                          formControlName="monthlyInstallment" style="display: inline; width: 80%;" appOnlyDecimal/>
+                          <label style="margin-left: 10px;">%</label>
+                    </div>
+                 </div>
+                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                       <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span
+                             class="color-red">*</span></label>
+                       <input autocomplete="off" type="text" class="form-control" maxlength="6" appOnlyNumber
+                          placeholder="#" formControlName="numberOfMI"/>
+                    </div>
+                 </div>
+              </div> -->
+
+      <!-- paymentupondeliveryPercentage -->
+      <!-- <div class="spacer15" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0"></div>
+              <div class="row" *ngIf="this.property_array && this.property_array.building.building_payment_way.length == 0">
+                 <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="form-group-3">
+                       <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}} <span
+                             class="color-red">*</span></label>
+                       <input autocomplete="off" type="text" class="form-control" formControlName="paymentupondelivery"
+                          placeholder="%" style="display: inline; width: 80%;" appOnlyDecimal/>
+                          <label style="margin-left: 10px;">%</label>
+                    </div>
+                 </div>
+              </div> -->
+
+      <!-- leadName -->
+      <!-- <div class="spacer15"></div>
+              <label>{{'generatePDF.offerDetails' | translate}}</label>
+              <div class="spacer15"></div>
+              <div class="row">
+                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <label style="width: 232px;">{{'generatePDF.leadName' | translate}} <span
+                          class="color-red">*</span></label>
+                    <input autocomplete="off" type="text" class="form-control" placeholder=""
+                       formControlName="leadName" />
+                 </div>
+              </div>
+              <div class="spacer15"></div>
+              <div class="row">
+                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <label style="width: 232px;">{{'generatePDF.email' | translate}}</label>
+                    <input autocomplete="off" class="form-control" placeholder=""
+                    [pattern]="constant.emailPattern" type="email"  formControlName="email" />
+                 </div>
+              </div>
+              <div class="spacer15"></div>
+              <div class="row">
+                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <label style="width: 232px;">{{'addForm.phone' | translate}}</label>
+                          <input autocomplete="off" minlength="6" maxlength="10"
+                          autocomplete="off" type="text" class="form-control" id="phone" placeholder="{{'addForm.placeholder.phoneNumber' | translate}}"
+                          minlength="1" formControlName="phone"  name="phone" ng2TelInput
+                          [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChange($event)" />
+                 </div>
+              </div> -->
+
+      <!-- addNote -->
+      <!-- <div class="spacer15" *ngIf="this.getAddNoteFormArrayLength == 0"></div>
+              <div class="row" *ngIf="this.getAddNoteFormArrayLength == 0">
+                 <div class="col-12">
+                    <div class="btn-cont">
+                       <span><a class="add" href="javascript://"
+                             (click)="this.addNotes($event)">{{'generatePDF.addNotePlus' | translate}}</a></span>
+                    </div>
+                 </div>
+              </div>
+              <div class="spacer15"></div>
+           
+              <div formArrayName="addNoteFormArray" *ngIf="this.getAddNoteFormArrayLength > 0">
+                 <ng-container *ngFor="let temp_add_note of this.getAddNoteFormArray['controls']; let j=index">
+                    <div [formGroupName]="j">
+                       <div class="row">
+                          <div class="col-lg-12 col-md-6 col-sm-6 col-12">
+                             <div class="form-group-3">
+                                <label>{{'generatePDF.note' | translate}}
+                                </label>
+                                <textarea rows="3" type="text" class="form-control note"
+                                   formControlName="addNote"></textarea>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                 </ng-container>
+              </div>
+              <div class="spacer15"></div> -->
+      <!-- addNote row-->
+      <!-- <div class="row">
+                 <div class="col-lg-4 col-md-5 col-sm-12 col-12" style="margin-left: auto;">
+                    <div class="form-group btn-cont">
+                       <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                       <button type="button" (click)="this.checkIsGeneratePDF()"
+                          class="btn btn-primary-new width100P P86" style="height: 42px;">{{'generatePDF.generateOffer'
+                          | translate}}</button>
+                    </div>
+                 </div>
+                 <div class="col-lg-4 col-md-4 col-sm-12 col-12" style="margin-right: auto;">
+                    <div class="form-group btn-cont">
+                       <label style="display: block; margin-top: 3px;">&nbsp;</label>
+                       <button type="button" class="btn  width100P P86 btn-danger"
+                          (click)="this.closeModalInstallment()">
+                          {{'advanceSearch.cancel' | translate}}</button>
+                    </div>
+                 </div>
+              </div> -->
+      <!-- </div> -->
+      <!-- </form> -->
+      <!-- </div>
+  </div> -->
     </div>
 
     <!-- select columns -->
