@@ -604,6 +604,7 @@
     "addProperty": "Agregar nueva propiedad",
     "editProperty": "Editar propiedad",
     "showInOffer": "Mostrar en oferta $ por m2",
+    "ShowParkingLots": "Mostrar estacionamientos en Oferta",
     "tabs": {
       "tagABuilding": "Etiquetar un edificio",
       "createDraft": "Crear borrador",
@@ -1467,6 +1468,7 @@
       "pdfSizeExceeds": "El archivo que ha seleccionado es demasiado grande. El tamaño máximo es 100 MB.",
       "noDocumentUploadedYet": "Todavía no se ha cargado ningún documento.",
       "nnFolderCreated": "Aún no se ha creado ninguna carpeta.",
+      "thereAreNoPaymentSchemesConfigured": "No hay esquemas de pago configurados.",
       "pleaseSelectLocationFromTheDropdownList": "Selecciona la ubicación de la lista desplegable.",
       "pleaseFillCompleteDevloperInformation": "Completa la información del desarrollador",
       "pleaseSelectLocation": "Selecciona su ubicación",

@@ -549,7 +549,7 @@ export class GenerateOfferPdfService {
     // let monthCount1 = moment([year1, month1, 1]).diff(moment([year, month, 1]), 'months', true);
     // let monthDiffCount = this.property_array.building.launch_date && monthCount > 0 ? monthCount + ' mensualidades:' : this.property_array.building.launch_date &&
     // monthCount1 > 0 ? monthCount1 + ' mensualidades:' : undefined;
-    let seller_name = this.property_array.selected_seller && this.property_array.selected_seller.user.developer_company == '' ? this.property_array.selected_seller.user.name 
+    let seller_name = this.property_array.selected_seller && this.property_array.selected_seller.user.developer_company == '' && !this.property_array.selected_seller.user.legal_entity ? this.property_array.selected_seller.user.name 
                     + ' ' + this.property_array.selected_seller.user.first_surname + ' ' + this.property_array.selected_seller.user.second_surname : 
                     this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity ? this.property_array.selected_seller.user.legal_entity.legal_name : 
                     this.property_array.selected_seller.user.developer_company
@@ -570,15 +570,15 @@ export class GenerateOfferPdfService {
               width: 150,
               margin: [0, 5, 0, 0]
             },
-            {
-              image: this.logoImageBase64,
-              width: 60,
-              margin: [5, 5, 0, 0]
-            },
+            // {
+            //   image: this.logoImageBase64,
+            //   width: 60,
+            //   margin: [5, 5, 0, 0]
+            // },
             {
               table: {
                 headerRows: 1,
-                widths: [1],
+                widths: [50],
                 body: [
                   [
                     { text: '', bold: true, border: [false, false, false, false], fontSize: 12 }
@@ -621,7 +621,7 @@ export class GenerateOfferPdfService {
             }
           ]
         },
-        this.property_array.building.show_in_offer == 0 ?
+        this.property_array.building.show_parking_alot == 0 ?
         {
           columns: [
             {
@@ -650,8 +650,10 @@ export class GenerateOfferPdfService {
                       text: this.property_array.floor_num == 0 ? 'Gound Floor' : this.property_array.floor_num > 0 ? this.property_array.floor_num + ' Floor' : 'N?A',
                       border: [false, false, false, false], fontSize: 10
                     },
-                    { text: 'Precio m2:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: this.price.transform(Number(this.property_array.avgg_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+                    this.property_array.building.show_in_offer == 0 ? { text: 'Precio m2:', bold: true, border: [false, false, false, false], fontSize: 10 } : 
+                    { text: '', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    this.property_array.building.show_in_offer == 0 ? { text: this.price.transform(Number(this.property_array.avgg_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 } : 
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
@@ -723,7 +725,9 @@ export class GenerateOfferPdfService {
                       text: this.property_array.floor_num == 0 ? 'Gound Floor' : this.property_array.floor_num > 0 ? this.property_array.floor_num + ' Floor' : 'N?A',
                       border: [false, false, false, false], fontSize: 10
                     },
+                    this.property_array.building.show_in_offer == 0 ? { text: 'Precio m2:', bold: true, border: [false, false, false, false], fontSize: 10 } : 
                     { text: '', bold: true, border: [false, false, false, false], fontSize: 10 },
+                    this.property_array.building.show_in_offer == 0 ? { text: this.price.transform(Number(this.property_array.avgg_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 } : 
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
@@ -845,13 +849,6 @@ export class GenerateOfferPdfService {
                 widths: [90, 120, 70, 140, 137],
                 body: [
                   [
-                    { text: '', bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 12, margin: [0, 0, 0, 10] },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', colSpan: 2, border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
                     { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
                     { text: '', border: [false, false, false, false], fontSize: 10 },
@@ -873,11 +870,11 @@ export class GenerateOfferPdfService {
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
-                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] },
-                    { text: '', border: [false, false, false, true], fontSize: 10 },
-                    { text: '', border: [false, false, false, true], fontSize: 10 },
-                    { text: '', border: [false, false, false, true], fontSize: 10 },
-                    { text: '', border: [false, false, false, true], fontSize: 10 }
+                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 },
+                    { text: '', border: [false, false, false, false], fontSize: 10 }
                   ]
                 ],
               },
@@ -984,7 +981,7 @@ export class GenerateOfferPdfService {
         let diffCount = this.offer_array[0].number_monthly_payments ? this.offer_array[0].number_monthly_payments + ' mensualidades:' :
           'mensualidades:';
         let Monthpayment = Number((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100);
-        let installment = this.offer_array[0].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[0].number_monthly_payments))) : undefined;
+        let installment = this.offer_array[0].number_monthly_payments ? this.price.transform((Monthpayment / (Number(this.offer_array[0].number_monthly_payments))).toFixed(2)) : undefined;
 
         docDefinition.content.splice(3, 0,
           {
@@ -1123,13 +1120,13 @@ export class GenerateOfferPdfService {
 
         let Monthpayment = Number((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100);
 
-        let installment = this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments))) : undefined;
+        let installment = this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ? this.price.transform((Monthpayment / (Number(this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments))).toFixed(2)) : undefined;
 
         if (this.offer_array.length - (i + 2)) {
           let price1 = this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - (i + 2)].discount) * this.property_array.min_price) / 100;
           let diffCount1 = this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments ? this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments + ' mensualidades:' : 'mensualidades:'
-          let Monthpayment1 = Number((Number(this.offer_array[this.offer_array.length - (i + 2)].monthly_installment) * price) / 100);
-          let installment1 = this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments))) : undefined;
+          let Monthpayment1 = Number((Number(this.offer_array[this.offer_array.length - (i + 2)].monthly_installment) * price1) / 100);
+          let installment1 = this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments ? this.price.transform((Monthpayment1 / (Number(this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments))).toFixed(2)) : undefined;
 
           docDefinition.content.splice(3 + i, 0,
             {
@@ -1281,7 +1278,7 @@ export class GenerateOfferPdfService {
                         {
                           text: [
                             { text: this.offer_array[this.offer_array.length - (i + 2)].downpayment ? this.offer_array[this.offer_array.length - (i + 2)].downpayment + '%' : '', bold: true },
-                            { text: this.offer_array[this.offer_array.length - (i + 2)].downpayment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].discount) * price1) / 100).toFixed(2)) : "0" }
+                            { text: this.offer_array[this.offer_array.length - (i + 2)].downpayment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].downpayment) * price1) / 100).toFixed(2)) : "0" }
                           ], border: [false, false, false, false], fontSize: 10
                         },
                       ],
@@ -1387,8 +1384,8 @@ export class GenerateOfferPdfService {
           let price2 = this.property_array.min_price - (Number(this.offer_array[0].discount) * this.property_array.min_price) / 100;
           let diffCount = this.offer_array[0].number_monthly_payments ? this.offer_array[0].number_monthly_payments + ' mensualidades:' :
             'mensualidades:';
-          let Monthpayment = Number((Number(this.offer_array[0].monthly_installment) * price) / 100);
-          let installment2 = this.offer_array[0].number_monthly_payments ? this.price.transform(Monthpayment / (Number(this.offer_array[0].number_monthly_payments))) : undefined;
+          let Monthpayment2 = Number((Number(this.offer_array[0].monthly_installment) * price2) / 100);
+          let installment2 = this.offer_array[0].number_monthly_payments ? this.price.transform((Monthpayment2 / (Number(this.offer_array[0].number_monthly_payments))).toFixed(2)) : undefined;
 
           docDefinition.content.splice(3 + 1, 0,
             {
@@ -1426,20 +1423,20 @@ export class GenerateOfferPdfService {
                         {
                           text: [
                             { text: this.offer_array[0].monthly_installment ? this.offer_array[0].monthly_installment + '%' : '', bold: true },
-                            { text: this.offer_array[0].monthly_installment ? '  ' + this.price.transform(((Number(this.offer_array[0].monthly_installment) * price) / 100).toFixed(2)) : "  0" }
+                            { text: this.offer_array[0].monthly_installment ? '  ' + this.price.transform(((Number(this.offer_array[0].monthly_installment) * price2) / 100).toFixed(2)) : "  0" }
                           ], border: [false, false, false, false], fontSize: 10
                         },
                       ],
                       [
                         { text: diffCount, bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: installment2 ? installment2 : '0', border: [false, false, false, false], fontSize: 10 },
-                      ],
+                      ],  
                       [
                         { text: 'A la entrega:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         {
                           text: [
                             { text: this.offer_array[0].payment_upon_delivery ? this.offer_array[0].payment_upon_delivery + '%' : '', bold: true },
-                            { text: this.offer_array[0].payment_upon_delivery ? '  ' + this.price.transform(((Number(this.offer_array[0].payment_upon_delivery) * price) / 100).toFixed(2)) : "  0" }
+                            { text: this.offer_array[0].payment_upon_delivery ? '  ' + this.price.transform(((Number(this.offer_array[0].payment_upon_delivery) * price2) / 100).toFixed(2)) : "  0" }
                           ], border: [false, false, false, false], fontSize: 10
                         },
                       ]
@@ -1523,7 +1520,8 @@ export class GenerateOfferPdfService {
     };
     
     if (this.property_array.selected_seller && this.property_array.selected_seller.user.legal_rep_banks && this.property_array.selected_seller.user.legal_rep_banks.length > 0) {  
-      docDefinition.content.splice(6, 1)
+     if(!this.property_array.selected_seller.user.legal_entity){
+      docDefinition.content.splice(6, 1);
       for (let i = 0; i < Math.round(this.property_array.selected_seller.user.legal_rep_banks.length / 2); i++) {
       if (this.property_array.selected_seller.user.legal_rep_banks.length == 1) {
         let item = this.property_array.selected_seller.user.legal_rep_banks[0];
@@ -1684,57 +1682,51 @@ export class GenerateOfferPdfService {
       }
       }
     }
-    }
+  }
     else{
-      docDefinition.content.splice(6, 0,{
-          columns: [
-            {
-              table: {
-                headerRows: 1,
-                widths: [90, 120, 70, 140, 137],
-                body: [
-                  [
-                    { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text:  '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
-                    { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] },
-                    { text: '', border: [false, false, false, true], fontSize: 10 },
-                    { text: '', border: [false, false, false, true], fontSize: 10 },
-                    { text: '', border: [false, false, false, true], fontSize: 10 },
-                    { text: '', border: [false, false, false, true], fontSize: 10 }
-                  ]
+      if(this.property_array.selected_seller.user.legal_entity.legal_entity_banks && this.property_array.selected_seller.user.legal_entity.legal_entity_banks.length > 0){
+     let item = this.property_array.selected_seller.user.legal_entity.legal_entity_banks.find(item => item.status == 1);
+     docDefinition.content.splice(6, 1);
+     docDefinition.content.splice(6, 0,
+      {
+        columns: [
+          {
+            table: {
+              headerRows: 1,
+              widths: [90, 120],
+              body: [
+                [
+                  { text: 'Banco:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                  { text: item.bank_name || '', border: [false, false, false, false], fontSize: 10 }
                 ],
+                [
+                  { text: 'Titular:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                  { text: seller_name, border: [false, false, false, false], fontSize: 10 }
+                ],
+                [
+                  { text: 'Número de cuenta:', bold: true, border: [false, false, false, false], fontSize: 10 },
+                  { text: item.account_number || '', border: [false, false, false, false], fontSize: 10 }
+                ],
+                [
+                  { text: 'Cuenta CLABE:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 10] },
+                  { text: item.swift || '', border: [false, false, false, false], fontSize: 10 }
+                ]
+              ],
+            },
+            layout: {
+              hLineColor: function (i, node) {
+                return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
               },
-              layout: {
-                hLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.body.length) ? '#57AE75' : '#57AE75';
-                },
-                vLineColor: function (i, node) {
-                  return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
-                }
+              vLineColor: function (i, node) {
+                return (i === 0 || i === node.table.widths.length) ? '#57AE75' : '#57AE75';
               }
             }
-          ]
-        },
-      );
+          }
+        ]
+      }
+     );
+      }
+    }
     }
     pdfMake.createPdf(docDefinition).download(this.translate.instant('generatePDF.commercialOffer') + ' ' + current_date.toISOString() + '.pdf');
   }
