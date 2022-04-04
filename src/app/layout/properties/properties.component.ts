@@ -221,7 +221,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     public constant: Constant, public cs: CommonService,
     public admin: AdminService, public noted: Notes,
     private propertyService: PropertyService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute, private router: Router,
+    private route: ActivatedRoute, private router: Router, public apiConstant: ApiConstants,
     private translate: TranslateService, public model: AddPropertyModel,
     private formBuilder: FormBuilder, private datePipe: DatePipe,
     private http: HttpClient, private price: PricePipe,
