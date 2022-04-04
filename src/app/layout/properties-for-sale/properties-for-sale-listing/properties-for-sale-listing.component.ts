@@ -152,7 +152,6 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   total: any = 0;
   is_filter: boolean = false;
   found: any;
-  isShown = false;
   constructor(
     public constant: Constant, private toastr: ToastrService,
     public apiConstant: ApiConstants, public admin: AdminService,
@@ -184,38 +183,33 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       this.all = 0;
     }
     this.installmentFormGroup = this.formBuilder.group({
-      payment_name: '',
-      downPayment: '',
-      discount: '',
-      monthlyInstallment: '',
-      numberOfMI: '',
-      paymentupondelivery: '',
-      // isAddVariables: [false],
-      // isAddParkingLotForSale: [false],
-      // parkingLotsNumber: [''],
-      // parkingLotsType: [''],
-      // parkingLotsPrice: [''],
-      // agencyOrSeller: [false],
-      // tempAddVariablesText: [''],
-      // tempAddVariablesPercentage: [''],
-      // interest: [''],
-      // paymentBankDetails: [''],
-      // addVariablesFormArray: this.formBuilder.array([]),
-      // parkingLotForSaleFormArray: this.formBuilder.array([]),
+      downPayment: [''],
+      discount: [''],
+      monthlyInstallment: [''],
+      numberOfMI: [''],
+      paymentupondelivery: [''],
+      isAddVariables: [false],
+      isAddParkingLotForSale: [false],
+      parkingLotsNumber: [''],
+      parkingLotsType: [''],
+      parkingLotsPrice: [''],
+      agencyOrSeller: [false],
+      leadName: [''],
+      tempAddVariablesText: [''],
+      tempAddVariablesPercentage: [''],
+      interest: [''],
+      paymentBankDetails: [''],
+      addVariablesFormArray: this.formBuilder.array([]),
+      parkingLotForSaleFormArray: this.formBuilder.array([]),
       addNoteFormArray: this.formBuilder.array([]),
-      // addbankFormArray: this.formBuilder.array([]),
-      // listPrice: [{ value: '', disabled: true }],
-      // finalPrice: [{ value: '', disabled: true }],
-      // downPaymentFinalPrice: [{ value: '', disabled: true }],
-      // discountFinalPrice: [{ value: '', disabled: true }],
-      // monthlyInstallmentFinalPrice: [{ value: '', disabled: true }],
-      // interestFinalPrice: [{ value: '', disabled: true }],
-      // paymentupondeliveryFinalPrice: [{ value: '', disabled: true }],
-      leadName: '',
-      email: '',
-      phone: '',
-      dial_code: '+52',
-      country_code: 'mx'
+      addbankFormArray: this.formBuilder.array([]),
+      listPrice: [{ value: '', disabled: true }],
+      finalPrice: [{ value: '', disabled: true }],
+      downPaymentFinalPrice: [{ value: '', disabled: true }],
+      discountFinalPrice: [{ value: '', disabled: true }],
+      monthlyInstallmentFinalPrice: [{ value: '', disabled: true }],
+      interestFinalPrice: [{ value: '', disabled: true }],
+      paymentupondeliveryFinalPrice: [{ value: '', disabled: true }]
     });
   }
 
@@ -294,6 +288,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.parameter.building_id = '0';
     this.parameter.broker_id = 1;
     this.getPropertyConfigurations();
+    //  this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
     this.subscribeInstallmentFormGroup();
@@ -430,14 +425,14 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     }
     this.admin.postDataApi('propertyForSale', input).subscribe(
       success => {
-        this.spinner.hide();
-        // this.is_filter = true;
+        this.is_filter = true;
         // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
         this.items = success.data;
         this.items.forEach(function (element) {
           element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         });
         this.total = success.total_count;
+        this.spinner.hide();
       },
       error => {
         this.spinner.hide();
@@ -472,7 +467,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         this.parameter.state_id = '0';
         this.parameter.building_id = '0';
       }
-      this.getListing();
+      //this.getListing();
     });
   }
 
@@ -1594,105 +1589,100 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
 
   checkIsGeneratePDF = (): void => {
-    //this.updateAddVariablesFinalValue();
-    //if (this.getTotalPercentage() == 100.00) {
-    this.spinner.show();
-    //let least_price = this.property_array.min_price;
-    // let price = this.property_array.min_price;
-    // if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
-    //   this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
-    //     let parkingPrice = parseInt(element.parkingLotsPrice.replace('$', '')) * parseInt(element.parkingLotsNumber);
-    //     price = price + parkingPrice;
-    //   });
-    // }
-    // let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * price) / 100 : 0;
-    // let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * price) / 100 : 0;
-    // let final_price = discount ? price - discount : interest ? price + interest : price;
-    // let layaway_per = 20000 * 100 / final_price;
-    // let downpayment = this.installmentFormGroup.value.downPayment ? (this.installmentFormGroup.value.downPayment * final_price) / 100 : 0;
-    // let value = downpayment - 20000;
-    // let final_downpayment = value ? value * 100 / final_price : 0;
-    // let addVar = [];
-    // this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
-    //   addVar.push({ variable_name: element.value.addVariablesText, variable_percentage: element.value.addVariablesPercentage });
-    // });
-    // let park = [];
-    // (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value || []).forEach(element => {
-    //   park.push({ parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice.substring(1) });
-    // });
-    if (this.isShown) {
-      if (this.getTotalPercentage() != 100.00) {
-        swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
-        return;
+    this.updateAddVariablesFinalValue();
+    if (this.getTotalPercentage() == 100.00) {
+      this.spinner.show();
+      let least_price = this.property_array.min_price
+      if (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value && this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.length > 0) {
+        this.installmentFormGroup.controls.parkingLotForSaleFormArray.value.forEach(element => {
+          least_price = least_price + parseInt(element.parkingLotsPrice.replace('$', ''));
+        });
       }
+      let discount = this.installmentFormGroup.value.discount ? (this.installmentFormGroup.value.discount * least_price) / 100 : 0;
+      let interest = this.installmentFormGroup.value.interest ? (this.installmentFormGroup.value.interest * least_price) / 100 : 0;
+      let final_price = discount ? least_price - discount : interest ? least_price + interest : least_price;
+      let addVar = [];
+      this.getAddVariablesFormArray.controls.forEach((element: FormGroup) => {
+        addVar.push({ variable_name: element.value.addVariablesText, variable_percentage: element.value.addVariablesPercentage });
+      });
+      let park = [];
+      (this.installmentFormGroup.controls.parkingLotForSaleFormArray.value || []).forEach(element => {
+        park.push({ parking_lots: element.parkingLotsNumber, parking_type: element.parkingLotsType, price: element.parkingLotsPrice });
+      });
+      let param = {
+        id: this.property_array.id,
+        down_payment: this.installmentFormGroup.get('downPayment').value,
+        discount: this.installmentFormGroup.get('discount').value,
+        monthly_installment: this.installmentFormGroup.get('monthlyInstallment').value,
+        interest: this.installmentFormGroup.get('interest').value,
+        number_of_month: this.installmentFormGroup.get('numberOfMI').value,
+        payment_upon_delivery: this.installmentFormGroup.get('paymentupondelivery').value,
+        lead_name: this.installmentFormGroup.get('leadName').value,
+        final_price: final_price,
+        bank_id: this.installmentFormGroup.value.paymentBankDetails.id,
+        account_type: this.installmentFormGroup.get('agencyOrSeller').value ? 2 : 1,
+        note: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,
+        parking_lots: park,
+        property_var: addVar
+      }
+      this.admin.postDataApi('createOffers', param).subscribe(result => {
+        this.is_for_Offer = false;
+        this.offer_id = result.data;
+        this.generatePDF();
+        this.closeModalInstallment();
+        this.getListing();
+        this.spinner.hide();
+      });
+    } else {
+      swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
     }
-    let user_id = localStorage.getItem('user-id');
-    let param = {
-      property_id: this.property_array.id,
-      name: this.installmentFormGroup.get('leadName').value,
-      email: this.installmentFormGroup.get('email').value,
-      country_code: this.installmentFormGroup.get('country_code').value,
-      dial_code: this.installmentFormGroup.get('dial_code').value,
-      phone: this.installmentFormGroup.get('phone').value,
-      note: (this.installmentFormGroup.value.addNoteFormArray[0] || []).addNote || null,
-      user_id: user_id,
-      is_manual: this.isShown || this.property_array && this.property_array.building.building_payment_way.length == 0 ? 1 : 0,
-      downpayment: this.installmentFormGroup.get('downPayment').value,
-      discount: this.installmentFormGroup.get('discount').value,
-      monthly_installment: this.installmentFormGroup.get('monthlyInstallment').value,
-      number_monthly_payments: this.installmentFormGroup.get('numberOfMI').value,
-      payment_upon_delivery: this.installmentFormGroup.get('paymentupondelivery').value,
-      
-    }
-    this.admin.postDataApi('propertyModifyOffer', param).subscribe(result => {
-      this.is_for_Offer = false;
-      this.offer_id = result.data;
-    //   //this.generatePDF();
-    this.offerPdf.offerID(this.offer_id, this.property_array, true);
-      this.closeModalInstallment();
-      this.getListing();
+  }
+
+  offerID(item) {
+    this.offer_id = item.random_id;
+    this.spinner.show();
+    this.admin.postDataApi('getOfferById', { id: (item || {}).id }).subscribe((success) => {
       this.spinner.hide();
+      this.offer_array = (success || {}).data;
+      if (this.offer_array.id) {
+        this.openModaloffer(this.offer_array)
+      }
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
     });
-    // } else {
-    //   swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
-    // }
+    //this.offerPdf.offerID(item, this.propertyDetail);
   }
 
   installmentFormGroupPatchValue = (): void => {
     this.installmentFormGroup.patchValue({
-      payment_name: '',
       downPayment: '',
       discount: '',
       monthlyInstallment: '',
       numberOfMI: '',
       paymentupondelivery: '',
-      // isAddVariables: false,
-      // isAddParkingLotForSale: false,
-      // parkingLotsNumber: '',
-      // parkingLotsType: '',
-      // parkingLotsPrice: '',
-      // agencyOrSeller: false,
-      // leadName: '',
-      // tempAddVariablesText: '',
-      // tempAddVariablesPercentage: '',
-      // interest: '',
-      // listPrice: '',
-      // finalPrice: '',
-      // paymentBankDetails: '',
-      // downPaymentFinalPrice: '',
-      // discountFinalPrice: '',
-      // monthlyInstallmentFinalPrice: '',
-      // interestFinalPrice: '',
-      // paymentupondeliveryFinalPrice: ''
+      isAddVariables: false,
+      isAddParkingLotForSale: false,
+      parkingLotsNumber: '',
+      parkingLotsType: '',
+      parkingLotsPrice: '',
+      agencyOrSeller: false,
       leadName: '',
-      email: '',
-      phone: '',
-      dial_code: '+52',
-      country_code: 'mx'
+      tempAddVariablesText: '',
+      tempAddVariablesPercentage: '',
+      interest: '',
+      listPrice: '',
+      finalPrice: '',
+      paymentBankDetails: '',
+      downPaymentFinalPrice: '',
+      discountFinalPrice: '',
+      monthlyInstallmentFinalPrice: '',
+      interestFinalPrice: '',
+      paymentupondeliveryFinalPrice: ''
     });
     this.getAddNoteFormArray.controls = [];
-    //this.getAddVariablesFormArray.controls = [];
-    //this.getParkingLotForSaleFormArray.controls = [];
+    this.getAddVariablesFormArray.controls = [];
+    this.getParkingLotForSaleFormArray.controls = [];
     this.isPreview = false;
   }
 
@@ -1909,10 +1899,13 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         let self = this;
         this.spinner.show();
         this.admin.postDataApi('deleteOffers', { id: offer.id }).subscribe(result => {
+          if (result.data) {
             let index = self.property_offers.findIndex(x => x.id == result.data);
             self.property_offers.splice(index, 1);
             self.cs.items.filter(x => {
+
             })
+          }
           this.spinner.hide();
         }, error => {
           this.spinner.hide();
@@ -1947,7 +1940,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       this.makePaymentBankDetailsArray(false);
       this.getParkingSpaceLots(((success || {}).data || {}).building_id);
       this.is_for_Offer = true;
-      //this.generatePDF();
+      this.generatePDF();
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -1955,33 +1948,22 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
   openModalInstallment = (propertyDetails: any): void => {
     this.property_array = propertyDetails;
-    this.isShown = false;
-    this.spinner.show();
-    this.admin.postDataApi('getBuildingOfferInfo', { property_id: propertyDetails.id }).subscribe((success) => {
-      this.property_array.building.building_payment_way = (success || {}).data;
-    this.openInstallmentModal.nativeElement.click();
-    this.spinner.hide();
     this.getBase64ImageFromUrl(this.property_array.id);
-  });
-    // this.spinner.show();
-    // this.admin.postDataApi('getBuildingOfferInfo', { property_id: (propertyDetails || {}).id }).subscribe((success) => {
-    //   this.spinner.hide();
-    //   this.bankDetails = (success || {}).data;
-    // this.getParkingSpaceLots(((success || {}).data || {}).building_id);
-    // this.installmentFormGroup.get('paymentBankDetails').setValue(false);
-    // this.installmentFormGroup.patchValue({
-    //   listPrice: this.property_array.min_price ? ('$' + this.getTransformedAmount(this.property_array.min_price)) : ('$' + 0.00),
-    //   discount: this.property_array.building.building_payment_way.length > 0 && this.property_array.building.building_payment_way[0].downpayment ? (this.getTransformedAmount(this.property_array.building.building_payment_way[0].discount)) : 0.00,
-    //   downPayment: this.property_array.building.building_payment_way.length > 0 && this.property_array.building.building_payment_way[0].downpayment ? (this.getTransformedAmount(this.property_array.building.building_payment_way[0].downpayment)) : 0.00,
-    //   numberOfMI: this.property_array.building.building_payment_way.length > 0 && this.property_array.building.building_payment_way.length > 0 && this.property_array.building.building_payment_way[0].number_monthly_payments ? (this.getTransformedAmount(this.property_array.building.building_payment_way[0].number_monthly_payments)) : 0.00,
-    //   monthlyInstallment: this.property_array.building.building_payment_way.length > 0 && this.property_array.building.building_payment_way[0].monthly_installment ? (this.getTransformedAmount(this.property_array.building.building_payment_way[0].monthly_installment)) : 0.00,
-    //   paymentupondelivery: this.property_array.building.building_payment_way.length > 0 && this.property_array.building.building_payment_way[0].payment_upon_delivery ? (this.getTransformedAmount(this.property_array.building.building_payment_way[0].payment_upon_delivery)) : 0.00
-    // });
-    // this.makePaymentBankDetailsArray(true);
-    //   }, (error) => {
-    //     this.spinner.hide();
-    //     swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    //   });
+    this.spinner.show();
+    this.admin.postDataApi('getPropertyDetails', { id: (propertyDetails || {}).id }).subscribe((success) => {
+      this.spinner.hide();
+      this.bankDetails = (success || {}).data;
+      this.getParkingSpaceLots(((success || {}).data || {}).building_id);
+      this.installmentFormGroup.get('paymentBankDetails').setValue(false);
+      this.installmentFormGroup.patchValue({
+        listPrice: this.property_array.min_price ? ('$' + this.getTransformedAmount(this.property_array.min_price)) : ('$' + 0.00)
+      });
+      this.makePaymentBankDetailsArray(true);
+    }, (error) => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+
   }
 
   getAgency = (property: any, keyword: string, index?: number): void => {
@@ -2263,9 +2245,5 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     if (isFirstTimeClick) {
       this.openInstallmentModal.nativeElement.click();
     }
-  }
-
-  toggleShow(value) {
-    this.isShown = value.target.checked ? true : false;
   }
 }

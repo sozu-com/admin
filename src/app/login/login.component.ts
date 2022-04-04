@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             const found = theRemovedElement.find(element => element == 'can_outside_broker');
             console.log(found, "found_login");
             if (found == 'can_outside_broker') {
-              this.router.navigate(['dashboard/properties-for-sale/view-properties-for-sale']);
+              this.router.navigate(['dashboard/outside-property-for-sale/outside']);
             } else {
               this.router.navigate(['dashboard']);
             }

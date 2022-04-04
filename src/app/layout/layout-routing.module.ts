@@ -156,6 +156,10 @@ const routes: Routes = [
         loadChildren: './properties-for-sale/properties-for-sale.module#PropertiesForSaleModule'
       },
       {
+        path: 'outside-property-for-sale',
+        loadChildren: './outside-property-for-sale/outside-property-for-sale.module#OutsidePropertyForSaleModule'
+      },
+      {
         path: 'product',
         loadChildren: './manage-product/manage-product.module#ManageProductModule'
       },
