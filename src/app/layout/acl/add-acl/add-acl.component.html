@@ -174,7 +174,7 @@
               </div>
               </div>
   
-              <div class="row">      
+              <div class="row" *ngIf="!model.id">      
                 <div class="col-12">
                   <div class="form-group-2">
                     <label>{{'addForm.locationTitle' | translate}}<span class="color-red">*</span></label>
@@ -205,7 +205,83 @@
                   </div>
                 </div>
               </div>
-  
+              
+             <div  *ngIf="model.id && !isWorking">
+              <div class="row" 
+              *ngFor="let add of model.address; let j=index">
+                <div class="col-lg-3 col-md-2 col-sm-1">
+                    <div class="form-group-2">
+                      <label>{{'filters.location.country' | translate}}</label>
+                      <select class="form-control" (click)="getNew(1)">
+                        <option>{{add.countries}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-1">
+                    <div class="form-group-2">
+                      <label>{{'filters.location.state' | translate}}</label>
+                      <select class="form-control" (click)="getNew(1)">
+                        <option>{{add.states}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-1">
+                    <div class="form-group-2">
+                      <label>{{'filters.location.city' | translate}}</label>
+                      <select class="form-control" (click)="getNew(1)">
+                        <option>{{add.cities}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-1">
+                    <div class="form-group-2">
+                      <label>{{'filters.location.locality' | translate}}</label>
+                      <select class="form-control" (click)="getNew(1)">
+                        <option>{{add.localities}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-2 col-sm-1">
+                    <div class="form-group-2">
+                      <label>{{'filters.location.building' | translate}}</label>
+                      <select class="form-control" (click)="getNew(1)">
+                        <option>{{add.buildings}}</option>
+                    </select>
+                    </div>
+                </div>
+        </div>
+             </div>
+             <div class="row" *ngIf="model.id && isWorking">      
+              <div class="col-12">
+                <div class="form-group-2">
+                  <!-- <label>{{'addForm.locationTitle' | translate}}<span class="color-red">*</span></label> -->
+                  <div class="row" *ngIf="model.address && model.address.length > 0">
+                    <div class="col-10" *ngFor="let add of model.address; let j=index">
+
+                      <app-address-acl 
+                      [countries]="parameter.countries" 
+                      [address]="add" 
+                      [index]="j" 
+                      [status]="false" 
+                      [disabledBuildings]="disabledBuildings" 
+                      (disabledBuilding)="disabledBuildingId(j)" 
+                      (removeAddress)="removeAddressObj($event)">
+                      </app-address-acl>
+
+                    </div>
+
+                    <div class="col-2" *ngIf="model.address?.length!=0">
+                      <div class="btn-cont center">
+                        <button type="button" class="btn btn-primary-new margin0" (click)="addEmptyObj()">
+                          <img src="assets/img/add.png" alt="img">
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
               <div class="clearfix"></div>
               <div class="row">
               <div class="access-controls" *ngIf="model.id">

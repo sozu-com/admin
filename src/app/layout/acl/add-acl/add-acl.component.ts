@@ -44,7 +44,7 @@ export class AddAclComponent implements OnInit {
   user_type: any;
   external_agent: any;
   value: any;
-  value13: any;
+  value13: any; isWorking = false;
   constructor(public constant: Constant, private cs: CommonService,
     private admin: AdminService, private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
@@ -329,17 +329,28 @@ export class AddAclComponent implements OnInit {
     this.admin.postDataApi('getNewUserById', { id: id }).subscribe(r => {
       this.spinner.hide();
       const userdata = r['data'];
-      for (let ind = 0; ind < userdata.countries.length; ind++) {
-        const tempAdd = {
-          countries: userdata.countries[ind].id.toString(),
-          states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
-          cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
-          localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
-          buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
-        };
-        this.model.address[ind] = tempAdd;
-        console.log(this.model.address[ind], "view info");
-        //this.admin.setUser_acl(this.model.address[ind]);
+      if (!this.isWorking) {
+        for (let ind = 0; ind < userdata.countries.length; ind++) {
+          const tempAdd = {
+            countries: userdata.countries[ind].name_en,
+            states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].name_en : 'All',
+            cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].name_en : 'All',
+            localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].name_en : 'All',
+            buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].name : 'All'
+          };
+          this.model.address[ind] = tempAdd;
+        }
+      } else {
+        for (let ind = 0; ind < userdata.countries.length; ind++) {
+          const tempAdd = {
+            countries: userdata.countries[ind].id.toString(),
+            states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
+            cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
+            localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
+            buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
+          };
+          this.model.address[ind] = tempAdd;
+        }
       }
       this.model.adminAcls = userdata.admin_acls;
       if (data == 'update') {
@@ -500,7 +511,15 @@ export class AddAclComponent implements OnInit {
     this.disabledBuildings = [];
   }
 
+  getNew(index) {
+    if (index == '1') {
+      this.isWorking = true
+      this.getAclUserById(this.model.id, '');
+    } else {
+      this.isWorking = false
+    }
 
+  }
 
 
   removeAddressObj(index) {
@@ -547,15 +566,15 @@ export class AddAclComponent implements OnInit {
 
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       this.parameter.countries = r['data'];
-      if(this.model.id == ''){
-      const obj = {
-        countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
-        states: '0',
-        cities: '0',
-        localities: '0',
-        buildings: '0'
-      };
-      this.model.address[0] = obj;
+      if (this.model.id == '') {
+        const obj = {
+          countries: this.parameter.countries && this.parameter.countries[0] ? this.parameter.countries[0].id : 0,
+          states: '0',
+          cities: '0',
+          localities: '0',
+          buildings: '0'
+        };
+        this.model.address[0] = obj;
       }
       console.log(this.model.address, "getCountryLocality");
       this.spinner.hide();

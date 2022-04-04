@@ -1181,33 +1181,64 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       if (this.parameter.status === 1) {
         if (this.user_type == 'seller') {
           this.parameter.seller_id = this.parameter.user_id;
-          this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
-          const sel_user = {
-            user: { name: '' }
-          };
-          this.items[this.parameter.index].selected_seller = sel_user;
-          this.items[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
+          if (this.items.length == 0) {
+            this.cs.propertyData[this.parameter.index].selected_seller_id = this.parameter.user_id;
+            const sel_user = {
+              user: { name: '' }
+            };
+            this.cs.propertyData[this.parameter.index].selected_seller = sel_user;
+            this.cs.propertyData[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
+          } else {
+            this.items[this.parameter.index].selected_seller_id = this.parameter.user_id;
+            const sel_user = {
+              user: { name: '' }
+            };
+            this.items[this.parameter.index].selected_seller = sel_user;
+            this.items[this.parameter.index].selected_seller.user.name = this.parameter.fullName;
+          }
+
         } else {
           this.parameter.buyer_id = this.parameter.user_id;
-          this.items[this.parameter.index].selected_buyer_id = this.parameter.user_id;
-          const sel_user = {
-            user: { name: '' }
-          };
-          this.items[this.parameter.index].selected_buyer = sel_user;
-          this.items[this.parameter.index].selected_buyer.user.name = this.parameter.fullName;
+          if (this.items.length == 0) {
+            this.cs.propertyData[this.parameter.index].selected_buyer_id = this.parameter.user_id;
+            const sel_user = {
+              user: { name: '' }
+            };
+            this.cs.propertyData[this.parameter.index].selected_buyer = sel_user;
+            this.cs.propertyData[this.parameter.index].selected_buyer.user.name = this.parameter.fullName;
+          } else {
+            this.items[this.parameter.index].selected_buyer_id = this.parameter.user_id;
+            const sel_user = {
+              user: { name: '' }
+            };
+            this.items[this.parameter.index].selected_buyer = sel_user;
+            this.items[this.parameter.index].selected_buyer.user.name = this.parameter.fullName;
+          }
         }
       } else {
         // reject
         if (this.user_type == 'seller') {
-          this.items[this.parameter.index].selected_seller_id = null;
-          this.items[this.parameter.index].selected_seller = null;
+          if (this.items.length == 0) {
+            this.cs.propertyData[this.parameter.index].selected_seller_id = null;
+            this.cs.propertyData[this.parameter.index].selected_seller = null;
+          } else {
+            this.items[this.parameter.index].selected_seller_id = null;
+            this.items[this.parameter.index].selected_seller = null;
+          }
         } else {
-          this.items[this.parameter.index].selected_buyer_id = null;
-          this.items[this.parameter.index].selected_buyer = null;
+          if (this.items.length == 0) {
+            this.cs.propertyData[this.parameter.index].selected_buyer_id = null;
+            this.cs.propertyData[this.parameter.index].selected_buyer = null;
+          } else {
+            this.items[this.parameter.index].selected_buyer_id = null;
+            this.items[this.parameter.index].selected_buyer = null;
+          }
+
         }
       }
       this.parameter.property_id = undefined;
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.doneSuccessfully'), 'success');
+      this.getListing(null, null);
       // accept => then close listing modal
       // if (this.parameter.status === 1) {
       this.closeLinkSellerModal.nativeElement.click();
