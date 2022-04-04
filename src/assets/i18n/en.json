@@ -1466,6 +1466,7 @@
       "pdfSizeExceeds": "The file you have selected is too large. The maximum size is 100MB.",
       "noDocumentUploadedYet": "No document uploaded yet.",
       "nnFolderCreated": "No folder created yet.",
+      "thereAreNoPaymentSchemesConfigured": "There are no payment schemes configured.",
       "pleaseSelectLocationFromTheDropdownList": "Please select location from the dropdown list.",
       "pleaseFillCompleteDevloperInformation": "Please fill complete devloper information",
       "pleaseSelectLocation": "Please select location",
