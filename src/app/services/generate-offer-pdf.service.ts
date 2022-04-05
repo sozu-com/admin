@@ -747,13 +747,6 @@ export class GenerateOfferPdfService {
                     { text: '', border: [false, false, false, false], fontSize: 10 }
                   ],
                   [
-                    { text: 'Lugares estacionamiento:', bold: true, border: [false, false, false, false], fontSize: 10 },
-                    { text: this.property_array.parking_count || this.property_array.parking_for_sale ? this.property_array.parking_count + this.property_array.parking_for_sale : '0', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 },
-                    { text: '', border: [false, false, false, false], fontSize: 10 }
-                  ],
-                  [
                     { text: 'Área:', bold: true, border: [false, false, false, true], fontSize: 10, margin: [0, 0, 0, 10] },
                     { text: this.property_array.max_area || 'N/A', border: [false, false, false, true], fontSize: 10 },
                     { text: '', border: [false, false, false, true], fontSize: 10 },
