@@ -999,9 +999,9 @@ export class GenerateOfferPdfService {
                       { text: price ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                     ],
                     [
-                      { text: this.offer_array[0].discount ? 'Ahorro:' : this.offer_array[0].interest ? 'Interés' : 'Ahorro:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                      { text: this.offer_array[0].discount ? 'Ahorro:' : this.offer_array[0].interest ? 'Interés' : '', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                       { text: this.offer_array[0].discount ? this.price.transform(((Number(this.offer_array[0].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                      this.offer_array[0].interest ? this.price.transform(((Number(this.offer_array[0].interest) * this.property_array.min_price) / 100).toFixed(2)) : '0', border: [false, false, false, false], fontSize: 10 },
+                      this.offer_array[0].interest ? this.price.transform(((Number(this.offer_array[0].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                     ],
                     [
                       { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
@@ -1066,9 +1066,9 @@ export class GenerateOfferPdfService {
                       { text: price ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                     ],
                     [
-                      { text: this.offer_array[0].discount ? 'Ahorro:' : this.offer_array[0].interest ? 'Interés' : 'Ahorro:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                      { text: this.offer_array[0].discount ? 'Ahorro:' : this.offer_array[0].interest ? 'Interés' : '', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                       { text: this.offer_array[0].discount ? this.price.transform(((Number(this.offer_array[0].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                      this.offer_array[0].interest ? this.price.transform(((Number(this.offer_array[0].interest) * this.property_array.min_price) / 100).toFixed(2)) : '0', border: [false, false, false, false], fontSize: 10 },
+                      this.offer_array[0].interest ? this.price.transform(((Number(this.offer_array[0].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                     ],
                     [
                       { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
@@ -1150,10 +1150,10 @@ export class GenerateOfferPdfService {
                         { text: price ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - (i + 1)].interest ? 'Interés' : 
+                        { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? '' : this.offer_array[this.offer_array.length - (i + 1)].interest ? 'Interés' : 
                         'Ahorro:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                        this.offer_array[this.offer_array.length - (i + 1)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '0', border: [false, false, false, false], fontSize: 10 },
+                        this.offer_array[this.offer_array.length - (i + 1)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
@@ -1219,9 +1219,9 @@ export class GenerateOfferPdfService {
                       ],
                       [
                         { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - (i + 1)].interest ? 'Interés' : 
-                        'Ahorro:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        '', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                        this.offer_array[this.offer_array.length - (i + 1)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '0', border: [false, false, false, false], fontSize: 10 },
+                        this.offer_array[this.offer_array.length - (i + 1)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
@@ -1278,9 +1278,9 @@ export class GenerateOfferPdfService {
                       ],
                       [
                         { text: this.offer_array[this.offer_array.length - (i + 2)].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - (i + 2)].interest ? 'Interés' : 
-                        'Ahorro:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        '', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: this.offer_array[this.offer_array.length - (i + 2)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                        this.offer_array[this.offer_array.length - (i + 2)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '0', border: [false, false, false, false], fontSize: 10 },
+                        this.offer_array[this.offer_array.length - (i + 2)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
@@ -1345,10 +1345,10 @@ export class GenerateOfferPdfService {
                         { text: price1 ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: this.offer_array[this.offer_array.length - (i + 2)].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - (i + 2)].interest ? 'Interés' : 
+                        { text: this.offer_array[this.offer_array.length - (i + 2)].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - (i + 2)].interest ? '' : 
                         'Ahorro:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: this.offer_array[this.offer_array.length - (i + 2)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                        this.offer_array[this.offer_array.length - (i + 2)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '0', border: [false, false, false, false], fontSize: 10 },
+                        this.offer_array[this.offer_array.length - (i + 2)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
@@ -1418,9 +1418,9 @@ export class GenerateOfferPdfService {
                         { text: price2 ? this.price.transform(Number(price2).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: this.offer_array[0].discount ? 'Ahorro:' : this.offer_array[0].interest ? 'Interés' : 'Ahorro:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: this.offer_array[0].discount ? 'Ahorro:' : this.offer_array[0].interest ? 'Interés' : '', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: this.offer_array[0].discount ? this.price.transform(((Number(this.offer_array[0].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                        this.offer_array[0].interest ? this.price.transform(((Number(this.offer_array[0].interest) * this.property_array.min_price) / 100).toFixed(2)) : '0', border: [false, false, false, false], fontSize: 10 },
+                        this.offer_array[0].interest ? this.price.transform(((Number(this.offer_array[0].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
@@ -1485,9 +1485,9 @@ export class GenerateOfferPdfService {
                         { text: this.offer_array[0].discount ? this.price.transform(Number(this.property_array.min_price - ((Number(this.offer_array[0].discount) * this.property_array.min_price) / 100)).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: this.offer_array[0].discount ? 'Ahorro:' : this.offer_array[0].interest ? 'Interés' : 
-                        'Ahorro:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
-                        { text: this.offer_array[0].discount ? this.price.transform(((Number(this.offer_array[0].discount) * this.property_array.min_price) / 100).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
+                        { text: this.offer_array[0].discount ? 'Ahorro:' : this.offer_array[0].interest ? 'Interés' : '', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: this.offer_array[0].discount ? this.price.transform(((Number(this.offer_array[0].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
+                        this.offer_array[0].interest ? this.price.transform(((Number(this.offer_array[0].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
