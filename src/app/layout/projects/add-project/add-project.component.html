@@ -1556,7 +1556,13 @@
                     <input class="form-control" type="text" name="payment_name{{t+1}}" [(ngModel)]="item.payment_name">
                   </div>
                 </div>
-                
+                <div class="col-md-6 col-sm-6 col-12">
+                  <div class="form-group-3">
+                    <label>{{'addForm.interest' | translate}}</label>
+                    <input autocomplete="off" class="form-control" placeholder="%" type="text" name="interest{{t+1}}" [(ngModel)]="item.interest" appOnlyDecimal style="display: inline; width: 93%;">
+                    <label style="margin-left: 10px;">%</label>
+                  </div>
+                </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <div class="form-group-3">
                     <label>{{'addForm.discount' | translate}}</label>

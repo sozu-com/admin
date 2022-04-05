@@ -2264,7 +2264,7 @@
 
 <a style="display:none;" #openInstallmentModal data-toggle="modal" data-target="#installmentModal"></a>
 <div class="modal animated" id="installmentModal">
-   <div class="modal-dialog fadeIndown" style="max-width: 29%;">
+   <div class="modal-dialog fadeIndown" style="max-width: 31%;">
       <div class="modal-content">
          <div class="modal-header modal-header-new">
             <h4 class="modal-title" style="font-weight: bold;">{{'generatePDF.offerInformaton' | translate}}</h4>
@@ -2428,10 +2428,9 @@
                   </div>
                   <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
-                        <label>{{'generatePDF.downPaymentPercentage' | translate}} <span
-                              class="color-red">*</span></label>
+                        <label>{{'generatePDF.interestPercentage' | translate}}</label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="downPayment" style="display: inline; width: 80%;" appOnlyDecimal/>
+                           formControlName="interest" style="display: inline; width: 80%;" appOnlyDecimal />
                            <label style="margin-left: 10px;">%</label>
                      </div>
                   </div>
@@ -2454,19 +2453,20 @@
                <div class="row" *ngIf="(this.property_array && this.property_array.building.building_payment_way.length == 0) || isShown">
                   <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
-                        <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} <span
+                        <label>{{'generatePDF.downPaymentPercentage' | translate}} <span
                               class="color-red">*</span></label>
                         <input autocomplete="off" type="text" class="form-control" placeholder="%"
-                           formControlName="monthlyInstallment" style="display: inline; width: 80%;" appOnlyDecimal/>
+                           formControlName="downPayment" style="display: inline; width: 80%;" appOnlyDecimal/>
                            <label style="margin-left: 10px;">%</label>
                      </div>
                   </div>
                   <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
-                        <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span
+                        <label>{{'generatePDF.monthlyInstallmentPercentage' | translate}} <span
                               class="color-red">*</span></label>
-                        <input autocomplete="off" type="text" class="form-control" maxlength="6" appOnlyNumber
-                           placeholder="#" formControlName="numberOfMI"/>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="%"
+                           formControlName="monthlyInstallment" style="display: inline; width: 80%;" appOnlyDecimal/>
+                           <label style="margin-left: 10px;">%</label>
                      </div>
                   </div>
                   <!-- <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -2503,6 +2503,14 @@
                <!-- paymentupondeliveryPercentage -->
                <div class="spacer15" *ngIf="(this.property_array && this.property_array.building.building_payment_way.length == 0) || isShown"></div>
                <div class="row" *ngIf="(this.property_array && this.property_array.building.building_payment_way.length == 0) || isShown">
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                     <div class="form-group-3">
+                        <label style="width: 245px;">{{'generatePDF.numberOfMI' | translate}} <span
+                              class="color-red">*</span></label>
+                        <input autocomplete="off" type="text" class="form-control" maxlength="6" appOnlyNumber
+                           placeholder="#" formControlName="numberOfMI"/>
+                     </div>
+                  </div>
                   <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                      <div class="form-group-3">
                         <label style="width: 232px;">{{'generatePDF.paymentupondeliveryPercentage' | translate}} <span
