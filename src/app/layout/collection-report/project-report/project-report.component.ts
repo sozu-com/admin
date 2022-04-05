@@ -139,10 +139,12 @@ export class ProjectReportComponent implements OnInit {
         obj['total_units'] = element.total_units + (obj['total_units'] || 0);
         obj['sold_units'] = element.sold_units + (obj['sold_units'] || 0);
         obj['available_units'] = element.available_units + (obj['available_units'] || 0);
-        obj['sold_per'] = parseFloat(element.sold_per) + (obj['sold_per'] || 0);
-        obj['available_per'] = parseFloat(element.available_per) + (obj['available_per'] || 0);
+        obj['sold_per'] = 0;
+        obj['available_per'] = 0;
         // obj['total_per'] = parseFloat(element.total_per) + (obj['total_per'] || 0);
       }
+      obj['sold_per'] = (( obj['sold_units'] / obj['total_units']) * 100).toFixed(2);
+      obj['available_per'] = (( obj['available_units'] / obj['total_units']) * 100).toFixed(2);
       this.dataPoints1 = [];
       for (let index = 0; index < this.reportData.length; index++) {
         this.dataPoints1.push({
