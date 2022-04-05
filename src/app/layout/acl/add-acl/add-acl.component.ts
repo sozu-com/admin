@@ -329,8 +329,17 @@ export class AddAclComponent implements OnInit {
     this.admin.postDataApi('getNewUserById', { id: id }).subscribe(r => {
       this.spinner.hide();
       const userdata = r['data'];
-      if (!this.isWorking) {
-        for (let ind = 0; ind < userdata.countries.length; ind++) {
+      for (let ind = 0; ind < userdata.countries.length; ind++) {
+        if (data == 'true') {
+          const tempAdd = {
+            countries: userdata.countries[ind].id.toString(),
+            states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
+            cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
+            localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
+            buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
+          };
+          this.model.address[ind] = tempAdd;
+        } else {
           const tempAdd = {
             countries: userdata.countries[ind].name_en,
             states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].name_en : 'All',
@@ -340,17 +349,7 @@ export class AddAclComponent implements OnInit {
           };
           this.model.address[ind] = tempAdd;
         }
-      } else {
-        for (let ind = 0; ind < userdata.countries.length; ind++) {
-          const tempAdd = {
-            countries: userdata.countries[ind].id.toString(),
-            states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
-            cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
-            localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
-            buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
-          };
-          this.model.address[ind] = tempAdd;
-        }
+
       }
       this.model.adminAcls = userdata.admin_acls;
       if (data == 'update') {
@@ -513,10 +512,10 @@ export class AddAclComponent implements OnInit {
 
   getNew(index) {
     if (index == '1') {
-      this.isWorking = true
-      this.getAclUserById(this.model.id, '');
+      this.isWorking = true;
+      this.getAclUserById(this.model.id, 'true');
     } else {
-      this.isWorking = false
+      this.isWorking = false;
     }
 
   }

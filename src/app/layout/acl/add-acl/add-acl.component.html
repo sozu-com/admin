@@ -209,7 +209,7 @@
              <div  *ngIf="model.id && !isWorking">
               <div class="row" 
               *ngFor="let add of model.address; let j=index">
-                <div class="col-lg-3 col-md-2 col-sm-1">
+                <div class="col-lg-2 col-md-2 col-sm-1">
                     <div class="form-group-2">
                       <label>{{'filters.location.country' | translate}}</label>
                       <select class="form-control" (click)="getNew(1)">
@@ -241,7 +241,7 @@
                     </select>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-2 col-sm-1">
+                <div class="col-lg-2 col-md-2 col-sm-1">
                     <div class="form-group-2">
                       <label>{{'filters.location.building' | translate}}</label>
                       <select class="form-control" (click)="getNew(1)">
@@ -249,6 +249,14 @@
                     </select>
                     </div>
                 </div>
+                
+        </div>
+        <div class="row" *ngIf="model.address?.length!=0">
+          <div class="btn-cont center">
+            <button type="button" class="btn btn-primary-new margin0" (click)="addEmptyObj()">
+              <img src="assets/img/add.png" alt="img">
+            </button>
+          </div>
         </div>
              </div>
              <div class="row" *ngIf="model.id && isWorking">      
