@@ -141,20 +141,7 @@
                   </div>
                 </div> -->
             </div>
-            <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
-                  <p>{{'sidebar.payment_method' | translate}}</p>
-                  <div id="chartContainer5" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
-            </div>
-            <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
-                  <p>{{'sidebar.ExpectedReport' | translate}}</p>
-                  <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
-            </div>
-
-            <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
-                  <p>{{'sidebar.totalArrear' | translate}}</p>
-                  <div id="chartContainer4" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
-            </div>
-
+            
             <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
                   <p>{{'sidebar.RealReport' | translate}}</p>
                   <div id="chartContainer1" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;">
@@ -162,18 +149,36 @@
             </div>
 
             <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
+                  <p>{{'sidebar.ExpectedReport' | translate}}</p>
+                  <div id="chartContainer" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+            </div>
+
+            <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
                   <p>{{'sidebar.RealExpectedReport' | translate}}</p>
                   <div id="chartContainer2" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;">
                   </div>
             </div>
+
             <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
-                  <p>{{'viewProjects.Expenditures' | translate}}</p>
-                  <div id="chartContainer3" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+                  <p>{{'sidebar.payment_method' | translate}}</p>
+                  <div id="chartContainer5" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
             </div>
+            
             <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
                   <p>{{'viewProjects.label_1' | translate}}</p>
                   <div id="chartContainer6" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
             </div>
+
+            <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
+                  <p>{{'sidebar.totalArrear' | translate}}</p>
+                  <div id="chartContainer4" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+            </div>
+   
+            <div class="graph-area" [style.display]="reportType==1 ? 'block' : 'none'">
+                  <p>{{'viewProjects.Expenditures' | translate}}</p>
+                  <div id="chartContainer3" style="height: 370px; width: 90%; margin-left:auto;margin-right:auto;"></div>
+            </div>
+            
             <div class="table-responsive main-table" *ngIf="reportType == 2"
                   style="width: 90%; margin-left:auto;margin-right:auto;" id="accordion">
                   <h5>{{'collectionReport.tabularView' | translate}}<span class=" pull-right">
@@ -231,7 +236,7 @@
             </div>
      
      
-      <div class="table-responsive">
+      <!-- <div class="table-responsive">
             <table class="table table-bordered table-striped table-align-center quick-table" >
               <tbody>
                     <tr>
@@ -269,12 +274,12 @@
                       </th>
                       <td *ngFor="let item of finalDataExpacted">{{(item.total_pending || 0) | currency}}</td>
                     </tr>
-                    <!-- <tr>
+                     <tr>
                         <th>{{'table.dashboard.total' | translate}}:</th>
                         <td *ngFor="let item of finalDataExpacted">{{(item.total_pending || 0) | currency}}</td>
-                  </tr> -->
+                  </tr>
               </tbody>
             </table>
-          </div>
+          </div> -->
       </div>
 </div>
