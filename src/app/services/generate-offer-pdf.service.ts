@@ -1276,7 +1276,7 @@ export class GenerateOfferPdfService {
                       ],
                       [
                         { text: 'Precio final:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
-                        { text: price1 ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
+                        { text: price1 ? this.price.transform(Number(price1).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: this.offer_array[this.offer_array.length - index2].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - index2].interest ? 'Interés' : 
@@ -1344,7 +1344,7 @@ export class GenerateOfferPdfService {
                       ],
                       [
                         { text: 'Precio final:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
-                        { text: price1 ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
+                        { text: price1 ? this.price.transform(Number(price1).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: this.offer_array[this.offer_array.length - index2].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - index2].interest ? '' : 
