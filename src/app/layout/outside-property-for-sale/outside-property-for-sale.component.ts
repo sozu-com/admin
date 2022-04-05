@@ -1624,8 +1624,8 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       country_code: 'mx'
     });
     this.getAddNoteFormArray.controls = [];
-    this.getAddVariablesFormArray.controls = [];
-    this.getParkingLotForSaleFormArray.controls = [];
+    //this.getAddVariablesFormArray.controls = [];
+    //this.getParkingLotForSaleFormArray.controls = [];
     this.isPreview = false;
   }
 
@@ -1695,9 +1695,6 @@ export class OutsidePropertyForSaleComponent implements OnInit {
 
   getTotalPercentage() {
     let totalPercentage = 0.00;
-    this.getAddVariablesFormArray.controls.forEach((formGroup: FormGroup) => {
-      totalPercentage += parseFloat(formGroup.get('addVariablesPercentage').value || 0.00);
-    });
     totalPercentage += parseFloat(this.installmentFormGroup.get('downPayment').value || 0.00);
     totalPercentage += parseFloat(this.installmentFormGroup.get('monthlyInstallment').value || 0.00);
     totalPercentage += parseFloat(this.installmentFormGroup.get('paymentupondelivery').value || 0.00);
