@@ -368,6 +368,7 @@ export class AddProjectComponent implements OnInit {
               this.newPaymentWay.push({
                 payment_name: item.payment_name,
                 discount: item.discount,
+                interest: item.interest,
                 downpayment: item.downpayment,
                 monthly_installment: item.monthly_installment,
                 number_monthly_payments: item.number_monthly_payments,
@@ -379,6 +380,7 @@ export class AddProjectComponent implements OnInit {
             this.newPaymentWay.push({
               payment_name: '',
               discount: '',
+              interest: '',
               downpayment: '',
               monthly_installment: '',
               number_monthly_payments: '',
@@ -490,6 +492,7 @@ export class AddProjectComponent implements OnInit {
               this.newPaymentWay.push({
                 payment_name: item.payment_name,
                 discount: item.discount,
+                interest: item.interest,
                 downpayment: item.downpayment,
                 monthly_installment: item.monthly_installment,
                 number_monthly_payments: item.number_monthly_payments,
@@ -501,6 +504,7 @@ export class AddProjectComponent implements OnInit {
             this.newPaymentWay.push({
               payment_name: '',
               discount: '',
+              interest: '',
               downpayment: '',
               monthly_installment: '',
               number_monthly_payments: '',
@@ -542,6 +546,7 @@ export class AddProjectComponent implements OnInit {
         this.newPaymentWay.push({
           payment_name: '',
           discount: '',
+          interest: '',
           downpayment: '',
           monthly_installment: '',
           number_monthly_payments: '',
@@ -1289,6 +1294,7 @@ export class AddProjectComponent implements OnInit {
     });
     if(isContniue){
     modelSave.payment_ways = this.newPaymentWay;
+    modelSave.building_payment_way = this.newPaymentWay;
     }
     else{
       swal(this.translate.instant('swal.error'), this.translate.instant('generatePDF.percentageText'), 'error');
@@ -2739,6 +2745,7 @@ export class AddProjectComponent implements OnInit {
     this.newPaymentWay.push({
       payment_name: '',
       discount: '',
+      interest: '',
       downpayment: '',
       monthly_installment: '',
       number_monthly_payments: '',
