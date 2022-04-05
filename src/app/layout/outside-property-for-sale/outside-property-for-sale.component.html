@@ -100,8 +100,8 @@
       </div>
 
     </div>
-    <div *ngIf="loadingListing"><img style="width:100%" src="assets/img/loading_content.gif"></div>
-    <div class="tab-content white-bg" *ngIf="!loadingListing">
+    <div *ngIf="items.length > 0"><img src="assets/img/404-error.png"></div>
+    <div class="tab-content white-bg">
       <div class="tab-pane active">
         <div class="tabel-section">
           <div class="table-responsive">

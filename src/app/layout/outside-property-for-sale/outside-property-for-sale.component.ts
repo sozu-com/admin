@@ -376,8 +376,8 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   }
 
   getListing() {
-    // this.spinner.show();
-    this.loadingListing = true;
+    this.spinner.show();
+    //this.loadingListing = true;
     this.makePostRequest();
     //this.parameter.availability_filter = 1;
     let input: any = JSON.parse(JSON.stringify(this.parameter));
@@ -439,7 +439,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       success => {
         // this.is_filter = true;
         this.items = success.data;
-        this.loadingListing = false;
+        this.spinner.hide();
         this.items.forEach(function (element) {
           element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         });
@@ -447,8 +447,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
         //this.spinner.hide();
       },
       error => {
-        this.loadingListing = false;
-        //this.spinner.hide();
+        this.spinner.hide();
       });
   }
 
