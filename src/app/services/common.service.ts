@@ -16,6 +16,7 @@ export class CommonService {
   page: any;
   public data: Object = {};
   homeData: any = [];
+  pros: any;
   propertyData: any = [];
   items: any[] = [];
   outside_items: any[] = [];
@@ -93,13 +94,30 @@ export class CommonService {
     this.getHomeDetails();
   }
 
+  // getProject = (): void => {
+  //   this.admin.postDataApi('getOutsideUserProject', {
+  //     admin_id: this.login_data_out.id
+  //   }).subscribe(r => {
+  //     this.spinner.hide();
+  //     let newArray = [];
+  //     r['data'].forEach(el => {
+  //       newArray.push(el.building_id);
+  //     });
+  //     this.pros = newArray;
+
+  //   }, error => {
+  //     this.spinner.hide();
+  //     swal(this.translate.instant('swal.error'), error.error.message, 'error');
+  //   });
+  // }
+
   getHomeDetails = (): void => {
-    this.parameter.itemsPerPage = 10;
-    this.parameter.page = 1;
-    this.parameter.flag = 3;
-    this.parameter.broker_id = 1;
-    this.parameter.dash_flag = 4;
-    this.parameter.admin_id = this.login_data_out.id;
+    // this.parameter.itemsPerPage = 10;
+    // this.parameter.page = 1;
+    // this.parameter.flag = 3;
+    // this.parameter.broker_id = 1;
+    // this.parameter.dash_flag = 4;
+    // this.parameter.pro_id = this.pros;
     //property
     const input = {
       itemsPerPage: 10,
@@ -124,25 +142,25 @@ export class CommonService {
     }
     // this.spinner.show()
     forkJoin([
-      this.admin.postDataApi('propertyOutsideForSale', this.parameter),
+      //this.admin.postDataApi('propertyOutsideForSale', this.parameter),
       this.admin.postDataApi('projectHome', input),
       this.admin.postDataApi('propertyHome', input),
       this.admin.postDataApi('getAgencies', input),
       this.admin.postDataApi('getCollection', test),
       this.admin.postDataApi('propertyForSale', sale),
     ]).subscribe(success => {
-      this.parameter.keyword = '';
-      this.spinner.hide();
-      this.outside_items = success[0].data || [];
-      this.totalOutside = success[0].total_count;
-      localStorage.setItem('property_sale_outside', JSON.stringify(this.outside_items));
-      localStorage.setItem('property_outsid_total', JSON.stringify(this.totalOutside));
-      this.outside_items.forEach(function (element) {
-        element['price_per_square_meter'] =
-          (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
-      });
+      // this.parameter.keyword = '';
+      // this.spinner.hide();
+      // this.outside_items = success[0].data || [];
+      // this.totalOutside = success[0].total_count;
+      // localStorage.setItem('property_sale_outside', JSON.stringify(this.outside_items));
+      // localStorage.setItem('property_outsid_total', JSON.stringify(this.totalOutside));
+      // this.outside_items.forEach(function (element) {
+      //   element['price_per_square_meter'] =
+      //     (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
+      // });
       //project
-      this.homeData = success[1].data || [];
+      this.homeData = success[0].data || [];
       (this.possessionStatuses || []).forEach(r => {
         (this.homeData || []).forEach(ele => {
           if (ele.possession_status_id == r.id) {
@@ -161,11 +179,11 @@ export class CommonService {
         element['avgg_price'] = (((parseFloat(element.avg_price) || 0) / (parseFloat(element.avg_carpet_area) || 0)));
         element['avgg_price_hold'] = (((parseFloat(element.avg_price_hold) || 0) / (parseFloat(element.avg_carpet_area_hold) || 0)));
       });
-      this.total = success[1].total_count;
+      this.total = success[0].total_count;
       localStorage.setItem('project_data', JSON.stringify(this.homeData));
       localStorage.setItem('project_total', JSON.stringify(this.total));
       // //property home
-      this.propertyData = success[2].data || [];
+      this.propertyData = success[1].data || [];
       this.propertyData.forEach(function (element) {
         if (element.id == (element.collection || {}).property_id) {
           element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
@@ -173,15 +191,15 @@ export class CommonService {
           element['avgg_price'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         }
       });
-      this.totalProperty = success[2].total_count;
+      this.totalProperty = success[1].total_count;
       localStorage.setItem('property_data', JSON.stringify(this.propertyData));
       localStorage.setItem('property_total', JSON.stringify(this.totalProperty));
       //agencies
-      this.agencies = success[3].data || [];
-      this.totalAgencies = success[3].total_count;
+      this.agencies = success[2].data || [];
+      this.totalAgencies = success[2].total_count;
 
       //incomes
-      this.collections = success[4].data || [];
+      this.collections = success[3].data || [];
       this.collections.forEach(function (element) {
         element['avgg_price_per'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.final_price_per_m2) || 0)));
       });
@@ -258,15 +276,15 @@ export class CommonService {
         element['ac_receipt'] = ac_receipt == ac_active && ac_receipt != 0 ? 1 : 0;
         element['ac_invoice'] = ac_invoice == ac_active && ac_invoice != 0 ? 1 : 0;
       }
-      this.totalCollections = success[4].total_count;
+      this.totalCollections = success[3].total_count;
       localStorage.setItem('collections', JSON.stringify(this.collections));
       localStorage.setItem('collection_total', JSON.stringify(this.totalCollections));
 
       //propertyForSale
       this.parameter.keyword = '';
       this.spinner.hide();
-      this.items = success[5].data || [];
-      this.totalSale = success[5].total_count;
+      this.items = success[4].data || [];
+      this.totalSale = success[4].total_count;
       localStorage.setItem('property_sale_data', JSON.stringify(this.items));
       localStorage.setItem('property_sale_total', JSON.stringify(this.totalSale));
       this.items.forEach(function (element) {

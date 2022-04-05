@@ -64,7 +64,7 @@ class Invoice {
 export class OutsidePropertyForSaleComponent implements OnInit {
 
   [x: string]: any;
-
+  pros: any;
   selectedvalue: bank;
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -156,7 +156,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   found: any;
   initialCountry = { initialCountry: 'mx' };
   isShown = false;
-
+  loadingListing = true;
   constructor(
     public constant: Constant, private toastr: ToastrService,
     public apiConstant: ApiConstants, public admin: AdminService,
@@ -241,6 +241,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.cs.outside_items = JSON.parse(localStorage.getItem('property_sale_outside'));
     this.cs.totalOutside = JSON.parse(localStorage.getItem('property_outsid_total'));
     this.language_code = localStorage.getItem('language_code');
+    this.getOutsideUserProject();
     this.getPropertyHome();
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
@@ -299,7 +300,6 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.parameter.building_id = '0';
     this.parameter.broker_id = 1;
     this.getPropertyConfigurations();
-    //  this.getListing();
     this.getPropertyTypes();
     this.getPropertyAmenities();
     this.subscribeInstallmentFormGroup();
@@ -378,9 +378,11 @@ export class OutsidePropertyForSaleComponent implements OnInit {
 
   getListing() {
     this.spinner.show();
+    //this.loadingListing = true;
     this.makePostRequest();
     //this.parameter.availability_filter = 1;
     let input: any = JSON.parse(JSON.stringify(this.parameter));
+    input.pro_id = this.pros;
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
     } else {
@@ -425,10 +427,10 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     input.bedroom = this.parameter.bedroom;
     input.bathroom = this.parameter.bathroom;
     input.half_bathroom = this.parameter.half_bathroom;
-    if (this.found == 'can_outside_broker') {
-      input.admin_id = this.login_data_out.id;
-      console.log(input.admin_id, "list");
-    }
+    // if (this.found == 'can_outside_broker') {
+    //   input.admin_id = this.login_data_out.id;
+    //   console.log(input.admin_id, "list");
+    // }
     if (this.parameter.property_id) {
       input = {};
       input.flag = 3;
@@ -436,14 +438,14 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     }
     this.admin.postDataApi('propertyOutsideForSale', input).subscribe(
       success => {
-        this.is_filter = true;
-        // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
+        // this.is_filter = true;
         this.items = success.data;
+        this.spinner.hide();
         this.items.forEach(function (element) {
           element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         });
         this.total = success.total_count;
-        this.spinner.hide();
+        //this.spinner.hide();
       },
       error => {
         this.spinner.hide();
@@ -478,7 +480,6 @@ export class OutsidePropertyForSaleComponent implements OnInit {
         this.parameter.state_id = '0';
         this.parameter.building_id = '0';
       }
-      //this.getListing();
     });
   }
 
@@ -756,26 +757,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     });
   }
 
-  linkSellerPopUp(property_id: any, user_id: any, status: number) {
-    this.parameter.property_id = property_id;
-    this.parameter.user_id = user_id;
-    this.parameter.status = status;
-    this.parameter.title = this.translate.instant('message.error.areYouSure');
-    this.parameter.text = status === 1 ? this.translate.instant('message.error.wantToAccessThisRequest') :
-      this.translate.instant('message.error.wantToRejectThisRequest');
-    swal({
-      html: this.parameter.title + '<br>' + this.parameter.text,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: this.constant.confirmButtonColor,
-      cancelButtonColor: this.constant.cancelButtonColor,
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.changeStatusSellerSelection();
-      }
-    });
-  }
+
 
 
   showRejectSellerRequestModal(property_id: any, user_id: any, status: number) {
@@ -948,7 +930,22 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     });
   }
 
-
+  getOutsideUserProject() {
+    this.admin.postDataApi('getOutsideUserProject', {
+      admin_id: this.login_data_out.id
+    }).subscribe(r => {
+      this.spinner.hide();
+      let newArray = [];
+      r['data'].forEach(el => {
+        newArray.push(el.building_id);
+      });
+      this.pros = newArray;
+      this.getListing();
+    }, error => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
   attachExternalBrokerPopUp(broker: any, flag: number) {
 
     this.parameter.text = flag === 1 ? this.translate.instant('message.error.wantToLinkAgent') :
@@ -2059,8 +2056,6 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   updateCommercialized = (propertyDetails: any, is_commercialized): void => {
     propertyDetails.is_commercialized = is_commercialized;
     this.admin.postDataApi('updateCommercialized', { id: (propertyDetails || {}).id, is_commercialized: is_commercialized }).subscribe((success) => {
-      // this.spinner.hide();
-      // this.getListing();
       swal(this.translate.instant('swal.success'), this.translate.instant('message.success.commercializedStatusChanged'), 'success');
       this.closeModal();
     }, (error) => {

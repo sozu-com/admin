@@ -169,6 +169,7 @@ export interface IProperty {
   assignee_id?: string;
   min?: any;
   max?: any;
+  pro_id?: any;
   min_price?: any;
   max_price?: any;
   lead_sort?: number;
