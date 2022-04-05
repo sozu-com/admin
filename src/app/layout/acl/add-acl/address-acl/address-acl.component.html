@@ -15,7 +15,7 @@
       <label>{{'filters.location.state' | translate}} <span class="color-red">*</span></label>
       <select [disabled]="status" required class="form-control" (change)="getCitiesNew($event.target.value, 1)">
         <option value="" disabled>{{'filters.location.selectState' | translate}}</option>
-        <!-- <option value="0" [selected]="address.states!='' && address.states==0">{{'filters.location.allOption' | translate}}</option> -->
+        <option value="0" [selected]="address.states!='' && address.states==0">{{'filters.location.allOption' | translate}}</option>
         <option *ngFor="let stateAdd of parameter.statesAdd" [selected]="stateAdd.id == address.states" value="{{stateAdd.id}}">{{stateAdd.name}}</option>
       </select>
     </div>
@@ -25,7 +25,7 @@
       <label>{{'filters.location.city' | translate}} <span class="color-red">*</span></label>
       <select [disabled]="status" required class="form-control" (change)="getLocalitiesNew($event.target.value, 1)">
       <option value="" disabled>{{'filters.location.selectCity' | translate}}</option>
-      <!-- <option value="0" [selected]="address.cities!='' && address.cities==0">{{'filters.location.allOption' | translate}}</option> -->
+      <option value="0" [selected]="address.cities!='' && address.cities==0">{{'filters.location.allOption' | translate}}</option>
       <option *ngFor="let cityAdd of parameter.citiesAdd" [selected]="cityAdd.id == address.cities" value="{{cityAdd.id}}">{{cityAdd.name}}</option>
     </select>
     </div>
@@ -35,7 +35,7 @@
       <label>{{'filters.location.locality' | translate}} <span class="color-red">*</span></label>
       <select [disabled]="status" required class="form-control" (change)="getLocalityBuildings($event.target.value, 1)">
       <option value="" disabled>{{'filters.location.selectLocality' | translate}}</option>
-      <!-- <option value="0" [selected]="address.localities != '' && address.localities==0">{{'filters.location.allOption' | translate}}</option> -->
+      <option value="0" [selected]="address.localities != '' && address.localities==0">{{'filters.location.allOption' | translate}}</option>
       <option *ngFor="let localityAdd of parameter.localitiesAdd" [selected]="localityAdd.id == address.localities" value="{{localityAdd.id}}">{{localityAdd.name}}</option>
     </select>
     </div>
@@ -47,7 +47,7 @@
         <label>{{'filters.location.building' | translate}} <span class="color-red">*</span></label>
         <select [disabled]="status" required class="form-control" (change)="setBuilding($event.target.value, i)">
           <option value="" disabled>{{'filters.location.selectBuilding' | translate}}</option>
-          <!-- <option value="0" [selected]="address.buildings!='' && address.buildings==0">{{'filters.location.allOption' | translate}}</option> -->
+          <option value="0" [selected]="address.buildings!='' && address.buildings==0">{{'filters.location.allOption' | translate}}</option>
           <option *ngFor="let buildingAdd of parameter.buildingsAdd" [disabled]="buildingAdd.disabled" [selected]="buildingAdd.id == address.buildings" value="{{buildingAdd.id}}">{{buildingAdd.name}}</option>
         </select>
       </div>
