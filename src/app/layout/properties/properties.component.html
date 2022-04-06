@@ -2812,7 +2812,8 @@
                               {{offer.random_id}}
                            </a>
                         </td>
-                        <td style="width: 30%;">{{offer.admins.name ? offer.admins.name : ('viewProperty.NA' | translate)}}</td>
+                        <td style="width: 30%;">{{offer.admins ? offer.admins.name : offer.developer_access_id ? offer.developer_access.name : offer.legal_entity ? 
+                           offer.legal_entity_id.name : ('viewProperty.NA' | translate)}}</td>
                         <td>{{offer.name ? offer.name : ('viewProperty.NA' | translate)}}</td>
                         <td>{{offer.created_at | date }}</td>
                         <td> <button class="action-icon"
