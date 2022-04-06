@@ -135,6 +135,7 @@
                             <tr>
                                 <td style="padding-left:0"><label>{{'leadDetails.favoriteProperties' |
                                         translate}}</label></td>
+                               
                                 <td>{{parameter.fav_properties_count}}
                                     <a style="display: none;" data-toggle="modal" #showPropertyModal
                                         data-target="#view-fav-property" class="view-all"
@@ -143,7 +144,26 @@
                                         (click)="viewFavProperties()">{{'leadDetails.viewAll' | translate}}</a>
                                 </td>
                             </tr>
-
+                            <tr>
+                                <td style="padding-left:0">
+                                    <label>{{'leadDetails.sch' | translate}}</label>
+                                </td>
+                                <td *ngIf="leadData?.schedules == '1'">
+                                    9 am - 12 am
+                                </td>
+                                <td *ngIf="leadData?.schedules == '2'">
+                                    12 am - 15 pm
+                                </td>
+                                <td *ngIf="leadData?.schedules == '3'">
+                                    15 am - 18 pm
+                                </td>
+                                <td *ngIf="leadData?.schedules == '4'">
+                                    18 pm en adelante
+                                </td>
+                                <td *ngIf="!leadData?.schedules">
+                                    0
+                                </td>
+                            </tr>
                             <!-- Meeting Schedule -->
                             <tr *ngIf="leadData?.sale_rent==1">
                                 <td style="padding-left:0"><label><strong>{{'leadDetails.meetingSchedule' |
