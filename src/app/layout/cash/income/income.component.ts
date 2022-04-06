@@ -77,7 +77,7 @@ export class IncomeComponent implements OnInit {
     this.getCountries();
     this.initCalendarLocale();
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = 2;
+    this.parameter.dash_flag = 4;
     this.parameter.itemsPerPage = 10;
   }
   getPaymentMethods() {
@@ -379,7 +379,7 @@ export class IncomeComponent implements OnInit {
   }
 
   getPayment = (): void => {
-    this.admin.postDataApi('getPaymentChoice', {status: 1}).subscribe((response) => {
+    this.admin.postDataApi('getPaymentChoice', { status: 1 }).subscribe((response) => {
       this.paymentChoices = response.data;
     }, (error) => {
       this.spinner.hide();
@@ -604,7 +604,7 @@ export class IncomeComponent implements OnInit {
     this.onCountryChange('0');
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
-    this.parameter.dash_flag = 2;
+    this.parameter.dash_flag = 4;
     this.parameter.total = 0;
     this.parameter.count_flag = 1;
     this.is_back = false
