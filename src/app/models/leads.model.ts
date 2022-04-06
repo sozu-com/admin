@@ -10,6 +10,7 @@ export class Leads {
     min_price_per_m2: any;
     max_price_per_m2: any;
     list_price: any;
+    schedules: any;
     list_min_price: any;
     list_max_price: any;
     carpet: any;
