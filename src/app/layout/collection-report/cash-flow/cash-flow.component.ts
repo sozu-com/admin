@@ -38,6 +38,7 @@ export class CashFlowComponent implements OnInit {
   expectedTotal: any;
   actualTotal: any;
   pay_method_Total: any;
+  actual_Total: any;
   expectedData: any;
   actualData: Array<any>;
   paymentChoices: Array<any>;
@@ -671,6 +672,8 @@ export class CashFlowComponent implements OnInit {
         contentFormatter: function (e) {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
+            var total = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
+            this.actual_Total = (total).toFixed(2);
             if (i == 0) {
               content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
@@ -696,6 +699,8 @@ export class CashFlowComponent implements OnInit {
               content += "<br/>";
             }
           }
+          content += "<span style='color:purple;'> Total </span>" + "   " + self.price.transform(this.actual_Total);
+          content += "<br/>";
           return content;
         }
       },
