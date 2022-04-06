@@ -551,7 +551,7 @@ export class AddPropertyComponent implements OnInit {
     for (let index = 0; index < data.carpet_areas.length; index++) {
       const element = data.carpet_areas[index];
       this.model.carpet_areas[index] = { area: element.area, price: element.price, rent_price: element.rent_price };
-      this.newcarpet_area = { inside_m2: element.inside_m2 , outside_m2: element.outside_m2, area: element.area, price: element.price, rent_price: element.rent_price };
+      this.newcarpet_area = { inside_m2: element.inside_m2, outside_m2: element.outside_m2, area: element.area, price: element.price, rent_price: element.rent_price };
     }
 
     for (let index = 0; index < data.custom_values.length; index++) {
@@ -871,7 +871,7 @@ export class AddPropertyComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseFillCarpetAreaFields'), 'error');
     } else {
       this.model.carpet_areas.push(JSON.parse(JSON.stringify(this.newcarpet_area)));
-      this.newcarpet_area = { inside_m2: '' , outside_m2: '', area: '', price: '', rent_price: '' };
+      this.newcarpet_area = { inside_m2: '', outside_m2: '', area: '', price: '', rent_price: '' };
     }
   }
 
@@ -1315,8 +1315,8 @@ export class AddPropertyComponent implements OnInit {
               });
 
               if (self.router.url.indexOf('/dashboard/properties/edit-property') <= 0) {
-                this.router.navigate(['/dashboard/properties/view-properties']);
-                //this.router.navigate(['/dashboard/properties/view-properties', { for: 'go' }]);
+                //this.router.navigate(['/dashboard/properties/view-properties']);
+                this.router.navigate(['/dashboard/properties/view-properties', { for: 'go' }]);
               }
             }
             this.parameter.property_id = success['data'].id;
