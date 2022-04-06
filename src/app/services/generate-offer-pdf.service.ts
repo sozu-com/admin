@@ -977,7 +977,7 @@ export class GenerateOfferPdfService {
         this.offer_array[0].interest ? this.property_array.min_price + (Number(this.offer_array[0].interest) * this.property_array.min_price) / 100 : this.property_array.min_price;
         let diffCount = this.offer_array[0].number_monthly_payments ? this.offer_array[0].number_monthly_payments + ' mensualidades:' :
           'mensualidades:';
-        let Monthpayment = Number((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100);
+        let Monthpayment = Number((Number(this.offer_array[0].monthly_installment) * price) / 100);
         let installment = this.offer_array[0].number_monthly_payments ? this.price.transform((Monthpayment / (Number(this.offer_array[0].number_monthly_payments))).toFixed(2)) : undefined;
 
         docDefinition.content.splice(3, 0,
@@ -995,7 +995,7 @@ export class GenerateOfferPdfService {
                       { text: '', border: [false, false, false, false], fontSize: 10 },
                     ],
                     [
-                      { text: 'Precio con descuento:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                      { text: 'Precio final:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                       { text: price ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                     ],
                     [
@@ -1113,28 +1113,30 @@ export class GenerateOfferPdfService {
           });
       }
       else {
-        let price = this.offer_array[this.offer_array.length - (i + 1)].discount ? this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100
-        : this.offer_array[this.offer_array.length - (i + 1)].interest ? this.property_array.min_price + (Number(this.offer_array[this.offer_array.length - (i + 1)].interest) * this.property_array.min_price) / 100 : 
+        let index1 = i == 0 ? i + 1 : i + 2;
+        let index2 = i == 0 ? i + 2 : i + 3;
+        let price = this.offer_array[this.offer_array.length - (index1)].discount ? this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - index1].discount) * this.property_array.min_price) / 100
+        : this.offer_array[this.offer_array.length - index1].interest ? this.property_array.min_price + (Number(this.offer_array[this.offer_array.length - index1].interest) * this.property_array.min_price) / 100 : 
         this.property_array.min_price;
-        let diffCount = this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ?
-          this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments + ' mensualidades:' : 'mensualidades:';
+        let diffCount = this.offer_array[this.offer_array.length - (index1)].number_monthly_payments ?
+          this.offer_array[this.offer_array.length - index1].number_monthly_payments + ' mensualidades:' : 'mensualidades:';
 
-        let Monthpayment = Number((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100);
+        let Monthpayment = Number((Number(this.offer_array[this.offer_array.length - index1].monthly_installment) * price) / 100);
 
-        let installment = this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments ? this.price.transform((Monthpayment / (Number(this.offer_array[this.offer_array.length - (i + 1)].number_monthly_payments))).toFixed(2)) : undefined;
+        let installment = this.offer_array[this.offer_array.length - index1].number_monthly_payments ? this.price.transform((Monthpayment / (Number(this.offer_array[this.offer_array.length - index1].number_monthly_payments))).toFixed(2)) : undefined;
 
-        if (this.offer_array.length - (i + 2)) {
-          let price1 = this.offer_array[this.offer_array.length - (i + 2)].discount ? this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - (i + 2)].discount) * this.property_array.min_price) / 100
-          : this.offer_array[this.offer_array.length - (i + 2)].this.property_array.min_price ? this.property_array.min_price + (Number(this.offer_array[this.offer_array.length - (i + 2)].interest) * this.property_array.min_price) / 100 : 
+        if (this.offer_array.length - index2 >= 0) {
+          let price1 = this.offer_array[this.offer_array.length - index2].discount ? this.property_array.min_price - (Number(this.offer_array[this.offer_array.length - index2].discount) * this.property_array.min_price) / 100
+          : this.offer_array[this.offer_array.length - index2].interest ? this.property_array.min_price + (Number(this.offer_array[this.offer_array.length - index2].interest) * this.property_array.min_price) / 100 : 
           this.property_array.min_price;
-          let diffCount1 = this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments ? this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments + ' mensualidades:' : 'mensualidades:'
-          let Monthpayment1 = Number((Number(this.offer_array[this.offer_array.length - (i + 2)].monthly_installment) * price1) / 100);
-          let installment1 = this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments ? this.price.transform((Monthpayment1 / (Number(this.offer_array[this.offer_array.length - (i + 2)].number_monthly_payments))).toFixed(2)) : undefined;
+          let diffCount1 = this.offer_array[this.offer_array.length - index2].number_monthly_payments ? this.offer_array[this.offer_array.length - index2].number_monthly_payments + ' mensualidades:' : 'mensualidades:'
+          let Monthpayment1 = Number((Number(this.offer_array[this.offer_array.length - index2].monthly_installment) * price1) / 100);
+          let installment1 = this.offer_array[this.offer_array.length - index2].number_monthly_payments ? this.price.transform((Monthpayment1 / (Number(this.offer_array[this.offer_array.length - index2].number_monthly_payments))).toFixed(2)) : undefined;
 
           docDefinition.content.splice(3 + i, 0,
             {
               columns: [
-                this.offer_array[this.offer_array.length - (i + 1)].monthly_installment ? 
+                this.offer_array[this.offer_array.length - index1].monthly_installment ? 
                 {
                   style: 'table1',
                   table: {
@@ -1142,25 +1144,25 @@ export class GenerateOfferPdfService {
                     widths: [100, 100],
                     body: [
                       [
-                        { text: this.offer_array[this.offer_array.length - (i + 1)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
+                        { text: this.offer_array[this.offer_array.length - index1].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
                         { text: '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: 'Precio con descuento:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: 'Precio final:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: price ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? '' : this.offer_array[this.offer_array.length - (i + 1)].interest ? 'Interés' : 
-                        'Ahorro:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
-                        { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                        this.offer_array[this.offer_array.length - (i + 1)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
+                        { text: this.offer_array[this.offer_array.length - index1].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - index1].interest ? 'Interés' : 
+                        '', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: this.offer_array[this.offer_array.length - index1].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - index1].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
+                        this.offer_array[this.offer_array.length - index1].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - index1].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         {
                           text: [
-                            { text: this.offer_array[this.offer_array.length - (i + 1)].downpayment ? this.offer_array[this.offer_array.length - (i + 1)].downpayment + '%' : '', bold: true },
-                            { text: this.offer_array[this.offer_array.length - (i + 1)].downpayment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].downpayment) * price) / 100).toFixed(2)) : "0" }
+                            { text: this.offer_array[this.offer_array.length - index1].downpayment ? this.offer_array[this.offer_array.length - index1].downpayment + '%' : '', bold: true },
+                            { text: this.offer_array[this.offer_array.length - index1].downpayment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index1].downpayment) * price) / 100).toFixed(2)) : "0" }
                           ], border: [false, false, false, false], fontSize: 10
                         },
                       ],
@@ -1168,8 +1170,8 @@ export class GenerateOfferPdfService {
                         { text: 'Durante la obra:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         {
                           text: [
-                            { text: this.offer_array[this.offer_array.length - (i + 1)].monthly_installment ? this.offer_array[this.offer_array.length - (i + 1)].monthly_installment + '%' : '', bold: true },
-                            { text: this.offer_array[this.offer_array.length - (i + 1)].monthly_installment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100).toFixed(2)) : "0" }
+                            { text: this.offer_array[this.offer_array.length - index1].monthly_installment ? this.offer_array[this.offer_array.length - index1].monthly_installment + '%' : '', bold: true },
+                            { text: this.offer_array[this.offer_array.length - index1].monthly_installment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index1].monthly_installment) * price) / 100).toFixed(2)) : "0" }
                           ], border: [false, false, false, false], fontSize: 10
                         },
                       ],
@@ -1181,8 +1183,8 @@ export class GenerateOfferPdfService {
                         { text: 'A la entrega:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         {
                           text: [
-                            { text: this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery ? this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery + '%' : '', bold: true },
-                            { text: this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery) * price) / 100).toFixed(2)) : "0" }
+                            { text: this.offer_array[this.offer_array.length - index1].payment_upon_delivery ? this.offer_array[this.offer_array.length - index1].payment_upon_delivery + '%' : '', bold: true },
+                            { text: this.offer_array[this.offer_array.length - index1].payment_upon_delivery ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index1].payment_upon_delivery) * price) / 100).toFixed(2)) : "0" }
                           ], border: [false, false, false, false], fontSize: 10
                         },
                       ]
@@ -1210,38 +1212,38 @@ export class GenerateOfferPdfService {
                     widths: [100, 100],
                     body: [
                       [
-                        { text: this.offer_array[this.offer_array.length - (i + 1)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
+                        { text: this.offer_array[this.offer_array.length - index1].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
                         { text: '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: 'Precio con descuento:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: 'Precio final:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: price ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - (i + 1)].interest ? 'Interés' : 
+                        { text: this.offer_array[this.offer_array.length - index1].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - index1].interest ? 'Interés' : 
                         '', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
-                        { text: this.offer_array[this.offer_array.length - (i + 1)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                        this.offer_array[this.offer_array.length - (i + 1)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
+                        { text: this.offer_array[this.offer_array.length - index1].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - index1].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
+                        this.offer_array[this.offer_array.length - index1].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - index1].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: [ 
-                          { text: this.offer_array[this.offer_array.length - (i + 1)].downpayment ? this.offer_array[this.offer_array.length - (i + 1)].downpayment + '%' : '', bold: true},
-                          { text: this.offer_array[this.offer_array.length - (i + 1)].downpayment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].downpayment) * price) / 100).toFixed(2)) : "0" }
+                          { text: this.offer_array[this.offer_array.length - index1].downpayment ? this.offer_array[this.offer_array.length - index1].downpayment + '%' : '', bold: true},
+                          { text: this.offer_array[this.offer_array.length - index1].downpayment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index1].downpayment) * price) / 100).toFixed(2)) : "0" }
                         ], border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Durante la obra:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text:[
-                        { text:this.offer_array[this.offer_array.length - (i + 1)].monthly_installment ? this.offer_array[this.offer_array.length - (i + 1)].monthly_installment + '%' : '', bold: true },
-                        { text: this.offer_array[this.offer_array.length - (i + 1)].monthly_installment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].monthly_installment) * price) / 100).toFixed(2)) : "0" }
+                        { text:this.offer_array[this.offer_array.length - index1].monthly_installment ? this.offer_array[this.offer_array.length - index1].monthly_installment + '%' : '', bold: true },
+                        { text: this.offer_array[this.offer_array.length - index1].monthly_installment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index1].monthly_installment) * price) / 100).toFixed(2)) : "0" }
                         ], border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'A la entrega:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: [
-                          { text: this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery ? this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery + '%' : '', bold: true },
-                          { text: this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 1)].payment_upon_delivery) * price) / 100).toFixed(2)) : "0" }
+                          { text: this.offer_array[this.offer_array.length - index1].payment_upon_delivery ? this.offer_array[this.offer_array.length - index1].payment_upon_delivery + '%' : '', bold: true },
+                          { text: this.offer_array[this.offer_array.length - index1].payment_upon_delivery ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index1].payment_upon_delivery) * price) / 100).toFixed(2)) : "0" }
                         ], border: [false, false, false, false], fontSize: 10 },
                       ]
                     ],
@@ -1261,7 +1263,7 @@ export class GenerateOfferPdfService {
                     }
                   }
                 },
-                this.offer_array[this.offer_array.length - (i + 2)].monthly_installment ? 
+                this.offer_array[this.offer_array.length - index2].monthly_installment ? 
                 {
                   style: 'table1',
                   table: {
@@ -1269,25 +1271,25 @@ export class GenerateOfferPdfService {
                     widths: [100, 100],
                     body: [
                       [
-                        { text: this.offer_array[this.offer_array.length - (i + 2)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
+                        { text: this.offer_array[this.offer_array.length - index2].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
                         { text: '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: 'Precio con descuento:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
-                        { text: price1 ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
+                        { text: 'Precio final:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: price1 ? this.price.transform(Number(price1).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: this.offer_array[this.offer_array.length - (i + 2)].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - (i + 2)].interest ? 'Interés' : 
+                        { text: this.offer_array[this.offer_array.length - index2].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - index2].interest ? 'Interés' : 
                         '', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
-                        { text: this.offer_array[this.offer_array.length - (i + 2)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                        this.offer_array[this.offer_array.length - (i + 2)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
+                        { text: this.offer_array[this.offer_array.length - index2].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - index2].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
+                        this.offer_array[this.offer_array.length - index2].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - index2].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         {
                           text: [
-                            { text: this.offer_array[this.offer_array.length - (i + 2)].downpayment ? this.offer_array[this.offer_array.length - (i + 2)].downpayment + '%' : '', bold: true },
-                            { text: this.offer_array[this.offer_array.length - (i + 2)].downpayment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].downpayment) * price1) / 100).toFixed(2)) : "0" }
+                            { text: this.offer_array[this.offer_array.length - index2].downpayment ? this.offer_array[this.offer_array.length - index2].downpayment + '%' : '', bold: true },
+                            { text: this.offer_array[this.offer_array.length - index2].downpayment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index2].downpayment) * price1) / 100).toFixed(2)) : "0" }
                           ], border: [false, false, false, false], fontSize: 10
                         },
                       ],
@@ -1295,8 +1297,8 @@ export class GenerateOfferPdfService {
                         { text: 'Durante la obra:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         {
                           text: [
-                            { text: this.offer_array[this.offer_array.length - (i + 2)].monthly_installment ? this.offer_array[this.offer_array.length - (i + 2)].monthly_installment + '%' : '', bold: true },
-                            { text: this.offer_array[this.offer_array.length - (i + 2)].monthly_installment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].monthly_installment) * price1) / 100).toFixed(2)) : "0" }
+                            { text: this.offer_array[this.offer_array.length - index2].monthly_installment ? this.offer_array[this.offer_array.length - index2].monthly_installment + '%' : '', bold: true },
+                            { text: this.offer_array[this.offer_array.length - index2].monthly_installment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index2].monthly_installment) * price1) / 100).toFixed(2)) : "0" }
                           ], border: [false, false, false, false], fontSize: 10
                         },
                       ],
@@ -1308,8 +1310,8 @@ export class GenerateOfferPdfService {
                         { text: 'A la entrega:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         {
                           text: [
-                            { text: this.offer_array[this.offer_array.length - (i + 2)].payment_upon_delivery ? this.offer_array[this.offer_array.length - (i + 2)].payment_upon_delivery + '%' : '', bold: true },
-                            { text: this.offer_array[this.offer_array.length - (i + 2)].payment_upon_delivery ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].payment_upon_delivery) * price1) / 100).toFixed(2)) : "0" }
+                            { text: this.offer_array[this.offer_array.length - index2].payment_upon_delivery ? this.offer_array[this.offer_array.length - index2].payment_upon_delivery + '%' : '', bold: true },
+                            { text: this.offer_array[this.offer_array.length - index2].payment_upon_delivery ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index2].payment_upon_delivery) * price1) / 100).toFixed(2)) : "0" }
                           ], border: [false, false, false, false], fontSize: 10
                         },
                       ]
@@ -1337,38 +1339,38 @@ export class GenerateOfferPdfService {
                     widths: [100, 100],
                     body: [
                       [
-                        { text: this.offer_array[this.offer_array.length - (i + 2)].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
+                        { text: this.offer_array[this.offer_array.length - index2].payment_name, bold: true, colSpan: 2, border: [false, false, false, false], fontSize: 11, margin: [0, 0, 0, 0] },
                         { text: '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: 'Precio con descuento:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
-                        { text: price1 ? this.price.transform(Number(price).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
+                        { text: 'Precio final:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: price1 ? this.price.transform(Number(price1).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: this.offer_array[this.offer_array.length - (i + 2)].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - (i + 2)].interest ? '' : 
+                        { text: this.offer_array[this.offer_array.length - index2].discount ? 'Ahorro:' : this.offer_array[this.offer_array.length - index2].interest ? '' : 
                         'Ahorro:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
-                        { text: this.offer_array[this.offer_array.length - (i + 2)].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
-                        this.offer_array[this.offer_array.length - (i + 2)].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
+                        { text: this.offer_array[this.offer_array.length - index2].discount ? this.price.transform(((Number(this.offer_array[this.offer_array.length - index2].discount) * this.property_array.min_price) / 100).toFixed(2)) : 
+                        this.offer_array[this.offer_array.length - index2].interest ? this.price.transform(((Number(this.offer_array[this.offer_array.length - index2].interest) * this.property_array.min_price) / 100).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Enganche:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: [
-                        { text: this.offer_array[this.offer_array.length - (i + 2)].downpayment ? this.offer_array[this.offer_array.length - (i + 2)].downpayment + '%' : '', bold: true }, 
-                        { text: this.offer_array[this.offer_array.length - (i + 2)].downpayment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].discount) * price1) / 100).toFixed(2)) : "0" }
+                        { text: this.offer_array[this.offer_array.length - index2].downpayment ? this.offer_array[this.offer_array.length - index2].downpayment + '%' : '', bold: true }, 
+                        { text: this.offer_array[this.offer_array.length - index2].downpayment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index2].discount) * price1) / 100).toFixed(2)) : "0" }
                         ], border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'Durante la obra:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: [
-                          { text: this.offer_array[this.offer_array.length - (i + 2)].monthly_installment ? this.offer_array[this.offer_array.length - (i + 2)].monthly_installment + '%' : '', bold: true  },
-                          { text: this.offer_array[this.offer_array.length - (i + 2)].monthly_installment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].monthly_installment) * price1) / 100).toFixed(2)) : "0" }
+                          { text: this.offer_array[this.offer_array.length - index2].monthly_installment ? this.offer_array[this.offer_array.length - index2].monthly_installment + '%' : '', bold: true  },
+                          { text: this.offer_array[this.offer_array.length - index2].monthly_installment ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index2].monthly_installment) * price1) / 100).toFixed(2)) : "0" }
                         ], border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
                         { text: 'A la entrega:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: [
-                          { text: this.offer_array[this.offer_array.length - (i + 2)].payment_upon_delivery ? this.offer_array[this.offer_array.length - (i + 2)].payment_upon_delivery + '%' : '', bold: true },
-                          { text: this.offer_array[this.offer_array.length - (i + 2)].payment_upon_delivery ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - (i + 2)].payment_upon_delivery) * price1) / 100).toFixed(2)) : "0" }
+                          { text: this.offer_array[this.offer_array.length - index2].payment_upon_delivery ? this.offer_array[this.offer_array.length - index2].payment_upon_delivery + '%' : '', bold: true },
+                          { text: this.offer_array[this.offer_array.length - index2].payment_upon_delivery ? '  ' + this.price.transform(((Number(this.offer_array[this.offer_array.length - index2].payment_upon_delivery) * price1) / 100).toFixed(2)) : "0" }
                         ], border: [false, false, false, false], fontSize: 10 },
                       ]
                     ],
@@ -1414,7 +1416,7 @@ export class GenerateOfferPdfService {
                         { text: '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: 'Precio con descuento:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: 'Precio final:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: price2 ? this.price.transform(Number(price2).toFixed(2)) : '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
@@ -1481,7 +1483,7 @@ export class GenerateOfferPdfService {
                         { text: '', border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
-                        { text: 'Precio con descuento:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
+                        { text: 'Precio final:', bold: true, border: [false, false, false, false], fontSize: 10, margin: [0, 0, 0, 0] },
                         { text: this.offer_array[0].discount ? this.price.transform(Number(this.property_array.min_price - ((Number(this.offer_array[0].discount) * this.property_array.min_price) / 100)).toFixed(2)) : this.price.transform(Number(this.property_array.min_price).toFixed(2)), border: [false, false, false, false], fontSize: 10 },
                       ],
                       [
@@ -1579,9 +1581,9 @@ export class GenerateOfferPdfService {
   //       );
   //     }
   //     else{
-  //       let item = this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 1)];
-  //       if(this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 2)]){
-  //       let item1 = this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - (i + 2)];
+  //       let item = this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - index1];
+  //       if(this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - index2]){
+  //       let item1 = this.property_array.selected_seller.user.legal_rep_banks[this.property_array.selected_seller.user.legal_rep_banks.length - index2];
   //       docDefinition.content.splice(6 + i, 0,
   //       {
   //         columns: [
