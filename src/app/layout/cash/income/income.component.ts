@@ -476,7 +476,7 @@ export class IncomeComponent implements OnInit {
     } else {
       delete input.deal_purchase_date;
     }
-
+    input.payment_choice_id = this.selectedValue;
     input.is_approved = this.parameter.flag;
     input.page = 0;
     this.admin.postDataApi('getIncomeHomeData', input).subscribe((success) => {
@@ -506,7 +506,7 @@ export class IncomeComponent implements OnInit {
           'Collection ID': p.collection_payment_choice.property_collection_id || '',
           'Buyer Name': (p.property_collection.buyer_type == 2) ? (p.buyer_legal_entity || {}).comm_name || '' : (p.buyer || {}).name + ' ' + (p.buyer || {}).first_surname + ' ' + (p.buyer || {}).second_surname || '',
           'Payment concept': p.collection_payment_choice.name || '',
-          'Payment date': p.collection_payment_choice.date,
+          'Payment date': p.payment_date,
           'Amount paid': p.amount || '',
           'Name of Building': p.building.name || '',
           'Apartment': p.property.name || '',

@@ -304,11 +304,12 @@
       <div class="white-bg">
         <div class="top-main-img-outer">
           <div class="col-lg-2 col-sm-12 col-12">
-            <div class="avl">{{'addForm.availableForSale' | translate}}
+            <div class="avl" *ngIf="!property?.for_hold">{{'addForm.availableForSale' | translate}}
               <span *ngIf="property?.for_rent">{{'propertyDetail.rent' | translate}}</span>
               <span *ngIf="property?.for_rent && property?.for_sale">/</span>
               <span *ngIf="property?.for_sale">{{'propertyDetail.sale' | translate}}</span>
           </div>
+          <div class="avl" *ngIf="property?.for_hold">{{'addForm.sold' | translate}}</div>
           </div>
           <div class="col-lg-10 col-sm-12 col-12">
             <div class="btn-cont text-right">
