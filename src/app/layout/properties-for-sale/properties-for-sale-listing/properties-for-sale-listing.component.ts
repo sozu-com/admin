@@ -155,6 +155,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   found: any;
   initialCountry = { initialCountry: 'mx' };
   isShown = false;
+  availabilityStatus = Array<any>();
 
   constructor(
     public constant: Constant, private toastr: ToastrService,
@@ -249,6 +250,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.cs.items = JSON.parse(localStorage.getItem('property_sale_data'));
     this.cs.totalSale = JSON.parse(localStorage.getItem('property_sale_total'));
     this.language_code = localStorage.getItem('language_code');
+    this.getPropertyFilter();
     this.getPropertyHome();
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
@@ -327,6 +329,16 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.getParametersForProperty();
   }
 
+  getPropertyFilter() {
+    this.availabilityStatus = [
+      //{ id: 0, name_en: 'All', name_es: 'All'},
+      { id: 1, name_en: 'For Sale', name_es: 'En venta' },
+      { id: 2, name_en: 'Rent', name_es: 'Renta' },
+      { id: 3, name_en: 'Inventory', name_es: 'Inventario' },
+      { id: 4, name_en: 'For Sale & Rent', name_es: 'En venta & Renta' }
+    ];
+  }
+
   getParametersForProperty = (): void => {
     if (this.is_back) {
       this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForProperty'));
@@ -384,11 +396,25 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     $('.modal').modal('hide');
   }
 
-  getListing() {
+  getListing(data, value) {
     this.spinner.show();
     this.makePostRequest();
     //this.parameter.availability_filter = 1;
     let input: any = JSON.parse(JSON.stringify(this.parameter));
+    if (value) {
+      this.value = data;
+      this.value1 = value;
+      if (data == "all") {
+        const d = value.map(o => o.id);
+        input.availability_filter = d;
+      } else if (data == "select") {
+        const d = this.parameter.availability_filter.map(o => o.id);
+        input.availability_filter = d;
+      } else if (data == "unselect") {
+        const d = this.parameter.availability_filter.map(o => o.id);
+        input.availability_filter = d;
+      }
+    }
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
     } else {
@@ -460,7 +486,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
 
   searchProperties() {
     this.close();
-    this.getListing();
+    this.getListing(null, null);
   }
 
 
@@ -663,12 +689,12 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     } else {
       this.parameter.sort_by_order = this.parameter.sort_by_order ? 0 : 1;
     }
-    this.getListing();
+    this.getListing(null, null);
   }
 
   getPage(page) {
     this.parameter.page = page;
-    this.getListing();
+    this.getListing(null, null);
   }
 
   openCancellationModal(item, status) {
@@ -709,7 +735,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.parameter.property_type_id = null;
     this.selctedAmenities = [];
     this.parameter.parking_for_sale = null;
-    this.getListing();
+    this.getListing(null, null);
   }
 
   showAllSellers(property_id: any, index: any) {
@@ -1158,11 +1184,11 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Half Bath'] : undefined;
         this.selectedPropertyColumnsToShow.list_price == 0 ? delete obj['List Price'] : undefined;
         this.selectedPropertyColumnsToShow.carpet_area == 0 ? delete obj['Carpet Area'] : undefined;
-        this.selectedPropertyColumnsToShow.commercialized_sozu == 0 ? delete obj['Commercialized by SOZU'] : undefined;
+        //this.selectedPropertyColumnsToShow.commercialized_sozu == 0 ? delete obj['Commercialized by SOZU'] : undefined;
         this.selectedPropertyColumnsToShow.possession_status == 0 ? delete obj['Possession Status'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_seller == 0 ? delete obj['Seller'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
-        this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
+       // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_seller == 0 ? delete obj['Seller'] : undefined;
+       // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
+       // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
         this.selectedPropertyColumnsToShow.price_per_m2 == 0 ? delete obj['Price per m2'] : undefined;
         this.selectedPropertyColumnsToShow.property_sale_id == 0 ? delete obj['ID'] : undefined;
         exportfinalData.push(obj);
@@ -1665,7 +1691,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       //   //this.generatePDF();
       this.offerPdf.offerID(this.offer_id, this.property_array, true);
       this.closeModalInstallment();
-      this.getListing();
+      this.getListing(null, null);
       this.spinner.hide();
     });
     // } else {
@@ -2122,22 +2148,24 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   getPostRequestForColumn = (): any => {
     return {
       user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-      building_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
-      tower_name: (this.select_columns_list[1] || []).isCheckBoxChecked,
-      floor: (this.select_columns_list[2] || []).isCheckBoxChecked,
-      apartment: (this.select_columns_list[3] || []).isCheckBoxChecked,
-      model: (this.select_columns_list[4] || []).isCheckBoxChecked,
-      configuration: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      list_price: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      carpet_area: (this.select_columns_list[7] || []).isCheckBoxChecked,
-      commercialized_sozu: (this.select_columns_list[8] || []).isCheckBoxChecked,
-      possession_status: (this.select_columns_list[9] || []).isCheckBoxChecked,
-      change_seller: (this.select_columns_list[10] || []).isCheckBoxChecked,
-      link_unlink_outside_agent: (this.select_columns_list[13] || []).isCheckBoxChecked,
-      link_agency: (this.select_columns_list[11] || []).isCheckBoxChecked,
+      building_name: (this.select_columns_list[9] || []).isCheckBoxChecked,
+      tower_name: (this.select_columns_list[10] || []).isCheckBoxChecked,
+      floor: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      apartment: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      model: (this.select_columns_list[8] || []).isCheckBoxChecked,
+      configuration: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      list_price: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      carpet_area: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      //commercialized_sozu: (this.select_columns_list[8] || []).isCheckBoxChecked,
+      possession_status: (this.select_columns_list[11] || []).isCheckBoxChecked,
+      //change_seller: (this.select_columns_list[10] || []).isCheckBoxChecked,
+      //link_unlink_outside_agent: (this.select_columns_list[13] || []).isCheckBoxChecked,
+      //link_agency: (this.select_columns_list[11] || []).isCheckBoxChecked,
       price_per_m2: (this.select_columns_list[12] || []).isCheckBoxChecked,
-      id: (this.select_columns_list[14] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[15] || []).isCheckBoxChecked
+      id: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      change_availability: (this.select_columns_list[2] || []).isCheckBoxChecked
+      
     };
   }
   updateCommercialized = (propertyDetails: any, is_commercialized): void => {
@@ -2208,21 +2236,21 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       case 11:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.carpet_area;
         break;
-      case 12:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.commercialized_sozu;
-        break;
+      // case 12:
+      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.commercialized_sozu;
+      //   break;
       case 13:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.possession_status;
         break;
-      case 19:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_seller;
-        break;
-      case 20:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_agency;
-        break;
-      case 29:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_outside_agent;
-        break;
+      // case 19:
+      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_seller;
+      //   break;
+      // case 20:
+      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_agency;
+      //   break;
+      // case 29:
+      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_outside_agent;
+      //   break;
       case 27:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.price_per_m2;
         break;
@@ -2234,6 +2262,9 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         break;
       case 31:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
+        break;
+      case 32:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_availability;
         break;
       default:
         break;

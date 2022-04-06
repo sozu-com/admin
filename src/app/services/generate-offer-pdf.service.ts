@@ -554,7 +554,15 @@ export class GenerateOfferPdfService {
     let seller_name = this.property_array.selected_seller && this.property_array.selected_seller.user.developer_company == '' && !this.property_array.selected_seller.user.legal_entity ? this.property_array.selected_seller.user.name 
                     + ' ' + this.property_array.selected_seller.user.first_surname + ' ' + this.property_array.selected_seller.user.second_surname : 
                     this.property_array.selected_seller && this.property_array.selected_seller.user.legal_entity ? this.property_array.selected_seller.user.legal_entity.legal_name : 
-                    this.property_array.selected_seller.user.developer_company
+                    this.property_array.selected_seller.user.developer_company;
+    this.fullName = this.offer.legal_entity ? (this.offer.legal_entity_id.name || '') + ' ' + (this.offer.legal_entity_id.first_surname || '') + ' ' + (this.offer.legal_entity_id.second_surname || '') :
+                    this.offer.developer_access_id ? (this.offer.developer_access.name || '') + ' ' + (this.offer.developer_access.first_surname || '') + ' ' + (this.offer.developer_access.second_surname || '') : 
+                    this.offer.admins ? (this.offer.admins.name || '') + ' ' + (this.offer.admins.first_surname || '') + ' ' + (this.offer.admins.second_surname || '') : this.fullName; 
+    this.phone = this.offer.legal_entity ? (this.offer.legal_entity_id.dial_code || '') + ' ' + (this.offer.legal_entity_id.phone || '' ) : this.offer.developer_access_id ? 
+    (this.offer.developer_access.dial_code || '') + ' ' + (this.offer.developer_access.phone || '' ) : this.offer.admins ? (this.offer.admins.dial_code || '') + ' ' + 
+    (this.offer.admins.phone || '' ) : this.phone; 
+     this.email = this.offer.legal_entity ? (this.offer.legal_entity_id.email || '') : this.offer.developer_access_id ? (this.offer.developer_access.email || '') : 
+     this.offer.admins ? (this.offer.admins.email || '') : this.phone; 
     let docDefinition = {
       pageSize: {
         width: 690,
