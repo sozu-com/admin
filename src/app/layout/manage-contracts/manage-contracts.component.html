@@ -133,11 +133,11 @@
                     <label>{{'table.th.status' | translate}}</label>
                   </div>
                 </th>
-                <th style="width:15%" *ngIf="selectedColumnsToShow?.status">
+                <!-- <th style="width:15%" *ngIf="selectedColumnsToShow?.status">
                   <div class="table-search">
                     <label>{{'table.th.statusHistory' | translate}}</label>
                   </div>
-                </th>
+                </th> -->
                 <th style="vertical-align:top;width:100px;width:20%" *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
@@ -173,18 +173,24 @@
                 </td>
                 <td *ngIf="selectedColumnsToShow?.status">
                   <select class="cursor-pointer" (change)="selectStatus(p, $event.target.value)">
-                  <option [selected]="p.status==1" value="1" disabled>{{'contract.draft' | translate}}</option>
-                  <option [selected]="p.status==2" value="2" [disabled]="p.status == 1 || p.status == 2 || p.status == 6 || p.status == 9">{{'contract.inRevision' | translate}}</option>
+                   <!-- <option [selected]="p.status==1" value="1" disabled>{{'contract.draft' | translate}}</option>
+                  <option [selected]="p.status==2" value="2" disabled>{{'contract.inRevision' | translate}}</option>
                   <option [selected]="p.status==3" value="3" [disabled]="p.status!=2">{{'contract.validatedByCommercial' | translate}}</option>
                   <option [selected]="p.status==4" value="4" [disabled]="p.status!=3">{{'contract.validatedByLegal' | translate}}</option>
                   <option [selected]="p.status==5" value="5" [disabled]="p.status!=4">{{'contract.readyForSignature' | translate}}</option>
                   <option [selected]="p.status==6" value="6" [disabled]="p.status!=5">{{'contract.signed' | translate}}</option>
-                  <option [selected]="p.status==9" value="9" [disabled]="p.status!=6">{{'contract.canceled' | translate}}</option>
+                  <option [selected]="p.status==9" value="9" [disabled]="p.status!=6">{{'contract.canceled' | translate}}</option> -->
+                  <option [selected]="p.status==1" value="1">{{'contract.draft' | translate}}</option>
+                  <option [selected]="p.status==2" value="2">{{'contract.inComplete' | translate}}</option>
+                  <option [selected]="p.status==3" value="3">{{'contract.forReview' | translate}}</option>
+                  <option [selected]="p.status==4" value="4">{{'contract.readyToBeValidated' | translate}}</option>
+                  <option [selected]="p.status==5" value="5">{{'contract.validatedByLegal' | translate}}</option>
+                  <option [selected]="p.status==6" value="6">{{'contract.signed' | translate}}</option>
                 </select>
                 </td>
-                <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(p)">
+                <!-- <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(p)">
                   <span>{{'table.tr.td.view' | translate}}</span>
-              </td>
+              </td> -->
                 <td *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-actions">
                     <!-- <div class="message"> -->

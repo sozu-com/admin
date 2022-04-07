@@ -382,7 +382,7 @@ export class ManageContractsComponent implements OnInit {
     let language_code = localStorage.getItem('language_code');
     this.spinner.show();
     this.searched_collection = undefined;
-    this.admin.postDataApi(this.is_edit ? 'getCollectionById' : 'getAlertMsg', { id: this.collectionId })
+    this.admin.postDataApi('getCollectionById', { id: this.collectionId })
       .subscribe(
         success => {
           this.spinner.hide();
@@ -632,37 +632,30 @@ export class ManageContractsComponent implements OnInit {
         }
       });
     }
-    else if (status == 2) {
-      this.selectedContract = data;
-      this.selectedStatus = status;
-      this.note = undefined;
-      this.sendBackToRevisionModelOpen.nativeElement.click();
-    }
+    // else if (status == 2) {
+    //   this.selectedContract = data;
+    //   this.selectedStatus = status;
+    //   this.note = undefined;
+    //   this.sendBackToRevisionModelOpen.nativeElement.click();
+    // }
     else {
       this.changeStatus(data, status);
     }
   }
 
-  changeStatus(data, status) {
+  changeStatus(data, status){
     let userId = localStorage.getItem('user-id');
     let input = {
-      contract_id: data ? data.id : this.selectedContract.id,
-      status: status ? status : this.selectedStatus,
-      comment: this.note,
+      contract_id: data.id,
+      status: status,
       admin_id: userId
     }
     this.spinner.show();
     this.admin.postDataApi('updateContractStatus', input)
       .subscribe(
         success => {
-          if (this.selectedStatus) {
-            this.sendBackToRevisionModelClose.nativeElement.click();
-          }
           this.getContract();
           this.spinner.hide();
-          if (this.selectedStatus) {
-            this.sendBackToRevisionModelClose.nativeElement.click();
-          }
         });
   }
 
