@@ -62,8 +62,9 @@ export class CashFlowComponent implements OnInit {
   actualList: Array<any> = [];
   methodList: Array<any> = [];
   finalData3: Array<any> = [];
-  arrearList: Array<any> = [];
+  arrearList: Array<any> = []; overdue_Total: any;
   arrearTotal: any; manually_method_total: any;
+  expected_Total: any; benk_Total: any; key_Total: any;
   constructor(public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
@@ -613,6 +614,8 @@ export class CashFlowComponent implements OnInit {
         contentFormatter: function (e) {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
+            var total = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
+            this.expected_Total = (total).toFixed(2);
             if (i == 0) {
               content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
@@ -638,6 +641,8 @@ export class CashFlowComponent implements OnInit {
               content += "<br/>";
             }
           }
+          content += "<span style='color:purple;'> Total </span>" + "   " + self.price.transform(this.expected_Total);
+          content += "<br/>";
           return content;
         }
       },
@@ -647,15 +652,6 @@ export class CashFlowComponent implements OnInit {
       data: this.finalData
     });
     chart.render();
-
-    function toggleDataSeries(e) {
-      if (typeof (e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
-        e.dataSeries.visible = false;
-      } else {
-        e.dataSeries.visible = true;
-      }
-      chart.render();
-    }
   }
 
   plotData1() {
@@ -778,6 +774,8 @@ export class CashFlowComponent implements OnInit {
         contentFormatter: function (e) {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
+            var total = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
+            this.key_Total = (total).toFixed(2);
             if (i == 0) {
               content += "<span style='color:#5a728d'> Layaway Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
@@ -799,6 +797,8 @@ export class CashFlowComponent implements OnInit {
               content += "<br/>";
             }
           }
+          content += "<span style='color:#00B96F;'> Total </span>" + "   " + self.price.transform(this.key_Total);
+          content += "<br/>";
           return content;
         }
       },
@@ -827,6 +827,8 @@ export class CashFlowComponent implements OnInit {
         contentFormatter: function (e) {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
+            var total = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
+            this.overdue_Total = (total).toFixed(2);
             if (i == 0) {
               content += "<span style='color:#5a728d'> Overdue 30</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
@@ -844,6 +846,8 @@ export class CashFlowComponent implements OnInit {
               content += "<br/>";
             }
           }
+          content += "<span style='color:#00B96F;'> Total </span>" + "   " + self.price.transform(this.overdue_Total);
+          content += "<br/>";
           return content;
         }
       },
@@ -958,6 +962,8 @@ export class CashFlowComponent implements OnInit {
         contentFormatter: function (e) {
           var content = " ";
           for (var i = 0; i < e.entries.length; i++) {
+            var total = e.entries.reduce((accumulator, current) => accumulator + current.dataPoint.y, 0);
+            this.benk_Total = (total).toFixed(2);
             if (i == 0) {
               content += "<span style='color:#5a728d'>bank amount</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
@@ -979,8 +985,8 @@ export class CashFlowComponent implements OnInit {
             //   content += "<br/>";
             // }
           }
-          // content += "<span style='color:#00B96F;'> Total </span>" + "   " + self.price.transform(this.manually_method_total);
-          // content += "<br/>";
+          content += "<span style='color:#00B96F;'> Total </span>" + "   " + self.price.transform(this.benk_Total);
+          content += "<br/>";
           return content;
         }
       },
