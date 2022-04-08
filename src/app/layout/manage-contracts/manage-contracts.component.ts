@@ -646,8 +646,9 @@ export class ManageContractsComponent implements OnInit {
   changeStatus(data, status){
     let userId = localStorage.getItem('user-id');
     let input = {
-      contract_id: data.id,
-      status: status,
+      contract_id: data ? data.id : this.selectedContract.id,
+      status: status ? status : this.selectedStatus,
+      comment: this.note,
       admin_id: userId
     }
     this.spinner.show();
