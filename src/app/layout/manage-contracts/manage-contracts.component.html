@@ -133,11 +133,11 @@
                     <label>{{'table.th.status' | translate}}</label>
                   </div>
                 </th>
-                <!-- <th style="width:15%" *ngIf="selectedColumnsToShow?.status">
+                <th style="width:15%" *ngIf="selectedColumnsToShow?.status">
                   <div class="table-search">
                     <label>{{'table.th.statusHistory' | translate}}</label>
                   </div>
-                </th> -->
+                </th>
                 <th style="vertical-align:top;width:100px;width:20%" *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-search">
                     <label>{{'table.th.actions.label' | translate}}</label>
@@ -182,9 +182,9 @@
                   <option [selected]="p.status==9" value="9" [disabled]="p.status!=6">{{'contract.canceled' | translate}}</option>
                 </select>
                 </td>
-                <!-- <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(p)">
+                <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(p)">
                   <span>{{'table.tr.td.view' | translate}}</span>
-              </td> -->
+              </td>
                 <td *ngIf="selectedColumnsToShow?.actions">
                   <div class="table-actions">
                     <!-- <div class="message"> -->

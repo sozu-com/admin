@@ -382,7 +382,7 @@ export class ManageContractsComponent implements OnInit {
     let language_code = localStorage.getItem('language_code');
     this.spinner.show();
     this.searched_collection = undefined;
-    this.admin.postDataApi('getCollectionById', { id: this.collectionId })
+    this.admin.postDataApi(this.is_edit ? 'getCollectionById' : 'getAlertMsg', { id: this.collectionId })
       .subscribe(
         success => {
           this.spinner.hide();
