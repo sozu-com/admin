@@ -632,12 +632,12 @@ export class ManageContractsComponent implements OnInit {
         }
       });
     }
-    // else if (status == 2) {
-    //   this.selectedContract = data;
-    //   this.selectedStatus = status;
-    //   this.note = undefined;
-    //   this.sendBackToRevisionModelOpen.nativeElement.click();
-    // }
+    else if (status == 2) {
+      this.selectedContract = data;
+      this.selectedStatus = status;
+      this.note = undefined;
+      this.sendBackToRevisionModelOpen.nativeElement.click();
+    }
     else {
       this.changeStatus(data, status);
     }

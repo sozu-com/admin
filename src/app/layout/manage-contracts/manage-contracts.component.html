@@ -173,19 +173,13 @@
                 </td>
                 <td *ngIf="selectedColumnsToShow?.status">
                   <select class="cursor-pointer" (change)="selectStatus(p, $event.target.value)">
-                   <!-- <option [selected]="p.status==1" value="1" disabled>{{'contract.draft' | translate}}</option>
-                  <option [selected]="p.status==2" value="2" disabled>{{'contract.inRevision' | translate}}</option>
+                  <option [selected]="p.status==1" value="1" disabled>{{'contract.draft' | translate}}</option>
+                  <option [selected]="p.status==2" value="2" [disabled]="p.status == 1 || p.status == 2 || p.status == 6 || p.status == 9">{{'contract.inRevision' | translate}}</option>
                   <option [selected]="p.status==3" value="3" [disabled]="p.status!=2">{{'contract.validatedByCommercial' | translate}}</option>
                   <option [selected]="p.status==4" value="4" [disabled]="p.status!=3">{{'contract.validatedByLegal' | translate}}</option>
                   <option [selected]="p.status==5" value="5" [disabled]="p.status!=4">{{'contract.readyForSignature' | translate}}</option>
                   <option [selected]="p.status==6" value="6" [disabled]="p.status!=5">{{'contract.signed' | translate}}</option>
-                  <option [selected]="p.status==9" value="9" [disabled]="p.status!=6">{{'contract.canceled' | translate}}</option> -->
-                  <option [selected]="p.status==1" value="1">{{'contract.draft' | translate}}</option>
-                  <option [selected]="p.status==2" value="2">{{'contract.inComplete' | translate}}</option>
-                  <option [selected]="p.status==3" value="3">{{'contract.forReview' | translate}}</option>
-                  <option [selected]="p.status==4" value="4">{{'contract.readyToBeValidated' | translate}}</option>
-                  <option [selected]="p.status==5" value="5">{{'contract.validatedByLegal' | translate}}</option>
-                  <option [selected]="p.status==6" value="6">{{'contract.signed' | translate}}</option>
+                  <option [selected]="p.status==9" value="9" [disabled]="p.status!=6">{{'contract.canceled' | translate}}</option>
                 </select>
                 </td>
                 <!-- <td class="text-left green-color cursor-pointer" (click)="openStatusHistoryModel(p)">
