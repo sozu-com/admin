@@ -341,7 +341,7 @@ export class AddAclComponent implements OnInit {
           this.model.address[ind] = tempAdd;
         } else {
           const tempAdd = {
-            countries: userdata.countries[ind].name_en,
+            countries: userdata.countries ? userdata.countries[ind].name_en : '',
             states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].name_en : 'All',
             cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].name_en : 'All',
             localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].name_en : 'All',
