@@ -1077,7 +1077,7 @@ export class AddEditCollectionComponent implements OnInit {
       data.deal_purchase_date ? this.getDateWRTTimezone(data.deal_purchase_date) : null);
     this.addFormStep4.controls.delivery_date.patchValue(
       data.delivery_date ? this.getDateWRTTimezone(data.delivery_date) : null);
-    this.addFormStep4.controls.deal_price.patchValue(this.numberUptoNDecimal(data.deal_price, 2));
+    this.addFormStep4.controls.deal_price.patchValue(this.numberUptoNDecimal(data.property.min_price, 2));
     this.addFormStep4.controls.currency_id.patchValue(data.currency_id ? data.currency_id : 1);
     this.addFormStep4.controls.deal_interest_rate.patchValue(data.deal_interest_rate);
     this.addFormStep4.controls.deal_penality.patchValue(data.deal_penality);
@@ -3880,7 +3880,9 @@ export class AddEditCollectionComponent implements OnInit {
   selectUserReciver(stock) {
     this.ReciverUser = stock;
     if (this.ReciverUser.id != this.tempmodelForBank.commission_seller_legal_entity_id) {
+      if(this.ReciverUser.legal_entity_bank_ref){
       this.getBankReferenceCount(this.ReciverUser.legal_entity_bank_ref, 5);
+      }
     }
     if (this.ReciverUser.legal_entity_banks) {
       this.paymentBankDetailsArray = [];

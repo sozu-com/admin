@@ -1937,8 +1937,7 @@
                               <button class="action-icon" (click)="showUpdatePaymentPopup(stats, i, s)">
                                 <img src="assets/img/edit.png" alt="img">
                               </button>
-                              <button [ngClass]="{'highlight': stats?.id==last_payment_id}"
-                                [disabled]="stats?.id!=last_payment_id" class="action-icon"
+                              <button [ngClass]="{'highlight': stats?.id==last_payment_id}" class="action-icon"
                                 (click)="deletePayment(stats?.parent_id, i, s)">
                                 <img src="assets/img/ic_delete.png" alt="img">
                               </button>

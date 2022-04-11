@@ -643,7 +643,7 @@ export class ManageContractsComponent implements OnInit {
     }
   }
 
-  changeStatus(data, status) {
+  changeStatus(data, status){
     let userId = localStorage.getItem('user-id');
     let input = {
       contract_id: data ? data.id : this.selectedContract.id,
@@ -655,14 +655,8 @@ export class ManageContractsComponent implements OnInit {
     this.admin.postDataApi('updateContractStatus', input)
       .subscribe(
         success => {
-          if (this.selectedStatus) {
-            this.sendBackToRevisionModelClose.nativeElement.click();
-          }
           this.getContract();
           this.spinner.hide();
-          if (this.selectedStatus) {
-            this.sendBackToRevisionModelClose.nativeElement.click();
-          }
         });
   }
 

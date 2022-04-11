@@ -105,7 +105,7 @@ export class BotturaContractPdfService {
                 { text: this.translate.instant('generatePDF.botturaContract2a'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract2b'), bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract2c'), fontSize: 12 },
-                { text: this.translate.instant('generatePDF.botturaContract3'), bold: true, fontSize: 12 },
+                { text: this.translate.instant('generatePDF.botturaContract3') + ',', bold: true, fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract4'), fontSize: 12 },
                 { text: this.translate.instant('generatePDF.botturaContract4a'), bold: true, fontSize: 12 },
                 { text: buyer_name.toLocaleUpperCase(), bold: true, fontSize: 12 },

@@ -258,6 +258,13 @@
           </div>
         </div>
 
+        <div class="row" *ngIf="searchedOffers?.length>0">
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12"></div>
+          <div class="col-lg-6 col-md-12 col-sm-12 col-12 btn-cont text-right marginT15">
+            <pagination-controls class="my-pagination" (pageChange)="getPage($event)"></pagination-controls>
+          </div>
+        </div>
+
         <!-- towers listing wrt building id -->
         <div class="row marginT20" *ngIf="building.id && !model.property_offer_payment_id && !isCommercialOffer">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
