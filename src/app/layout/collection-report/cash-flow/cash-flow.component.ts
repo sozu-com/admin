@@ -969,7 +969,11 @@ export class CashFlowComponent implements OnInit {
               content += "<br/>";
             }
             else if (i == 1) {
-              content += "<span style='color:#c0514f'>STP amount</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<span style='color:#c0514f'>STP amount automatic</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+              content += "<br/>";
+            }
+            else if (i == 2) {
+              content += "<span style='color:#4285F4'>STP amount manual</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
               content += "<br/>";
             }
             // else if (i == 2) {
@@ -1001,11 +1005,19 @@ export class CashFlowComponent implements OnInit {
       },
       {
         type: 'stackedColumn',
-        name: 'STP amount',
-        legendText: 'STP amount',
+        name: 'STP amount automatic',
+        legendText: 'STP amount automatic',
         color: '#c0514f',
         showInLegend: true,
         dataPoints: this.bankTransfer_cash_flow[1]
+      },
+      {
+        type: 'stackedColumn',
+        name: 'STP amount manual',
+        legendText: 'STP amount manual',
+        color: '#4285F4',
+        showInLegend: true,
+        dataPoints: this.bankTransfer_cash_flow[2]
       }]
     });
     chart.render();
