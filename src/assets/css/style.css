@@ -3567,3 +3567,25 @@
         margin: 0 !important;
         width: 100% !important;
     }
+
+    .tab-content.white-bg table.table.table-striped.table-align-left .stock-search-result {
+        width: 100px;
+        height: 200px;
+        overflow-y: scroll;
+        position: absolute;
+        background-color: #fff;
+        padding: 10px;
+        border: 1px solid #ccc;
+        overflow-x: hidden;
+    }
+    .tab-content.white-bg table.table.table-striped.table-align-left .stock-search-result::-webkit-scrollbar {
+        width:5px;
+      }
+       
+      .tab-content.white-bg table.table.table-striped.table-align-left .stock-search-result::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      }
+       
+      .tab-content.white-bg table.table.table-striped.table-align-left .stock-search-result::-webkit-scrollbar-thumb {
+        background-color: #00b96f;
+      }
