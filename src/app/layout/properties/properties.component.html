@@ -620,7 +620,7 @@
                         </th>
                         <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_availability"
                            style="width:20%;vertical-align:top;">
-                           <div class="table-search">
+                           <div class="table-search" *ngIf="multiDropdownSettings && availabilityStatus">
                               <label>{{'table.th.changeAvailability' | translate}}</label>
                               <ng-multiselect-dropdown 
                               class="col-6 section-section5 multi-select" 
