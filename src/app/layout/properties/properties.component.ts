@@ -8,7 +8,7 @@ import { Constant } from 'src/app/common/constants';
 import { AdminService } from 'src/app/services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from 'src/app/services/property.service';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -296,6 +296,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
     this.initializedDropDownSettingfor();
+    this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
+      this.multiDropdownSettings = null;
+      this.availabilityStatus = null;
+      this.language_code = event.lang;
+      this.iniDropDownSetting();
+      this.getPropertyFilter();
+  });
     this.selctedAmenities = [];
     this.selctedFilters = [];
     this.selctedProjectAmenities = [];
