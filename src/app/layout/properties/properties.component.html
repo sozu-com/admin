@@ -333,13 +333,25 @@
                         <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.building_name">
                            <div class="table-search">
                               <label>{{'table.th.nameOfBuilding' | translate}}</label>
-                              <div class="searh-3">
-                                 <input class="width100px" type="text" [(ngModel)]="parameter.building_name" name="building_name"
-                                    (keyup.enter)="getListing('','')" autocomplete="address-level4">
-                                 <button *ngIf="parameter.building_name" (click)="getListing('','')"><i
-                                       class="fa fa-search"></i></button>
+                              <div class="searh-3" (click)="open()">
+                                 <input class="width100px" type="text" 
+                                 [(ngModel)]="parameter.building_name" name="building_name" (ngModelChange)="searchFunc($event)"
+                                 (keyup.enter)="getListing('','')" autocomplete="address-level4">
+                                 <!-- <button *ngIf="parameter.building_name" (click)="getListing('','')"><i
+                                       class="fa fa-search"></i></button> -->
                               </div>
+                             
                            </div>
+                           <div class="stock-search-result" (click)="clear() && hide()" *ngIf="searchTickers && show">
+                              <!-- locality -->
+                              <div *ngFor="let stock of searchTickers" class="search-result-item">
+                                <div class="search-result-name" (click)="getListing('',stock.name)" style="cursor: pointer;"
+                                  (keyup.enter)="getListing('',stock.name)">
+                                  {{ stock.name }}
+                                </div>
+                              </div>
+                              <!-- locality end -->
+                            </div>
                         </th>
                         <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.tower_name">
                            <div class="table-search">
