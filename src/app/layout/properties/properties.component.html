@@ -335,13 +335,22 @@
                               <label>{{'table.th.nameOfBuilding' | translate}}</label>
                               <div class="searh-3" (click)="open()">
                                  <input class="width100px" type="text" 
-                                 [(ngModel)]="parameter.building_name" name="building_name" (ngModelChange)="searchFunc($event)"
+                                 [(ngModel)]="parameter.building_name" name="building_name" (ngModelChange)="searchFunc($event)" id="newTag"
                                  (keyup.enter)="getListing('','')" autocomplete="address-level4">
                                  <!-- <button *ngIf="parameter.building_name" (click)="getListing('','')"><i
                                        class="fa fa-search"></i></button> -->
                               </div>
                              
                            </div>
+                           <div class="stock-search-result" 
+                           *ngIf="searchTickers && !show && parameter.building_name">
+                              <div class="search-result-item">
+                                <div class="search-result-name" style="cursor: pointer;font-size: 12px;
+                                          padding: 5px;">
+                                  <strong>{{'message.error.noRecordFound' | translate}}</strong>
+                                </div>
+                              </div>
+                            </div>
                            <div class="stock-search-result" (click)="clear() && hide()" *ngIf="searchTickers && show">
                               <!-- locality -->
                               <div *ngFor="let stock of searchTickers" class="search-result-item">

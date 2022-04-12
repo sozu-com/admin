@@ -70,7 +70,7 @@ class Invoice {
 export class PropertiesComponent implements OnInit, OnDestroy {
   searchTickers: any = []; search = ''; show = false;
   selectedvalue: bank; all: any;
-  prop_data: any = [];[x: string]: any;
+  prop_data: any = []; timeout = null;
   pub: any;
   value: any;
   value1: any;
@@ -331,7 +331,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.parameter.building_name = params.name;
         this.getListing(null, null);
       }
-      this.parameter.building_name = params.name;
+      //this.parameter.building_name = params.name;
       if (params.property_id) {
         this.parameter.random_id = params['property_id'];
       } else {
@@ -536,6 +536,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (value) {
       this.value = data;
       this.value1 = value;
+      input.building_name = this.value1;
       if (data == "all") {
         const d = value.map(o => o.id);
         input.availability_filter = d;
@@ -604,6 +605,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.is_filter = true;
         localStorage.setItem('parametersForProperty', JSON.stringify(input));
         this.items = success.data;
+        this.parameter.building_name = '';
+        this.searchTickers = '';
         this.items.forEach(function (element) {
           if (element.id == (element.collection || {}).property_id) {
             element['avgg_price'] = (((parseFloat(element.final_price) || 0) / (parseFloat(element.max_area) || 0)));
