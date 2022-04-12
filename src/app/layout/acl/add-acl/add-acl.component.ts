@@ -261,7 +261,7 @@ export class AddAclComponent implements OnInit {
         }
       }
     });
-    if (this.model.address[0].countries === '' || this.model.address[0].states === '' ||
+    if (!this.model.address[0] || this.model.address[0].countries === '' || this.model.address[0].states === '' ||
       this.model.address[0].cities === '' || this.model.address[0].localities === '' || this.model.address[0].buildings === '') {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseLocation'), 'error');
     } else if (this.seenDuplicate) {
@@ -329,6 +329,7 @@ export class AddAclComponent implements OnInit {
     this.admin.postDataApi('getNewUserById', { id: id }).subscribe(r => {
       this.spinner.hide();
       const userdata = r['data'];
+      if(userdata.countries && userdata.countries.length > 0){
       for (let ind = 0; ind < userdata.countries.length; ind++) {
         if (data == 'true') {
           const tempAdd = {
@@ -351,6 +352,17 @@ export class AddAclComponent implements OnInit {
         }
 
       }
+    }
+    else{
+      const tempAdd = {
+        countries: '',
+        states: 'All',
+        cities: 'All',
+        localities: 'All',
+        buildings: 'All'
+      };
+      this.model.address[0] = tempAdd;
+    }
       this.model.adminAcls = userdata.admin_acls;
       if (data == 'update') {
         this.admin.setUser(userdata.admin_acls);
