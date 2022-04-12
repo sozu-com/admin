@@ -68,10 +68,9 @@ class Invoice {
   providers: [AddPropertyModel, DatePipe, PricePipe, Notes]
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
-  [x: string]: any;
-
-  selectedvalue: bank;
-  prop_data: any = [];
+  searchTickers: any = []; search = ''; show = false;
+  selectedvalue: bank; all: any;
+  prop_data: any = [];[x: string]: any;
   pub: any;
   value: any;
   value1: any;
@@ -2940,5 +2939,40 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   toggleShow(value) {
     this.isShown = value.target.checked ? true : false;
+  }
+  fetchResults(name) {
+    if (!name) this.hide();
+    this.admin.postDataApi('searchForBuilding', { name }).subscribe(r => {
+      this.searchTickers = r['data'];
+      if (this.searchTickers.length > 0) {
+        this.parameter.page = 1;
+        this.show = true;
+      } else {
+        this.show = false;
+      }
+    })
+  }
+  searchFunc(value) {
+    this.search = value;
+    if (value != '') {
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        this.show = true
+        this.fetchResults(this.search);
+      }, 500);
+    } else {
+      this.parameter.building_name = '';
+      this.show = false;
+      this.searchTickers = null;
+    }
+  }
+  open() {
+    this.show = true
+  }
+  hide() {
+    this.show = false
+  }
+  clear() {
+    this.search = ''
   }
 }

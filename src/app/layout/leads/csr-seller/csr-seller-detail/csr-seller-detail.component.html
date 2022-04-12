@@ -164,6 +164,14 @@
                                     0
                                 </td>
                             </tr>
+                            <tr>
+                                <td style="padding-left:0">
+                                    <label>{{'leadDetails.CSRNivel' | translate}}</label>
+                                </td>
+                                <td *ngIf="leadData?.department_number">
+                                    {{leadData?.department_number}}
+                                </td>
+                            </tr>
                             <!-- Meeting Schedule -->
                             <tr *ngIf="leadData?.sale_rent==1">
                                 <td style="padding-left:0"><label><strong>{{'leadDetails.meetingSchedule' |
