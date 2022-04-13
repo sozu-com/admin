@@ -216,6 +216,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   initialCountry = { initialCountry: 'mx' };
   propertyDetail: any;
   isShown = false;
+  user_id: any;
   constructor(
     public constant: Constant, public cs: CommonService,
     public admin: AdminService, public noted: Notes,
@@ -2889,10 +2890,25 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     });
   }
   getNotes(item) {
+    this.user_id = JSON.parse(localStorage.getItem('user-id'));
     this.noted.agent_id = item.id;
     const input = { agent_id: item.id };
     this.admin.postDataApi('viewPropertyNotes', input).subscribe(r => {
       this.parameter.notes = r.data;
+      if(this.is_filter){
+      this.item.filter(value=>{
+        if(value.id == item.id){
+          value.notification_count = 0;
+        }
+      });
+    }
+    else{
+      this.cs.propertyData.filter(value=>{
+        if(value.id == item.id){
+          value.notification_count = 0;
+        }
+      });
+    }
       this.notesModalOpen.nativeElement.click();
     });
   }
