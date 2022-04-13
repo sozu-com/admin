@@ -632,12 +632,12 @@ export class ManageContractsComponent implements OnInit {
         }
       });
     }
-    // else if (status == 2) {
-    //   this.selectedContract = data;
-    //   this.selectedStatus = status;
-    //   this.note = undefined;
-    //   this.sendBackToRevisionModelOpen.nativeElement.click();
-    // }
+    else if (status == 2) {
+      this.selectedContract = data;
+      this.selectedStatus = status;
+      this.note = undefined;
+      this.sendBackToRevisionModelOpen.nativeElement.click();
+    }
     else {
       this.changeStatus(data, status);
     }
@@ -648,7 +648,7 @@ export class ManageContractsComponent implements OnInit {
     let input = {
       contract_id: data ? data.id : this.selectedContract.id,
       status: status ? status : this.selectedStatus,
-      //comment: this.note,
+      comment: this.note,
       admin_id: userId
     }
     this.spinner.show();

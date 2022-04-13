@@ -683,8 +683,7 @@
                               {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
                         </td>
                         <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                           (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.building_name">
-
+                        routerLink="/dashboard/projects/details/{{p.building.id}}" *ngIf="selectedPropertyColumnsToShow?.building_name">
                            <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
                            <div class="clearfix"></div>
                            <small *ngIf="p.quantity > 0">
@@ -702,7 +701,8 @@
                               | translate) + ' ' + p?.floor_num)
                               : ('table.tr.td.NA' | translate)}} -->
                            </span></td>
-                        <td *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
+                        <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                        (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
                               translate)}}</span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.model">
                            <span [style.textAlign]="'center'">
@@ -997,8 +997,7 @@
                                  {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
                            </td>
                            <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                              (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.building_name">
-   
+                           routerLink="/dashboard/projects/details/{{p.building.id}}" *ngIf="selectedPropertyColumnsToShow?.building_name">
                               <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
                               <div class="clearfix"></div>
                               <small *ngIf="p.quantity > 0">
@@ -1014,7 +1013,8 @@
                                  ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'
                                  | translate) + ' ' + p?.floor_num)
                                  : ('table.tr.td.NA' | translate)}}</span></td>
-                           <td *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
+                           <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                           (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
                                  translate)}}</span></td>
                            <td *ngIf="selectedPropertyColumnsToShow?.model">
                               <span [style.textAlign]="'center'">
