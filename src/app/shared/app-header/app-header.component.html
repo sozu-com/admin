@@ -339,12 +339,12 @@
                 {{'sidebar.ACL' | translate}}
               </a>
             </li>
-            <li *ngIf="admin?.admin_acl['Access Controls']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
+            <!-- <li *ngIf="admin?.admin_acl['Access Controls']?.can_read==1" class="nav-item" [routerLinkActive]="'active'">
               <a href="javascript://" class="list-group-item  " data-parent="#menu4"
                 routerLink="/dashboard/roles/manage-roles">
                 {{'sidebar.Manage_user_roles' | translate}}
               </a>
-            </li>
+            </li> -->
             <li
               *ngIf="admin?.admin_acl['Data Collector Management']?.can_read==1 || admin?.admin_acl['Seller Management']?.can_read==1 ||
 admin?.admin_acl['Buyer Management']?.can_read==1 || admin?.admin_acl['Inhouse Agent Management']?.can_read==1 ||
