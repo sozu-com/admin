@@ -1057,7 +1057,7 @@ export class QuickVisualizationComponent implements OnInit {
       this.isApplyBtnClicked = true;
       this.admin.postDataApi('applyCollectionPayment', input).subscribe(r => {
         this.isApplyBtnClicked = false;
-        let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
+        let find_index = this.paymentConcepts.findIndex(item => item.id == (this.payment_choice_id ? this.payment_choice_id.id : 0));
         if(this.model.property.building_id == '1209'){
           this.botturaReceiptPdfService.getCollectionById(undefined,this.property_collection_id, find_index, this.payment_choice_id, false);
           }
@@ -1097,7 +1097,7 @@ export class QuickVisualizationComponent implements OnInit {
 
   callToPaymentApi(input) {
     this.isApplyBtnClicked = true;
-    let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
+    let find_index = this.paymentConcepts.findIndex(item => item.id == (this.payment_choice_id ? this.payment_choice_id.id : 0));
     if(this.model.property.building_id == '1209'){
       this.botturaReceiptPdfService.getCollectionById(this.item,this.property_collection_id, find_index, this.paymentSelect, false);
       }
