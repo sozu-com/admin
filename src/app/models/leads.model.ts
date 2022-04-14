@@ -68,6 +68,7 @@ export class Leads {
     bedrooms?: any;
     carpet_area?: any;
     bathrooms?: any;
+    department_number?: any;
 }
 
 export class bath {

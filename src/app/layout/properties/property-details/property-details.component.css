@@ -83,7 +83,5 @@ a {
     border-radius: 0;
     padding: 8px 15px;
     min-width: 152px;
-    position: absolute;
-    margin-left: -3%;
-    margin-top: 27px;
+    margin-bottom: 27px;
 }

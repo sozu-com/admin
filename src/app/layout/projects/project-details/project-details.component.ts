@@ -14,6 +14,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { CommonService } from 'src/app/services/common.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NumberWithCommasPipe } from 'src/app/pipes/number-with-commas.pipe';
+import { Location } from '@angular/common';
 
 declare let swal: any;
 declare const google;
@@ -202,6 +203,8 @@ export class ProjectDetailsComponent implements OnInit {
     private commasPipe: NumberWithCommasPipe,
     public project: Building,
     private admin: AdminService,private spinner: NgxSpinnerService,
+    private location: Location
+
   ) { }
 
   ngOnInit() {
@@ -599,5 +602,9 @@ this.base64address = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAs
         doc.save('project-details.pdf'); // Generated PDF 
         this.spinner.hide();
       });
+  }
+
+  goBack = (isForBack: boolean): void => {
+      this.location.back();
   }
 }

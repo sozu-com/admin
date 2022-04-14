@@ -1840,6 +1840,7 @@
     "phone": "Phone"
   },
   "leadDetails": {
+    "CSRNivel": "Nivel",
     "CSRBuyer": "CSR Buyer",
     "creditAgent": "Credit Agent",
     "outsideAgent": "Outside Agent",

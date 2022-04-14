@@ -1144,7 +1144,12 @@ export class AddEditCollectionComponent implements OnInit {
     this.ReciverUser = data.payment_received_by == 3 ? data.commission_seller_legal_entity : data.payment_received_by == 4 ? data.person : null;
     this.selectedReciverUser = data.payment_received_by;
     if (data.seller_type == 2 && !data.bank_reference_id) {
+      if(this.tempmodelForBank.seller_legal_entity.legal_entity_bank_ref){
       this.getBankReferenceCount(this.tempmodelForBank.seller_legal_entity.legal_entity_bank_ref, 5);
+      }
+      else{
+        this.addFormStep5.controls.bank_reference_id.patchValue('');
+      }
     }
     else {
       this.addFormStep5.controls.bank_reference_id.patchValue(data.bank_reference_id);
@@ -1171,9 +1176,9 @@ export class AddEditCollectionComponent implements OnInit {
       index = data.property.property_offer_payment.findIndex(x => x.random_id == data.offer_id);
     }
     if (data.payment_received_by != 3) {
-      this.addFormStep5.controls.bank_id.patchValue(this.isByOffer ? data.property.property_offer_payment[index].bank_id || 0 : data.bank_id || 0);
+      this.addFormStep5.controls.bank_id.patchValue(this.isByOffer && data.property.property_offer_payment[index] ? data.property.property_offer_payment[index].bank_id || 0 : data.bank_id || 0);
     }
-    this.addFormStep5.controls.payment_received_by.patchValue(this.isByOffer ? (data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : data.payment_received_by.toString() || '0');
+    this.addFormStep5.controls.payment_received_by.patchValue(this.isByOffer && data.property.property_offer_payment[index] ? (data.property.property_offer_payment[index].account_type == 1 ? 1 : '0') : data.payment_received_by.toString() || '0');
     // this.addFormStep5.controls.deal_commission_agents.patchValue(data.deal_commission_agents);
     const control1 = this.addFormStep5.get('deal_commission_agents') as FormArray;
     const control2 = this.addFormStep5.get('deal_commission_outside_agents') as FormArray;
@@ -1250,7 +1255,7 @@ export class AddEditCollectionComponent implements OnInit {
     this.ngOtpInputRef3.otpForm.disable();
     this.ngOtpInputRef4.otpForm.disable();
     this.ngOtpInputRef5.otpForm.disable();
-    this.addFormStep6.controls.step.patchValue(6);
+    this. addFormStep6.controls.step.patchValue(6);
   }
 
   getBankReferenceCount(bankId, tab) {
@@ -3882,6 +3887,9 @@ export class AddEditCollectionComponent implements OnInit {
     if (this.ReciverUser.id != this.tempmodelForBank.commission_seller_legal_entity_id) {
       if(this.ReciverUser.legal_entity_bank_ref){
       this.getBankReferenceCount(this.ReciverUser.legal_entity_bank_ref, 5);
+      }
+      else{
+        this.addFormStep5.controls.bank_reference_id.patchValue('');
       }
     }
     if (this.ReciverUser.legal_entity_banks) {

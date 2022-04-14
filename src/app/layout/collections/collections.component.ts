@@ -1870,7 +1870,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             if (this.surplus_payment_type == '4') {
               input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
             }
-            let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
+            let find_index = this.paymentConcepts.findIndex(item => item.id == (this.payment_choice_id ? this.payment_choice_id.id : 0));
             if (this.selected_collection.property.building_id == '1209') {
               this.botturaReceiptPdfService.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
             }
@@ -1885,9 +1885,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
               // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
               //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
               // }
+              if (!this.remaining_amount_collection) {
+                this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+              }
             });
           }
-          let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
+          let find_index = this.paymentConcepts.findIndex(item => item.id == (this.payment_choice_id ? this.payment_choice_id.id : 0));
           if (this.selected_collection.property.building_id == '1209') {
             this.botturaReceiptPdfService.getCollectionById(this.item, this.property_collection_id, find_index, this.payment_choice_id, false);
           }
@@ -2130,7 +2133,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           if (this.surplus_payment_type == '4') {
             input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
           }
-          let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
+          let find_index = this.paymentConcepts.findIndex(item => item.id == (this.payment_choice_id ? this.payment_choice_id.id : 0));
           if (this.selected_collection.property.building_id == '1209') {
             this.botturaReceiptPdfService.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
           }
@@ -2141,9 +2144,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
             // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
             //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
             // }
+            if (!this.remaining_amount_collection) {
+              this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+            }
           });
         }
-        let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
+        let find_index = this.paymentConcepts.findIndex(item => item.id == (this.payment_choice_id ? this.payment_choice_id.id : 0));
         if (this.selected_collection.property.building_id == '1209') {
           this.botturaReceiptPdfService.getCollectionById(undefined, this.property_collection_id, find_index, this.payment_choice_id, false);
         }
@@ -2188,7 +2194,7 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         if (this.surplus_payment_type == '4') {
           input['collection_payment_choice_id'] = this.surplus_payment_choice_id;
         }
-        let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
+        let find_index = this.paymentConcepts.findIndex(item => item.id == (this.payment_choice_id ? this.payment_choice_id.id : 0));
         if (this.selected_collection.property.building_id == '1209') {
           this.botturaReceiptPdfService.getCollectionById(this.item, this.property_collection_id, find_index, this.payment_choice_id, false);
         }
@@ -2199,9 +2205,12 @@ export class CollectionsComponent implements OnInit, OnDestroy {
           // if (this.surplus_payment_type == '1' || this.surplus_payment_type == '4') {
           //   input['collection_payment_choice_id'] = this.payment_choice_id['id']
           // }
+          if (!this.remaining_amount_collection) {
+            this.router.navigate(['/dashboard/collections/quick-visualization', this.property_collection_id]);
+          }
         });
       }
-      let find_index = this.paymentConcepts.findIndex(item => item.id == this.payment_choice_id.id);
+      let find_index = this.paymentConcepts.findIndex(item => item.id == (this.payment_choice_id ? this.payment_choice_id.id : 0));
       if (this.selected_collection.property.building_id == '1209') {
         this.botturaReceiptPdfService.getCollectionById(this.item, this.property_collection_id, find_index, this.payment_choice_id, false);
       }

@@ -683,8 +683,7 @@
                               {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
                         </td>
                         <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                           (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.building_name">
-
+                        routerLink="/dashboard/projects/details/{{p.building.id}}" *ngIf="selectedPropertyColumnsToShow?.building_name">
                            <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
                            <div class="clearfix"></div>
                            <small *ngIf="p.quantity > 0">
@@ -702,7 +701,8 @@
                               | translate) + ' ' + p?.floor_num)
                               : ('table.tr.td.NA' | translate)}} -->
                            </span></td>
-                        <td *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
+                        <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                        (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
                               translate)}}</span></td>
                         <td *ngIf="selectedPropertyColumnsToShow?.model">
                            <span [style.textAlign]="'center'">
@@ -863,6 +863,12 @@
                               (click)="getNotes(p)"
                               title="Property Notes" class="action-icon"><img
                                 src="assets/img/chat-icon.png" alt="img"></button>
+                                <span style="margin-top: -6px;margin-left: -15px;" *ngIf="p.notification_count > 0">
+                                 <i class="fa fa-circle" aria-hidden="true" style="font-size: 18px;color: #00B96F;"></i>   
+                               </span>
+                               <span style="font-size: 11px;color: white;margin-left: -11px;margin-top: -4px;" *ngIf="p.notification_count > 0">
+                                  {{p.notification_count}}</span>
+                               <span *ngIf="p.notification_count > 0" style="margin-left: 4px;"></span>
                               <!--this button to open installment modal -->
                               <!-- <button class="action-icon disable" 
                               [disabled]="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3 && p.for_sale !=1"
@@ -997,8 +1003,7 @@
                                  {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
                            </td>
                            <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                              (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.building_name">
-   
+                           routerLink="/dashboard/projects/details/{{p.building.id}}" *ngIf="selectedPropertyColumnsToShow?.building_name">
                               <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
                               <div class="clearfix"></div>
                               <small *ngIf="p.quantity > 0">
@@ -1014,7 +1019,8 @@
                                  ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'
                                  | translate) + ' ' + p?.floor_num)
                                  : ('table.tr.td.NA' | translate)}}</span></td>
-                           <td *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
+                           <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                           (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' |
                                  translate)}}</span></td>
                            <td *ngIf="selectedPropertyColumnsToShow?.model">
                               <span [style.textAlign]="'center'">
@@ -1173,7 +1179,12 @@
                                  (click)="getNotes(p)"
                                  title="Property Notes" class="action-icon"><img
                                    src="assets/img/chat-icon.png" alt="img"></button>
-
+                                   <span style="margin-top: -6px;margin-left: -15px;" *ngIf="p.notification_count > 0">
+                                   <i class="fa fa-circle" aria-hidden="true" style="font-size: 18px;color: #00B96F;"></i>   
+                                 </span>
+                                 <span style="font-size: 11px;color: white;margin-left: -11px;margin-top: -4px;" *ngIf="p.notification_count > 0">
+                                    {{p.notification_count}}</span>
+                                 <span *ngIf="p.notification_count > 0" style="margin-left: 4px;"></span>
                                  <!--this button to open installment modal -->
                                  <button class="action-icon disable" (click)="changePop(p);"
                                  *ngIf="p?.collection && p?.collection?.is_cancelled!=1 && parameter?.flag == 3 && p.for_hold == 1" 
@@ -3042,7 +3053,7 @@
                 <p>{{item?.note}}</p>
               </div>
               <div class="col-md-2">
-                <button class="delete" href="javascript://" (click)="deleteNote(item.id, i)">
+                <button class="delete" href="javascript://" (click)="deleteNote(item.id, i)" *ngIf="item.user_id == user_id">
                   <i class="fa fa-trash-o" aria-hidden="true" style="margin-left: -18px;"></i>
                 </button>
               </div>

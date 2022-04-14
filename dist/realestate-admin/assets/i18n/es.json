@@ -1842,6 +1842,7 @@
     "phone": "Telefono"
   },
   "leadDetails": {
+    "CSRNivel": "Nivel",
     "CSRBuyer": "Comprador CSR",
     "creditAgent": "Agente de crédito",
     "outsideAgent": "Agente externo",
