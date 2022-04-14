@@ -537,7 +537,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     if (value) {
       this.value = data;
       this.value1 = value;
-      input.building_name = this.value1;
       if (data == "all") {
         const d = value.map(o => o.id);
         input.availability_filter = d;

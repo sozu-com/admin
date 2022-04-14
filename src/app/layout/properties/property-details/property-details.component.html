@@ -17,13 +17,13 @@
 <div *ngIf="!property" style="margin-top:120px;" class="container">
   <img style="width:100%" src="assets/img/loading_content.gif">
 </div>
-<div class="row">
+<!-- <div class="row">
   <div class="col-lg-12 col-sm-12 col-12">
     <div class="btn-cont text-right">
       <button   (click)="downloadPDF()" class="btn btn-primary">{{'propertyDetail.DownloadPDF' | translate}}</button>
     </div>
   </div>
-</div>
+</div> -->
 <div  id="contentToConvert" class="white-bg configuration-page" style="margin-left: 10px;" *ngIf="property?.configuration_toggle == 0">
   <div class="top-main-img-outer">
     <div class="avl" *ngIf="!property?.for_hold">{{'propertyDetail.availableFor' | translate}}
