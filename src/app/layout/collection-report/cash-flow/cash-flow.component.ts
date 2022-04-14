@@ -897,7 +897,7 @@ export class CashFlowComponent implements OnInit {
               content += "<br/>";
             }
             // else if (i == 3) {
-            //   content += "<span style='color:#23bfaa'> Special Payment</span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
+            //   content += "<span style='color:#23bfaa'> STP </span>" + "   " + self.price.transform(e.entries[i].dataPoint.y);
             //   content += "<br/>";
             // }
             // else if (i == 4) {
@@ -934,7 +934,16 @@ export class CashFlowComponent implements OnInit {
         color: '#FBBC04',
         showInLegend: true,
         dataPoints: this.stp_final[2]
-      }]
+      }
+        , {
+        type: 'stackedColumn',
+        name: '',
+        legendText: '',
+        color: '#fff',
+        showInLegend: true,
+        dataPoints: this.stp_final[3]
+      }
+      ]
     });
     chart.render();
 
