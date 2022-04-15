@@ -19,7 +19,8 @@ declare let swal: any;
 })
 
 export class UsersComponent implements OnInit {
-
+  @ViewChild('openCreditModel') openCreditModel: ElementRef;
+  @ViewChild('closeCreditModel') closeCreditModel: ElementRef;
   @ViewChild('modalOpen') modalOpen: ElementRef;
   @ViewChild('modalClose') modalClose: ElementRef;
   @ViewChild('entityModalOpen') entityModalOpen: ElementRef;
@@ -33,6 +34,21 @@ export class UsersComponent implements OnInit {
   local_storage_parameter: any; is_back: boolean;
   private language_code: string;
   private exportfinalData: any[] = [];
+  quotes = [
+    { id: 1, name_en: 'INFONAVIT', name_es: 'INFONAVIT' },
+    { id: 2, name_en: 'FOVISSSTE', name_es: 'FOVISSSTE' },
+    { id: 3, name_en: 'NONE', name_es: 'NINGUNO' }
+  ];
+  quote: any;
+  fullName: any;
+  email: any;
+  phone: any;
+  country_code: any;
+  dial_code: string;
+  first_surname: any;
+  second_surname: any;
+  full_name: any;
+  user_id: any;
   constructor(public constant: Constant, public model: Users, public admin: AdminService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService,
@@ -100,7 +116,7 @@ export class UsersComponent implements OnInit {
       if (result.value) {
         this.spinner.show();
         this.admin.postDataApi('verifedEmail', {
-          id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2, email_date: moment.utc(new Date()).toDate(), active_role : active_role
+          id: (data || {}).id, is_language: this.language_code == 'en' ? 1 : 2, email_date: moment.utc(new Date()).toDate(), active_role: active_role
         }).subscribe((success) => {
           this.spinner.hide();
           swal(this.translate.instant('swal.success'), this.translate.instant('message.success.emailSent'), 'success');
@@ -138,10 +154,10 @@ export class UsersComponent implements OnInit {
     this.parameter.type = type;
     if (this.parameter['name']) {
       this.parameter.name = this.parameter['name'];
-    }else{
+    } else {
       this.parameter.name = name;
     }
-    
+
     this.parameter.phone = phone;
     this.parameter.email = email;
     this.parameter.first_surname = first_surname;
@@ -350,16 +366,42 @@ export class UsersComponent implements OnInit {
           'Complete Name': p.name ? p.name + ' ' + p.first_surname + ' ' + p.second_surname : '',
           'Contact Number': p.phone ? p.dial_code + ' ' + p.phone : '',
           'Email Address': p.email || '',
-          'Registered In Sozu (Yes/No)': p.is_email_verified && p.is_phone_verified ? 'Yes' : 'No'  
+          'Registered In Sozu (Yes/No)': p.is_email_verified && p.is_phone_verified ? 'Yes' : 'No'
         });
       }
       new ExcelDownload().exportAsExcelFile(exportfinalData, 'users');
     }
   }
 
-  sort_by() { 
+  sort_by() {
     this.parameter.sort_by = this.parameter.sort_by_order ? 0 : 1;
     this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,
       this.parameter.first_surname, this.parameter.second_surname);
+  }
+  addCredit(p) {
+    this.user_id = p.id;
+    this.openCreditModel.nativeElement.click();
+  }
+  onClickAddCredit() {
+    let input = {
+      user_id: this.user_id,
+      name: this.full_name,
+      first_surname: this.first_surname,
+      second_surname: this.second_surname,
+      email: this.email,
+      phone: this.phone,
+      country_code: this.constant.country_code,
+      dial_code: this.constant.dial_code
+    }
+    this.spinner.show();
+    this.admin.postDataApi('generateleadFromUser', input).subscribe(
+      success => {
+        this.closeCreditModel.nativeElement.click();
+        this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,
+          this.parameter.first_surname, this.parameter.second_surname);
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
   }
 }

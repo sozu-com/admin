@@ -186,12 +186,12 @@
                 <td>
                   <div class="table-actions">
                    
-                  <!-- <button (click)="this.sendMail(item);"
-                  class="action-icon"
-                  *ngIf="!item.is_email_verified && !item.is_phone_verified"
-                  title="{{'table.title.sendActivationEmail' | translate}}">
-                  <i class="fa fa-map-marker" aria-hidden="true" 
-                  style="font-size: 166%;color: black;"></i></button> -->
+                  <button (click)="addCredit(item);"
+                  class="action-icon">
+                  <i class="fa fa-credit-card" aria-hidden="true" 
+                  style="font-size: 140%;margin-top: 4px;"></i>
+                </button>
+
                   <button  (click)="this.sendMail(item, 1)" 
                   *ngIf="!item.is_email_verified || !item.is_phone_verified"
                   class="action-icon" title="{{'table.title.confirmEmail' | translate}}">
@@ -371,3 +371,60 @@
       </div>
     </div>
   </div>
+
+  <a data-toggle="modal" data-target="#credit-model" #openCreditModel style="display: none;"></a>
+<div class="modal" id="credit-model">
+  <div class="modal-dialog ">
+    <div class="modal-content notary-avail">
+      <div class="modal-header popup-header">
+        <h4 class="modal-title">{{'table.addNewBtn' | translate}}</h4>
+        <button type="button" class="close" data-dismiss="modal" #closeCreditModel>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 col-6">
+            <label class="p16-two">{{'addForm.name' | translate}}<span class="color-red">*</span></label>
+            <input style="max-width:200px" [(ngModel)]="full_name" class="form-control" type="text" name="full_name"
+              autocomplete="off">
+          </div>
+          <div class="col-md-6 col-6">
+            <label>{{'addForm.firstSurname' | translate}} <span class="color-red">*</span></label>
+            <input style="max-width:200px" [(ngModel)]="first_surname" class="form-control" type="text" name="first_surname" autocomplete="off">
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6 col-6">
+            <label class="p16-two">{{'addForm.secondSurname' | translate}}
+              <span class="color-red">*</span>
+            </label>
+            <input style="max-width:200px" [(ngModel)]="second_surname" class="form-control" type="text" name="second_surname" autocomplete="off">
+          </div>
+          <div class="col-md-6 col-6">
+            <label class="p16-two">{{'addForm.email' | translate}}
+              <span class="color-red">*</span>
+            </label>
+            <input style="max-width:200px" [(ngModel)]="email" class="form-control" type="email" name="email" autocomplete="off">
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6 col-6">
+            <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
+            <input minlength="10" maxlength="10" autocomplete="off" type="number" 
+            [pattern]="constant.onlyWhiteSpaces"
+            class="form-control" id="phone" required [(ngModel)]="phone" name="phone" ng2TelInput
+            [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChanges($event,1)" />
+          </div>
+        </div>
+        
+        <div class="row">
+              <div class="col-md-6 col-5 btn-cont">
+                <button class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;" href="javascript://" (click)="onClickAddCredit()">{{'leads.add' | translate}}</button>
+              </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
