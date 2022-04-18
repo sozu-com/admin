@@ -395,9 +395,7 @@
         
         <div class="row">
           <div class="col-md-6 col-6">
-            <label class="p16-two">{{'addForm.secondSurname' | translate}}
-              <span class="color-red">*</span>
-            </label>
+            <label class="p16-two">{{'addForm.secondSurname' | translate}}</label>
             <input style="max-width:200px" [(ngModel)]="second_surname" class="form-control" type="text" name="second_surname" autocomplete="off">
           </div>
           <div class="col-md-6 col-6">
@@ -409,6 +407,7 @@
         </div>
         
         <div class="row">
+
           <div class="col-md-6 col-6">
             <label>{{'addForm.contact_number' | translate}} <span class="color-red">*</span></label>
             <input minlength="10" maxlength="10" autocomplete="off" type="number" 
@@ -416,13 +415,19 @@
             class="form-control" id="phone" required [(ngModel)]="phone" name="phone" ng2TelInput
             [ng2TelInputOptions]="initialCountry" (countryChange)="onCountryChanges($event,1)" />
           </div>
+
+          <div class="col-md-6 col-6 btn-cont">
+            <br/>
+            <button class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;" href="javascript://" (click)="onClickAddCredit()" [disabled]="!full_name || !first_surname || !email || !phone">{{'leads.add' | translate}}</button>
+          </div>
+
         </div>
         
-        <div class="row">
+        <!-- <div class="row">
               <div class="col-md-6 col-5 btn-cont">
                 <button class="btn btn-primary pull-right" style="width: 180px;padding: 12px 15px;" href="javascript://" (click)="onClickAddCredit()">{{'leads.add' | translate}}</button>
               </div>
-        </div>
+        </div> -->
 
       </div>
     </div>
