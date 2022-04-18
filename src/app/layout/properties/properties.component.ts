@@ -302,7 +302,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       this.language_code = event.lang;
       this.iniDropDownSetting();
       this.getPropertyFilter();
-  });
+    });
     this.selctedAmenities = [];
     this.selctedFilters = [];
     this.selctedProjectAmenities = [];
@@ -605,7 +605,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.is_filter = true;
         localStorage.setItem('parametersForProperty', JSON.stringify(input));
         this.items = success.data;
-        this.parameter.building_name = '';
+        //this.parameter.building_name = '';
         this.searchTickers = '';
         this.items.forEach(function (element) {
           if (element.id == (element.collection || {}).property_id) {
@@ -2894,20 +2894,20 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     const input = { agent_id: item.id };
     this.admin.postDataApi('viewPropertyNotes', input).subscribe(r => {
       this.parameter.notes = r.data;
-      if(this.is_filter){
-      this.item.filter(value=>{
-        if(value.id == item.id){
-          value.notification_count = 0;
-        }
-      });
-    }
-    else{
-      this.cs.propertyData.filter(value=>{
-        if(value.id == item.id){
-          value.notification_count = 0;
-        }
-      });
-    }
+      if (this.is_filter) {
+        this.item.filter(value => {
+          if (value.id == item.id) {
+            value.notification_count = 0;
+          }
+        });
+      }
+      else {
+        this.cs.propertyData.filter(value => {
+          if (value.id == item.id) {
+            value.notification_count = 0;
+          }
+        });
+      }
       this.notesModalOpen.nativeElement.click();
     });
   }
