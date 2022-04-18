@@ -282,7 +282,7 @@ export class CreditFormPdfService {
               table: {
                 style: 'table5',
                 headerRows: 1,
-                widths: [118, 33, 35, 35, 38, 35, 38, 38, 38, 33, 38, 42, 230],
+                widths: [118, 35, 33, 35, 38, 35, 38, 38, 38, 33, 38, 42, 230],
                 body: [
                   [
                     { text: 'Otorgante / Tipo cuenta / Tipo contrato / Clave monetaria', bold: true, border: [false, false, false, false], fontSize: 8 },
@@ -401,7 +401,7 @@ export class CreditFormPdfService {
               style: 'table6',
               table: {
                 headerRows: 1,
-                widths: [278],
+                widths: [288],
                 body: [
                   [
                     { text: 'Mensajes de alerta:', fillColor: '#cccccc', bold: true, border: [false, false, false, false], fontSize: 10 },
@@ -505,7 +505,7 @@ export class CreditFormPdfService {
               style: 'table7',
               table: {
                 headerRows: 1,
-                widths: [120, 120],
+                widths: [120, 160],
                 body: [
                   [
                     { text: 'SCORE:', fillColor: '#000000', color: 'white', bold: true, border: [false, false, false, false], fontSize: 10 },
@@ -958,7 +958,7 @@ export class CreditFormPdfService {
             {
               text: (item.FechaAperturaCuenta ? ((item.FechaAperturaCuenta.substring(0, 2) + '/' +
                 item.FechaAperturaCuenta.substring(2, item.FechaAperturaCuenta.length)).substring(0, 5) + '/' +
-                item.FechaAperturaCuenta.substring(4, item.FechaAperturaCuenta.length)) : 'N/A'), border: [true, true, true, true], fontSize: 8
+                item.FechaAperturaCuenta.substring(6, item.FechaAperturaCuenta.length)) : 'N/A'), border: [true, true, true, true], fontSize: 8
             },
             { text: (this.price.transform(Number(item.LimiteCredito)).replace('$', '') || 'N/A'), border: [true, true, true, true], fontSize: 8 },
             { text: (this.price.transform(Number(item.CreditoMaximo)).replace('$', '') || 'N/A'), border: [true, true, true, true], fontSize: 8 },
@@ -968,19 +968,19 @@ export class CreditFormPdfService {
             {
               text: (item.FechaUltimoPago ? ((item.FechaUltimoPago.substring(0, 2) + '/' +
                 item.FechaUltimoPago.substring(2, item.FechaUltimoPago.length)).substring(0, 5) + '/' +
-                item.FechaUltimoPago.substring(4, item.FechaUltimoPago.length)) : 'N/A'), border: [true, true, true, true], fontSize: 8
+                item.FechaUltimoPago.substring(6, item.FechaUltimoPago.length)) : 'N/A'), border: [true, true, true, true], fontSize: 8
             },
             {
               text: (item.FechaUltimaCompra ? ((item.FechaUltimaCompra.substring(0, 2) + '/' +
                 item.FechaUltimaCompra.substring(2, item.FechaUltimaCompra.length)).substring(0, 5) + '/' +
-                item.FechaUltimaCompra.substring(4, item.FechaUltimaCompra.length)) : 'N/A'), border: [true, true, true, true], fontSize: 8
+                item.FechaUltimaCompra.substring(6, item.FechaUltimaCompra.length)) : 'N/A'), border: [true, true, true, true], fontSize: 8
             },
             { text: (item.SaldoVencido || 'N/A'), border: [true, true, true, true], fontSize: 8 },
             { text: (item.FormaPagoActual || 'N/A'), border: [true, true, true, true], fontSize: 8 },
             {
               text: (item.FechaActualizacion ? ((item.FechaActualizacion.substring(0, 2) + '/' +
                 item.FechaActualizacion.substring(2, item.FechaActualizacion.length)).substring(0, 5) + '/' +
-                item.FechaActualizacion.substring(4, item.FechaActualizacion.length)) : 'N/A'), border: [true, true, true, true], fontSize: 8
+                item.FechaActualizacion.substring(6, item.FechaActualizacion.length)) : 'N/A'), border: [true, true, true, true], fontSize: 8
             },
             {
               table: {
@@ -1153,8 +1153,8 @@ export class CreditFormPdfService {
           let value = this.valueScore007.find(data => data.code == item.ValorScore);
           docDefinition.content[15].columns[0].table.body.push(
             [
-              { text: 'BC SCORE', border: [true, true, true, true], fontSize: 8 },
-              { text: value ?  value.description : '', border: [true, true, true, true], fontSize: 6 }
+              { text: 'BC SCORE', border: [true, true, true, true], fontSize: 10 },
+              { text: value ?  value.description : '', border: [true, true, true, true], fontSize: 10 }
             ]
           )
         }
@@ -1166,8 +1166,8 @@ export class CreditFormPdfService {
           let value = this.valueScore004.find(data => data.code == item.ValorScore);
           docDefinition.content[15].columns[0].table.body.push(
             [
-              { text: 'SCORE CON INDICE CAPACIDAD CREDITICIA', border: [true, true, true, true], fontSize: 8 },
-              { text: value ? value.description : '', border: [true, true, true, true], fontSize: 6 }
+              { text: 'SCORE CON INDICE CAPACIDAD CREDITICIA', border: [true, true, true, true], fontSize: 10 },
+              { text: value ? value.description : '', border: [true, true, true, true], fontSize: 10   }
             ]
           )
         }
