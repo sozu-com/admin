@@ -382,6 +382,10 @@ export class UsersComponent implements OnInit {
     this.user_id = p.id;
     this.openCreditModel.nativeElement.click();
   }
+  onCountryChanges(e, index: number) {
+    this.country_code = e.iso2;
+    this.dial_code = '+' + e.dialCode;
+  }
   onClickAddCredit() {
     let input = {
       user_id: this.user_id,
