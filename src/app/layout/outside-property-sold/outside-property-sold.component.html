@@ -2,17 +2,16 @@
   <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
       <div class="form-group">
-        <p class="p16">{{'sidebar.managePropertiesForSold' |
-          translate}}</p>
+        <p class="p16">{{'sidebar.propertiesSold' | translate}}</p>
       </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-      <!-- <div class="form-group" style="float: right;">
+    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+      <div class="form-group" style="float: right;">
         <button class="action-icon" (click)="getPropertySelection(true)"
           title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause"
             style="cursor: pointer;"></i></button>
-      </div> -->
-    </div>
+      </div>
+    </div> -->
   </div>
 
   <div class="row">
@@ -183,11 +182,6 @@
                 </th>
                 <th style="width:8%;vertical-align:top;">
                   <div class="d-flex table-search">
-                    <label>{{'table.th.inhouseagent' | translate}}</label>
-                  </div>
-                </th>
-                <th style="width:8%;vertical-align:top;">
-                  <div class="d-flex table-search">
                     <label>{{'table.th.outsideagent' | translate}}</label>
                   </div>
                 </th>
@@ -230,17 +224,11 @@
                 <td>
                   <span>{{p?.collection?.bank_reference_id || ('table.tr.td.NA' | translate)}}</span>
                 </td>
-                <td>
-                         <span>
-                               {{p?.external_broker?.id
-                               ? ('table.tr.td.change' | translate) : ('table.tr.td.NA' | translate)}}
-                              </span>
-                      </td>
-                <td>
-                         <span>
-                               {{p?.external_outside_agent?.id
-                               ? ('table.tr.td.change' | translate) : ('table.tr.td.NA' | translate)}}</span>
-                      </td>
+               <td>
+                  <span>
+                        {{p?.external_outside_agent?.id
+                        ? p.external_outside_agent.name + ' ' + p.external_outside_agent.first_surname + ' ' + p.external_outside_agent.second_surname : ('table.tr.td.NA' | translate)}}</span>
+               </td>
               </tr>
               </tbody>
             </table>
