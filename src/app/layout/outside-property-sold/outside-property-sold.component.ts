@@ -1996,7 +1996,7 @@ export class OutsidePropertySoldComponent implements OnInit {
 
   getPropertySelection = (isFirstTime: boolean, keyword?: string): void => {
     this.spinner.show();
-    this.admin.postDataApi('getPropertySaleSelection', { name: keyword }).subscribe((response) => {
+    this.admin.postDataApi('getPropertySoldSelection', { name: keyword }).subscribe((response) => {
       this.spinner.hide();
       this.select_columns_list = (response.data || []).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
       (this.select_columns_list || []).forEach((data, index) => {
@@ -2025,7 +2025,7 @@ export class OutsidePropertySoldComponent implements OnInit {
 
   applyShowSelectedColumns = (): void => {
     this.spinner.show();
-    this.admin.postDataApi('updatePropertySaleHome', this.getPostRequestForColumn()).subscribe((response) => {
+    this.admin.postDataApi('updatePropertySoldHome', this.getPostRequestForColumn()).subscribe((response) => {
       this.spinner.hide();
       this.closeSelectColumnsPopup();
       this.getPropertyHome();
@@ -2038,37 +2038,20 @@ export class OutsidePropertySoldComponent implements OnInit {
   getPostRequestForColumn = (): any => {
     return {
       user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-      building_name: (this.select_columns_list[9] || []).isCheckBoxChecked,
-      tower_name: (this.select_columns_list[10] || []).isCheckBoxChecked,
-      floor: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      apartment: (this.select_columns_list[1] || []).isCheckBoxChecked,
-      model: (this.select_columns_list[8] || []).isCheckBoxChecked,
+      building_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      floor: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      apartament: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      model: (this.select_columns_list[3] || []).isCheckBoxChecked,
       configuration: (this.select_columns_list[4] || []).isCheckBoxChecked,
-      list_price: (this.select_columns_list[7] || []).isCheckBoxChecked,
-      carpet_area: (this.select_columns_list[3] || []).isCheckBoxChecked,
-      //commercialized_sozu: (this.select_columns_list[8] || []).isCheckBoxChecked,
-      possession_status: (this.select_columns_list[11] || []).isCheckBoxChecked,
-      //change_seller: (this.select_columns_list[10] || []).isCheckBoxChecked,
-      //link_unlink_outside_agent: (this.select_columns_list[13] || []).isCheckBoxChecked,
-      //link_agency: (this.select_columns_list[11] || []).isCheckBoxChecked,
-      price_per_m2: (this.select_columns_list[12] || []).isCheckBoxChecked,
-      id: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[0] || []).isCheckBoxChecked,
-      change_availability: (this.select_columns_list[2] || []).isCheckBoxChecked
+      final_price: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      stp_key: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      agent: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      
     };
   }
-  updateCommercialized = (propertyDetails: any, is_commercialized): void => {
-    propertyDetails.is_commercialized = is_commercialized;
-    this.admin.postDataApi('updateCommercialized', { id: (propertyDetails || {}).id, is_commercialized: is_commercialized }).subscribe((success) => {
-      swal(this.translate.instant('swal.success'), this.translate.instant('message.success.commercializedStatusChanged'), 'success');
-      this.closeModal();
-    }, (error) => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
-  }
+
   getPropertyHome = (): void => {
-    this.admin.postDataApi('getPropertySaleHome',
+    this.admin.postDataApi('getPropertySoldHome',
       { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
         this.selectedPropertyColumnsToShow = response.data || {};
       }, (error) => {
@@ -2103,120 +2086,29 @@ export class OutsidePropertySoldComponent implements OnInit {
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.building_name;
         break;
       case 2:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.tower_name;
-        break;
-      case 3:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.floor;
         break;
-      case 4:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.apartment;
+      case 3:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.apartament;
         break;
-      case 5:
+      case 4:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.model;
         break;
-      case 6:
+      case 5:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.configuration;
         break;
+      case 6:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.final_price;
+        break;
       case 8:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.list_price;
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.agent;
         break;
-      case 11:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.carpet_area;
-        break;
-      // case 12:
-      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.commercialized_sozu;
-      //   break;
-      case 13:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.possession_status;
-        break;
-      // case 19:
-      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_seller;
-      //   break;
-      // case 20:
-      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_agency;
-      //   break;
-      // case 29:
-      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_outside_agent;
-      //   break;
-      case 27:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.price_per_m2;
-        break;
-      case 28:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.property_sale_id;
-        break;
-      case 30:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.id;
-        break;
-      case 31:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
-        break;
-      case 32:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_availability;
+      case 7:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.stp_key;
         break;
       default:
         break;
     }
-  }
-  makePaymentBankDetailsArray = (isFirstTimeClick: boolean): void => {
-    this.paymentBankDetailsArray = [];
-    // this.installmentFormGroup.get('agencyOrSeller').value if true == seller or false == agency
-    if (!this.installmentFormGroup.get('agencyOrSeller').value) {
-      this.fedTaxPayer = (((this.bankDetails || {}).building || {}).agency || {}).fed_tax_pay || '';
-      // payment directly received by agency
-      if (((this.bankDetails || {}).building || {}).agency_id) {
-        // agency banks
-        for (let index = 0; index < (((this.bankDetails.building || {}).agency || {}).agency_banks || []).length; index++) {
-          const element = this.bankDetails.building.agency.agency_banks[index];
-          element.name = 'Agency Bank | ' + element.bank_name;
-          element.is_agency = 1;
-          element.bank_id = element.id;
-          element.legal_rep_bank_id = null;
-          element.legal_name = (((this.bankDetails || {}).building || {}).agency || {}).razon_social || '';
-          this.paymentBankDetailsArray.push(element);
-        }
-
-        // agency legal representative banks
-        if (((this.bankDetails.building || {}).agency || {}).legal_representative) {
-          for (let index = 0; index < ((this.bankDetails.building.agency.legal_representative || {}).legal_rep_banks || []).length; index++) {
-            const element = this.bankDetails.building.agency.legal_representative.legal_rep_banks[index];
-            element.name = 'Agency Legal Rep Bank | ' + element.bank_name;
-            element.is_agency = 1;
-            element.bank_id = null;
-            element.legal_rep_bank_id = element.id;
-            element.Legal_name = (((this.bankDetails || {}).building || {}).agency || {}).name || '';
-            this.paymentBankDetailsArray.push(element);
-          }
-        }
-      }
-    } else if (this.installmentFormGroup.get('agencyOrSeller').value) {
-      if ((((this.bankDetails || {}).selected_seller || {}).user || {}).developer_company || (((this.bankDetails || {}).selected_seller || {}).user || {}).is_developer == 0 && !(((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity_id) {
-        this.fedTaxPayer = (((this.bankDetails || {}).selected_seller || {}).user || {}).fed_tax_pay || '';
-        ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_rep_banks || []).forEach((element, innerIndex) => {
-          element.name = 'Seller Bank | ' + element.bank_name;
-          element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
-            this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
-              + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
-          this.paymentBankDetailsArray.push(element);
-        });
-      }
-      else {
-        this.fedTaxPayer = ((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).fed_tax_pay || '';
-        (((((this.bankDetails || {}).selected_seller || {}).user || {}).legal_entity || {}).legal_entity_banks || []).forEach((element, innerIndex) => {
-          element.name = 'Seller Bank | ' + element.bank_name;
-          element.legal_name = this.bankDetails.selected_seller.user.developer_company ? this.bankDetails.selected_seller.user.developer_company :
-            this.bankDetails.selected_seller.user.is_developer == 0 && !this.bankDetails.selected_seller.user.legal_entity_id ? this.bankDetails.selected_seller.user.name + ' ' + this.bankDetails.selected_seller.user.first_surname
-              + ' ' + this.bankDetails.selected_seller.user.second_surname : this.bankDetails.selected_seller.user.legal_entity.legal_name ? this.bankDetails.selected_seller.user.legal_entity.legal_name : '';
-          this.paymentBankDetailsArray.push(element);
-        });
-      }
-    }
-    if (isFirstTimeClick) {
-      this.openInstallmentModal.nativeElement.click();
-    }
-  }
-
-  toggleShow(value) {
-    this.isShown = value.target.checked ? true : false;
   }
 
 }

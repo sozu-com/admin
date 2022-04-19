@@ -289,12 +289,12 @@
                   <td *ngIf="selectedPropertyColumnsToShow?.agent">
                     <span>
                           {{p?.external_broker?.id
-                          ? ('table.tr.td.change' | translate) : ('table.tr.td.NA' | translate)}}</span>
+                          ? p.external_broker.name + ' ' + p.external_broker.first_surname + ' ' + p.external_broker.second_surname : ('table.tr.td.NA' | translate)}}</span>
                  </td>
                  <td *ngIf="selectedPropertyColumnsToShow?.agent">
                     <span>
                           {{p?.external_outside_agent?.id
-                          ? ('table.tr.td.change' | translate) : ('table.tr.td.NA' | translate)}}</span>
+                          ? p.external_outside_agent.name + ' ' + p.external_outside_agent.first_surname + ' ' + p.external_outside_agent.second_surname : ('table.tr.td.NA' | translate)}}</span>
                  </td>
                 </tr>
               </tbody>
