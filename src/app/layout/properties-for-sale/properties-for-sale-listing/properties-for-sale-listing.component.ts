@@ -260,7 +260,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       this.language_code = event.lang;
       this.iniDropDownSetting();
       this.getPropertyFilter();
-  });
+    });
     this.selctedAmenities = [];
     this.seller_type = 1;
     this.locale = {
@@ -388,15 +388,12 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
 
   setFloors() {
-    var foo = new Array(30);
-    this.floors = [];
-    for (var i = 0; i < foo.length; i++) {
-      const obj = {
-        id: i,
-        name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
-      }
-      this.floors.push(obj);
-    }
+    this.admin.postDataApi('getFloor', {}).subscribe(
+      success => {
+        this.floors = success['data'];
+      }, error => {
+        this.spinner.hide();
+      });
   }
 
   close() {
@@ -1193,9 +1190,9 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         this.selectedPropertyColumnsToShow.carpet_area == 0 ? delete obj['Carpet Area'] : undefined;
         //this.selectedPropertyColumnsToShow.commercialized_sozu == 0 ? delete obj['Commercialized by SOZU'] : undefined;
         this.selectedPropertyColumnsToShow.possession_status == 0 ? delete obj['Possession Status'] : undefined;
-       // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_seller == 0 ? delete obj['Seller'] : undefined;
-       // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
-       // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.change_seller == 0 ? delete obj['Seller'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_agency == 0 ? delete obj['Agency'] : undefined;
         this.selectedPropertyColumnsToShow.price_per_m2 == 0 ? delete obj['Price per m2'] : undefined;
         this.selectedPropertyColumnsToShow.property_sale_id == 0 ? delete obj['ID'] : undefined;
         exportfinalData.push(obj);
@@ -2172,7 +2169,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
       id: (this.select_columns_list[6] || []).isCheckBoxChecked,
       action: (this.select_columns_list[0] || []).isCheckBoxChecked,
       change_availability: (this.select_columns_list[2] || []).isCheckBoxChecked
-      
+
     };
   }
   updateCommercialized = (propertyDetails: any, is_commercialized): void => {
