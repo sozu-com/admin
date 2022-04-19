@@ -844,7 +844,7 @@
       "closed": "Cerrado"
     },
     "th": {
-      "back_referencs":"STP key",
+      "back_referencs":"Clabe STP",
       "Property_chose":"Ya_eligio_inmueble",
       "Where_quote":"Donde_cotiza",
       "Property_cost":"Valor_departamento",
@@ -2455,7 +2455,8 @@
     "Properties_For_Sale":"Properties For Sale",
     "Manual_Leads":"Leads manuales",
     "Manage_Leads":"Administrar leads",
-    "Manage_user_roles":"Administración de roles"
+    "Manage_user_roles":"Administración de roles",
+    "propertiesSold": "Propiedades vendidas"
   },
   "commonBlock": {
     "In":"En",

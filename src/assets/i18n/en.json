@@ -855,7 +855,7 @@
       "Term":"Term",
       "Monthly_amount":"Monthly amount",
       "Income":"Income",
-"back_referencs":"STP key",
+      "back_referencs":"STP key",
       "carpetArea": "Carpet Area",
       "Delivery": "Delivery estimated date",
       "all": "All",
@@ -2460,7 +2460,8 @@
     "Properties_For_Sale":"Properties For Sale",
     "Manual_Leads":"Manual Leads",
     "Manage_Leads":"Manage Leads",
-    "Manage_user_roles":"Manage user roles"
+    "Manage_user_roles":"Manage user roles",
+    "propertiesSold": "Properties sold"
   },
   "commonBlock": {
     "In":"In",
