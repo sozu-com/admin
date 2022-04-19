@@ -844,7 +844,7 @@
       "closed": "Cerrado"
     },
     "th": {
-      "back_referencs":"STP key",
+      "back_referencs":"Clabe STP",
       "Property_chose":"Ya_eligio_inmueble",
       "Where_quote":"Donde_cotiza",
       "Property_cost":"Valor_departamento",
@@ -918,6 +918,8 @@
       "30days":"*Las ofertas comerciales tendrán una duración de 30 días en el sistema.",
       "inhouseagentCommission": "Comisión de agente interno (en%)",
       "outsideagentCommission": "Comisión de agente externo (en%)",
+      "inhouseagent": "Agente Anterno",
+      "outsideagent": "Aagente Externo",
       "totalSozuCommission": "Comisión total (en %)",
       "sozuCommission": "Sozu Comisión (in %)",
       "sozuPC": "Comisión Sozu (en%)",
@@ -2455,7 +2457,8 @@
     "Properties_For_Sale":"Properties For Sale",
     "Manual_Leads":"Leads manuales",
     "Manage_Leads":"Administrar leads",
-    "Manage_user_roles":"Administración de roles"
+    "Manage_user_roles":"Administración de roles",
+    "propertiesSold": "Propiedades vendidas"
   },
   "commonBlock": {
     "In":"En",
