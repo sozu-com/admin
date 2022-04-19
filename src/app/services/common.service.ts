@@ -19,12 +19,14 @@ export class CommonService {
   pros: any;
   propertyData: any = [];
   items: any[] = [];
+  sold_items: any[] = [];
   outside_items: any[] = [];
   totalOutside: any = 0;
   agencies: any = [];
   collections: any = [];
   totalCollections: any = 0;
   total: any = 0; logoImageBase64: any;
+  sold_total: any = 0;
   totalProperty: any = 0;
   totalAgencies: any = 0; login_data_out: any = {};
   totalSale: any = 0; found: any; all: any;
@@ -148,6 +150,7 @@ export class CommonService {
       this.admin.postDataApi('getAgencies', input),
       this.admin.postDataApi('getCollection', test),
       this.admin.postDataApi('propertyForSale', sale),
+      this.admin.postDataApi('propertySold', sale),
     ]).subscribe(success => {
       // this.parameter.keyword = '';
       // this.spinner.hide();
@@ -282,15 +285,24 @@ export class CommonService {
 
       //propertyForSale
       this.parameter.keyword = '';
-      this.spinner.hide();
       this.items = success[4].data || [];
       this.totalSale = success[4].total_count;
-      localStorage.setItem('property_sale_data', JSON.stringify(this.items));
-      localStorage.setItem('property_sale_total', JSON.stringify(this.totalSale));
       this.items.forEach(function (element) {
         element['price_per_square_meter'] =
           (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
       });
+      localStorage.setItem('property_sale_data', JSON.stringify(this.items));
+      localStorage.setItem('property_sale_total', JSON.stringify(this.totalSale));
+  
+      this.sold_items = success[5].data || [];
+      this.sold_total = success[5].total_count;
+      this.sold_items.forEach(function (element) {
+        element['price_per_square_meter'] =
+          (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
+      });
+      localStorage.setItem('property_sold_data', JSON.stringify(this.sold_items));
+      localStorage.setItem('property_sold_total', JSON.stringify(this.sold_total));
+      this.spinner.hide();
     });
   }
 

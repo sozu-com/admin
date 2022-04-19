@@ -166,7 +166,15 @@ const routes: Routes = [
       {
         path: 'roles',
         loadChildren: './manage-roles/manage-roles.module#ManageRolesModule'
-      }
+      },
+       {
+         path: 'property-sold',
+         loadChildren: './property-sold/property-sold.module#PropertySoldModule'
+       },
+      // {
+      //   path: 'outside-property-sold',
+      //   loadChildren: './outside-property-sold/outside-property-sold.module#OutsidePropertySoldModule'
+      // },
     ]
   }
 ];
