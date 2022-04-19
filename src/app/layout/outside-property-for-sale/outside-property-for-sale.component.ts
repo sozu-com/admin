@@ -196,27 +196,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       monthlyInstallment: '',
       numberOfMI: '',
       paymentupondelivery: '',
-      // isAddVariables: [false],
-      // isAddParkingLotForSale: [false],
-      // parkingLotsNumber: [''],
-      // parkingLotsType: [''],
-      // parkingLotsPrice: [''],
-      // agencyOrSeller: [false],
-      // tempAddVariablesText: [''],
-      // tempAddVariablesPercentage: [''],
-      // interest: [''],
-      // paymentBankDetails: [''],
-      // addVariablesFormArray: this.formBuilder.array([]),
-      // parkingLotForSaleFormArray: this.formBuilder.array([]),
       addNoteFormArray: this.formBuilder.array([]),
-      // addbankFormArray: this.formBuilder.array([]),
-      // listPrice: [{ value: '', disabled: true }],
-      // finalPrice: [{ value: '', disabled: true }],
-      // downPaymentFinalPrice: [{ value: '', disabled: true }],
-      // discountFinalPrice: [{ value: '', disabled: true }],
-      // monthlyInstallmentFinalPrice: [{ value: '', disabled: true }],
-      // interestFinalPrice: [{ value: '', disabled: true }],
-      // paymentupondeliveryFinalPrice: [{ value: '', disabled: true }],
       leadName: '',
       email: '',
       phone: '',
@@ -247,13 +227,14 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.getPropertyHome();
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
+    this.getLocalityBuildings_out();
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.multiDropdownSettings = null;
       this.availabilityStatus = null;
       this.language_code = event.lang;
       this.iniDropDownSetting();
       this.getPropertyFilter();
-  });
+    });
     this.selctedAmenities = [];
     this.seller_type = 1;
     this.locale = {
@@ -380,15 +361,22 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   }
 
   setFloors() {
-    var foo = new Array(30);
-    this.floors = [];
-    for (var i = 0; i < foo.length; i++) {
-      const obj = {
-        id: i,
-        name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
-      }
-      this.floors.push(obj);
-    }
+    this.admin.postDataApi('getFloor', {}).subscribe(
+      success => {
+        this.floors = success['data'];
+      }, error => {
+        this.spinner.hide();
+      });
+
+    // var foo = new Array(30);
+    // this.floors = [];
+    // for (var i = 0; i < foo.length; i++) {
+    //   const obj = {
+    //     id: i,
+    //     name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
+    //   }
+    //   this.floors.push(obj);
+    // }
   }
 
   close() {
@@ -644,7 +632,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.spinner.show();
     this.makePostRequest();
     let input = {
-      localities: this.parameter.localities,
+      //localities: this.parameter.localities,
       admin_id: this.login_data_out.id,
     }
     this.admin.postDataApi('getadminLocalityBuildings', input)
@@ -2163,9 +2151,9 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       case 31:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
         break;
-        case 32:
-          this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_availability;
-          break;
+      case 32:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_availability;
+        break;
       default:
         break;
     }
