@@ -282,7 +282,7 @@ export class CreditFormPdfService {
               table: {
                 style: 'table5',
                 headerRows: 1,
-                widths: [118, 35, 33, 35, 38, 35, 38, 38, 38, 33, 38, 42, 230],
+                widths: [118, 35, 33, 35, 38, 35, 38, 38, 38, 33, 38, 38, 234],
                 body: [
                   [
                     { text: 'Otorgante / Tipo cuenta / Tipo contrato / Clave monetaria', bold: true, border: [false, false, false, false], fontSize: 8 },
@@ -401,7 +401,7 @@ export class CreditFormPdfService {
               style: 'table6',
               table: {
                 headerRows: 1,
-                widths: [288],
+                widths: [318],
                 body: [
                   [
                     { text: 'Mensajes de alerta:', fillColor: '#cccccc', bold: true, border: [false, false, false, false], fontSize: 10 },
@@ -505,7 +505,7 @@ export class CreditFormPdfService {
               style: 'table7',
               table: {
                 headerRows: 1,
-                widths: [120, 160],
+                widths: [120, 210],
                 body: [
                   [
                     { text: 'SCORE:', fillColor: '#000000', color: 'white', bold: true, border: [false, false, false, false], fontSize: 10 },
