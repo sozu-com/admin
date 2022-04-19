@@ -160,6 +160,10 @@ const routes: Routes = [
         loadChildren: './outside-property-for-sale/outside-property-for-sale.module#OutsidePropertyForSaleModule'
       },
       {
+        path: 'outside-property-sold',
+        loadChildren: './outside-property-sold/outside-property-sold.module#OutsidePropertySoldModule'
+      },
+      {
         path: 'product',
         loadChildren: './manage-product/manage-product.module#ManageProductModule'
       },
@@ -167,10 +171,10 @@ const routes: Routes = [
         path: 'roles',
         loadChildren: './manage-roles/manage-roles.module#ManageRolesModule'
       },
-       {
-         path: 'property-sold',
-         loadChildren: './property-sold/property-sold.module#PropertySoldModule'
-       },
+      {
+        path: 'property-sold',
+        loadChildren: './property-sold/property-sold.module#PropertySoldModule'
+      },
       // {
       //   path: 'outside-property-sold',
       //   loadChildren: './outside-property-sold/outside-property-sold.module#OutsidePropertySoldModule'
