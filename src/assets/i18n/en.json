@@ -919,6 +919,8 @@
       "30days":"*The commercial offers will last 30 days in the system",
       "inhouseagentCommission": "Inhouse Agent Commission (in %)",
       "outsideagentCommission": "Outside Agent Commission (in %)",
+      "inhouseagent": "Inhouse Agent",
+      "outsideagent": "Outside Agent",
       "totalSozuCommission": "Total Commission (in %)",
       "sozuCommission": "Sozu Commission (in %)",
       "sozuPC": "Sozu Commission (in %)",
