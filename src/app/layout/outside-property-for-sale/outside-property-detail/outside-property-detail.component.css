@@ -1,0 +1,86 @@
+.shadow{
+    font-size: 35px;
+    text-shadow: 0px 0px 13px #000000;
+}
+.gallery-bottom img, .project-gallery img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+.fig-block img {
+    max-width: 100%;
+}
+.images-wrapper {
+    width: 48%;
+    height: 180px;
+    margin-right: 4%;
+    background: #eee;
+    float: left;
+}
+a {
+    color: #00b96f;
+    text-decoration: none;
+    background-color: transparent;
+}
+.p15 {
+    color: rgba(0,0,0,.66);
+    font-size: 15px;
+    line-height: 20px;
+    font-family: sf_ui_textregular;
+}
+.top-main-img-outer .avl {
+    position: absolute;
+    z-index: 1;
+    max-width: 160px;
+    width: 100%;
+    border-radius: 16px;
+    background-color: rgba(255,255,255,0.55);
+    color: #000000;
+    font-size: 14px;
+    text-align: center;
+    padding: 5px 8px 7px;
+    right: 87px;
+    top: 35px;
+}
+.top-main-img {
+    width: 100%;
+    height: 500px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.apart-info {
+    width: 320px;
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
+    padding: 0px;
+    position: relative;
+    z-index: 1;
+    margin-top: 0;
+}
+.building-name {
+    width: 320px;
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
+    padding: 4px;
+}
+.configuration-page h4 {
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-cont .btn-primary {
+    color: #fff;
+    background-color: #00B96F;
+    border-color: #00B96F;
+    font-size: 14px;
+    font-family: 'sf_ui_textmedium';
+    text-align: center;
+    border-radius: 0;
+    padding: 8px 15px;
+    min-width: 152px;
+    margin-bottom: 27px;
+}

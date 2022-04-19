@@ -16,12 +16,14 @@ import { SharedModule } from 'src/app/modules/shared.module';
 import { OutsidePropertyForSaleComponent } from './outside-property-for-sale.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
+import { OutsidePropertyDetailComponent } from './outside-property-detail/outside-property-detail.component';
 
 const routes: Routes = [
     {
         path: 'outside', component: OutsidePropertyForSaleComponent,
         canActivate: [AclUserGuard], data: { roles: ['Properties For Sale Management', 'can_read', ''] }
     },
+    { path: 'details/:property_id', component: OutsidePropertyDetailComponent }
 ];
 
 @NgModule({
@@ -46,7 +48,8 @@ const routes: Routes = [
         NgxMaskModule.forRoot()
     ],
     declarations: [
-        OutsidePropertyForSaleComponent
+        OutsidePropertyForSaleComponent,
+        OutsidePropertyDetailComponent
     ]
 })
 export class OutsidePropertyForSaleModule { }

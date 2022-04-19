@@ -282,16 +282,12 @@
                              title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
                                 src="assets/img/edit.png" alt="img"></button>
                        </span></td> -->
-                  <td *ngIf="selectedPropertyColumnsToShow?.list_price && p?.for_hold == 1">
-                    <span>
-                      {{p?.min_price ? p.min_price : 0.00}}
-                    </span>
-                  </td>
-                  <td *ngIf="selectedPropertyColumnsToShow?.list_price && p?.for_hold != 1">
-                    <span>
-                      
-                    </span>
-                  </td>
+                       <td *ngIf="selectedPropertyColumnsToShow?.list_price">
+                        <span *ngIf="p?.for_hold != 1">
+                          {{p.min_price | price}}
+                        </span>
+                      </td>
+                 
                   <!-- <td *ngIf="selectedPropertyColumnsToShow?.price_per_m2">
                     <span>${{ p.price_per_square_meter ? (p.price_per_square_meter | number : '1.2-2') : 0.00}}</span>
                   </td> -->

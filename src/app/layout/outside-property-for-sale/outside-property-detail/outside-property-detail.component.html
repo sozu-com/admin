@@ -1,0 +1,347 @@
+<div class="padding15">
+  <div class="row">
+    <div class="col-11">
+      <div class="title-group">
+        <!-- <h5><a (click)="goBack(true)" href="javascript://"><i class="fa fa-angle-double-left"></i> </a></h5> -->
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-6">
+      <div class="btn-cont text-right title-group">
+        <a href="javascript://" (click)="goBack(false)" style="color: #fff !important; background-color: #00B96F !important;"
+          class="btn-sm btn-primary-new" href="javascript://">{{'quickVisualization.back' | translate}}</a>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!property" style="margin-top:120px;" class="container">
+  <img style="width:100%" src="assets/img/loading_content.gif">
+</div>
+<!-- <div class="row">
+  <div class="col-lg-12 col-sm-12 col-12">
+    <div class="btn-cont text-right">
+      <button   (click)="downloadPDF()" class="btn btn-primary">{{'propertyDetail.DownloadPDF' | translate}}</button>
+    </div>
+  </div>
+</div> -->
+<div  id="contentToConvert" class="white-bg configuration-page" style="margin-left: 10px;" *ngIf="property?.configuration_toggle == 0">
+  <div class="top-main-img-outer">
+    <div class="avl" *ngIf="!property?.for_hold">{{'propertyDetail.availableFor' | translate}}
+      <span *ngIf="property?.for_rent">{{'propertyDetail.rent' | translate}}</span>
+      <span *ngIf="property?.for_rent && property?.for_sale">/</span>
+      <span *ngIf="property?.for_sale">{{'propertyDetail.sale' | translate}}</span>
+    </div>
+  <div class="avl" *ngIf="property?.for_hold == 1">{{'addForm.sold' | translate}}</div>
+  
+    <div class="fig-block">
+      <img class="img-fluid top-main-img" 
+    onerror='this.src="assets/img/DEFAULT_IMG_DESCRIPTION.jpg"' 
+    [defaultImage]="coverImage" [lazyLoad]="coverImage">
+        <!-- <img class="img-fluid top-main-img" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="property?.image| img:'thumb'" [lazyLoad]="property?.image"> -->
+  </div> 
+  
+  </div>
+  <div class="padding30">
+    <div class="apart-info ">
+        <p *ngIf="property?.name" class="p14">
+          {{property?.name}}  
+        </p>
+        <p class="p12">
+          <app-property-configuration *ngIf="property?.building_configuration" [configuration]="property?.building_configuration?.config"></app-property-configuration>
+          <span>&middot; {{property?.property_type?.name}} </span>
+        </p>
+
+        <h6 class="float-left">{{property?.max_area}} {{'propertyDetail.sqmt' | translate}}</h6> <h6 class="float-right">{{property?.max_price|price}}</h6>
+        <div class="clearfix"></div>
+    </div> 
+    <div class="building-name">
+        <div class="float-left">
+            <p *ngIf="property?.building" class="p14">{{property?.building?.name}}</p>
+            <p class="p12 marginB0">{{'propertyDetail.building' | translate}}</p>
+        </div>
+        <div class="float-right"><a href="javascript://">
+            <img src="assets/img/viewfull.png" alt="img"></a></div>
+        <!-- <div *ngIf="property.building" class="float-right" [routerLink]="['/project',property.building.id]"><a href="javascript://"><img src="assets/img/viewfull.png" alt="img"></a></div> -->
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <h4>{{'propertyDetail.description' | translate}}</h4>
+            <p class="p15 newline">{{property?.description}}</p>
+
+            <h4>{{'propertyDetail.area' | translate}}</h4>
+            <div class="area-table" *ngIf="property?.carpet_areas">
+                <table class="table table-borderless">
+                   <tbody><tr>
+                   <th>{{'propertyDetail.carpetArea' | translate}}</th>
+                   <th>{{'propertyDetail.basePrice' | translate}}</th>
+                   </tr>
+                   <tr *ngFor="let area of property?.carpet_areas " >
+                     <td>{{area.area}} {{'propertyDetail.sqmt' | translate}}</td>
+                     <td>{{area.price|price}}</td>
+                   </tr>
+
+                </tbody></table>
+             </div>
+
+            <h4>{{'propertyDetail.Specifications' | translate}}</h4>
+            <div class="spec-table">
+                <table class="table table-borderless">
+                   <tbody><tr>
+                      <td>
+                      <label>{{'propertyDetail.Bedrooms' | translate}}</label>
+                      <span>{{property?.bedroom}}</span>
+                      </td>
+                      <td>
+                      <label>{{'propertyDetail.Bathrooms' | translate}}</label>
+                      <span>{{property?.bathroom}}</span>
+                      </td>
+                   </tr>
+                    <tr>
+                      <td>
+                      <label>{{'propertyDetail.Parking' | translate}}</label>
+                      <span>{{property?.parking ? ('propertyDetail.yes' | translate) : ('propertyDetail.no' | translate)}}</span>
+                      </td>
+                      <td>
+                      <label>{{'propertyDetail.Furnished' | translate}}</label>
+                      <span>{{property?.furnished ? ('propertyDetail.yes' | translate) : ('propertyDetail.no' | translate)}}</span>
+                      </td>
+                   </tr>
+                    <tr>
+                      <td>
+                      <label>{{'propertyDetail.petsAllowed' | translate}}</label>
+                      <span>{{property?.pets ? ('propertyDetail.yes' | translate) : ('propertyDetail.no' | translate)}}</span>
+                      </td>
+                      <td *ngIf="property?.marital_statuses">
+                      <label>{{'propertyDetail.availableFor' | translate}}</label>
+                      <span *ngFor="let ms of property.marital_statuses; let i=index">
+                          {{ms.name}}
+                          <span *ngIf="i<property?.marital_statuses?.length-1">,</span>
+                        </span>
+                      </td>
+
+                   </tr>
+                </tbody></table>
+            </div>
+
+            <div *ngIf="property?.amenities?.length > 0">
+             <h4>{{'propertyDetail.amenities' | translate}}</h4>
+             <ul class="green-icon-list">
+                <li *ngFor="let amenity of property?.amenities">
+                  <span><img src="assets/img/green-icon.png" alt="img"></span>
+                  {{amenity.name}}
+                </li>
+             </ul>
+            </div>
+
+        </div>
+        <div class="col-md-6 col-12">
+          <h4>{{'addForm.floorPlanImage' | translate}}</h4>
+            <div class="fig-block text-center">
+                <!-- <img class="img-fluid" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="property?.floor_plan| img:'thumb'" [lazyLoad]="property?.floor_plan"> -->
+              <img class="img-fluid" 
+              [lazyLoad]="floorPlanImage"
+              [defaultImage]="floorPlanImage" 
+              onerror='this.src="assets/img/placeholder.png"'>
+            </div>
+            <div *ngIf="isShow">
+              <div class="fig-block text-center">
+                <div class="project-gallery marginB15" *ngIf="property?.images360.length>0">
+                  <img [lazyLoad]="image360"
+                       [defaultImage]="image360"
+                        onerror='this.src="assets/img/placeholder.png"' style="max-width: 100%;">
+                </div>
+                <div *ngIf="property?.images.length>0 || property?.videos.length>0" class="gallery-bottom">
+                  <div *ngIf="property?.videos.length>0" class="video-wrapper">
+                    <img [lazyLoad]="property?.videos[0].medium"
+                         [defaultImage]="property?.videos[0].thumb|img:'medium'"
+                         onerror='this.src="assets/img/placeholder.png"' style="max-width: 100%;">
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="spacer20"></div>
+              <h4>{{'addForm.Gallery' | translate}} </h4>
+              <div class="text-center">
+                <div class="icons-group" style="margin: -17px;">
+                  <div *ngFor="let am of property?.images| slice:0:6; let i=index" 
+                  class="col-lg-6 col-md-8 col-sm-12 col-12">
+                    <a [href]="am.image" data-lightbox="image">
+                      <img [lazyLoad]="am.image"
+                           [defaultImage]="am.image|img:'medium'"
+                           onerror='this.src="assets/img/placeholder.png"'
+                           style="margin: 5px; width: 240px;
+                           height: 140px;object-fit: cover;">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+
+    </div>
+  </div>
+  </div>
+
+  <div id="contentToConvert" class="white-bg configuration-page" style="margin-left: 10px;" *ngIf="property?.configuration_toggle == 1">
+    <div class="top-main-img-outer">
+        <div class="avl" *ngIf="!property?.for_hold">{{'propertyDetail.availableFor' | translate}}
+          <span *ngIf="property?.for_rent">{{'propertyDetail.rent' | translate}}</span>
+          <span *ngIf="property?.for_rent && property?.for_sale">/</span>
+          <span *ngIf="property?.for_sale">{{'propertyDetail.sale' | translate}}</span>
+      </div>
+      <div class="avl" *ngIf="property?.for_hold == 1">{{'addForm.sold' | translate}}</div>
+     
+      <div class="fig-block">
+        <img class="img-fluid top-main-img" 
+      onerror='this.src="assets/img/DEFAULT_IMG_DESCRIPTION.jpg"' 
+      [defaultImage]="coverImage" [lazyLoad]="coverImage">
+          <!-- <img class="img-fluid top-main-img" onerror='this.src="assets/img/placeholder.png"' [defaultImage]="property?.image| img:'thumb'" [lazyLoad]="property?.image"> -->
+    </div> 
+    </div>
+    <div class="padding30">
+      <div class="apart-info ">
+          <p *ngIf="property?.name" class="p14">
+            {{property?.name}}
+          </p>
+          <p class="p12">
+            <app-property-configuration *ngIf="property?.building_configuration" [configuration]="property?.building_configuration?.config"></app-property-configuration>
+            <span>&middot; {{property?.property_type?.name}} </span>
+          </p>
+
+          <h6 class="float-left">{{property?.max_area}} {{'propertyDetail.sqmt' | translate}}</h6> <h6 class="float-right">{{property?.max_price|price}}</h6>
+          <div class="clearfix"></div>
+      </div> 
+      <div class="building-name">
+          <div class="float-left">
+              <p *ngIf="property?.building" class="p14">{{property?.building?.name}}</p>
+              <p class="p12 marginB0">{{'propertyDetail.building' | translate}}</p>
+          </div>
+          <div class="float-right"><a href="javascript://">
+              <img src="assets/img/viewfull.png" alt="img"></a></div>
+          <!-- <div *ngIf="property.building" class="float-right" [routerLink]="['/project',property.building.id]"><a href="javascript://"><img src="assets/img/viewfull.png" alt="img"></a></div> -->
+          <div class="clearfix"></div>
+      </div>
+
+      <div class="clearfix"></div>
+      <div class="row">
+          <div class="col-md-6 col-12">
+              <h4>{{'propertyDetail.description' | translate}}</h4>
+              <p class="p15 newline">{{property?.description}}</p>
+
+              <h4>{{'propertyDetail.area' | translate}}</h4>
+              <div class="area-table" *ngIf="property?.carpet_areas">
+                  <table class="table table-borderless">
+                     <tbody><tr>
+                     <th>{{'propertyDetail.carpetArea' | translate}}</th>
+                     <th>{{'propertyDetail.basePrice' | translate}}</th>
+                     </tr>
+                     <tr *ngFor="let area of property?.carpet_areas " >
+                       <td>{{area.area}} {{'propertyDetail.sqmt' | translate}}</td>
+                       <td>{{area.price|price}}</td>
+                     </tr>
+
+                  </tbody></table>
+               </div>
+
+              <h4>{{'propertyDetail.Specifications' | translate}}</h4>
+              <div class="spec-table">
+                  <table class="table table-borderless">
+                     <tbody><tr>
+                        <td>
+                        <label>{{'propertyDetail.Bedrooms' | translate}}</label>
+                        <span>{{property?.bedroom}}</span>
+                        </td>
+                        <td>
+                        <label>{{'propertyDetail.Bathrooms' | translate}}</label>
+                        <span>{{property?.bathroom}}</span>
+                        </td>
+                     </tr>
+                      <tr>
+                        <td>
+                        <label>{{'propertyDetail.Parking' | translate}}</label>
+                        <span>{{property?.parking ? ('propertyDetail.yes' | translate) : ('propertyDetail.no' | translate)}}</span>
+                        </td>
+                        <td>
+                        <label>{{'propertyDetail.Furnished' | translate}}</label>
+                        <span>{{property?.furnished ? ('propertyDetail.yes' | translate) : ('propertyDetail.no' | translate)}}</span>
+                        </td>
+                     </tr>
+                      <tr>
+                        <td>
+                        <label>{{'propertyDetail.petsAllowed' | translate}}</label>
+                        <span>{{property?.pets ? ('propertyDetail.yes' | translate) : ('propertyDetail.no' | translate)}}</span>
+                        </td>
+                        <td *ngIf="property?.marital_statuses">
+                        <label>{{'propertyDetail.availableFor' | translate}}</label>
+                        <span *ngFor="let ms of property.marital_statuses; let i=index">
+                            {{ms.name}}
+                            <span *ngIf="i<property?.marital_statuses?.length-1">,</span>
+                          </span>
+                        </td>
+
+                     </tr>
+                  </tbody></table>
+              </div>
+
+              <div *ngIf="property?.amenities?.length > 0">
+               <h4>{{'propertyDetail.amenities' | translate}}</h4>
+               <ul class="green-icon-list">
+                  <li *ngFor="let amenity of property?.amenities">
+                    <span><img src="assets/img/green-icon.png" alt="img"></span>
+                    {{amenity.name}}
+                  </li>
+               </ul>
+              </div>
+
+          </div>
+          <div class="col-md-6 col-12">
+            <h4>{{'addForm.floorPlanImage' | translate}}</h4>
+              <div class="fig-block text-center">
+                <img class="img-fluid" 
+                [lazyLoad]="floorPlanImage"
+                [defaultImage]="floorPlanImage" 
+                onerror='this.src="assets/img/placeholder.png"'>
+              </div>
+              <div *ngIf="isShow">
+                <div class="fig-block text-center">
+                  <div class="project-gallery marginB15" *ngIf="property?.building_configuration?.images360.length > 0">
+                    <img [lazyLoad]="image360"
+                         [defaultImage]="image360"
+                          onerror='this.src="assets/img/placeholder.png"' style="max-width: 100%;">
+                  </div>
+                  <div *ngIf="property?.building_configuration?.videos.length>0" class="gallery-bottom">
+                    <div *ngIf="property?.building_configuration?.videos.length>0" class="video-wrapper">
+                      <img [lazyLoad]="property?.building_configuration?.videos[0].medium"
+                      [defaultImage]="property?.building_configuration?.videos[0].thumb|img:'medium'"
+                      onerror='this.src="assets/img/placeholder.png"' style="width: 100%;">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="spacer20"></div>
+                <h4>{{'addForm.Gallery' | translate}} </h4>
+                <div class="text-center">
+                  <div class="icons-group" style="margin: -17px;">
+                    <div *ngFor="let am of property?.building_configuration?.images| slice:0:6; let i=index" 
+                    class="col-lg-6 col-md-8 col-sm-12 col-12">
+                      <a [href]="am.image" data-lightbox="image">
+                        <img [lazyLoad]="am.image"
+                             [defaultImage]="am.image|img:'medium'"
+                             onerror='this.src="assets/img/placeholder.png"'
+                             style="margin: 5px; width: 240px;
+                             height: 140px;object-fit: cover;">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+
+      </div>
+    </div>
+    </div>
