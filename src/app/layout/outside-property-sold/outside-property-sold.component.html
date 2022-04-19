@@ -6,11 +6,11 @@
       </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-      <div class="form-group" style="float: right;">
+      <!-- <div class="form-group" style="float: right;">
         <button class="action-icon" (click)="getPropertySelection(true)"
           title="{{'table.title.selectColumns' | translate}}"><i class="fa fa-pause"
             style="cursor: pointer;"></i></button>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -106,50 +106,29 @@
         <div class="tabel-section">
           <div class="table-responsive">
             <table class="table table-striped table-align-left">
-
               <tr>
-                <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.id">
-                  <div class="table-search">
-                    <label>{{'table.th.id' | translate}}</label>
-                    <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.id" name="id"
-                        (keyup.enter)="getListing('','')" autocomplete="address-level4">
-                      <button *ngIf="parameter.random_id" (click)="getListing('','')"><i class="fa fa-search"></i></button>
-                    </div>
-                  </div>
-                </th>
-                <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.building_name">
+                <th style="width:10%; text-align:left;">
                   <div class="table-search">
                     <label>{{'table.th.nameOfBuilding' | translate}}</label>
                     <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.keyword" name="keyword"
+                      <input class="width100px" type="text" [(ngModel)]="parameter.building_name" name="building_name"
                         (keyup.enter)="getListing('','')" autocomplete="address-level4">
-                      <button *ngIf="parameter.keyword" (click)="getListing('','')"><i class="fa fa-search"></i></button>
+                      <button *ngIf="parameter.building_name" (click)="getListing('','')"><i class="fa fa-search"></i></button>
                     </div>
                   </div>
                 </th>
-                <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.tower_name">
+                <th style="width:10%; text-align:left;">
                   <div class="table-search">
-                    <label>{{'table.th.nameOfTower' | translate}}</label>
-                    <div class="searh-3">
-                      <input class="width100px" type="text" [(ngModel)]="parameter.tower_name" name="tower_name"
-                        (keyup.enter)="getListing('','')" autocomplete="address-level4">
-                      <button *ngIf="parameter.tower_name" (click)="getListing('','')"><i class="fa fa-search"></i></button>
-                    </div>
+                    <label>{{'table.th.floor' | translate}}</label>
+                    <select [(ngModel)]="parameter.floor_num" (change)="getListing('','')" name="floor_num">
+                      <option value="">{{'table.th.allFloors' | translate}}</option>
+                      <option *ngFor="let c of floors" value="{{c.id}}">
+                        {{c.name}}
+                      </option>
+                    </select>
                   </div>
                 </th>
-                <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.floor">
-                  <div class="table-search">
-                     <label>{{'table.th.floor' | translate}}</label>
-                     <select [(ngModel)]="parameter.floor_num" (change)="getListing('','')" name="floor_num">
-                        <option value="">{{'table.th.allFloors' | translate}}</option>
-                        <option *ngFor="let c of floors" value="{{c.floor_num}}">
-                           {{c.floor_num + ' ' + ('addForm.floor' | translate)}}
-                        </option>
-                     </select>
-                  </div>
-               </th>
-                <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.apartment">
+                <th style="width:10%; text-align:left;">
                   <div class="table-search">
                     <label>{{'table.th.apartment' | translate}}
                       <a (click)="sort_by(4)" href="javascript://"><img [ngClass]="{'upsidedown':parameter.sort_by==4}"
@@ -162,7 +141,7 @@
                     </div>
                   </div>
                 </th>
-                <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.model">
+                <th style="width:10%; text-align:left;">
                   <div class="table-search">
                     <label>{{'table.th.model' | translate}}</label>
                     <div class="searh-3">
@@ -173,7 +152,7 @@
                     </div>
                   </div>
                 </th>
-                <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.configuration">
+                <th style="width:10%; text-align:left;">
                   <div class="table-search">
                     <label>{{'table.th.configuration' | translate}}</label>
                     <select [(ngModel)]="parameter.configuration_id" (change)="getListing('','')" name="configuration_id">
@@ -188,136 +167,80 @@
                     </select>
                   </div>
                 </th>
-                <!-- <th style="width:10%;vertical-align:top;">
-                          <div class="d-flex table-search">
-                             <label>{{'table.th.editPrice' | translate}}</label>
-                          </div>
-                       </th> -->
-                <th style="width:10%;vertical-align:top;" 
-                *ngIf="selectedPropertyColumnsToShow?.list_price">
+                <th style="width:10%;vertical-align:top;">
                   <div (click)="sort_by(1)" class="d-flex table-search">
-                    <label>{{'table.th.listPrice' | translate}}</label>
+                    <label>{{'table.th.finalPrice' | translate}}</label>
                     <a href="javascript://"><img
                         [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
                         src="assets/img/top-arrow.png" alt="img"></a>
                   </div>
                 </th>
-                <!-- <th style="width:10%;vertical-align:top;" *ngIf="selectedPropertyColumnsToShow?.price_per_m2">
-                  <div (click)="sort_by(1)" class="d-flex table-search">
-                    <label>{{'table.th.price_per_square' | translate}}</label>
-                  </div>
-                </th> -->
-                <th style="width:8%;vertical-align:top;" *ngIf="selectedPropertyColumnsToShow?.carpet_area">
-                  <div (click)="sort_by(5)" class="d-flex table-search">
-                    <label>{{'table.th.carpetArea' | translate}}</label>
-                    <a href="javascript://"><img
-                        [ngClass]="{'upsidedown':parameter.sort_by==5 && parameter.sort_by_order==0}"
-                        src="assets/img/top-arrow.png" alt="img"></a>
+                <th style="width:8%;vertical-align:top;">
+                  <div class="d-flex table-search">
+                    <label>{{'table.th.back_referencs' | translate}}</label>
                   </div>
                 </th>
-
-                <th *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_availability"
-                style="width:20%;vertical-align:top;">
-                <div class="table-search" style="width: 125px;">
-                   <label>{{'table.th.changeAvailability' | translate}}</label>
-                   <ng-multiselect-dropdown 
-                   class="col-6 section-section5 multi-select" 
-                   [placeholder]="''"
-                   name="availability_filter" 
-                   [data]="availabilityStatus" 
-                   [(ngModel)]="parameter.availability_filter"
-                   [settings]="multiDropdownSettings" 
-                   (onDeSelect)="getListing('unselect',$event)"
-                   (onSelect)="getListing('select',$event)" 
-                   (onSelectAll)="getListing('all',$event)">
-                   </ng-multiselect-dropdown>
-                </div>
-             </th>
-
-              
-                <th style="width:20%;" *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
-                  <div class="table-search">
-                    <label>{{'table.th.actions.label' | translate}}</label>
+                <th style="width:8%;vertical-align:top;">
+                  <div class="d-flex table-search">
+                    <label>{{'table.th.inhouseagent' | translate}}</label>
+                  </div>
+                </th>
+                <th style="width:8%;vertical-align:top;">
+                  <div class="d-flex table-search">
+                    <label>{{'table.th.outsideagent' | translate}}</label>
                   </div>
                 </th>
               </tr>
 
               <tbody>
                 <tr
-                  *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
-                  <td *ngIf="selectedPropertyColumnsToShow?.id">
-                    <span>
-                      {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
-                  </td>
-                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                  routerLink="/dashboard/projects/details/{{p.building.id}}" *ngIf="selectedPropertyColumnsToShow?.building_name">
-                    <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
-                    <div class="clearfix"></div>
-                    <small *ngIf="p.quantity > 0">
-                      {{p.quantity}}
-                      <span *ngIf="p.quantity == 1">property</span>
-                      <span *ngIf="p.quantity > 1">properties</span>
-                    </small>
-                  </td>
-                  <td *ngIf="selectedPropertyColumnsToShow?.tower_name"><span>{{p?.building_towers ? p?.building_towers?.tower_name : ('table.tr.td.NA' |
-                             translate)}}</span></td>
-                  <td *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.building_towers?.tower_name
-                             ? (p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'
-                             | translate) + ' ' + p?.floor_num)
-                             : ('table.tr.td.NA' | translate)}}</span></td>
-                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                  (click)="viewPropertyDetails(p.id, p)" *ngIf="selectedPropertyColumnsToShow?.apartment"><span>{{p?.name || ('table.tr.td.NA' | translate)}}</span></td>
-                  <td *ngIf="selectedPropertyColumnsToShow?.model">
-                    <span [style.textAlign]="'center'">
-                      <b>{{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</b>
-                    </span>
-                  </td>
-                  <td *ngIf="selectedPropertyColumnsToShow?.configuration">
-                    <app-property-configuration *ngIf="p?.building_configuration"
-                      [configuration]="p.building_configuration.config"></app-property-configuration>
-                  </td>
-                  <!-- <td><span>
-                          <button (click)="editPricePopup(p, i)"
-                             [disabled]="admin?.admin_acl['Property Management']?.can_update==0"
-                             title="{{'table.title.editPrice' | translate}}" class="action-icon"><img
-                                src="assets/img/edit.png" alt="img"></button>
-                       </span></td> -->
-                  <td *ngIf="selectedPropertyColumnsToShow?.list_price && p?.for_hold == 1">
-                    <span>
-                      {{p?.min_price ? p.min_price : 0.00}}
-                    </span>
-                  </td>
-                  <td *ngIf="selectedPropertyColumnsToShow?.list_price && p?.for_hold != 1">
-                    <span>
-                      
-                    </span>
-                  </td>
-                  <!-- <td *ngIf="selectedPropertyColumnsToShow?.price_per_m2">
-                    <span>${{ p.price_per_square_meter ? (p.price_per_square_meter | number : '1.2-2') : 0.00}}</span>
-                  </td> -->
-                  <td *ngIf="selectedPropertyColumnsToShow?.carpet_area"> 
-                    <span>{{p?.max_area ? p.max_area : 0.00}}</span></td>
-                  
-                  <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.change_availability"><span>{{p.for_sale==1 ? ('table.th.buy' | translate) : p.for_hold==1 ? ('table.th.inventory' | translate) : 
-                    p.for_rent==1 ? ('table.th.rent' | translate) : ('leadDetails.saleAndrent' | translate) }}</span></td>
-
-                
-                  <td *ngIf="parameter.flag!=5 && selectedPropertyColumnsToShow?.action">
-                    <div class="table-actions">
-
-                      <button (click)="this.openModalInstallment(p);" class="action-icon"
-                        *ngIf="parameter?.flag == 3 && p?.for_hold != 1"
-                        title="{{'table.title.generatePDF' | translate}}"><img src="assets/img/commercial_pdf.png"
-                          alt="img"></button>
-
-                      <button (click)="changePop(p);" class="action-icon"
-                        *ngIf="parameter?.flag == 3 && !p?.collection && p?.for_hold == 1"
-                        title="{{'table.title.generatePDF' | translate}}"><img src="assets/img/commercial_pdf.png"
-                          alt="img"></button>
-                    </div>
-
-                  </td>
-                </tr>
+                *ngFor="let p of items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: total }; let i=index">
+                <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
+                routerLink="/dashboard/projects/details/{{p.building.id}}">
+                  <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
+                  <div class="clearfix"></div>
+                  <small *ngIf="p.quantity > 0">
+                    {{p.quantity}}
+                    <span *ngIf="p.quantity == 1">property</span>
+                    <span *ngIf="p.quantity > 1">properties</span>
+                  </small>
+                </td>
+                <td>
+                  <span> 
+                    {{(p?.floor_num == 0 ? ('addCollection.groundFloor' | translate) : ('addCollection.floor'| translate) + ' ' + p?.floor_num)}}
+                  </span>
+                </td>
+                <td title="{{'table.title.clickToViewDetails' | translate}}">
+                <span>{{p?.name || ('table.tr.td.NA' | translate)}}</span>
+              </td>
+                <td>
+                  <span [style.textAlign]="'center'">
+                    <b>
+                      {{p?.building_configuration?.name || ('table.tr.td.NA' | translate)}}</b>
+                  </span>
+                </td>
+                <td>
+                  <app-property-configuration *ngIf="p?.building_configuration"
+                    [configuration]="p.building_configuration.config"></app-property-configuration>
+                </td>
+                <td>
+                  <span>{{p.final_price | price}}</span>
+                </td>
+                <td>
+                  <span>{{p?.collection?.bank_reference_id || ('table.tr.td.NA' | translate)}}</span>
+                </td>
+                <td>
+                         <span>
+                               {{p?.external_broker?.id
+                               ? ('table.tr.td.change' | translate) : ('table.tr.td.NA' | translate)}}
+                              </span>
+                      </td>
+                <td>
+                         <span>
+                               {{p?.external_outside_agent?.id
+                               ? ('table.tr.td.change' | translate) : ('table.tr.td.NA' | translate)}}</span>
+                      </td>
+              </tr>
               </tbody>
             </table>
 
