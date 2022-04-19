@@ -388,12 +388,15 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
 
   setFloors() {
-    this.admin.postDataApi('getFloor', {}).subscribe(
-      success => {
-        this.floors = success['data'];
-      }, error => {
-        this.spinner.hide();
-      });
+    var foo = new Array(30);
+    this.floors = [];
+    for (var i = 0; i < foo.length; i++) {
+      const obj = {
+        id: i,
+        name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
+      }
+      this.floors.push(obj);
+    }
   }
 
   close() {

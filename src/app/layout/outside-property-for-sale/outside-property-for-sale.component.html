@@ -15,7 +15,7 @@
   </div>
 
   <div class="row">
-    <!-- <div class="col-lg-2 col-md-2">
+    <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.location.country' | translate}}</label>
         <select class="form-control" (change)="onCountryChange($event.target.value)" [(ngModel)]="parameter.country_id"
@@ -58,9 +58,9 @@
           (onDeSelectAll)="onLocalityChangeAll($event)">
         </ng-multiselect-dropdown>
       </div>
-    </div> -->
+    </div>
 
-    <div class="col-lg-4 col-md-2">
+    <div class="col-lg-2 col-md-2">
       <div class="form-group marginB0">
         <label>{{'filters.location.building' | translate}}</label>
         <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id"
@@ -143,8 +143,8 @@
                      <label>{{'table.th.floor' | translate}}</label>
                      <select [(ngModel)]="parameter.floor_num" (change)="getListing('','')" name="floor_num">
                         <option value="">{{'table.th.allFloors' | translate}}</option>
-                        <option *ngFor="let c of floors" value="{{c.floor_num}}">
-                           {{c.floor_num + ' ' + ('addForm.floor' | translate)}}
+                        <option *ngFor="let c of floors" value="{{c.id}}">
+                           {{c.name}}
                         </option>
                      </select>
                   </div>
