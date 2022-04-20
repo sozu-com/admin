@@ -1104,9 +1104,9 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   }
 
   viewPropertyDetails(property_id: string, data: AddPropertyModel) {
-    // this.propertyService.property = data;
     this.propertyService.setPropertyData(data);
-    this.router.navigate(['/dashboard/properties/details', property_id]);
+    // this.router.navigate(['/dashboard/properties/details', property_id]);
+    this.router.navigate(['/dashboard/outside-property-for-sale/pro', property_id]);
   }
 
 

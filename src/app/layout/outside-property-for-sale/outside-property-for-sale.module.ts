@@ -17,6 +17,7 @@ import { OutsidePropertyForSaleComponent } from './outside-property-for-sale.com
 import { RouterModule, Routes } from '@angular/router';
 import { AclUserGuard } from 'src/app/guards/acl-user.guard';
 import { OutsidePropertyDetailComponent } from './outside-property-detail/outside-property-detail.component';
+import { OutsideProDetailComponent } from './outside-pro-detail/outside-pro-detail.component';
 
 const routes: Routes = [
     {
@@ -28,6 +29,10 @@ const routes: Routes = [
     {
         path: 'details/:property_id',
         component: OutsidePropertyDetailComponent
+    },
+    {
+        path: 'pro/:pro_id',
+        component: OutsideProDetailComponent
     }
 ];
 
@@ -54,7 +59,8 @@ const routes: Routes = [
     ],
     declarations: [
         OutsidePropertyForSaleComponent,
-        OutsidePropertyDetailComponent
+        OutsidePropertyDetailComponent,
+        OutsideProDetailComponent
     ]
 })
 export class OutsidePropertyForSaleModule { }

@@ -61,7 +61,7 @@ class Invoice {
   providers: [AddPropertyModel, DatePipe, PricePipe]
 })
 export class OutsidePropertySoldComponent implements OnInit {
-
+  input: any = {};
   [x: string]: any;
   pros: any;
   selectedvalue: bank;
@@ -266,7 +266,7 @@ export class OutsidePropertySoldComponent implements OnInit {
         this.is_back = true;
       }
     });
-    this.setFloors();
+    this.setFloors(this.parameter.building_id);
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.constant.dash_flag;
@@ -359,24 +359,45 @@ export class OutsidePropertySoldComponent implements OnInit {
         });
   }
 
-  setFloors() {
-    this.admin.postDataApi('getFloor', {}).subscribe(
+  setFloors(data) {
+    if (data) {
+      this.input.building_id = this.parameter.building_id;
+    } else {
+      this.input.building_id = 0;
+    }
+    this.admin.postDataApi('getFloors', this.input).subscribe(
       success => {
-        this.floors = success['data'];
+        var place = success['data'];
+        this.setModels(this.parameter.building_id);
+        var foo = new Array(place);
+        this.floors = [];
+        for (var i = 0; i < foo.length; i++) {
+          const obj = {
+            id: i,
+            name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
+          }
+          this.floors.push(obj);
+
+        }
       }, error => {
         this.spinner.hide();
       });
-
-    // var foo = new Array(30);
-    // this.floors = [];
-    // for (var i = 0; i < foo.length; i++) {
-    //   const obj = {
-    //     id: i,
-    //     name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
-    //   }
-    //   this.floors.push(obj);
-    // }
   }
+
+  setModels(data) {
+    if (data == 0) {
+      this.input.building_id = 0;
+    } else {
+      this.input.building_id = this.parameter.building_id;
+    }
+    this.admin.postDataApi('getModelConfigurations', this.input).subscribe(
+      success => {
+        this.models = success['data'];
+      }, error => {
+        this.spinner.hide();
+      });
+  }
+
 
   close() {
     $('.modal').modal('hide');
@@ -446,6 +467,7 @@ export class OutsidePropertySoldComponent implements OnInit {
       success => {
         // this.is_filter = true;
         this.items = success.data;
+        this.setFloors(this.parameter.building_id);
         this.spinner.hide();
         this.items.forEach(function (element) {
           element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
@@ -639,6 +661,12 @@ export class OutsidePropertySoldComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.parameter.buildings = success.data;
+          let newArray = [];
+          for (var i = 0; i < this.parameter.buildings.length; i++) {
+            let mails = this.parameter.buildings[i].id;
+            newArray.push(mails);
+          }
+          this.noteEmails = newArray;
         }, error => {
           this.spinner.hide();
         });
@@ -2046,7 +2074,7 @@ export class OutsidePropertySoldComponent implements OnInit {
       final_price: (this.select_columns_list[5] || []).isCheckBoxChecked,
       stp_key: (this.select_columns_list[6] || []).isCheckBoxChecked,
       agent: (this.select_columns_list[7] || []).isCheckBoxChecked,
-      
+
     };
   }
 

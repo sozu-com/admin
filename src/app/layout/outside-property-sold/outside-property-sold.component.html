@@ -144,7 +144,17 @@
                 <th style="width:10%; text-align:left;">
                   <div class="table-search">
                     <label>{{'table.th.model' | translate}}</label>
-                    <div class="searh-3">
+                    <div class="searh-3" *ngIf="parameter.building_id != 0">
+                      <select [(ngModel)]="parameter.configuration_name" 
+                      (change)="getListing('','')" name="configuration_name">
+                        <option value="">{{'table.th.model' | translate}}</option>
+                        <option *ngFor="let c of models" value="{{c.name}}">
+                           {{c.name}}
+                        </option>
+                     </select>
+                    </div>
+                    
+                    <div class="searh-3" *ngIf="parameter.building_id == 0">
                       <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
                         name="configuration_name" (keyup.enter)="getListing('','')" autocomplete="address-level4">
                       <button *ngIf="parameter.configuration_name" (click)="getListing('','')"><i
