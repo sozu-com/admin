@@ -354,7 +354,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.getListing(null, null);
       }
     });
-    this.setFloors();
+    this.setFloors(this.parameter.building_id);
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.propertyService.dash_flag ? this.propertyService.dash_flag : this.constant.dash_flag;
@@ -489,8 +489,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       );
   }
 
-  setFloors() {
-    this.admin.postDataApi('getFloors', {}).subscribe(
+  setFloors(data) {
+    if (data) {
+      this.input.building_id = this.parameter.building_id;
+    } else {
+      this.input.building_id = 0;
+    }
+    this.admin.postDataApi('getFloors', this.input).subscribe(
       success => {
         var abc = success['data'];
         this.setModels(this.parameter.building_id);
@@ -629,7 +634,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.is_filter = true;
         localStorage.setItem('parametersForProperty', JSON.stringify(input));
         this.items = success.data;
-        this.setFloors();
+        this.setFloors(this.parameter.building_id);
         //this.parameter.building_name = '';
         this.searchTickers = '';
         this.items.forEach(function (element) {
