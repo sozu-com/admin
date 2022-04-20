@@ -362,36 +362,32 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   }
 
   setFloors(data) {
-    let newArray = [];
-    for (var i = 0; i < data.length; i++) {
-      let mails = data[i].id;
-      newArray.push(mails);
-    }
-    this.noteEmails = newArray
-    if (data.length > 1) {
+    if (data == 0) {
       this.input.building_id = 0;
       this.input.pro_id = this.noteEmails;
     } else {
-      this.input.building_id = data[0].id;
+      this.input.building_id = this.parameter.building_id;
       this.input.pro_id = 0;
     }
 
     this.admin.postDataApi('getFloor', this.input).subscribe(
       success => {
-        this.floors = success['data'];
+        var place = success['data'];
+        var foo = new Array(place);
+        this.floors = [];
+        for (var i = 0; i < foo.length; i++) {
+          const obj = {
+            id: i,
+            name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
+          }
+          this.floors.push(obj);
+
+        }
       }, error => {
         this.spinner.hide();
       });
 
-    // var foo = new Array(30);
-    // this.floors = [];
-    // for (var i = 0; i < foo.length; i++) {
-    //   const obj = {
-    //     id: i,
-    //     name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
-    //   }
-    //   this.floors.push(obj);
-    // }
+
   }
 
   close() {
@@ -462,6 +458,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       success => {
         // this.is_filter = true;
         this.items = success.data;
+        this.setFloors(this.parameter.building_id);
         this.spinner.hide();
         this.items.forEach(function (element) {
           element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
@@ -656,7 +653,12 @@ export class OutsidePropertyForSaleComponent implements OnInit {
           this.spinner.hide();
           this.parameter.buildings = success.data;
           this.defaultValue = this.parameter.buildings[0];
-          this.setFloors(this.parameter.buildings);
+          let newArray = [];
+          for (var i = 0; i < this.parameter.buildings.length; i++) {
+            let mails = this.parameter.buildings[i].id;
+            newArray.push(mails);
+          }
+          this.noteEmails = newArray
         }, error => {
           this.spinner.hide();
         });
