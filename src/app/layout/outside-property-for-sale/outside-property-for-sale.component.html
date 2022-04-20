@@ -66,7 +66,10 @@
         <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id"
           style="background-color: white;">
           <option value="0">{{'filters.location.allOption' | translate}}</option>
-          <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+          <option *ngFor="let building of parameter.buildings" 
+          [selected]="building.id === defaultValue.id" value="{{building.id}}">
+            {{building.name}}
+          </option>
         </select>
       </div>
     </div>
@@ -249,8 +252,9 @@
                     <span>
                       {{p?.id ? p?.id : ('table.tr.td.NA' | translate)}}</span>
                   </td>
-                  <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
-                  routerLink="/dashboard/projects/details/{{p.building.id}}" *ngIf="selectedPropertyColumnsToShow?.building_name">
+                  <td class="cursor-pointer" 
+                  title="{{'table.title.clickToViewDetails' | translate}}"
+                  routerLink="/dashboard/outside-property-for-sale/details/{{p.building.id}}" *ngIf="selectedPropertyColumnsToShow?.building_name">
                     <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
                     <div class="clearfix"></div>
                     <small *ngIf="p.quantity > 0">

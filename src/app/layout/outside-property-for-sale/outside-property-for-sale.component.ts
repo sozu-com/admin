@@ -62,7 +62,8 @@ class Invoice {
 })
 
 export class OutsidePropertyForSaleComponent implements OnInit {
-
+  input: any = {};
+  noteEmails: any;
   [x: string]: any;
   pros: any;
   selectedvalue: bank;
@@ -156,7 +157,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   found: any;
   initialCountry = { initialCountry: 'mx' };
   isShown = false;
-  loadingListing = true;
+  loadingListing = true; defaultValue: any;
   availabilityStatus = Array<any>();
   constructor(
     public constant: Constant, private toastr: ToastrService,
@@ -267,7 +268,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
         this.is_back = true;
       }
     });
-    this.setFloors();
+
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.constant.dash_flag;
@@ -360,8 +361,22 @@ export class OutsidePropertyForSaleComponent implements OnInit {
         });
   }
 
-  setFloors() {
-    this.admin.postDataApi('getFloor', {}).subscribe(
+  setFloors(data) {
+    let newArray = [];
+    for (var i = 0; i < data.length; i++) {
+      let mails = data[i].id;
+      newArray.push(mails);
+    }
+    this.noteEmails = newArray
+    if (data.length > 1) {
+      this.input.building_id = 0;
+      this.input.pro_id = this.noteEmails;
+    } else {
+      this.input.building_id = data[0].id;
+      this.input.pro_id = 0;
+    }
+
+    this.admin.postDataApi('getFloor', this.input).subscribe(
       success => {
         this.floors = success['data'];
       }, error => {
@@ -640,6 +655,8 @@ export class OutsidePropertyForSaleComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.parameter.buildings = success.data;
+          this.defaultValue = this.parameter.buildings[0];
+          this.setFloors(this.parameter.buildings);
         }, error => {
           this.spinner.hide();
         });

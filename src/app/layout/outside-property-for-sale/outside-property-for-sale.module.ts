@@ -20,10 +20,15 @@ import { OutsidePropertyDetailComponent } from './outside-property-detail/outsid
 
 const routes: Routes = [
     {
-        path: 'outside', component: OutsidePropertyForSaleComponent,
-        canActivate: [AclUserGuard], data: { roles: ['Properties For Sale Management', 'can_read', ''] }
+        path: 'outside',
+        component: OutsidePropertyForSaleComponent,
+        canActivate: [AclUserGuard],
+        data: { roles: ['Properties For Sale Management', 'can_read', ''] }
     },
-    { path: 'details/:property_id', component: OutsidePropertyDetailComponent }
+    {
+        path: 'details/:property_id',
+        component: OutsidePropertyDetailComponent
+    }
 ];
 
 @NgModule({
