@@ -184,14 +184,6 @@
                     </select>
                   </div>
                 </th>
-                <th style="width:10%;vertical-align:top;" *ngIf="selectedPropertyColumnsToShow?.final_price">
-                  <div (click)="sort_by(1)" class="d-flex table-search">
-                    <label>{{'table.th.finalPrice' | translate}}</label>
-                    <a href="javascript://"><img
-                        [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
-                        src="assets/img/top-arrow.png" alt="img"></a>
-                  </div>
-                </th>
                 <th style="width:8%;vertical-align:top;" *ngIf="selectedPropertyColumnsToShow?.stp_key">
                   <div class="d-flex table-search">
                     <label>{{'table.th.back_referencs' | translate}}</label>
@@ -236,7 +228,6 @@
                     <app-property-configuration *ngIf="p?.building_configuration"
                       [configuration]="p.building_configuration.config"></app-property-configuration>
                   </td>
-                  <td *ngIf="selectedPropertyColumnsToShow?.final_price"><span>{{p.final_price | price}}</span></td>
                   <td *ngIf="selectedPropertyColumnsToShow?.stp_key"><span>{{p?.collection?.bank_reference_id || ('table.tr.td.NA' | translate)}}</span></td>
                   <td *ngIf="selectedPropertyColumnsToShow?.agent">
                            <span>
@@ -253,7 +244,7 @@
               <!-- chache wla data -->
               <tbody *ngIf="!is_filter">
                 <tr
-                  *ngFor="let p of cs.items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.totalSale }; let i=index">
+                  *ngFor="let p of cs.sold_items | paginate: { itemsPerPage: parameter.itemsPerPage, currentPage: parameter.page, totalItems: cs.sold_total }; let i=index">
                   <td class="cursor-pointer" title="{{'table.title.clickToViewDetails' | translate}}"
                   routerLink="/dashboard/projects/details/{{p.building.id}}" *ngIf="selectedPropertyColumnsToShow?.building_name">
                     <strong>{{p?.building?.name || ('table.tr.td.NA' | translate)}}</strong>
@@ -284,7 +275,6 @@
                     <app-property-configuration *ngIf="p?.building_configuration"
                       [configuration]="p.building_configuration.config"></app-property-configuration>
                   </td>
-                  <td *ngIf="selectedPropertyColumnsToShow?.final_price"><span>{{p.final_price | price}}</span></td>
                   <td *ngIf="selectedPropertyColumnsToShow?.stp_key"><span>{{p?.collection?.bank_reference_id || ('table.tr.td.NA' | translate)}}</span></td>
                   <td *ngIf="selectedPropertyColumnsToShow?.agent">
                     <span>
@@ -299,7 +289,7 @@
                 </tr>
               </tbody>
             </table>
-            <div class="padding20 center" *ngIf="cs.totalSale == 0">
+            <div class="padding20 center" *ngIf="cs.sold_total == 0">
               <img src="assets/img/404-error.png">
             </div>
           </div>
@@ -309,12 +299,12 @@
     </div>
   </div>
 
-  <div class="btn-cont marginT15" *ngIf="!is_filter && cs.items?.length > 1">
+  <div class="btn-cont marginT15" *ngIf="!is_filter && cs.sold_items?.length > 1">
     <div class="row">
       <div class="col-6">
         <div class="title-group">
-          <p>{{'table.pagination.showing' | translate}} {{cs.items?.length}} {{'table.pagination.outof' | translate}}
-            {{cs.totalSale}}</p>
+          <p>{{'table.pagination.showing' | translate}} {{cs.sold_items?.length}} {{'table.pagination.outof' | translate}}
+            {{cs.sold_ total}}</p>
         </div>
       </div>
       <div class="col-6 text-right">

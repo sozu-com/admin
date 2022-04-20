@@ -21,6 +21,7 @@ export class BotturaReceiptPdfService {
   collection_data: any;
   base64: any;
   projectLogoImageBase64: string;
+  format: any;
 
   constructor(
     private translate: TranslateService,
@@ -56,10 +57,11 @@ export class BotturaReceiptPdfService {
 
   getBase64ImageFromUrl(id) {
     this.admin.postDataApi('getPdfImageBaseCode', { id: id }).subscribe((success: any) => {
-    this.base64 = (success[0] || {}).data;
-    if(( success || {}).data){
-     this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + this.base64;
-    }
+    this.base64 = (success || {}).data;
+      this.format = (success || {}).img.substring((success || {}).img.lastIndexOf('.') + 1)
+      if (this.base64) {
+        this.projectLogoImageBase64 = 'data:image/' + this.format + ';base64,' + this.base64;
+      }
     this.spinner.hide();
     this.generatePaymentReceiptPDF();
     }, (error) => {

@@ -167,14 +167,6 @@
                     </select>
                   </div>
                 </th>
-                <th style="width:10%;vertical-align:top;">
-                  <div (click)="sort_by(1)" class="d-flex table-search">
-                    <label>{{'table.th.finalPrice' | translate}}</label>
-                    <a href="javascript://"><img
-                        [ngClass]="{'upsidedown':parameter.sort_by==1 && parameter.sort_by_order==0}"
-                        src="assets/img/top-arrow.png" alt="img"></a>
-                  </div>
-                </th>
                 <th style="width:8%;vertical-align:top;">
                   <div class="d-flex table-search">
                     <label>{{'table.th.back_referencs' | translate}}</label>
@@ -217,9 +209,6 @@
                 <td>
                   <app-property-configuration *ngIf="p?.building_configuration"
                     [configuration]="p.building_configuration.config"></app-property-configuration>
-                </td>
-                <td>
-                  <span>{{p.final_price | price}}</span>
                 </td>
                 <td>
                   <span>{{p?.collection?.bank_reference_id || ('table.tr.td.NA' | translate)}}</span>
