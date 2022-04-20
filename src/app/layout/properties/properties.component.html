@@ -378,8 +378,8 @@
                               <label>{{'table.th.floor' | translate}}</label>
                               <select [(ngModel)]="parameter.floor_num" (change)="getListing('','')" name="floor_num">
                                  <option value="">{{'table.th.allFloors' | translate}}</option>
-                                 <option *ngFor="let c of floors" value="{{c.id}}">
-                                    {{c.name}}
+                                 <option *ngFor="let c of floors" value="{{c.floor_num}}">
+                                    {{c.floor_num + ' ' + ('addForm.floor' | translate)}}
                                  </option>
                               </select>
                            </div>
