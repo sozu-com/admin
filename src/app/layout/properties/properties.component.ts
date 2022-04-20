@@ -2919,8 +2919,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     const input = { agent_id: item.id };
     this.admin.postDataApi('viewPropertyNotes', input).subscribe(r => {
       this.parameter.notes = r.data;
-      if (this.is_filter) {
-        this.item.filter(value => {
+      if (this.items.length > 0) {
+        this.items.filter(value => {
           if (value.id == item.id) {
             value.notification_count = 0;
           }
@@ -2932,6 +2932,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
             value.notification_count = 0;
           }
         });
+        localStorage.setItem('property_data', JSON.stringify(this.cs.propertyData));
       }
       this.notesModalOpen.nativeElement.click();
     });

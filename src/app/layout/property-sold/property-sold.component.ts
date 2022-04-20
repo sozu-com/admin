@@ -143,8 +143,8 @@ export class PropertySoldComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cs.items = JSON.parse(localStorage.getItem('property_sold_data'));
-    this.cs.totalSale = JSON.parse(localStorage.getItem('property_sold_total'));
+    this.cs.sold_items = JSON.parse(localStorage.getItem('property_sold_data'));
+    this.cs.sold_total = JSON.parse(localStorage.getItem('property_sold_total'));
     this.language_code = localStorage.getItem('language_code');
     this.getPropertyHome();
     this.selctedAmenities = [];

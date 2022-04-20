@@ -35,6 +35,7 @@ export class GenerateOfferPdfService {
   phone: any;
   email: any;
   index: number;
+  format: any;
 
   constructor(
     private translate: TranslateService,
@@ -192,8 +193,9 @@ export class GenerateOfferPdfService {
       this.admin.postDataApi('getPdfImageBaseCode', { id: id })
     ]).subscribe((success: any) => {
       this.base64 = (success[0] || {}).data;
+      this.format = (success[0] || {}).img.substring((success[0] || {}).img.lastIndexOf('.') + 1)
       if (this.base64) {
-        this.projectLogoImageBase64 = 'data:image/jpeg;base64,' + this.base64;
+        this.projectLogoImageBase64 = 'data:image/' + this.format + ';base64,' + this.base64;
       }
       this.spinner.hide();
       this.generatePDF1();
