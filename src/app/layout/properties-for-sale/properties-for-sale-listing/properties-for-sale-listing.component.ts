@@ -63,7 +63,7 @@ class Invoice {
 
 export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   [x: string]: any;
-
+  input: any = {};
   selectedvalue: bank;
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -388,9 +388,35 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
 
   setFloors() {
-    this.admin.postDataApi('getFloor', {}).subscribe(
+    this.admin.postDataApi('getFloors', {}).subscribe(
       success => {
-        this.floors = success['data'];
+        var abc = success['data'];
+        this.setModels(this.parameter.building_id);
+        var foo = new Array(abc);
+        this.floors = [];
+        for (var i = 0; i < foo.length; i++) {
+          const obj = {
+            id: i,
+            name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
+          }
+          this.floors.push(obj);
+        }
+      }, error => {
+        this.spinner.hide();
+      });
+
+
+  }
+
+  setModels(data) {
+    if (data == 0) {
+      this.input.building_id = 0;
+    } else {
+      this.input.building_id = this.parameter.building_id;
+    }
+    this.admin.postDataApi('getModelConfigurations', this.input).subscribe(
+      success => {
+        this.models = success['data'];
       }, error => {
         this.spinner.hide();
       });
@@ -477,6 +503,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
         this.is_filter = true;
         // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
         this.items = success.data;
+        this.setFloors();
         this.items.forEach(function (element) {
           element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         });

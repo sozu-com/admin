@@ -88,6 +88,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   count = 0;
   locale: any;
   floors: Array<any>;
+  models: Array<any>;
   seller_type: number;
   user_type: string;
   min_price: any;
@@ -369,10 +370,10 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       this.input.building_id = this.parameter.building_id;
       this.input.pro_id = 0;
     }
-
     this.admin.postDataApi('getFloor', this.input).subscribe(
       success => {
         var place = success['data'];
+        this.setModels(this.parameter.building_id);
         var foo = new Array(place);
         this.floors = [];
         for (var i = 0; i < foo.length; i++) {
@@ -386,8 +387,20 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       }, error => {
         this.spinner.hide();
       });
+  }
 
-
+  setModels(data) {
+    if (data == 0) {
+      this.input.building_id = 0;
+    } else {
+      this.input.building_id = this.parameter.building_id;
+    }
+    this.admin.postDataApi('getModelConfigurations', this.input).subscribe(
+      success => {
+        this.models = success['data'];
+      }, error => {
+        this.spinner.hide();
+      });
   }
 
   close() {

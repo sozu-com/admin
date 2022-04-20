@@ -69,7 +69,7 @@ class Invoice {
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
   searchTickers: any = []; search = ''; show = false;
-  selectedvalue: bank; all: any;
+  selectedvalue: bank; all: any; input: any = {};
   prop_data: any = []; timeout = null;
   pub: any;
   value: any;
@@ -99,6 +99,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   count = 0;
   locale: any;
   floors: Array<any>;
+  models: Array<any>;
   seller_type: number;
   user_type: string;
   min_price: any;
@@ -489,22 +490,38 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   setFloors() {
-    this.admin.postDataApi('getFloor', {}).subscribe(
+    this.admin.postDataApi('getFloors', {}).subscribe(
       success => {
-        this.floors = success['data'];
+        var abc = success['data'];
+        this.setModels(this.parameter.building_id);
+        var foo = new Array(abc);
+        this.floors = [];
+        for (var i = 0; i < foo.length; i++) {
+          const obj = {
+            id: i,
+            name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
+          }
+          this.floors.push(obj);
+        }
       }, error => {
         this.spinner.hide();
       });
 
-    // var foo = new Array(30);
-    // this.floors = [];
-    // for (var i = 0; i < foo.length; i++) {
-    //   const obj = {
-    //     id: i,
-    //     name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
-    //   }
-    //   this.floors.push(obj);
-    // }
+
+  }
+
+  setModels(data) {
+    if (data == 0) {
+      this.input.building_id = 0;
+    } else {
+      this.input.building_id = this.parameter.building_id;
+    }
+    this.admin.postDataApi('getModelConfigurations', this.input).subscribe(
+      success => {
+        this.models = success['data'];
+      }, error => {
+        this.spinner.hide();
+      });
   }
 
   close() {
@@ -612,6 +629,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
         this.is_filter = true;
         localStorage.setItem('parametersForProperty', JSON.stringify(input));
         this.items = success.data;
+        this.setFloors();
         //this.parameter.building_name = '';
         this.searchTickers = '';
         this.items.forEach(function (element) {

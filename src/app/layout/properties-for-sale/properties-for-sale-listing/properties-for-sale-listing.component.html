@@ -159,8 +159,8 @@
                      <label>{{'table.th.floor' | translate}}</label>
                      <select [(ngModel)]="parameter.floor_num" (change)="getListing('','')" name="floor_num">
                         <option value="">{{'table.th.allFloors' | translate}}</option>
-                        <option *ngFor="let c of floors" value="{{c.floor_num}}">
-                           {{c.floor_num + ' ' + ('addForm.floor' | translate)}}
+                        <option *ngFor="let c of floors" value="{{c.id}}">
+                           {{c.name}}
                         </option>
                      </select>
                   </div>
@@ -181,7 +181,17 @@
                 <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.model">
                   <div class="table-search">
                     <label>{{'table.th.model' | translate}}</label>
-                    <div class="searh-3">
+                    <div class="searh-3" *ngIf="parameter.building_id != 0">
+                      <select [(ngModel)]="parameter.configuration_name" 
+                      (change)="getListing('','')" name="configuration_name">
+                        <option value="">{{'table.th.model' | translate}}</option>
+                        <option *ngFor="let c of models" value="{{c.name}}">
+                           {{c.name}}
+                        </option>
+                     </select>
+                    </div>
+                    
+                    <div class="searh-3" *ngIf="parameter.building_id == 0">
                       <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
                         name="configuration_name" (keyup.enter)="getListing('','')" autocomplete="address-level4">
                       <button *ngIf="parameter.configuration_name" (click)="getListing('','')"><i
