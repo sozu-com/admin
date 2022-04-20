@@ -68,7 +68,7 @@ export interface IProperty {
   city_id1?: any;
   locality_id?: string;
   hotel_id?: string;
-  building_id?: string;
+  building_id?: any;
   countryCount?: number;
   stateCount?: number;
   cityCount?: number;
