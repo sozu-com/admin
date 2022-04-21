@@ -378,28 +378,7 @@ export class UsersComponent implements OnInit {
     this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,
       this.parameter.first_surname, this.parameter.second_surname);
   }
-  addCredit(p) {
-    let input = {
-      user_id: p.id,
-      name: p.name,
-      first_surname: p.first_surname,
-      second_surname: p.second_surname,
-      email: p.email,
-      phone: p.phone,
-      country_code: p.country_code,
-      dial_code: p.dial_code
-    }
-    this.spinner.show();
-    this.admin.postDataApi('generateleadFromUser', input).subscribe(
-      success => {
-        this.closeCreditModel.nativeElement.click();
-        this.getBuyers(this.parameter.type, this.parameter.page, this.parameter.name, this.parameter.phone, this.parameter.email,
-          this.parameter.first_surname, this.parameter.second_surname);
-        this.spinner.hide();
-      }, error => {
-        this.spinner.hide();
-      });
-  }
+
   onCountryChanges(e, index: number) {
     this.country_code = e.iso2;
     this.dial_code = '+' + e.dialCode;

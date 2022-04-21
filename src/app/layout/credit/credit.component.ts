@@ -23,7 +23,7 @@ export class CreditComponent implements OnInit {
   lead_collection: any[] = [];
   constructor(
     private translate: TranslateService,
-    public admin: AdminService,
+    public admin: AdminService, private spinner: NgxSpinnerService,
     private spinnerService: NgxSpinnerService,
     public constant: Constant
   ) { }
@@ -49,7 +49,27 @@ export class CreditComponent implements OnInit {
       this.location.countries = response.data || [];
     });
   }
-
+  addCredit(p) {
+    let input = {
+      user_id: p.user.id,
+      name: p.user.name,
+      first_surname: p.user.first_surname,
+      second_surname: p.user.second_surname,
+      email: p.user.email,
+      phone: p.user.phone,
+      country_code: p.user.country_code,
+      dial_code: p.user.dial_code
+    }
+    this.spinner.show();
+    this.admin.postDataApi('generateleadFromUser', input).subscribe(
+      success => {
+        this.getBuyers(this.parameter.page, this.parameter.id, this.parameter.name,
+          this.parameter.first_surname, this.parameter.second_surname);
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+      });
+  }
   credit = (data: any): void => {
     (data.lead_collection || []).forEach(ele => {
       this.lead_collection.push(ele.id);
