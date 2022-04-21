@@ -138,7 +138,6 @@ export class AddAclComponent implements OnInit {
 
   expandBox(index: any) {
     this.model.admin_acl[index].show = this.model.admin_acl[index].show === true ? false : true;
-    // this.model.admin_estend[index].show = this.model.admin_estend[index].show === true ? false : true;
   }
 
   setPermission(param: any, index: any) {
@@ -149,26 +148,12 @@ export class AddAclComponent implements OnInit {
       this.model.admin_acl[index]['can_delete'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_purge'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_crud'] === 1 ? 0 : 1;
-      //another
-      // this.model.admin_estend[index]['can_create'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_read'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_update'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_delete'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_purge'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_crud'] = this.model.admin_estend[index]['can_crud'] === 1 ? 0 : 1;
     } else {
       this.model.admin_acl[index][param] = this.model.admin_acl[index][param] &&
         this.model.admin_acl[index][param] === 1 ? 0 : 1;
       this.model.admin_acl[index]['can_crud'] = this.model.admin_acl[index]['can_create'] === 1 &&
         this.model.admin_acl[index]['can_read'] === 1 && this.model.admin_acl[index]['can_update'] === 1 &&
         this.model.admin_acl[index]['can_delete'] === 1 && this.model.admin_acl[index]['can_purge'] === 1 ? 1 : 0;
-
-      //another
-      // this.model.admin_estend[index][param] = this.model.admin_estend[index][param] &&
-      //   this.model.admin_estend[index][param] === 1 ? 0 : 1;
-      // this.model.admin_estend[index]['can_crud'] = this.model.admin_estend[index]['can_create'] === 1 &&
-      //   this.model.admin_estend[index]['can_read'] === 1 && this.model.admin_estend[index]['can_update'] === 1 &&
-      //   this.model.admin_estend[index]['can_delete'] === 1 && this.model.admin_estend[index]['can_purge'] === 1 ? 1 : 0;
     }
   }
 
@@ -243,10 +228,8 @@ export class AddAclComponent implements OnInit {
     }
     if (this.model.image) { input.append('image', this.model.image); }
     // console.log(this.model.admin_acl, "this.model.admin_acl");
-    // console.log(this.model.admin_estend, "this.model.admin_estend");
     input.append('admin_acl', JSON.stringify(this.model.admin_acl));
 
-    //input.append('admin_acl', JSON.stringify(this.model.admin_estend));
     // checking if locality is same or not
     this.model.address.map((item) => {
       let value = item['buildings'];
@@ -329,40 +312,40 @@ export class AddAclComponent implements OnInit {
     this.admin.postDataApi('getNewUserById', { id: id }).subscribe(r => {
       this.spinner.hide();
       const userdata = r['data'];
-      if(userdata.countries && userdata.countries.length > 0){
-      for (let ind = 0; ind < userdata.countries.length; ind++) {
-        if (data == 'true') {
-          const tempAdd = {
-            countries: userdata.countries[ind].id.toString(),
-            states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
-            cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
-            localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
-            buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
-          };
-          this.model.address[ind] = tempAdd;
-        } else {
-          const tempAdd = {
-            countries: userdata.countries ? userdata.countries[ind].name_en : '',
-            states: userdata.states !== null && userdata.states[ind] && userdata.states[ind].name_en ? userdata.states[ind].name_en : 'All',
-            cities: userdata.cities !== null && userdata.cities[ind] && userdata.cities[ind].name_en ? userdata.cities[ind].name_en : 'All',
-            localities: userdata.localities !== null && userdata.localities[ind] && userdata.localities[ind].name_en ? userdata.localities[ind].name_en : 'All',
-            buildings: userdata.buildings !== null && userdata.buildings[ind] && userdata.buildings[ind].name ? userdata.buildings[ind].name : 'All'
-          };
-          this.model.address[ind] = tempAdd;
-        }
+      if (userdata.countries && userdata.countries.length > 0) {
+        for (let ind = 0; ind < userdata.countries.length; ind++) {
+          if (data == 'true') {
+            const tempAdd = {
+              countries: userdata.countries[ind].id.toString(),
+              states: userdata.states !== null && userdata.states[ind] ? userdata.states[ind].id.toString() : '0',
+              cities: userdata.cities !== null && userdata.cities[ind] ? userdata.cities[ind].id.toString() : '0',
+              localities: userdata.localities !== null && userdata.localities[ind] ? userdata.localities[ind].id.toString() : '0',
+              buildings: userdata.buildings !== null && userdata.buildings[ind] ? userdata.buildings[ind].id.toString() : '0'
+            };
+            this.model.address[ind] = tempAdd;
+          } else {
+            const tempAdd = {
+              countries: userdata.countries ? userdata.countries[ind].name_en : '',
+              states: userdata.states !== null && userdata.states[ind] && userdata.states[ind].name_en ? userdata.states[ind].name_en : 'All',
+              cities: userdata.cities !== null && userdata.cities[ind] && userdata.cities[ind].name_en ? userdata.cities[ind].name_en : 'All',
+              localities: userdata.localities !== null && userdata.localities[ind] && userdata.localities[ind].name_en ? userdata.localities[ind].name_en : 'All',
+              buildings: userdata.buildings !== null && userdata.buildings[ind] && userdata.buildings[ind].name ? userdata.buildings[ind].name : 'All'
+            };
+            this.model.address[ind] = tempAdd;
+          }
 
+        }
       }
-    }
-    else{
-      const tempAdd = {
-        countries: '',
-        states: 'All',
-        cities: 'All',
-        localities: 'All',
-        buildings: 'All'
-      };
-      this.model.address[0] = tempAdd;
-    }
+      else {
+        const tempAdd = {
+          countries: '',
+          states: 'All',
+          cities: 'All',
+          localities: 'All',
+          buildings: 'All'
+        };
+        this.model.address[0] = tempAdd;
+      }
       this.model.adminAcls = userdata.admin_acls;
       if (data == 'update') {
         this.admin.setUser(userdata.admin_acls);
