@@ -287,11 +287,11 @@
                 <td *ngIf="parameter.type==2">{{item.properties_count}}</td>
                 <td>
                   <div class="table-actions">
-                    <button (click)="addCredit(item);"
+                    <!-- <button (click)="addCredit(item);"
                     class="action-icon" [disabled]="item.lead_count>=1">
                     <i class="fa fa-credit-card" aria-hidden="true" 
                     style="font-size: 140%;margin-top: 4px;"></i>
-                  </button>
+                  </button> -->
                       <button title="{{'table.title.editDetails' | translate}}" 
                       *ngIf="item.collection_id"
                       [disabled]="item.statuss == 1"
