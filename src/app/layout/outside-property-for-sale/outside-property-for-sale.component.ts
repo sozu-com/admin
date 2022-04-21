@@ -224,12 +224,12 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.cs.outside_items = JSON.parse(localStorage.getItem('property_sale_outside'));
     this.cs.totalOutside = JSON.parse(localStorage.getItem('property_outsid_total'));
     this.language_code = localStorage.getItem('language_code');
+
     this.getPropertyFilter();
     this.getOutsideUserProject();
     this.getPropertyHome();
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
-    this.getLocalityBuildings_out();
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.multiDropdownSettings = null;
       this.availabilityStatus = null;
@@ -289,7 +289,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.parameter.possession_status_id = 0; // 0-all, 9-presale, 8-sale
     this.parameter.country_id = '0';
     this.parameter.state_id = '0';
-    this.parameter.building_id = '0';
+    // this.parameter.building_id = '0';
     this.parameter.broker_id = 1;
     this.getPropertyConfigurations();
     this.getPropertyTypes();
@@ -391,9 +391,11 @@ export class OutsidePropertyForSaleComponent implements OnInit {
 
   setModels(data) {
     if (data == 0) {
-      this.input.building_id = 0;
+      this.input.building_id = this.defaultValue.id;
+      this.input.pro_id = 0;
     } else {
       this.input.building_id = this.parameter.building_id;
+      this.input.pro_id = this.parameter.building_id;
     }
     this.admin.postDataApi('getModelConfigurations', this.input).subscribe(
       success => {
@@ -414,6 +416,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     //this.parameter.availability_filter = 1;
     let input: any = JSON.parse(JSON.stringify(this.parameter));
     input.pro_id = this.pros;
+    input.building_id = this.parameter.building_id ? this.parameter.building_id : this.pros[0];
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
     } else {
@@ -471,7 +474,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       success => {
         // this.is_filter = true;
         this.items = success.data;
-        this.setFloors(this.parameter.building_id);
+        this.getLocalityBuildings_out();
         this.spinner.hide();
         this.items.forEach(function (element) {
           element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
@@ -665,13 +668,23 @@ export class OutsidePropertyForSaleComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.parameter.buildings = success.data;
-          this.defaultValue = this.parameter.buildings[0];
+          if (this.parameter.building_id == 0) {
+            this.defaultValue = this.parameter.buildings[0].id;
+            console.log(this.defaultValue, "1st");
+          } else {
+            this.defaultValue = this.parameter.building_id;
+            console.log(this.defaultValue, "2nd");
+          }
+          if (this.parameter.building_id == 0) {
+            this.parameter.building_id = this.parameter.buildings[0].id;
+          }
           let newArray = [];
           for (var i = 0; i < this.parameter.buildings.length; i++) {
             let mails = this.parameter.buildings[i].id;
             newArray.push(mails);
           }
           this.noteEmails = newArray
+          this.setFloors(this.parameter.building_id);
         }, error => {
           this.spinner.hide();
         });

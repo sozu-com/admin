@@ -182,10 +182,10 @@
                   <div class="table-search">
                     <label>{{'table.th.model' | translate}}</label>
                     <div class="searh-3" *ngIf="parameter.building_id != 0">
-                      <select [(ngModel)]="parameter.configuration_name" 
-                      (change)="getListing('','')" name="configuration_name">
+                      <select [(ngModel)]="parameter.configuration_id" 
+                      (change)="getListing('','')" name="configuration_id">
                         <option value="">{{'table.th.model' | translate}}</option>
-                        <option *ngFor="let c of models" value="{{c.name}}">
+                        <option *ngFor="let c of models" value="{{c.id}}">
                            {{c.name}}
                         </option>
                      </select>
