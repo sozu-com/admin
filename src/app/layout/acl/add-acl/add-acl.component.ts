@@ -38,6 +38,7 @@ export class AddAclComponent implements OnInit {
   permission_show = false;
   permission_all = false;
   testObject = [];
+  acl_array = [];
   agencies: Array<Agency>;
   predefinedUsers: Array<any>;
   selected_valo: Array<any>;
@@ -438,20 +439,26 @@ export class AddAclComponent implements OnInit {
         this.permission_all = true;
       } else if (theRemovedElement.length == 1) {
         const found = theRemovedElement.find(element => element == 'can_outside_broker');
-        console.log(found, "found");
+
         if (found == 'can_outside_broker') {
           for (let index = 0; index < userdata.admin_acls.length; index++) {
             const element = userdata.admin_acls[index];
-            if (element.acl.name == 'Properties For Sale Management') {
+            if (element.acl.name == 'Properties For Sale Management' || element.acl.name == 'Property Sold') {
               this.permission_show = true;
               this.permission_all = false;
-              let newArray = [];
-              newArray.push(element);
-              if (newArray.length > 1) {
-                this.model.admin_estend = newArray[0];
+              this.acl_array.push(element);
+              if (this.acl_array.length > 2) {
+                this.model.admin_estend = this.acl_array.slice(0, 2);
               } else {
-                this.model.admin_estend = newArray;
+                this.model.admin_estend = this.acl_array;
               }
+              // let newArray = [];
+              // newArray.push(element);
+              // if (newArray.length > 1) {
+              //   this.model.admin_estend = newArray[0];
+              // } else {
+              //   this.model.admin_estend = newArray;
+              // }
               element.can_create = 0,
                 element.can_delete = 0,
                 element.can_update = 0,
@@ -923,7 +930,6 @@ export class AddAclComponent implements OnInit {
         this.model.admin_acl = this.model.adminAcls;
       } else {
         this.model.admin_acl;
-        console.log(this.model.admin_acl, "this.selected_valo");
       }
     } else if (this.selected_valo.length == 1) {
       for (let i = 0; i < this.selected_valo.length; i++) {
@@ -932,16 +938,22 @@ export class AddAclComponent implements OnInit {
           if (this.model.id) {
             for (let index = 0; index < this.model.adminAcls.length; index++) {
               const element = this.model.adminAcls[index];
-              if (element.acl.name == 'Properties For Sale Management') {
+              if (element.acl.name == 'Properties For Sale Management' || element.acl.name == 'Property Sold') {
                 this.permission_all = false;
                 this.permission_show = true;
-                let newArray = [];
-                newArray.push(element);
-                if (newArray.length > 1) {
-                  this.model.admin_estend = newArray[0];
+                this.acl_array.push(element);
+                if (this.acl_array.length > 2) {
+                  this.model.admin_estend = this.acl_array.slice(0, 2);
                 } else {
-                  this.model.admin_estend = newArray;
+                  this.model.admin_estend = this.acl_array;
                 }
+                // let newArray = [];
+                // newArray.push(element);
+                // if (newArray.length > 1) {
+                //   this.model.admin_estend = newArray[0];
+                // } else {
+                //   this.model.admin_estend = newArray;
+                // }
                 element.can_create = 0,
                   element.can_delete = 0,
                   element.can_update = 0,
@@ -953,16 +965,22 @@ export class AddAclComponent implements OnInit {
           } else {
             for (let index = 0; index < this.model.admin_acl.length; index++) {
               const element = this.model.admin_acl[index];
-              if (element.acl.name == 'Properties For Sale Management') {
+              if (element.acl.name == 'Properties For Sale Management' || element.acl.name == 'Property Sold') {
                 this.permission_all = false;
                 this.permission_show = true;
-                let newArray = [];
-                newArray.push(element);
-                if (newArray.length > 1) {
-                  this.model.admin_estend = newArray[0];
+                this.acl_array.push(element);
+                if (this.acl_array.length > 2) {
+                  this.model.admin_estend = this.acl_array.slice(0, 2);
                 } else {
-                  this.model.admin_estend = newArray;
+                  this.model.admin_estend = this.acl_array;
                 }
+                // let newArray = [];
+                // newArray.push(element);
+                // if (newArray.length > 1) {
+                //   this.model.admin_estend = newArray[0];
+                // } else {
+                //   this.model.admin_estend = newArray;
+                // }
                 element.can_create = 0,
                   element.can_delete = 0,
                   element.can_update = 0,

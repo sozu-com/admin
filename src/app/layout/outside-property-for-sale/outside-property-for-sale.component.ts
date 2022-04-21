@@ -181,7 +181,6 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     if (theRemovedElement.length > 1) {
       this.all = 0;
     } else if (theRemovedElement.length == 1) {
-      console.log(this.found, "property_sale");
       if (this.found == 'can_outside_broker') {
         this.all = 1;
       } else {
