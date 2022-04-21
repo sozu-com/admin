@@ -63,11 +63,12 @@
     <div class="col-lg-4 col-md-2">
       <div class="form-group marginB0">
         <label>{{'filters.location.building' | translate}}</label>
-        <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id"
+        
+        <select class="form-control" (change)="setBuilding($event.target.value)" 
+        [(ngModel)]="parameter.building_id"
           style="background-color: white;">
-          <option value="0">{{'filters.location.allOption' | translate}}</option>
           <option *ngFor="let building of parameter.buildings" 
-          [selected]="building.id === defaultValue.id" value="{{building.id}}">
+           value="{{building.id}}">
             {{building.name}}
           </option>
         </select>
@@ -168,22 +169,23 @@
                 <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.model">
                   <div class="table-search">
                     <label>{{'table.th.model' | translate}}</label>
-                    <div class="searh-3" *ngIf="parameter.building_id != 0">
-                      <select [(ngModel)]="parameter.configuration_name" 
-                      (change)="getListing('','')" name="configuration_name">
+                    <!-- *ngIf="parameter.building_id != 0" -->
+                    <div class="searh-3">
+                      <select [(ngModel)]="parameter.configuration_id" 
+                      (change)="getListing('','')" name="configuration_id">
                         <option value="">{{'table.th.model' | translate}}</option>
-                        <option *ngFor="let c of models" value="{{c.name}}">
+                        <option *ngFor="let c of models" value="{{c.id}}">
                            {{c.name}}
                         </option>
                      </select>
                     </div>
                     
-                    <div class="searh-3" *ngIf="parameter.building_id == 0">
+                    <!-- <div class="searh-3" *ngIf="parameter.building_id == 0">
                       <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
                         name="configuration_name" (keyup.enter)="getListing('','')" autocomplete="address-level4">
                       <button *ngIf="parameter.configuration_name" (click)="getListing('','')"><i
                           class="fa fa-search"></i></button>
-                    </div>
+                    </div> -->
                   </div>
                 </th>
                 <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.configuration">
