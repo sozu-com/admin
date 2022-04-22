@@ -226,7 +226,7 @@ export class OutsidePropertySoldComponent implements OnInit {
     this.getPropertyHome();
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
-    this.getLocalityBuildings_out();
+    //this.getLocalityBuildings_out();
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
       this.multiDropdownSettings = null;
       this.availabilityStatus = null;
@@ -367,9 +367,9 @@ export class OutsidePropertySoldComponent implements OnInit {
     }
     this.admin.postDataApi('getFloors', this.input).subscribe(
       success => {
-        var place = success['data'];
+        var abc = success['data'];
         this.setModels(this.parameter.building_id);
-        var foo = new Array(place);
+        var foo = new Array(abc);
         this.floors = [];
         for (var i = 0; i < foo.length; i++) {
           const obj = {
@@ -377,11 +377,12 @@ export class OutsidePropertySoldComponent implements OnInit {
             name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
           }
           this.floors.push(obj);
-
         }
       }, error => {
         this.spinner.hide();
       });
+
+
   }
 
   setModels(data) {
@@ -616,28 +617,17 @@ export class OutsidePropertySoldComponent implements OnInit {
     this.parameter.building_id = '0';
     this.parameter.buildings = [];
     if (this.selectedLocation.selectedLocalities.length > 0) {
-      if (this.found == 'can_outside_broker') {
-        this.getLocalityBuildings_out();
-      } else {
-        this.getLocalityBuildings();
-      }
-
+      // if (this.found == 'can_outside_broker') {
+      //   this.getLocalityBuildings_out();
+      // } else {
+      //   this.getLocalityBuildings();
+      // }
+      this.getLocalityBuildings();
     }
   }
 
-  // onLocalityChange(id) {
-  //   this.parameter.buildings = []; this.parameter.building_id = '0';
-  //   if (!id || id.toString() === '0') {
-  //     return false;
-  //   }
-  //   this.parameter.locality_id = id;
-  // }
+
   getLocalityBuildings = (): void => {
-    //getLocalityBuildings(id) {
-    // if (!id || id.toString() === '0') {
-    //   return false;
-    // }
-    // this.parameter.locality_id = id;
     this.spinner.show();
     this.makePostRequest();
     this.admin.postDataApi('getLocalityBuildings', this.parameter)
@@ -649,28 +639,7 @@ export class OutsidePropertySoldComponent implements OnInit {
           this.spinner.hide();
         });
   }
-  getLocalityBuildings_out = (): void => {
-    this.spinner.show();
-    this.makePostRequest();
-    let input = {
-      //localities: this.parameter.localities,
-      admin_id: this.login_data_out.id,
-    }
-    this.admin.postDataApi('getadminLocalityBuildings', input)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          this.parameter.buildings = success.data;
-          let newArray = [];
-          for (var i = 0; i < this.parameter.buildings.length; i++) {
-            let mails = this.parameter.buildings[i].id;
-            newArray.push(mails);
-          }
-          this.noteEmails = newArray;
-        }, error => {
-          this.spinner.hide();
-        });
-  }
+
   getPropertyAmenities() {
     this.admin.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(
@@ -680,6 +649,8 @@ export class OutsidePropertySoldComponent implements OnInit {
   }
 
   setBuilding(building_id) {
+    this.parameter.floor_num = null;
+    this.parameter.configuration_id = null;
     this.parameter.building_id = building_id;
   }
 
@@ -732,6 +703,9 @@ export class OutsidePropertySoldComponent implements OnInit {
     this.parameter.bedroom = null;
     this.parameter.parking_place = null;
     this.parameter.bathroom = null;
+    this.parameter.floor_num = null;
+    this.parameter.configuration_id = null;
+    this.parameter.configuration_name = null;
     this.parameter.half_bathroom = null;
     this.parameter.property_type_id = null;
     this.selctedAmenities = [];

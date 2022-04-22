@@ -831,6 +831,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   setBuilding(building_id) {
+    this.parameter.floor_num = null;
+    this.parameter.configuration_id = null;
     this.parameter.building_id = building_id;
   }
 

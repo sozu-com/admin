@@ -394,9 +394,9 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     }
     this.admin.postDataApi('getFloors', this.input).subscribe(
       success => {
-        var abc = success['data'];
+        var place = success['data'];
         this.setModels(this.parameter.building_id);
-        var foo = new Array(abc);
+        var foo = new Array(place);
         this.floors = [];
         for (var i = 0; i < foo.length; i++) {
           const obj = {
@@ -404,12 +404,11 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
             name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
           }
           this.floors.push(obj);
+
         }
       }, error => {
         this.spinner.hide();
       });
-
-
   }
 
   setModels(data) {
@@ -714,6 +713,8 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   }
 
   setBuilding(building_id) {
+    this.parameter.floor_num = null;
+    this.parameter.configuration_id = null;
     this.parameter.building_id = building_id;
   }
 

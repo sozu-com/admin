@@ -697,6 +697,8 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   }
 
   setBuilding(building_id) {
+    this.parameter.floor_num = null;
+    this.parameter.configuration_id = null;
     this.parameter.building_id = building_id;
   }
 
@@ -751,6 +753,8 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.parameter.bathroom = null;
     this.parameter.half_bathroom = null;
     this.parameter.property_type_id = null;
+    this.parameter.floor_num = null;
+    this.parameter.configuration_id = null;
     this.selctedAmenities = [];
     this.parameter.parking_for_sale = null;
     this.getListing(null, null);
