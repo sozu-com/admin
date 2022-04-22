@@ -997,6 +997,18 @@ export class AppHeaderComponent implements OnInit {
         localStorage.removeItem('permissions');
         localStorage.removeItem('admin_acl');
         localStorage.removeItem('all');
+
+        // localStorage.removeItem('project_data');
+        // localStorage.removeItem('project_total');
+        // localStorage.removeItem('property_data');
+        // localStorage.removeItem('property_total');
+        // localStorage.removeItem('collections');
+        // localStorage.removeItem('collection_total');
+        // localStorage.removeItem('property_sold_data');
+        // localStorage.removeItem('property_sold_total');
+        // localStorage.removeItem('property_sale_total');
+        // localStorage.removeItem('property_sale_data');
+
         this.admin.admin_acl = {};
         this.admin.admin_acl_array = [];
         this.admin.permissions = {};

@@ -16,89 +16,76 @@
 
   <div class="row">
     <div class="col-lg-2 col-md-2">
-      <div class="form-group">
-        <label>{{'filters.location.country' | translate}}</label>
-        <select class="form-control" (change)="onCountryChange($event.target.value)" [(ngModel)]="parameter.country_id"
-          style="background-color: white;">
-          <option value="0">{{'filters.location.allOption' | translate}}</option>
-          <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
-        </select>
-      </div>
+       <div class="form-group">
+          <label>{{'filters.location.country' | translate}}</label>
+          <select class="form-control" (change)="onCountryChange($event.target.value)"
+             [(ngModel)]="parameter.country_id" style="background-color: white;">
+             <option value="0">{{'filters.location.allOption' | translate}}</option>
+             <option *ngFor="let item of location.countries" [value]="item.id">{{item.name}}</option>
+          </select>
+       </div>
     </div>
     <div class="col-lg-2 col-md-2">
-      <div class="form-group">
-        <label>{{'filters.location.state' | translate}}</label>
-        <select class="form-control" (change)="onStateChange($event.target.value)" [(ngModel)]="parameter.state_id"
-          style="background-color: white;">
-          <option value="0">{{'filters.location.allOption' | translate}}</option>
-          <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
-        </select>
-      </div>
+       <div class="form-group">
+          <label>{{'filters.location.state' | translate}}</label>
+          <select class="form-control" (change)="onStateChange($event.target.value)" [(ngModel)]="parameter.state_id"
+             style="background-color: white;">
+             <option value="0">{{'filters.location.allOption' | translate}}</option>
+             <option *ngFor="let item of location.states" [value]="item.id">{{item.name}}</option>
+          </select>
+       </div>
     </div>
-
-
+   
     <div class="col-lg-2 col-md-2">
-      <div class="form-group">
-        <label>{{'filters.location.city' | translate}}</label>
-        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedCities"
-          [data]="location.cities" [(ngModel)]="selectedLocation.selectedCities"
-          [settings]="multiDropdownSettingsForLocation" (onDeSelect)="onCityChange()" (onSelect)="onCityChange()"
-          (onSelectAll)="onCityChangeAll($event)" (onDeSelectAll)="onCityChangeAll($event)">
-        </ng-multiselect-dropdown>
-      </div>
-    </div>
-
-    <div class="col-lg-2 col-md-2" *ngIf="all != 1">
-      <div class="form-group">
-        <label>{{'filters.location.locality' | translate}}</label>
-        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
-          name="selectedLocalities" [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities"
-          [settings]="multiDropdownSettingsForLocation" (onDeSelect)="onLocalityChange()"
-          (onSelect)="onLocalityChange()" (onSelectAll)="onLocalityChangeAll($event)"
-          (onDeSelectAll)="onLocalityChangeAll($event)">
-        </ng-multiselect-dropdown>
-      </div>
-    </div>
-
-    <div class="col-lg-2 col-md-2" *ngIf="all == 1">
-      <div class="form-group">
-        <label>{{'filters.location.locality' | translate}}</label>
-        <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
-          name="selectedLocalities" [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities"
-          [settings]="multiDropdownSettingsForLocation" (onDeSelect)="onLocalityChange()"
-          (onSelect)="onLocalityChange()" (onSelectAll)="onLocalityChangeAll($event)"
-          (onDeSelectAll)="onLocalityChangeAll($event)">
-        </ng-multiselect-dropdown>
-      </div>
+       <div class="form-group">
+          <label>{{'filters.location.city' | translate}}</label>
+          <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+             name="selectedCities" [data]="location.cities" [(ngModel)]="selectedLocation.selectedCities"
+             [settings]="multiDropdownSettingsForLocation" (onDeSelect)="onCityChange()" (onSelect)="onCityChange()"
+             (onSelectAll)="onCityChangeAll($event)" (onDeSelectAll)="onCityChangeAll($event)">
+          </ng-multiselect-dropdown>
+       </div>
     </div>
 
     <div class="col-lg-2 col-md-2">
-      <div class="form-group marginB0">
-        <label>{{'filters.location.building' | translate}}</label>
-        <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id"
-          style="background-color: white;">
-          <option value="0">{{'filters.location.allOption' | translate}}</option>
-          <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
-        </select>
-      </div>
+       <div class="form-group">
+          <label>{{'filters.location.locality' | translate}}</label>
+          <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''"
+             name="selectedLocalities" [data]="location.localities" [(ngModel)]="selectedLocation.selectedLocalities"
+             [settings]="multiDropdownSettingsForLocation" (onDeSelect)="onLocalityChange()"
+             (onSelect)="onLocalityChange()" (onSelectAll)="onLocalityChangeAll($event)"
+             (onDeSelectAll)="onLocalityChangeAll($event)">
+          </ng-multiselect-dropdown>
+       </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2">
+       <div class="form-group marginB0">
+          <label>{{'filters.location.building' | translate}}</label>
+          <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id"
+             style="background-color: white;">
+             <option value="0">{{'filters.location.allOption' | translate}}</option>
+             <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+          </select>
+       </div>
     </div>
 
     <div class="col-lg-1 col-md-2">
-      <div class="form-group btn-cont">
-        <label style="display: block; margin-top: 3px;">&nbsp;</label>
-        <button type="button" (click)="getListing('','')"
-          class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
-      </div>
+       <div class="form-group btn-cont">
+          <label style="display: block; margin-top: 3px;">&nbsp;</label>
+          <button type="button" (click)="getListing('','')"
+             class="btn btn-primary-new width100P P86">{{'filters.location.applyBtn' | translate}}</button>
+       </div>
     </div>
 
     <div class="col-lg-1 col-md-2">
-      <div class="form-group btn-cont">
-        <label style="display: block; margin-top: 3px;">&nbsp;</label>
-        <button type="button" (click)="resetFilters()"
-          class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
-      </div>
+       <div class="form-group btn-cont">
+          <label style="display: block; margin-top: 3px;">&nbsp;</label>
+          <button type="button" (click)="resetFilters()"
+             class="btn btn-primary-new width100P P86">{{'filters.location.resetBtn' | translate}}</button>
+       </div>
     </div>
-  </div>
+ </div>
 
 
   <div class="cust-tabs">
@@ -136,15 +123,16 @@
                 </th>
                 <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.floor">
                   <div class="table-search">
-                    <label>{{'table.th.floor' | translate}}</label>
-                    <select [(ngModel)]="parameter.floor_num" (change)="getListing('','')" name="floor_num">
-                      <option value="">{{'table.th.allFloors' | translate}}</option>
-                      <option *ngFor="let c of floors" value="{{c.id}}">
-                        {{c.name}}
-                      </option>
-                    </select>
+                     <label>{{'table.th.floor' | translate}}</label>
+                     <select [(ngModel)]="parameter.floor_num" 
+                     (change)="getListing('','')" name="floor_num">
+                        <option value="">{{'table.th.allFloors' | translate}}</option>
+                        <option *ngFor="let c of floors" value="{{c.id}}">
+                           {{c.name}}
+                        </option>
+                     </select>
                   </div>
-                </th>
+               </th>
                 <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.apartament">
                   <div class="table-search">
                     <label>{{'table.th.apartment' | translate}}
@@ -161,7 +149,17 @@
                 <th style="width:10%; text-align:left;" *ngIf="selectedPropertyColumnsToShow?.model">
                   <div class="table-search">
                     <label>{{'table.th.model' | translate}}</label>
-                    <div class="searh-3">
+                    <div class="searh-3" *ngIf="parameter.building_id != 0">
+                     <select [(ngModel)]="parameter.configuration_id" 
+                     (change)="getListing('','')" name="configuration_id">
+                       <option value="">{{'table.th.model' | translate}}</option>
+                       <option *ngFor="let c of models" value="{{c.id}}">
+                          {{c.name}}
+                       </option>
+                    </select>
+                    </div>
+                    
+                    <div class="searh-3" *ngIf="parameter.building_id == 0">
                       <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
                         name="configuration_name" (keyup.enter)="getListing('','')" autocomplete="address-level4">
                       <button *ngIf="parameter.configuration_name" (click)="getListing('','')"><i

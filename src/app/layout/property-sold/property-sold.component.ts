@@ -33,7 +33,7 @@ declare var $: any;
   providers: [AddPropertyModel, DatePipe, PricePipe]
 })
 export class PropertySoldComponent implements OnInit {
-
+  input: any = {}; models: Array<any>;
   public parameter: IProperty = {};
   public location: IProperty = {};
   showMore = false;
@@ -84,6 +84,7 @@ export class PropertySoldComponent implements OnInit {
   base64: any;
   fullName: any;
   public multiDropdownSettingsForLocation = {};
+  public multiDropdownSettingsForfilter = {};
   login_data_out: any = {};
   public language_code: string;
   public selectedLocation: { selectedCountry: string, selectedStates: any[], selectedCities: any[], selectedLocalities: any[] } =
@@ -147,6 +148,9 @@ export class PropertySoldComponent implements OnInit {
     this.cs.sold_total = JSON.parse(localStorage.getItem('property_sold_total'));
     this.language_code = localStorage.getItem('language_code');
     this.getPropertyHome();
+    this.iniDropDownSetting();
+    this.initializedDropDownSetting();
+    this.initializedDropDownSettingfor();
     this.selctedAmenities = [];
     this.seller_type = 1;
     this.locale = {
@@ -179,7 +183,7 @@ export class PropertySoldComponent implements OnInit {
         this.is_back = true;
       }
     });
-    this.setFloors();
+    this.setFloors(this.parameter.building_id);
     this.parameter.itemsPerPage = this.constant.itemsPerPage;
     this.parameter.page = this.constant.p;
     this.parameter.dash_flag = this.constant.dash_flag;
@@ -221,6 +225,42 @@ export class PropertySoldComponent implements OnInit {
     this.getParametersForProperty();
   }
 
+  initializedDropDownSetting = (): void => {
+    this.multiDropdownSettingsForLocation = {
+      singleSelection: false,
+      idField: 'id',
+      textField: this.language_code == 'en' ? 'name_en' : 'name_es',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 1
+    };
+  }
+  iniDropDownSetting() {
+    this.multiDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: this.language_code == 'en' ? 'name_en' : 'name_es',
+      selectAllText: this.translate.instant('commonBlock.selectAll'),
+      unSelectAllText: this.translate.instant('commonBlock.unselectAll'),
+      searchPlaceholderText: this.translate.instant('commonBlock.search'),
+      allowSearchFilter: true,
+      itemsShowLimit: 2
+    };
+  }
+  initializedDropDownSettingfor = (): void => {
+    this.multiDropdownSettingsForfilter = {
+      singleSelection: false,
+      idField: 'id',
+      textField: this.language_code == 'en' ? 'name_en' : 'name_es',
+      selectAllText: this.language_code == 'en' ? 'Select All' : 'Seleccionar todo',
+      unSelectAllText: this.language_code == 'en' ? 'Unselect All' : 'Deselecciona todo',
+      searchPlaceholderText: this.language_code == 'en' ? 'Search' : 'Buscar',
+      allowSearchFilter: true,
+      itemsShowLimit: 1
+    };
+  }
   getParametersForProperty = (): void => {
     if (this.is_back) {
       this.selectedLocation.selectedLocalities = JSON.parse(localStorage.getItem('selectedLocalitiesForProperty'));
@@ -345,6 +385,7 @@ export class PropertySoldComponent implements OnInit {
         this.is_filter = true;
         // localStorage.setItem('parametersForProperty', JSON.stringify(this.parameter));
         this.items = success.data;
+        this.setFloors(this.parameter.building_id);
         this.items.forEach(function (element) {
           element['price_per_square_meter'] = (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
         });
@@ -356,17 +397,46 @@ export class PropertySoldComponent implements OnInit {
       });
   }
 
-  setFloors() {
-    var foo = new Array(30);
-    this.floors = [];
-    for (var i = 0; i < foo.length; i++) {
-      const obj = {
-        id: i,
-        name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
-      }
-      this.floors.push(obj);
+  setFloors(data) {
+    if (data) {
+      this.input.building_id = this.parameter.building_id;
+    } else {
+      this.input.building_id = 0;
     }
+    this.admin.postDataApi('getFloors', this.input).subscribe(
+      success => {
+        var abc = success['data'];
+        this.setModels(this.parameter.building_id);
+        var foo = new Array(abc);
+        this.floors = [];
+        for (var i = 0; i < foo.length; i++) {
+          const obj = {
+            id: i,
+            name: i == 0 ? this.translate.instant('addForm.groundFloor') : this.translate.instant('addForm.floor') + i
+          }
+          this.floors.push(obj);
+        }
+      }, error => {
+        this.spinner.hide();
+      });
+
+
   }
+
+  setModels(data) {
+    if (data == 0) {
+      this.input.building_id = 0;
+    } else {
+      this.input.building_id = this.parameter.building_id;
+    }
+    this.admin.postDataApi('getModelConfigurations', this.input).subscribe(
+      success => {
+        this.models = success['data'];
+      }, error => {
+        this.spinner.hide();
+      });
+  }
+
 
   close() {
     $('.modal').modal('hide');
@@ -379,7 +449,6 @@ export class PropertySoldComponent implements OnInit {
 
 
   getCountries() {
-    //this.spinner.show();
     this.admin.postDataApi('getCountryLocality', {}).subscribe(r => {
       this.location.countries = r['data'];
       if (this.is_back) {
@@ -400,7 +469,6 @@ export class PropertySoldComponent implements OnInit {
         this.parameter.state_id = '0';
         this.parameter.building_id = '0';
       }
-      //this.getListing();
     });
   }
 
@@ -443,10 +511,12 @@ export class PropertySoldComponent implements OnInit {
     if (!id || id.toString() === '0') {
       return false;
     }
+
     this.parameter.state_id = id;
     const selectedState = this.location.states.filter(x => x.id.toString() === id);
     this.location.cities = selectedState[0].cities;
   }
+
 
   onCityChangeAll = (data: any[]): void => {
     this.selectedLocation.selectedCities = data;
@@ -473,34 +543,15 @@ export class PropertySoldComponent implements OnInit {
   }
 
   onLocalityChange = (): void => {
-    // this.selectedLocation.selectedLocalities = [];
-    // this.location.localities = [];
-    // const localities = [];
-    // this.selectedLocation.selectedCities.forEach((cityObject) => {
-    //   const selectedlocality = this.location.cities.filter(x => x.id == cityObject.id);
-    //   (selectedlocality[0].localities || []).forEach((localityObject) => {
-    //     localities.push(localityObject);
-    //   });
-    // });
-    // this.location.localities = localities;
     this.parameter.building_id = '0';
     this.parameter.buildings = [];
     if (this.selectedLocation.selectedLocalities.length > 0) {
-      if (this.found == 'can_outside_broker') {
-        this.getLocalityBuildings_out();
-      } else {
-        this.getLocalityBuildings();
-      }
-
+      this.getLocalityBuildings();
     }
   }
 
+
   getLocalityBuildings = (): void => {
-    //getLocalityBuildings(id) {
-    // if (!id || id.toString() === '0') {
-    //   return false;
-    // }
-    // this.parameter.locality_id = id;
     this.spinner.show();
     this.makePostRequest();
     this.admin.postDataApi('getLocalityBuildings', this.parameter)
@@ -512,22 +563,8 @@ export class PropertySoldComponent implements OnInit {
           this.spinner.hide();
         });
   }
-  getLocalityBuildings_out = (): void => {
-    this.spinner.show();
-    this.makePostRequest();
-    let input = {
-      localities: this.parameter.localities,
-      admin_id: this.login_data_out.id,
-    }
-    this.admin.postDataApi('getadminLocalityBuildings', input)
-      .subscribe(
-        success => {
-          this.spinner.hide();
-          this.parameter.buildings = success.data;
-        }, error => {
-          this.spinner.hide();
-        });
-  }
+
+
   getPropertyAmenities() {
     this.admin.postDataApi('getPropertyAmenities', { hide_blocked: 1 })
       .subscribe(
