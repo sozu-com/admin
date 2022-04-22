@@ -324,7 +324,7 @@
                                                       <td><span>{{item?.currency?.code || ('table.tr.td.NA' | translate)}}</span>
                                                       </td>
                                                       <td><span>{{item?.payment_date}}</span></td>
-                                                      <td><span>{{item?.amt_paid | currency}}</span></td>
+                                                      <td><span>{{item?.amt_paid ? (item?.amt_paid | currency) : (item?.amount | currency)}}</span></td>
                                                       <td><span >{{item?.payment_method?.name}}</span></td>
                                                       <td><span>{{item?.bank_name}}</span></td>
                                                       <td><span>{{item?.account_number}}</span></td>
