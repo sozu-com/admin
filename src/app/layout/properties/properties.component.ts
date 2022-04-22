@@ -1069,6 +1069,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.selctedFilters = [];
     this.selctedProjectAmenities = [];
     this.parameter.parking_for_sale = null;
+    this.parameter.floor_num = null;
+    this.parameter.configuration_id = null;
+    this.parameter.building_id = null;
+    this.parameter.configuration_name = null;
     this.resetDates();
     this.getListing(null, null);
   }

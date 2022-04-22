@@ -15,7 +15,7 @@
   </div>
 
   <div class="row">
-    <div class="col-lg-2 col-md-2">
+    <!-- <div class="col-lg-2 col-md-2">
       <div class="form-group">
         <label>{{'filters.location.country' | translate}}</label>
         <select class="form-control" (change)="onCountryChange($event.target.value)" [(ngModel)]="parameter.country_id"
@@ -58,15 +58,19 @@
           (onDeSelectAll)="onLocalityChangeAll($event)">
         </ng-multiselect-dropdown>
       </div>
-    </div>
+    </div> -->
 
-    <div class="col-lg-2 col-md-2">
+    <div class="col-lg-4 col-md-2">
       <div class="form-group marginB0">
         <label>{{'filters.location.building' | translate}}</label>
-        <select class="form-control" (change)="setBuilding($event.target.value)" [(ngModel)]="parameter.building_id"
+        
+        <select class="form-control" (change)="setBuilding($event.target.value)" 
+        [(ngModel)]="parameter.building_id"
           style="background-color: white;">
-          <option value="0">{{'filters.location.allOption' | translate}}</option>
-          <option *ngFor="let building of parameter.buildings" value="{{building.id}}">{{building.name}}</option>
+          <option *ngFor="let building of parameter.buildings" 
+           value="{{building.id}}">
+            {{building.name}}
+          </option>
         </select>
       </div>
     </div>
@@ -144,21 +148,14 @@
                 <th style="width:10%; text-align:left;">
                   <div class="table-search">
                     <label>{{'table.th.model' | translate}}</label>
-                    <div class="searh-3" *ngIf="parameter.building_id != 0">
-                      <select [(ngModel)]="parameter.configuration_name" 
-                      (change)="getListing('','')" name="configuration_name">
+                    <div class="searh-3">
+                      <select [(ngModel)]="parameter.configuration_id" 
+                      (change)="getListing('','')" name="configuration_id">
                         <option value="">{{'table.th.model' | translate}}</option>
-                        <option *ngFor="let c of models" value="{{c.name}}">
+                        <option *ngFor="let c of models" value="{{c.id}}">
                            {{c.name}}
                         </option>
                      </select>
-                    </div>
-                    
-                    <div class="searh-3" *ngIf="parameter.building_id == 0">
-                      <input class="width120px" type="text" [(ngModel)]="parameter.configuration_name"
-                        name="configuration_name" (keyup.enter)="getListing('','')" autocomplete="address-level4">
-                      <button *ngIf="parameter.configuration_name" (click)="getListing('','')"><i
-                          class="fa fa-search"></i></button>
                     </div>
                   </div>
                 </th>
@@ -232,9 +229,9 @@
               </tbody>
             </table>
 
-            <!-- <div class="padding20 center" *ngIf="total == 0">
+            <div class="padding20 center" *ngIf="total == 0">
               <img src="assets/img/404-error.png">
-            </div> -->
+            </div>
 
           </div>
         </div>

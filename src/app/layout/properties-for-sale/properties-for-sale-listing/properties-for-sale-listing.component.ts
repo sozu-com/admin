@@ -771,6 +771,10 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     this.parameter.property_type_id = null;
     this.selctedAmenities = [];
     this.parameter.parking_for_sale = null;
+    this.parameter.floor_num = null;
+    this.parameter.configuration_id = null;
+    this.parameter.building_id = null;
+    this.parameter.configuration_name = null;
     this.getListing(null, null);
   }
 

@@ -118,7 +118,7 @@ export class PropertySoldComponent implements OnInit {
     private route: ActivatedRoute, private router: Router, private offerPdf: GenerateOfferPdfService,
     private translate: TranslateService, public model: AddPropertyModel,
     private formBuilder: FormBuilder, private datePipe: DatePipe,
-    private http: HttpClient, private price: PricePipe, public cs: CommonService) { 
+    private http: HttpClient, private price: PricePipe, public cs: CommonService) {
     var all_data = JSON.parse(localStorage.getItem('all'));
     this.login_data_out = all_data.data;
     var keys = Object.keys(all_data.data.permissions);
@@ -253,7 +253,7 @@ export class PropertySoldComponent implements OnInit {
 
   onSelectAll(obj: any) {
   }
-  
+
   getPropertyTypes() {
     this.admin.postDataApi('getPropertyTypes', { hide_blocked: 1 })
       .subscribe(
@@ -262,7 +262,7 @@ export class PropertySoldComponent implements OnInit {
         });
   }
 
-  
+
   makePostRequest = (): void => {
     this.parameter.localities = this.selectedLocation.selectedLocalities.length > 0 ? this.selectedLocation.selectedLocalities.map(o => o.id) : null;
     this.parameter.cities = this.selectedLocation.selectedCities.length > 0 ? this.selectedLocation.selectedCities.map(o => o.id) : null;
@@ -575,6 +575,10 @@ export class PropertySoldComponent implements OnInit {
     this.parameter.property_type_id = null;
     this.selctedAmenities = [];
     this.parameter.parking_for_sale = null;
+    this.parameter.floor_num = null;
+    this.parameter.configuration_id = null;
+    this.parameter.building_id = null;
+    this.parameter.configuration_name = null;
     this.getListing(null, null);
   }
 
@@ -653,7 +657,7 @@ export class PropertySoldComponent implements OnInit {
         this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Bath'] : undefined;
         this.selectedPropertyColumnsToShow.configuration == 0 ? delete obj['Configuration Half Bath'] : undefined;
         this.selectedPropertyColumnsToShow.final_price == 0 ? delete obj['Final Price'] : undefined;
-       // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
+        // this.parameter.flag != 5 && this.selectedPropertyColumnsToShow.link_unlink_outside_agent == 0 ? delete obj['Outside Agent'] : undefined;
         this.selectedPropertyColumnsToShow.price_per_m2 == 0 ? delete obj['Price per m2'] : undefined;
         exportfinalData.push(obj);
       }
@@ -711,7 +715,7 @@ export class PropertySoldComponent implements OnInit {
       final_price: (this.select_columns_list[5] || []).isCheckBoxChecked,
       stp_key: (this.select_columns_list[6] || []).isCheckBoxChecked,
       agent: (this.select_columns_list[7] || []).isCheckBoxChecked,
-      
+
     };
   }
 

@@ -362,13 +362,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   }
 
   setFloors(data) {
-    if (data == 0) {
-      this.input.building_id = 0;
-      this.input.pro_id = this.noteEmails;
-    } else {
-      this.input.building_id = this.parameter.building_id;
-      this.input.pro_id = 0;
-    }
+    this.input.building_id = data;
     this.admin.postDataApi('getFloor', this.input).subscribe(
       success => {
         var place = success['data'];
@@ -389,12 +383,12 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   }
 
   setModels(data) {
-    if (data == 0) {
-      this.input.building_id = this.defaultValue.id;
-      this.input.pro_id = 0;
-    } else {
+    if (data) {
       this.input.building_id = this.parameter.building_id;
       this.input.pro_id = this.parameter.building_id;
+    } else {
+      this.input.building_id = this.defaultValue;
+      this.input.pro_id = 0;
     }
     this.admin.postDataApi('getModelConfigurations', this.input).subscribe(
       success => {
@@ -512,7 +506,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       } else {
         this.parameter.country_id = '0';
         this.parameter.state_id = '0';
-        this.parameter.building_id = '0';
+        //this.parameter.building_id = '0';
       }
     });
   }
@@ -545,7 +539,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.location.localities = [];
     this.parameter.locality_id = '0';
     this.parameter.buildings = [];
-    this.parameter.building_id = '0';
+    // this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       return false;
     }
@@ -563,7 +557,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.parameter.city_id = '0';
     this.parameter.locality_id = '0';
     this.parameter.buildings = [];
-    this.parameter.building_id = '0';
+    //this.parameter.building_id = '0';
     if (!id || id.toString() === '0') {
       return false;
     }
@@ -592,7 +586,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   onCityChange = (): void => {
     this.selectedLocation.selectedLocalities = [];
     this.location.localities = [];
-    this.parameter.building_id = '0';
+    //this.parameter.building_id = '0';
     const localities = [];
     this.selectedLocation.selectedCities.forEach((cityObject) => {
       const selectedlocality = this.location.cities.filter(x => x.id == cityObject.id);
@@ -619,7 +613,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     //   });
     // });
     // this.location.localities = localities;
-    this.parameter.building_id = '0';
+    //this.parameter.building_id = '0';
     this.parameter.buildings = [];
     if (this.selectedLocation.selectedLocalities.length > 0) {
       if (this.found == 'can_outside_broker') {
@@ -667,14 +661,10 @@ export class OutsidePropertyForSaleComponent implements OnInit {
         success => {
           this.spinner.hide();
           this.parameter.buildings = success.data;
-          if (this.parameter.building_id == 0) {
-            this.defaultValue = this.parameter.buildings[0].id;
-            console.log(this.defaultValue, "1st");
-          } else {
+          if (this.parameter.building_id) {
             this.defaultValue = this.parameter.building_id;
-            console.log(this.defaultValue, "2nd");
-          }
-          if (this.parameter.building_id == 0) {
+          } else {
+            this.defaultValue = this.parameter.buildings[0].id;
             this.parameter.building_id = this.parameter.buildings[0].id;
           }
           let newArray = [];
@@ -683,7 +673,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
             newArray.push(mails);
           }
           this.noteEmails = newArray
-          this.setFloors(this.parameter.building_id);
+          this.setFloors(this.defaultValue);
         }, error => {
           this.spinner.hide();
         });
@@ -757,6 +747,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.parameter.configuration_id = null;
     this.selctedAmenities = [];
     this.parameter.parking_for_sale = null;
+    this.parameter.building_id = null;
     this.getListing(null, null);
   }
 
