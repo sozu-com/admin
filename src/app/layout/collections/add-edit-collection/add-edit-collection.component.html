@@ -1730,6 +1730,25 @@
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
+            <label>{{'addCollection.listprice' | translate}}</label>
+            <div class="clearfix"></div>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon1">$</span>
+              <input autocomplete="off" class="form-control" step="0.01" type="number"
+                placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="uma_value" min="0"
+                name="uma_value" appUptoTwoDigitDecimalNumber>
+            </div>
+          </div>
+          <div *ngIf="showError && (addFormStep4.controls.deal_price.invalid)">
+            <div *ngIf="addFormStep4.controls.deal_price.errors?.required " class="show-error">
+              {{'addCollectionValidations.thisIsRequired' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
             <label>{{'addCollection.purchaseDate' | translate}}</label>
             <div class="clearfix"></div>
             <p-calendar dateFormat="dd/M/yy" [style]="{'width':'100%'}" formControlName="deal_purchase_date"
@@ -2151,7 +2170,11 @@
     </div>
     <div class="padding40">
       <h5 class="marginB30">{{'addCollection.completeCommissionInfo' | translate}}</h5>
-
+      <div class="switchToggle" style="margin-top: 20px; margin-bottom: 20px;">
+        <h6 class="p16-two">{{'addCollection.commissionInCash' | translate}}</h6>
+        <input type="checkbox" id="switch3" (click)="toggleCommissionCash($event)" [checked]="commissionCash">
+        <label for="switch3">Toggle</label>
+      </div>
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <label class="p16-two">{{'addCollection.sozuCommission' | translate}}</label>
