@@ -2811,6 +2811,8 @@
     "Sozu": "Sozu",
     "Seller": "Seller",
     "createCollectionBasedOnCommercialOffer": "Create collection based on commercial offer",
+    "commissionInCash": "Commission in cash",
+    "umaValue": "UMA value",
     "resale":"Is this collection a resale?",
     "finalPrice":"Final Price",  
     "discountInterst": "Discount/Interest%",

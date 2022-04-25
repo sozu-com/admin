@@ -295,6 +295,7 @@ export class AddEditCollectionComponent implements OnInit {
   selectedReciverUser: any;
   ReciverUser: any;
   old_commision_legal_id: any;
+  commissionCash = false;
   constructor(
     public model: Collection,
     private adminService: AdminService,
@@ -614,6 +615,7 @@ export class AddEditCollectionComponent implements OnInit {
       deal_penality: [0],
       final_price: [''],
       interest_discount: [''],
+      uma_value: [0],
       delivery_date: [{ value: '', disabled: true }]
     });
     if (this.model.id === '0') {
@@ -659,6 +661,7 @@ export class AddEditCollectionComponent implements OnInit {
       bank_id: [''],
       searchValue: [''],
       bank_reference_id: [''],
+      commission_in_cash: 0,
     });
     // if (this.model.id === '0') {
     // this.addAgent('');
@@ -1138,6 +1141,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.addFormStep5.controls.add_iva_to_pc.patchValue(data.add_iva_to_pc || 0);
     this.addFormStep5.controls.add_iva_to_ac.patchValue(data.add_iva_to_ac || 0);
     this.addFormStep5.controls.add_iva_to_oac.patchValue(data.add_iva_to_oac || 0);
+    this.addFormStep5.controls.commission_in_cash.patchValue(data.commission_in_cash || 0);
+    this.commissionCash = data.commission_in_cash ? true : false;
     this.addFormStep5.controls.outside_agent_commission_percentage.patchValue(data.outside_agent_commission_percentage || 0);
     this.addFormStep5.controls.outside_agent_commission_amount.patchValue(data.outside_agent_commission_amount || 0);
     this.addFormStep5.controls.outside_agent_commission_iva_amount.patchValue(data.outside_agent_commission_iva_amount || 0);
@@ -2945,6 +2950,7 @@ export class AddEditCollectionComponent implements OnInit {
     }
 
     if (this.model.step == 4) {
+      
       this.addFormStep4.controls.step.patchValue(this.model.step);
       delete this.addFormStep4.value.paymentchoice;
       if (this.addFormStep4.valid) {
@@ -2970,7 +2976,7 @@ export class AddEditCollectionComponent implements OnInit {
         for (let index = 0; index < formdata['payment_choices'].length; index++) {
           const element = formdata['payment_choices'][index];
 
-          if (!element.name || !element.amount || !element.date || !element.percent) {
+          if (!element.name || !element.amount || !element.date || (!element.percent && !element.amount)) {
             i = i + 1;
             const text = element.name ?
               this.translate.instant('message.error.pleaseFillAllDetailsFor') + element.name :
@@ -3911,4 +3917,8 @@ export class AddEditCollectionComponent implements OnInit {
     this.clear();
   }
 
+  toggleCommissionCash(value){
+    this.commissionCash = value.target.checked ? true : false;
+    this.addFormStep5.controls.commission_in_cash.patchValue(this.commissionCash ? 1 : 0);
+  }
 }
