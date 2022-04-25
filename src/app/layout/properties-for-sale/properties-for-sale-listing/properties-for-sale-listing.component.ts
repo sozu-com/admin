@@ -146,6 +146,8 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   propertyIndex: any;
   @ViewChild('openSelectColumnsModal') openSelectColumnsModal: ElementRef;
   @ViewChild('closeSelectColumnsModal') closeSelectColumnsModal: ElementRef;
+  @ViewChild('openPaymentWaysModal') openPaymentWaysModal: ElementRef;
+  @ViewChild('closePaymentWaysModal') closePaymentWaysModal: ElementRef;
   select_columns_list: any[] = [];
   public selectedPropertyColumnsToShow: any = {};
   public isSelectAllColumns: boolean = false;
@@ -156,6 +158,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   initialCountry = { initialCountry: 'mx' };
   isShown = false;
   availabilityStatus = Array<any>();
+  payment_ways: any [] = [];
 
   constructor(
     public constant: Constant, private toastr: ToastrService,
@@ -2351,5 +2354,14 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
 
   toggleShow(value) {
     this.isShown = value.target.checked ? true : false;
+  }
+
+  showPaymnetSchem(data){
+    this.spinner.show();
+    this.admin.postDataApi('getBuildingOfferInfo', { property_id: data.id }).subscribe((success) => {
+      this.spinner.hide();
+      this.payment_ways = (success || {}).data;
+      this.openPaymentWaysModal.nativeElement.click();
+    });
   }
 }

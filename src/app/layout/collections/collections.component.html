@@ -515,6 +515,11 @@
                       <label>{{'table.th.amountPaid' | translate}}</label>
                     </div>
                   </th>
+                  <th style="text-align:left; width: 120px;" *ngIf="selectedCollectionColumnsToShow?.cash_limit">
+                    <div class="table-search">
+                      <label>{{'table.th.cashLimit' | translate}}</label>
+                    </div>
+                  </th>
                   <th style="text-align:left; width: 120px;" *ngIf="selectedCollectionColumnsToShow?.remanining_amount">
                     <div class="table-search">
                       <label>{{'table.th.remaniningAmount' | translate}}</label>
@@ -755,6 +760,17 @@
                   </td>
                   <td *ngIf="selectedCollectionColumnsToShow?.amount_paid"><span>{{(p?.total_payment_recieved || 0) |
                       currency}}</span></td>
+                      <td *ngIf="selectedCollectionColumnsToShow?.cash_limit">
+
+                        <div *ngIf="p?.is_cancelled==0 &&p?.color_status==1"
+                          class="status green" title="Up to Date"></div>
+                        <div *ngIf="p?.is_cancelled==0 && p?.color_status==2"
+                          class="status yellow" title="Payment Period"></div>
+                        <div *ngIf="p?.is_cancelled==0 && p?.color_status==3"
+                          class="status orange" title="Inconsistency between price and deal scheme"></div>
+                        <div *ngIf="p?.is_cancelled==0 && p?.color_status==4"
+                        class="status red" title="Overdue Payment"></div>
+                      </td>
                   <td *ngIf="selectedCollectionColumnsToShow?.remanining_amount"><span>{{p?.remaining |
                       currency}}</span></td>
 
@@ -1064,6 +1080,17 @@
                   </td>
                   <td *ngIf="selectedCollectionColumnsToShow?.amount_paid"><span>{{(p?.total_payment_recieved || 0) |
                       currency}}</span></td>
+                      <td *ngIf="selectedCollectionColumnsToShow?.cash_limit">
+
+                        <div *ngIf="p?.is_cancelled==0 &&p?.color_status==1"
+                          class="status green" title="Up to Date"></div>
+                        <div *ngIf="p?.is_cancelled==0 && p?.color_status==2"
+                          class="status yellow" title="Payment Period"></div>
+                        <div *ngIf="p?.is_cancelled==0 && p?.color_status==3"
+                          class="status orange" title="Inconsistency between price and deal scheme"></div>
+                        <div *ngIf="p?.is_cancelled==0 && p?.color_status==4"
+                        class="status red" title="Overdue Payment"></div>
+                      </td>
                   <td *ngIf="selectedCollectionColumnsToShow?.remanining_amount"><span>{{p?.remaining |
                       currency}}</span></td>
 

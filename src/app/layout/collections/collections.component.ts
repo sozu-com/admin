@@ -4162,7 +4162,8 @@ export class CollectionsComponent implements OnInit, OnDestroy {
       amount_paid: (this.select_columns_list[41] || []).isCheckBoxChecked,
       remanining_amount: (this.select_columns_list[42] || []).isCheckBoxChecked,
       status_account: (this.select_columns_list[43] || []).isCheckBoxChecked,
-      actions: (this.select_columns_list[44] || []).isCheckBoxChecked
+      actions: (this.select_columns_list[44] || []).isCheckBoxChecked,
+      cash_limit: (this.select_columns_list[45] || []).isCheckBoxChecked
 
     };
   }
@@ -4323,6 +4324,9 @@ export class CollectionsComponent implements OnInit, OnDestroy {
         break;
       case 45:
         this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.actions;
+        break;
+        case 46:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedCollectionColumnsToShow.cash_limit;
         break;
       default:
         break;
