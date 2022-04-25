@@ -2188,25 +2188,65 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
   getPostRequestForColumn = (): any => {
     return {
       user_id: JSON.parse(localStorage.getItem('user-id')) || 0,
-      building_name: (this.select_columns_list[9] || []).isCheckBoxChecked,
-      tower_name: (this.select_columns_list[10] || []).isCheckBoxChecked,
-      floor: (this.select_columns_list[5] || []).isCheckBoxChecked,
-      apartment: (this.select_columns_list[1] || []).isCheckBoxChecked,
-      model: (this.select_columns_list[8] || []).isCheckBoxChecked,
-      configuration: (this.select_columns_list[4] || []).isCheckBoxChecked,
-      list_price: (this.select_columns_list[7] || []).isCheckBoxChecked,
-      carpet_area: (this.select_columns_list[3] || []).isCheckBoxChecked,
-      //commercialized_sozu: (this.select_columns_list[8] || []).isCheckBoxChecked,
-      possession_status: (this.select_columns_list[11] || []).isCheckBoxChecked,
-      //change_seller: (this.select_columns_list[10] || []).isCheckBoxChecked,
-      //link_unlink_outside_agent: (this.select_columns_list[13] || []).isCheckBoxChecked,
-      //link_agency: (this.select_columns_list[11] || []).isCheckBoxChecked,
-      price_per_m2: (this.select_columns_list[12] || []).isCheckBoxChecked,
-      id: (this.select_columns_list[6] || []).isCheckBoxChecked,
-      action: (this.select_columns_list[0] || []).isCheckBoxChecked,
-      change_availability: (this.select_columns_list[2] || []).isCheckBoxChecked
-
+      building_name: (this.select_columns_list[0] || []).isCheckBoxChecked,
+      tower_name: (this.select_columns_list[1] || []).isCheckBoxChecked,
+      floor: (this.select_columns_list[2] || []).isCheckBoxChecked,
+      apartment: (this.select_columns_list[3] || []).isCheckBoxChecked,
+      model: (this.select_columns_list[4] || []).isCheckBoxChecked,
+      configuration: (this.select_columns_list[5] || []).isCheckBoxChecked,
+      list_price: (this.select_columns_list[6] || []).isCheckBoxChecked,
+      carpet_area: (this.select_columns_list[7] || []).isCheckBoxChecked,
+      possession_status: (this.select_columns_list[8] || []).isCheckBoxChecked,
+      price_per_m2: (this.select_columns_list[9] || []).isCheckBoxChecked,
+      id: (this.select_columns_list[10] || []).isCheckBoxChecked,
+      action: (this.select_columns_list[11] || []).isCheckBoxChecked,
+      change_availability: (this.select_columns_list[12] || []).isCheckBoxChecked
     };
+  }
+  makeSelectedColumns = (id: number, index: number): void => {
+    switch (id) {
+      case 1:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.building_name;
+        break;
+      case 2:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.tower_name;
+        break;
+      case 3:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.floor;
+        break;
+      case 4:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.apartment;
+        break;
+      case 5:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.model;
+        break;
+      case 6:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.configuration;
+        break;
+      case 8:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.list_price;
+        break;
+      case 11:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.carpet_area;
+        break;
+      case 13:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.possession_status;
+        break;
+      case 27:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.price_per_m2;
+        break;
+      case 30:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.id;
+        break;
+      case 31:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
+        break;
+      case 32:
+        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_availability;
+        break;
+      default:
+        break;
+    }
   }
   updateCommercialized = (propertyDetails: any, is_commercialized): void => {
     propertyDetails.is_commercialized = is_commercialized;
@@ -2250,66 +2290,7 @@ export class PropertiesForSaleListingComponent implements OnInit, OnDestroy {
     }
   }
 
-  makeSelectedColumns = (id: number, index: number): void => {
-    switch (id) {
-      case 1:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.building_name;
-        break;
-      case 2:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.tower_name;
-        break;
-      case 3:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.floor;
-        break;
-      case 4:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.apartment;
-        break;
-      case 5:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.model;
-        break;
-      case 6:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.configuration;
-        break;
-      case 8:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.list_price;
-        break;
-      case 11:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.carpet_area;
-        break;
-      // case 12:
-      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.commercialized_sozu;
-      //   break;
-      case 13:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.possession_status;
-        break;
-      // case 19:
-      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_seller;
-      //   break;
-      // case 20:
-      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_agency;
-      //   break;
-      // case 29:
-      //   this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.link_unlink_outside_agent;
-      //   break;
-      case 27:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.price_per_m2;
-        break;
-      case 28:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.property_sale_id;
-        break;
-      case 30:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.id;
-        break;
-      case 31:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.action;
-        break;
-      case 32:
-        this.select_columns_list[index].isCheckBoxChecked = this.selectedPropertyColumnsToShow.change_availability;
-        break;
-      default:
-        break;
-    }
-  }
+
   makePaymentBankDetailsArray = (isFirstTimeClick: boolean): void => {
     this.paymentBankDetailsArray = [];
     // this.installmentFormGroup.get('agencyOrSeller').value if true == seller or false == agency
