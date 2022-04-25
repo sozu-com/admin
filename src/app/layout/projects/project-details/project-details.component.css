@@ -19,7 +19,7 @@
 .white-bg {
     background-color: #fff;
     border-radius: 2px;
-    height: 100%;
+    height: 130%;
 }
 .tower-block{
     padding: 20px;
@@ -30,9 +30,9 @@
 
 .images-wrapper{
     width:48%;
-    height:180px;
-    margin-right:4%;
-    background: #eee;
+    height:150px;
+    /* margin-right:4%;
+    background: #eee; */
     float: left;
 }
 .video-wrapper{

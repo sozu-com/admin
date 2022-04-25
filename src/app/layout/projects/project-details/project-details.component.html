@@ -72,13 +72,13 @@
     </div>
     <div class="img-des">
       <div class="row">
-        <div class="col-md-3 col-sm-6 col-12 img-c">
+        <!-- <div class="col-md-3 col-sm-6 col-12 img-c">
           <div class="block">
             <p class="p18">{{project.base_min_price | customPrice}} / {{'addForm.mts2' | translate}}</p>
             <p class="p13">{{'addForm.AveragePricePerMts2' | translate}}</p>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-12 img-c">
+        </div> -->
+        <div class="col-md-4 col-sm-6 col-12 img-c">
           <div class="block">
             <p class="p18">{{project?.building_towers?.length}} {{'addForm.tower.tower' | translate}} - {{project?.units}}
               {{('addForm.units' | translate)}}</p>
@@ -86,13 +86,13 @@
             <p class="p13">{{'addForm.projectSize' | translate}}</p>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6 col-12 img-c">
+        <div class="col-md-4 col-sm-6 col-12 img-c">
           <div class="block">
             <p class="p18">{{project.total_sale}} {{'addForm.sale' | translate}} - {{project.total_rent}} {{'addForm.Rent' | translate}}</p>
             <p class="p13">{{'addForm.Properties'  | translate}}</p>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6 col-12 img-c">
+        <div class="col-md-4 col-sm-6 col-12 img-c">
           <div *ngIf="configuration" class="block">
             <p class="p18">{{carpet_area_string}}</p>
             <p class="p13">{{'addForm.Carpet_Area'  | translate}}
@@ -238,12 +238,15 @@
                     </p>
                   </div> -->
                 </div>
-                <div *ngIf="(project?.images && project?.images.length>0) || (project?.videos && project?.videos.length>0)" class="gallery-bottom">
-                  <div *ngIf="project?.images.length>0" class="images-wrapper">
-                    <a [href]="galleryImageOne" data-lightbox="image">
-                      <img [lazyLoad]="galleryImageOne"
-                           [defaultImage]="galleryImageOne|img:'thumb'"
-                           onerror='this.src="assets/img/placeholder.png"'>
+                <div *ngIf="(project?.images && project?.images.length>0)" class="gallery-bottom">
+                  <div *ngFor="let img of project?.images" class="images-wrapper">
+                    <a [href]="img.image" data-lightbox="image">
+                      <img [lazyLoad]="img.image"
+                           [defaultImage]="img.image|img:'thumb'"
+                           onerror='this.src="assets/img/placeholder.png"' style="margin: 5px;
+                           width: 240px;
+                           height: 140px;
+                           object-fit: cover;">
                     </a>
                   </div>
                   <div *ngIf="project?.videos && project?.videos.length>0" class="video-wrapper">
@@ -306,7 +309,7 @@
                   </div>
                 </div>
 
-                <div *ngIf="project.banks.length > 0">
+                <!-- <div *ngIf="project.banks.length > 0">
                   <div class="row">
                     <div class="col-6">
                       <p class="p14">{{'addForm.Home_Loans'  | translate}}</p>
@@ -331,7 +334,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
 
                 
 
@@ -464,13 +467,23 @@
                   </div> -->
                 </div>
                 <div *ngIf="project?.images.length>0 || project?.videos.length>0" class="gallery-bottom">
-                  <div *ngIf="project?.images.length>0" class="images-wrapper">
+                  <div *ngFor="let img of project?.images" class="images-wrapper">
+                    <a [href]="img.image" data-lightbox="image">
+                      <img [lazyLoad]="img.image"
+                           [defaultImage]="img.image|img:'thumb'"
+                           onerror='this.src="assets/img/placeholder.png"' style="margin: 5px;
+                           width: 240px;
+                           height: 140px;
+                           object-fit: cover;">
+                    </a>
+                  </div>
+                  <!-- <div *ngIf="project?.images.length>0" class="images-wrapper">
                     <a [href]="galleryImageOne" data-lightbox="image">
                       <img [lazyLoad]="galleryImageOne"
                            [defaultImage]="galleryImageOne|img:'thumb'"
                            onerror='this.src="assets/img/placeholder.png"'>
                     </a>
-                  </div>
+                  </div> -->
                   <div *ngIf="project?.videos.length>0" class="video-wrapper">
                     <img [lazyLoad]="video_thumb"
                          [defaultImage]="video_thumb|img:'thumb'"
