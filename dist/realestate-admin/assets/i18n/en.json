@@ -1018,6 +1018,7 @@
       "noMonthlyInstallment": "No. monthly intallments",
       "dateInstallment": "Date 1st monthly payment",
       "paymentUponDelivery": "Payment upon delivery",
+      "cashLimit": "Cash Limit",
       "possesion": {
         "label": "Possesion",
         "Building_type": "Building type",

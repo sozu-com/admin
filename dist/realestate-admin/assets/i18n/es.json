@@ -1017,6 +1017,7 @@
       "noMonthlyInstallment": "No. de parcialidades",
       "dateInstallment": "Fecha 1er pago parcialidad",
       "paymentUponDelivery": "Contraentrega",
+      "cashLimit": "Límite en efectivo",
       "possesion": {
         "label": "Fecha de entrega",
         "Building_type": "Tipo de construcción",
