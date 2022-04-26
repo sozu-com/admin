@@ -483,7 +483,7 @@
       <h3>{{'addCollection.chooseTheSeller' | translate}}</h3>
     </div>
 
-    <div style="padding: 0px 40px;">
+    <!-- <div style="padding: 0px 40px;">
 
       <div class="form-group-3 row">
         <h5 class="col-sm-3 p16-two">{{'addCollection.chooseSellerType' | translate}}:</h5>
@@ -507,17 +507,17 @@
           <div class="clearfix"></div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="paddingT0 padding40">
 
       <!-- search seller -->
-      <h5 class="p16-two">{{'addCollection.SearchASellerInOurDatabase' | translate}}</h5>
-      <div class="searh d-flex">
+      <!-- <h5 class="p16-two">{{'addCollection.SearchASellerInOurDatabase' | translate}}</h5> -->
+      <!-- <div class="searh d-flex"> -->
         <!-- (click)="getAllSellers('')" -->
-        <input readonly class="border-right-0" autocomplete="off" type="text" readonly name="ss">
+        <!-- <input readonly class="border-right-0" autocomplete="off" type="text" readonly name="ss">
         <button disabled class="btn" type="button">{{'addCollection.search' | translate}}</button>
-      </div>
+      </div> -->
       <div class="spacer50"></div>
 
       <!-- complete seller details -->
@@ -1021,7 +1021,7 @@
     </div>
 
 
-    <div style="padding: 0px 40px;">
+    <!-- <div style="padding: 0px 40px;">
       <div class="form-group-3 row">
         <h5 class="col-sm-3 p16-two">{{'addCollection.chooseBuyerType' | translate}}:</h5>
         <div class="col-sm-9">
@@ -1044,18 +1044,18 @@
           <div class="clearfix"></div>
         </div>
       </div>
-    </div>
+    </div> -->
 
 
     <div class="paddingT0 padding40">
 
       <!-- search -->
-      <h5 class="p16-two">{{'addCollection.SearchABuyerInOurDatabase' | translate}}</h5>
-      <div class="searh d-flex">
+      <!-- <h5 class="p16-two">{{'addCollection.SearchABuyerInOurDatabase' | translate}}</h5> -->
+      <!-- <div class="searh d-flex"> -->
         <!-- (click)="getAllSellers('')" -->
-        <input readonly class="border-right-0" autocomplete="off" type="text" readonly name="bb">
+        <!-- <input readonly class="border-right-0" autocomplete="off" type="text" readonly name="bb">
         <button disabled class="btn" type="button">{{'addCollection.search' | translate}}</button>
-      </div>
+      </div> -->
       <div class="spacer50"></div>
 
       <!-- complete details -->
@@ -1220,9 +1220,24 @@
 
       <div  *ngIf="model.buyer_type == 1">
       <div class="spacer50"></div>
-      <!-- Beneficiaries -->
-      <h5 style="color: black;font-weight: bold;">{{'addCollection.beneficiaries' | translate}}</h5>
+      <!-- <h5 style="color: black;font-weight: bold;">{{'commonBlock.invoice' | translate}}</h5> -->
       <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="form-group-3">
+            <div class="form-group">
+              <label class="p16-two">
+                <input class="form-control" class="is_commission_sale_enabled" type="checkbox" name="invoice"
+                  (change)="onChangeInvoice($event)" [checked]="isInvoice" [disabled]="!enable_invoce">
+                <span style="margin-left: 10px; vertical-align: super;">{{'commonBlock.invoice' |
+                      translate}}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Beneficiaries -->
+      <!-- <h5 style="color: black;font-weight: bold;">{{'addCollection.beneficiaries' | translate}}</h5> -->
+      <!-- <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
             <div class="form-group">
@@ -1238,10 +1253,6 @@
                   {{temp_beneficiary?.beneficiary_name}} {{temp_beneficiary?.beneficiary_firstSurname}} {{temp_beneficiary?.beneficiary_secondSurname}}
                 </option>
               </select>
-            <!-- <ng-multiselect-dropdown class="col-3 section-section2 multi-select" [placeholder]="''" name="selectedbeneficiaries"
-           [data]="beneficiaries_list" [(ngModel)]="selectedbeneficiaries" [settings]="multiDropdownSettings"
-           [ngModelOptions]="{standalone: true}">
-           </ng-multiselect-dropdown> -->
             </div>
           </div>
         </div>
@@ -1261,7 +1272,7 @@
               </button>
             </div>
         </div>
-      </div> 
+      </div>  -->
       <div class="spacer50"></div>
       <div class="white-bg">
         <h5 style="color: black;font-weight: bold;">{{'creditForm.ListBeneficiaries' | translate}}</h5>
@@ -1730,10 +1741,9 @@
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
           <div class="form-group-3">
-            <label>{{'addCollection.listprice' | translate}}</label>
+            <label>{{'addCollection.umaValue' | translate}}</label>
             <div class="clearfix"></div>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon1">$</span>
               <input autocomplete="off" class="form-control" step="0.01" type="number"
                 placeholder="{{'addForm.placeholder.enter' | translate}}" formControlName="uma_value" min="0"
                 name="uma_value" appUptoTwoDigitDecimalNumber>

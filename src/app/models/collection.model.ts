@@ -82,4 +82,13 @@ export class Seller {
     country_code: string;
     legal_rep_banks?: any;
     legal_representative?: any;
+    fed_tax_pay?: any;
+    tax_street_address?: any;
+    tax_external_number?: any;
+    tax_zipcode?: any;
+    tax_country?: any;
+    tax_state?: any;
+    tax_municipality?: any;
+    tax_neighbourhood?: any;
+    tax_city?: any;
 }

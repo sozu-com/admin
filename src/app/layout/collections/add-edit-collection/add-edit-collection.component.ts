@@ -296,6 +296,8 @@ export class AddEditCollectionComponent implements OnInit {
   ReciverUser: any;
   old_commision_legal_id: any;
   commissionCash = false;
+  isInvoice = false;
+  enable_invoce = false
   constructor(
     public model: Collection,
     private adminService: AdminService,
@@ -329,7 +331,6 @@ export class AddEditCollectionComponent implements OnInit {
     this.buildingData = new AddProjectModel();
     this.getAllPaymentChoices();
     this.getRelationship();
-
     this.parameter.sub = this.route.params.subscribe(params => {
       this.model.id = params['id'];
       if (params['id'] === '0') {
@@ -592,7 +593,8 @@ export class AddEditCollectionComponent implements OnInit {
       collection_buyer_banks: this.formBuilder.array([]),
       collection_buyer_rep_banks: this.formBuilder.array([]),
       buyer_type: ['', [Validators.required]],
-      buyer_legal_entity_id: ['']
+      buyer_legal_entity_id: [''],
+      is_invoice: [0]
     });
   }
 
@@ -926,9 +928,11 @@ export class AddEditCollectionComponent implements OnInit {
   }
 
   patchFormStep3(data) {
+    this.enableInvoice();
     this.model.buyer_type = data.buyer_type ? data.buyer_type : '1';
     this.addFormStep3.controls.buyer_type.patchValue(data.buyer_type ? data.buyer_type.toString() : '1');
-
+    this.addFormStep3.controls.is_invoice.patchValue(data.is_invoice);
+    this.isInvoice = data.is_invoice ? true : false;
     // as a person
     if (this.model.buyer_type == '1') {
       this.addFormStep3.controls.buyer_id.patchValue(data.buyer ? data.buyer.id : '');
@@ -3920,5 +3924,33 @@ export class AddEditCollectionComponent implements OnInit {
   toggleCommissionCash(value){
     this.commissionCash = value.target.checked ? true : false;
     this.addFormStep5.controls.commission_in_cash.patchValue(this.commissionCash ? 1 : 0);
+  }
+
+  onChangeInvoice(data){
+    this.isInvoice = this.isInvoice ? false : true;
+    this.addFormStep3.controls.is_invoice.patchValue(this.isInvoice ? 1 : 0);
+  }
+
+  enableInvoice() {
+    if(this.tempmodel.seller){
+    if(this.tempmodel.seller.fed_tax_pay && this.tempmodel.seller.tax_street_address && this.tempmodel.seller.tax_external_number && this.tempmodel.seller.tax_zipcode && 
+      this.tempmodel.seller.tax_country && this.tempmodel.seller.tax_state && (this.tempmodel.seller.tax_city || this.tempmodel.seller.tax_neighbourhood || 
+        this.tempmodel.seller.tax_municipality)){
+          this.enable_invoce = true;
+    }
+    else{
+      this.enable_invoce = false;
+    }
+    }
+    else{
+      if(this.tempmodel.seller_legal_entity.fed_tax_pay && this.tempmodel.seller_legal_entity.tax_street_address && this.tempmodel.seller_legal_entity.tax_external_number && 
+        this.tempmodel.seller_legal_entity.tax_zipcode && this.tempmodel.seller_legal_entity.tax_country && this.tempmodel.seller_legal_entity.tax_state && 
+        (this.tempmodel.seller_legal_entity.tax_city || this.tempmodel.seller_legal_entity.tax_neighbourhood || this.tempmodel.seller.tax_municipality)){
+          this.enable_invoce = true;
+      }
+      else{
+        this.enable_invoce = false;
+      }
+    }
   }
 }
