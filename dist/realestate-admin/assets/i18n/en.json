@@ -2557,7 +2557,8 @@
     "finalizeContract": "Finalize Contract",
     "createContract": "Create Contract",
     "signatureDate":"Signature date",
-    "ok": "Ok"
+    "ok": "Ok",
+    "invoice": "Invoice"
   },
   "viewCollections": {
     "choose": "Choose",

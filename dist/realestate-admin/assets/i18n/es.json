@@ -2550,7 +2550,8 @@
     "finalizeContract": "Terminar contracto",
     "createContract": "contracto crear",
     "signatureDate":"Fecha de firma",
-    "ok": "Ok"
+    "ok": "Ok",
+    "invoice": "Facturar"
   },
   "viewCollections": {
     "choose": "Escoger",
