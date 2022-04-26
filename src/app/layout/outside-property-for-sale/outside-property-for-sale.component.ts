@@ -223,9 +223,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
     this.cs.outside_items = JSON.parse(localStorage.getItem('property_sale_outside'));
     this.cs.totalOutside = JSON.parse(localStorage.getItem('property_outsid_total'));
     this.language_code = localStorage.getItem('language_code');
-
     this.getPropertyFilter();
-    this.getOutsideUserProject();
     this.getPropertyHome();
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
@@ -253,6 +251,12 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       weekHeader: 'Wk'
     };
     this.route.params.subscribe(params => {
+      console.log(params, "params");
+      if (params.for == 'back') {
+        this.getOutsideUserProject();
+      } else {
+        this.getOutsideUserProject();
+      }
       this.parameter.project_id = params.project_id;
       this.parameter.property_id = params.property_id || '';
       this.parameter.keyword = params.name;
@@ -263,9 +267,6 @@ export class OutsidePropertyForSaleComponent implements OnInit {
         this.parameter.agent_id = params.id;
       } else if (params.type === 'agency') {
         this.parameter.agency_id = params.id;
-      }
-      if (params.for) {
-        this.is_back = true;
       }
     });
 

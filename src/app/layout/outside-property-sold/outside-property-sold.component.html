@@ -179,9 +179,21 @@
                     <label>{{'table.th.back_referencs' | translate}}</label>
                   </div>
                 </th>
+                <th *ngIf="parameter.flag!=5"
+                style="width:5%;vertical-align:top;">
+                <div class="table-search">
+                   <label>{{'table.th.changeBuyer_1' | translate}}</label>
+                   <!-- <div class="searh-3">
+                      <input class="width100px" type="text" [(ngModel)]="parameter.buyer_name"
+                         name="buyer_name" (keyup.enter)="getListing('','')" autocomplete="address-level4">
+                      <button *ngIf="parameter.buyer_name" (click)="getListing('','')"><i
+                            class="fa fa-search"></i></button>
+                   </div> -->
+                </div>
+             </th>
                 <th style="width:8%;vertical-align:top;">
                   <div class="d-flex table-search">
-                    <label>{{'table.th.outsideagent' | translate}}</label>
+                    <label>{{'table.th.outsideagent_1' | translate}}</label>
                   </div>
                 </th>
               </tr>
@@ -220,10 +232,21 @@
                 <td>
                   <span>{{p?.collection?.bank_reference_id || ('table.tr.td.NA' | translate)}}</span>
                 </td>
+                <td *ngIf="parameter.flag!=5"
+                title="{{p?.selected_buyer?.user?.name ? ('table.title.clickToChangeBuyer' | translate) : ('table.title.clickToAddBuyer' | translate)}}">
+                <span *ngIf="p?.selected_buyer?.user?.legal_entity">
+                   {{p?.selected_buyer?.user?.legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}
+                </span>
+                <span *ngIf="!p?.selected_buyer?.user?.legal_entity">
+                   {{p?.selected_buyer?.user?.name || ('table.tr.td.NA' | translate)}}
+                </span>
+             </td>
+
                <td>
                   <span>
                         {{p?.external_outside_agent?.id
-                        ? p.external_outside_agent.name + ' ' + p.external_outside_agent.first_surname + ' ' + p.external_outside_agent.second_surname : ('table.tr.td.NA' | translate)}}</span>
+                        ? p.external_outside_agent.name + ' ' + p.external_outside_agent.first_surname + ' ' + p.external_outside_agent.second_surname : ('table.tr.td.NA' | translate)}}
+                  </span>
                </td>
               </tr>
               </tbody>
