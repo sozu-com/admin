@@ -238,7 +238,7 @@
                    {{p?.selected_buyer?.user?.legal_entity?.comm_name || ('table.tr.td.NA' | translate)}}
                 </span>
                 <span *ngIf="!p?.selected_buyer?.user?.legal_entity">
-                   {{p?.selected_buyer?.user?.name || ('table.tr.td.NA' | translate)}}
+                   {{p?.selected_buyer?.user?.name + ' ' + p?.selected_buyer?.user?.first_surname + ' ' + p?.selected_buyer?.user?.second_surname || ('table.tr.td.NA' | translate)}}
                 </span>
              </td>
 

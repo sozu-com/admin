@@ -20,8 +20,6 @@ export class CommonService {
   propertyData: any = [];
   items: any[] = [];
   sold_items: any[] = [];
-  outside_items: any[] = [];
-  totalOutside: any = 0;
   agencies: any = [];
   collections: any = [];
   totalCollections: any = 0;
@@ -114,12 +112,6 @@ export class CommonService {
   // }
 
   getHomeDetails = (): void => {
-    // this.parameter.itemsPerPage = 10;
-    // this.parameter.page = 1;
-    // this.parameter.flag = 3;
-    // this.parameter.broker_id = 1;
-    // this.parameter.dash_flag = 4;
-    // this.parameter.pro_id = this.pros;
     //property
     const input = {
       itemsPerPage: 10,
@@ -144,24 +136,12 @@ export class CommonService {
     }
     // this.spinner.show()
     forkJoin([
-      //this.admin.postDataApi('propertyOutsideForSale', this.parameter),
       this.admin.postDataApi('projectHome', input),
       this.admin.postDataApi('propertyHome', input),
       this.admin.postDataApi('getAgencies', input),
       this.admin.postDataApi('getCollection', test),
-      this.admin.postDataApi('propertyForSale', sale),
-      this.admin.postDataApi('propertySold', sale),
+      this.admin.postDataApi('propertyForSale', sale)
     ]).subscribe(success => {
-      // this.parameter.keyword = '';
-      // this.spinner.hide();
-      // this.outside_items = success[0].data || [];
-      // this.totalOutside = success[0].total_count;
-      // localStorage.setItem('property_sale_outside', JSON.stringify(this.outside_items));
-      // localStorage.setItem('property_outsid_total', JSON.stringify(this.totalOutside));
-      // this.outside_items.forEach(function (element) {
-      //   element['price_per_square_meter'] =
-      //     (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
-      // });
       //project
       this.homeData = success[0].data || [];
       (this.possessionStatuses || []).forEach(r => {
@@ -293,15 +273,6 @@ export class CommonService {
       });
       localStorage.setItem('property_sale_data', JSON.stringify(this.items));
       localStorage.setItem('property_sale_total', JSON.stringify(this.totalSale));
-  
-      this.sold_items = success[5].data || [];
-      this.sold_total = success[5].total_count;
-      this.sold_items.forEach(function (element) {
-        element['price_per_square_meter'] =
-          (((parseFloat(element.min_price) || 0) / (parseFloat(element.max_area) || 0)));
-      });
-      localStorage.setItem('property_sold_data', JSON.stringify(this.sold_items));
-      localStorage.setItem('property_sold_total', JSON.stringify(this.sold_total));
       this.spinner.hide();
     });
   }

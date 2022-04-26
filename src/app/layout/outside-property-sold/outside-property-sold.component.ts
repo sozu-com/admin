@@ -65,6 +65,7 @@ export class OutsidePropertySoldComponent implements OnInit {
   [x: string]: any;
   defaultValue: any;
   pros: any;
+  projectss: any;
   selectedvalue: bank;
   public parameter: IProperty = {};
   public location: IProperty = {};
@@ -219,12 +220,9 @@ export class OutsidePropertySoldComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cs.outside_items = JSON.parse(localStorage.getItem('property_sale_outside'));
-    this.cs.totalOutside = JSON.parse(localStorage.getItem('property_outsid_total'));
     this.language_code = localStorage.getItem('language_code');
     this.getPropertyFilter();
-    this.getOutsideUserProject();
-    this.getPropertyHome();
+    this.getProject_1();
     this.iniDropDownSetting();
     this.initializedDropDownSetting();
     this.translate.onDefaultLangChange.subscribe((event: LangChangeEvent) => {
@@ -307,6 +305,42 @@ export class OutsidePropertySoldComponent implements OnInit {
     this.getParametersForProperty();
   }
 
+  getProject_1() {
+    this.spinner.show();
+    this.admin.postDataApi('getOutsideUserProject', {
+      admin_id: this.login_data_out.id
+    }).subscribe(r => {
+      this.spinner.hide();
+      let newArray = [];
+      r['data'].forEach(el => {
+        newArray.push(el.building_id);
+      });
+      this.projectss = newArray;
+      this.getOutsideUserProject();
+    }, error => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
+  getOutsideUserProject() {
+    this.spinner.show();
+    this.admin.postDataApi('getOutsideUserProperty', {
+      admin_id: this.login_data_out.id
+    }).subscribe(r => {
+      this.spinner.hide();
+      let newArray = [];
+      r['data'].forEach(el => {
+        newArray.push(el.building_id);
+      });
+      this.pros = newArray;
+      this.getListing(null, null);
+    }, error => {
+      this.spinner.hide();
+      swal(this.translate.instant('swal.error'), error.error.message, 'error');
+    });
+  }
+
   getPropertyFilter() {
     this.availabilityStatus = [
       //{ id: 0, name_en: 'All', name_es: 'All'},
@@ -372,8 +406,8 @@ export class OutsidePropertySoldComponent implements OnInit {
     //this.parameter.availability_filter = 1;
     let input: any = JSON.parse(JSON.stringify(this.parameter));
     input.pro_id = this.pros;
-    input.building_id = this.parameter.building_id ? this.parameter.building_id : this.pros[0];
-    console.log(this.pros, "this.pros");
+    input.building_id = this.parameter.building_id ? this.parameter.building_id : this.projectss[0];
+    console.log(this.projectss, "this.projectss");
     if (this.parameter.min) {
       input.min = moment(this.parameter.min).format('YYYY-MM-DD');
     } else {
@@ -598,8 +632,8 @@ export class OutsidePropertySoldComponent implements OnInit {
           if (this.parameter.building_id) {
             this.defaultValue = this.parameter.building_id;
           } else {
-            this.defaultValue = this.parameter.buildings[0].id;
-            this.parameter.building_id = this.parameter.buildings[0].id;
+            this.defaultValue = this.projectss[0];
+            this.parameter.building_id = this.projectss[0];
           }
           let newArray = [];
           for (var i = 0; i < this.parameter.buildings.length; i++) {
@@ -639,12 +673,12 @@ export class OutsidePropertySoldComponent implements OnInit {
   }
 
   setModels(data) {
-    if (data == 0) {
-      this.input.building_id = this.defaultValue.id;
-      this.input.pro_id = 0;
-    } else {
+    if (data) {
       this.input.building_id = this.parameter.building_id;
       this.input.pro_id = this.parameter.building_id;
+    } else {
+      this.input.building_id = this.projectss[0];
+      this.input.pro_id = 0;
     }
     this.admin.postDataApi('getModelConfigurations', this.input).subscribe(
       success => {
@@ -976,24 +1010,8 @@ export class OutsidePropertySoldComponent implements OnInit {
     });
   }
 
-  getOutsideUserProject() {
-    this.admin.postDataApi('getOutsideUserProject', {
-      admin_id: this.login_data_out.id
-    }).subscribe(r => {
-      this.spinner.hide();
-      let newArray = [];
-      r['data'].forEach(el => {
-        newArray.push(el.building_id);
-      });
-      this.pros = newArray;
-      this.getListing(null, null);
-    }, error => {
-      this.spinner.hide();
-      swal(this.translate.instant('swal.error'), error.error.message, 'error');
-    });
-  }
-  attachExternalBrokerPopUp(broker: any, flag: number) {
 
+  attachExternalBrokerPopUp(broker: any, flag: number) {
     this.parameter.text = flag === 1 ? this.translate.instant('message.error.wantToLinkAgent') :
       this.translate.instant('message.error.wantToUnLinkAgent');
     swal({
@@ -2068,7 +2086,7 @@ export class OutsidePropertySoldComponent implements OnInit {
     this.admin.postDataApi('updatePropertySoldHome', this.getPostRequestForColumn()).subscribe((response) => {
       this.spinner.hide();
       this.closeSelectColumnsPopup();
-      this.getPropertyHome();
+      // this.getPropertyHome();
     }, (error) => {
       this.spinner.hide();
       swal(this.translate.instant('swal.error'), error.error.message, 'error');
@@ -2090,15 +2108,15 @@ export class OutsidePropertySoldComponent implements OnInit {
     };
   }
 
-  getPropertyHome = (): void => {
-    this.admin.postDataApi('getPropertySoldHome',
-      { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
-        this.selectedPropertyColumnsToShow = response.data || {};
-      }, (error) => {
-        this.spinner.hide();
-        swal(this.translate.instant('swal.error'), error.error.message, 'error');
-      });
-  }
+  // getPropertyHome = (): void => {
+  //   this.admin.postDataApi('getPropertySoldHome',
+  //     { user_id: JSON.parse(localStorage.getItem('user-id')) || 0 }).subscribe((response) => {
+  //       this.selectedPropertyColumnsToShow = response.data || {};
+  //     }, (error) => {
+  //       this.spinner.hide();
+  //       swal(this.translate.instant('swal.error'), error.error.message, 'error');
+  //     });
+  // }
 
   changeSelectAll = (): void => {
     (this.select_columns_list || []).forEach((data) => {
