@@ -220,8 +220,6 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cs.outside_items = JSON.parse(localStorage.getItem('property_sale_outside'));
-    this.cs.totalOutside = JSON.parse(localStorage.getItem('property_outsid_total'));
     this.language_code = localStorage.getItem('language_code');
     this.getPropertyFilter();
     this.getPropertyHome();
@@ -388,7 +386,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       this.input.building_id = this.parameter.building_id;
       this.input.pro_id = this.parameter.building_id;
     } else {
-      this.input.building_id = this.defaultValue;
+      this.input.building_id = this.pros[0];
       this.input.pro_id = 0;
     }
     this.admin.postDataApi('getModelConfigurations', this.input).subscribe(
@@ -665,8 +663,8 @@ export class OutsidePropertyForSaleComponent implements OnInit {
           if (this.parameter.building_id) {
             this.defaultValue = this.parameter.building_id;
           } else {
-            this.defaultValue = this.parameter.buildings[0].id;
-            this.parameter.building_id = this.parameter.buildings[0].id;
+            this.defaultValue = this.pros[0];
+            this.parameter.building_id = this.pros[0];
           }
           let newArray = [];
           for (var i = 0; i < this.parameter.buildings.length; i++) {
