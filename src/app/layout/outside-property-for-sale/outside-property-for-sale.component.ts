@@ -249,7 +249,6 @@ export class OutsidePropertyForSaleComponent implements OnInit {
       weekHeader: 'Wk'
     };
     this.route.params.subscribe(params => {
-      console.log(params, "params");
       if (params.for == 'back') {
         this.getOutsideUserProject();
       } else {
@@ -1005,6 +1004,7 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   }
 
   getOutsideUserProject() {
+    this.spinner.show();
     this.admin.postDataApi('getOutsideUserProject', {
       admin_id: this.login_data_out.id
     }).subscribe(r => {
