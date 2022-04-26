@@ -293,15 +293,7 @@ export class OutsidePropertyDetailComponent implements OnInit {
     });
   }
 
-  goBack = (isForBack: boolean): void => {
-    if (isForBack && this.from != 'buyerLead') {
-      this.router.navigate(['/dashboard/outside-property-for-sale/outside', { for: 'back' }]);
-    }
-    else if (this.from == 'buyerLead') {
-      this.location.back();
-    }
-    else {
-      this.router.navigate(['/dashboard/outside-property-for-sale/outside']);
-    }
+  goBack = (): void => {
+    this.router.navigate(['/dashboard/outside-property-for-sale/outside', { for: 'back' }]);
   }
 }

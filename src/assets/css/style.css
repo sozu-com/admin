@@ -105,6 +105,14 @@
         top: 50% !important;
         transform: translate(-50%, -50%);
     }
+    .gallery-bottom {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .images-wrapper[_ngcontent-c4] {
+        width: 40%;
+        margin-right: 46px;
+    }
     .black-overlay {position: fixed !important;}
     ol, ul{list-style-type:none; padding:0; margin:0;   }
     header {
