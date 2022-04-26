@@ -687,8 +687,31 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   }
 
   setBuilding(building_id) {
+    this.parameter.id = null;
+    this.parameter.keyword = null;
+    this.parameter.tower_name = null;
+    this.parameter.name = null;
+    this.parameter.configuration_id = null;
+    this.parameter.availability_filter = null;
+    this.parameter.is_selected = false;
+    this.parameter.page = this.constant.p;
+    this.parameter.total = 0;
+    this.parameter.count_flag = 1;
+    this.parameter.min_price = null;
+    this.parameter.max_price = null;
+    this.parameter.min_carpet_area = null;
+    this.parameter.max_carpet_area = null;
+    this.parameter.parking = null;
+    this.parameter.furnished = null;
+    this.parameter.bedroom = null;
+    this.parameter.parking_place = null;
+    this.parameter.bathroom = null;
+    this.parameter.half_bathroom = null;
+    this.parameter.property_type_id = null;
     this.parameter.floor_num = null;
     this.parameter.configuration_id = null;
+    this.selctedAmenities = [];
+    this.parameter.parking_for_sale = null;
     this.parameter.building_id = building_id;
   }
 
@@ -728,6 +751,12 @@ export class OutsidePropertyForSaleComponent implements OnInit {
   resetFilters() {
     this.location.countries = JSON.parse(JSON.stringify(this.location.countries));
     this.onCountryChange('0');
+    this.parameter.random_id = null;
+    this.parameter.keyword = null;
+    this.parameter.tower_name = null;
+    this.parameter.name = null;
+    this.parameter.configuration_id = null;
+    this.parameter.availability_filter = null;
     this.parameter.is_selected = false;
     this.parameter.page = this.constant.p;
     this.parameter.total = 0;
