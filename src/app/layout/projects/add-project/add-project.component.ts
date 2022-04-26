@@ -815,11 +815,12 @@ export class AddProjectComponent implements OnInit {
   modelAmenityOpenFun(amenityObj: any, index: number) {
     this.amenity_index = index;
     this.amenity_obj = amenityObj;
+    let index_aminity  = this.all_amenities.findIndex(item=> item.id == this.amenity_obj.id);
     this.modalAmenOpen.nativeElement.click();
-    this.file2.backup(JSON.parse(JSON.stringify(this.all_amenities[index].images ? this.all_amenities[index].images : [])));
-    this.amen360Img.backup(JSON.parse(JSON.stringify(this.all_amenities[index].images_360 ?
-      this.all_amenities[index].images_360 : [])));
-    this.amenVideo.backup(JSON.parse(JSON.stringify(this.all_amenities[index].videos ? this.all_amenities[index].videos : [])));
+    this.file2.backup(JSON.parse(JSON.stringify(this.all_amenities[index_aminity].images ? this.all_amenities[index_aminity].images : [])));
+    this.amen360Img.backup(JSON.parse(JSON.stringify(this.all_amenities[index_aminity].images_360 ?
+      this.all_amenities[index_aminity].images_360 : [])));
+    this.amenVideo.backup(JSON.parse(JSON.stringify(this.all_amenities[index_aminity].videos ? this.all_amenities[index_aminity].videos : [])));
   }
 
   modelAmenityCloseFun() {
@@ -833,14 +834,15 @@ export class AddProjectComponent implements OnInit {
     //   swal(this.translate.instant('swal.error'), this.translate.instant('message.error.pleaseChooseAtleastOneImage'), 'error');
     //   return false;
     // }
+    let index = this.all_amenities.findIndex(item=> item.id == this.amenity_obj.id);
     this.file2.upload().then(r => {
-      this.all_amenities[this.amenity_index].images = this.file2.files;
+      this.all_amenities[index].images = this.file2.files;
     });
     this.amen360Img.upload().then(r => {
-      this.all_amenities[this.amenity_index].images_360 = this.amen360Img.files;
+      this.all_amenities[index].images_360 = this.amen360Img.files;
     });
     this.amenVideo.upload().then(r => {
-      this.all_amenities[this.amenity_index].videos = this.amenVideo.files;
+      this.all_amenities[index].videos = this.amenVideo.files;
     });
 
     this.file2.files.forEach(element => {
@@ -895,15 +897,15 @@ export class AddProjectComponent implements OnInit {
       swal(this.translate.instant('swal.error'), this.translate.instant('message.error.chooseMax6Videos'), 'error');
       return false;
     }
-
+    let index = this.allTowerAmenities.findIndex(item=> item.id == this.amenity_obj.id);
     this.file2.upload().then(r => {
-      this.allTowerAmenities[this.amenity_index].images = this.file2.files;
+      this.allTowerAmenities[index].images = this.file2.files;
     });
     this.amen360Img.upload().then(r => {
-      this.allTowerAmenities[this.amenity_index].images_360 = this.amen360Img.files;
+      this.allTowerAmenities[index].images_360 = this.amen360Img.files;
     });
     this.amenVideo.upload().then(r => {
-      this.allTowerAmenities[this.amenity_index].videos = this.amenVideo.files;
+      this.allTowerAmenities[index].videos = this.amenVideo.files;
     });
 
     this.file2.files.forEach(element => {
